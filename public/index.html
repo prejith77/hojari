@@ -19,13 +19,15 @@
 <script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preload" as="image" href="assets/tear-poster.webp" fetchpriority="high">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+<div class="intro" id="intro" aria-hidden="true"><p class="intro-word"><span>H</span><span>o</span><span>j</span><span>a</span><span>r</span><span>i</span></p><i class="intro-line"></i><p class="intro-sub">Websites that linger</p></div>
+<div class="ring" aria-hidden="true"></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><clipPath id="tear" clipPathUnits="objectBoundingBox"><path d="M0.5,0 C0.5,0 0.97,0.4 0.97,0.66 C0.97,0.86 0.76,1 0.5,1 C0.24,1 0.03,0.86 0.03,0.66 C0.03,0.4 0.5,0 0.5,0 Z"/></clipPath></defs></svg>
 
 <canvas class="tear-canvas" aria-hidden="true"></canvas>
@@ -40,7 +42,7 @@
     <a href="#pricing">Pricing</a>
     <a href="#about">About</a>
   </nav>
-  <a class="button button-light button-small magnetic" href="#contact">Start a project</a>
+  <a class="button button-light button-small magnetic" href="#contact">Free mock-up</a>
 </header>
 
 <main id="main">
@@ -51,7 +53,7 @@
     <h1 id="hero-title" class="hero-title split">Websites that <em>linger.</em></h1>
     <p class="hero-sub">I'm Prejith. I build websites and apps that make your business look expensive and get your phone ringing. Then I stick around and look after them.</p>
     <div class="hero-actions">
-      <a class="button button-light magnetic" href="#contact">Start a project</a>
+      <a class="button button-light magnetic" href="#contact">Get your free mock-up</a>
       <a class="text-link" href="#work">See the work</a>
     </div>
     <ul class="promises" aria-label="My promises">
@@ -514,7 +516,7 @@
   <div class="how-head">
     <h2 id="how-title" class="split">How it <em>works</em></h2>
     <p>Four steps, and you see your own homepage before you spend a penny.</p>
-    <a class="button button-dark magnetic" href="#contact">Book the 15-minute call</a>
+    <a class="button button-dark magnetic" href="#contact">Get your free mock-up</a>
   </div>
   <ol class="steps">
     <li class="step"><span class="step-n">1</span><div><h3>A short call</h3><p>Fifteen minutes on video or WhatsApp. You tell me what you sell, who buys it, and what drives you mad about your current site.</p></div></li>
@@ -543,6 +545,7 @@
 <section class="about" id="about" aria-labelledby="about-title">
   <div class="about-grid">
     <figure class="portrait" data-tilt>
+      <video class="hello" id="hello" data-src="assets/hello.mp4" poster="assets/own/portrait.webp" playsinline muted preload="metadata" hidden></video>
       <img class="tear" src="assets/own/portrait.webp" width="1100" height="1100" alt="Portrait of Prejith, founder of Hojari" loading="lazy">
     </figure>
     <div class="about-text">
@@ -588,16 +591,24 @@
 </section>
 
 <section class="contact" id="contact" aria-labelledby="contact-title">
-  <h2 id="contact-title" class="contact-title split">Start a <em>project</em></h2>
-  <p class="contact-lede">Tell me your name and what your business does. I'll reply within a day, usually with ideas and sometimes with a bad joke.</p>
-  <form class="contact-form" id="contact-form" action="mailto:prejith.ponnachan1@outlook.com" method="get" enctype="text/plain">
+  <h2 id="contact-title" class="contact-title split">Get your free <em>mock-up</em></h2>
+  <p class="contact-lede">Tell me about your business. Within 48 hours you'll get a mock-up of your own homepage, with your name and your real reviews on it. Free, and you're under no obligation.</p>
+  <form class="contact-form" id="contact-form" action="mailto:prejith.ponnachan1@outlook.com" method="post">
     <label class="field"><input name="name" autocomplete="name" placeholder=" " required><span>Your name</span></label>
     <label class="field"><input name="email" type="email" autocomplete="email" placeholder=" " required><span>Your email</span></label>
-    <label class="field"><input name="business" autocomplete="organization" placeholder=" "><span>Your business</span></label>
-    <button class="button button-light magnetic send" type="submit">Send</button>
+    <label class="field"><input name="business" autocomplete="organization" placeholder=" " required><span>Your business</span></label>
+    <label class="field"><input name="website" inputmode="url" autocapitalize="off" spellcheck="false" placeholder=" "><span>Your website, if you have one</span></label>
+    <input type="hidden" name="context" value="">
+    <button class="button button-light magnetic send" type="submit">Send me my mock-up</button>
   </form>
-  <p class="sent" id="sent" aria-live="polite"></p>
-  <p class="contact-alt">Or email <a href="mailto:prejith.ponnachan1@outlook.com">prejith.ponnachan1@outlook.com</a></p>
+  <p class="lead-context" id="lead-context" hidden></p>
+  <div class="sent" id="sent" aria-live="polite"></div>
+  <ul class="reassure">
+    <li>A reply within a day</li>
+    <li>No card details</li>
+    <li>Nothing to sign</li>
+  </ul>
+  <p class="contact-alt"><a class="wa-btn" id="wa-btn" href="#" hidden>Message me on WhatsApp</a><span>Or email <a class="plain-mail" href="mailto:prejith.ponnachan1@outlook.com">prejith.ponnachan1@outlook.com</a></span></p>
 </section>
 
 </main>
@@ -610,7 +621,7 @@
   <p class="poke" id="poke" aria-live="polite"></p>
   <div class="foot-grid">
     <nav aria-label="Footer"><a href="#work">Work</a><a href="#services">What's included</a><a href="#apps">Apps</a><a href="#pricing">Pricing</a><a href="#how">How it works</a><a href="#about">About</a><a href="#faq">Questions</a></nav>
-    <div><p>Hojari, websites and apps for businesses</p><p><a href="mailto:prejith.ponnachan1@outlook.com">prejith.ponnachan1@outlook.com</a></p></div>
+    <div><p>Hojari, websites and apps for businesses</p><p><a class="plain-mail" href="mailto:prejith.ponnachan1@outlook.com">prejith.ponnachan1@outlook.com</a></p></div>
   </div>
   <p class="credits">The frankincense tear on this page is drawn in code.</p>
   <div class="foot-last"><p>© 2026 Hojari</p><p>Made in Muscat, for businesses anywhere.</p></div>

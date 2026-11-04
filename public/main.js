@@ -20,6 +20,24 @@
     io.observe(el);
   };
 
+  /* First visit only: 'Hojari' writes itself in, then the page opens. Tap to skip. */
+  let introDone = Promise.resolve();
+  const intro = $('#intro');
+  let seenIntro = false;
+  try { seenIntro = localStorage.getItem('hojari-intro') === '1'; } catch (e) { seenIntro = true; }
+  if (intro && motion && !seenIntro) {
+    intro.classList.add('is-on');
+    try { localStorage.setItem('hojari-intro', '1'); } catch (e) { /* private mode */ }
+    introDone = new Promise((resolve) => {
+      const tl = gsap.timeline({ onComplete: () => { intro.remove(); resolve(); } });
+      tl.from($$('.intro-word span', intro), { yPercent: 70, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06 })
+        .from('.intro-line', { scaleX: 0, duration: 0.7, ease: 'power3.inOut' }, 0.25)
+        .from('.intro-sub', { opacity: 0, y: 8, duration: 0.5, ease: 'power2.out' }, 0.5)
+        .to(intro, { clipPath: 'inset(0 0 100% 0)', duration: 0.8, ease: 'power4.inOut' }, 1.35);
+      intro.addEventListener('click', () => tl.progress(0.999));
+    });
+  } else if (intro) intro.remove();
+
   /* Smooth scrolling on desktop */
   let lenis = null;
   if (motion && desktop && typeof Lenis !== 'undefined') {
@@ -88,8 +106,8 @@
       gsap.from('.hero-sub, .hero-actions, .promises li, .hero-note', { y: 18, opacity: 0, filter: soft ? 'none' : 'blur(6px)', duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.5 });
       ScrollTrigger.refresh();
     };
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(go);
-    setTimeout(() => { heroTitle.style.visibility = ''; }, 2500);
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => introDone).then(go);
+    setTimeout(() => { heroTitle.style.visibility = ''; }, 4500);
   }
 
   /* Blocks of content fade up out of a blur, once */
@@ -347,15 +365,76 @@
     b.addEventListener('pointerleave', () => { x(0); y(0); });
   });
 
-  /* Contact: open an email with everything filled in */
-  const cf = $('#contact-form');
-  if (cf) cf.addEventListener('submit', (e) => {
+  /* THE MOCK-UP REQUEST: every call to action leads here and carries what the visitor was doing */
+  const FORM_ENDPOINT = ''; /* e.g. https://formspree.io/f/abcdwxyz; until then the form opens an email */
+  const WHATSAPP = '';      /* full number with country code, digits only, e.g. 447700900123 */
+  const cf = $('#contact-form'), ctxField = cf && cf.context, ctxNote = $('#lead-context'), sent = $('#sent');
+  if (WHATSAPP) {
+    const wa = $('#wa-btn');
+    wa.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent("Hi Prejith, I'd like a free mock-up of my homepage.");
+    wa.target = '_blank'; wa.rel = 'noopener'; wa.hidden = false;
+  }
+  const goLead = (note) => {
+    if (ctxField) ctxField.value = note || '';
+    if (ctxNote) { ctxNote.hidden = !note; ctxNote.textContent = note ? 'Got it: ' + note : ''; }
+    const target = $('#contact');
+    if (lenis) lenis.scrollTo(target, { offset: -20, duration: 1.4 }); else target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    setTimeout(() => cf && cf.name.focus({ preventScroll: true }), reduce ? 50 : 1300);
+  };
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="mailto:prejith"]');
+    if (!a || a.classList.contains('plain-mail')) return;
     e.preventDefault();
-    const name = cf.name.value.trim(), email = cf.email.value.trim(), biz = cf.business.value.trim();
-    $('#sent').textContent = "Opening your email app. If nothing happens, your laptop's being shy, so email me at prejith.ponnachan1@outlook.com.";
-    location.href = 'mailto:prejith.ponnachan1@outlook.com?subject=' + encodeURIComponent('New project from ' + name) +
-      '&body=' + encodeURIComponent('Hi Prejith,\n\nName: ' + name + '\nEmail: ' + email + '\nMy business: ' + biz + '\n');
+    const subj = decodeURIComponent((a.href.match(/subject=([^&]*)/) || [, ''])[1]).replace(/^Hojari /, 'Interested in ');
+    const body = decodeURIComponent((a.href.match(/body=([^&]*)/) || [, ''])[1]);
+    const detail = body.split('\n').filter((l) => /:\s*\S/.test(l) && !/^Hi /.test(l)).join(', ');
+    goLead([subj, detail].filter(Boolean).join('. '));
   });
+  if (cf) cf.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!cf.reportValidity()) return;
+    const data = { name: cf.name.value.trim(), email: cf.email.value.trim(), business: cf.business.value.trim(), website: cf.website.value.trim(), context: ctxField.value };
+    const btn = $('.send', cf);
+    if (FORM_ENDPOINT) {
+      btn.disabled = true; btn.textContent = 'Sending…';
+      try {
+        const res = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
+        if (!res.ok) throw new Error('send failed');
+        cf.reset(); ctxNote.hidden = true;
+        sent.innerHTML = '<b>Thank you, ' + data.name.replace(/[<>&]/g, '') + '.</b>Your mock-up is on its way. I\'ll be in touch within a day, usually sooner.';
+        if (motion) gsap.from(sent, { y: 16, opacity: 0, duration: 0.6, ease: 'power3.out' });
+        btn.textContent = 'Sent';
+        return;
+      } catch (err) { btn.disabled = false; btn.textContent = 'Send me my mock-up'; }
+    }
+    sent.innerHTML = '<b>Nearly there.</b>Your email app is opening with everything filled in. Just press send. If nothing opens, email prejith.ponnachan1@outlook.com.';
+    location.href = 'mailto:prejith.ponnachan1@outlook.com?subject=' + encodeURIComponent('Free mock-up for ' + (data.business || data.name)) +
+      '&body=' + encodeURIComponent('Hi Prejith,\n\nName: ' + data.name + '\nEmail: ' + data.email + '\nBusiness: ' + data.business + '\nWebsite: ' + (data.website || 'none yet') + (data.context ? '\nNote: ' + data.context : '') + '\n');
+  });
+
+  /* A short hello from me, once the clip is added */
+  const HELLO_VIDEO = false; /* set to true once assets/hello.mp4 is added */
+  const hello = $('#hello');
+  if (hello && HELLO_VIDEO) {
+    hello.src = hello.dataset.src;
+    hello.addEventListener('loadeddata', () => { hello.hidden = false; }, { once: true });
+    hello.addEventListener('click', () => { if (hello.paused) { hello.muted = false; hello.currentTime = 0; hello.play(); } else hello.pause(); });
+    hello.load();
+  }
+
+  /* Laptop: a soft ring trails the mouse and opens over anything clickable */
+  const ring = $('.ring');
+  if (ring && motion && desktop) {
+    const rx = gsap.quickTo(ring, 'x', { duration: 0.35, ease: 'power3.out' }), ry = gsap.quickTo(ring, 'y', { duration: 0.35, ease: 'power3.out' });
+    addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      ring.classList.add('is-on'); rx(e.clientX); ry(e.clientY);
+      const t = e.target.closest ? e.target : null;
+      ring.classList.toggle('is-big', !!(t && t.closest('a, button, label, summary, .chip, .sw, .blk, .ba')));
+      ring.classList.toggle('is-hidden', !!(t && t.closest('[data-cursor]')));
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => ring.classList.remove('is-on'));
+  }
 
   /* Footer: the letters rise into place, then bounce when you poke them */
   const blocks = $$('.blk');

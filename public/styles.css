@@ -983,3 +983,73 @@ main, .foot { position: relative; z-index: 1; }
   .foot-grid { padding: 48px 22px 0; gap: 28px; }
   .credits, .foot-last { padding-left: 22px; padding-right: 22px; }
 }
+
+/* ===== Premium pass ===== */
+
+/* Editorial headlines: a refined serif for the big lines, the clean sans for everything you read */
+h1, h2, .contact-title, .grade-name, .result-name, .st-new, .places span, .intro-word {
+  font-family: var(--serif); font-weight: 400; letter-spacing: -0.015em; }
+h1 em, h2 em, .contact-title em { font-family: var(--serif); font-style: italic; }
+.hero-title { font-size: calc(var(--step-display) * 1.12); line-height: .9; letter-spacing: -0.02em; max-width: 9.5ch; }
+h2 { font-size: calc(var(--step-head) * 1.14); line-height: .98; }
+.grades-title, .grades.is-live .grades-title { font-family: var(--sans); font-weight: 600; letter-spacing: -0.02em; }
+.grade-name, .grades.is-live .grade-name { letter-spacing: -0.02em; }
+.contact-title { line-height: .92; letter-spacing: -0.02em; }
+.st-new { letter-spacing: -0.02em; }
+.result-name { font-style: normal; }
+
+/* Sections slide over each other on rounded edges instead of hard cuts */
+.services, .apps, .bargain, .pricing, .how, .palette, .about, .faq, .contact, .foot {
+  position: relative; border-radius: 44px 44px 0 0; margin-top: -44px; }
+.services, .bargain, .how, .faq { box-shadow: 0 -30px 60px -30px rgba(0, 0, 0, .45); }
+
+/* First visit: the name writes itself in, then the page opens */
+.intro { display: none; }
+.js .intro.is-on { display: grid; position: fixed; inset: 0; z-index: 300; place-content: center; justify-items: center; gap: 18px; background: var(--night); cursor: pointer; }
+.intro-word { display: flex; font-size: clamp(4rem, 3rem + 6vw, 8rem); line-height: 1; color: var(--paper); }
+.intro-word span { display: inline-block; }
+.intro-line { display: block; width: min(220px, 50vw); height: 1px; background: var(--honey); transform-origin: left; }
+.intro-sub { font-size: var(--step-small); color: var(--muted); letter-spacing: .14em; text-transform: uppercase; }
+
+/* Laptop: a soft honey ring trails the mouse and opens over anything you can click */
+.ring { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .js .ring { display: block; position: fixed; left: 0; top: 0; z-index: 70; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%;
+    border: 1.5px solid rgba(227, 173, 92, .7); pointer-events: none; transition: width .3s var(--ease-out), height .3s var(--ease-out), margin .3s var(--ease-out), background-color .3s, border-color .3s, opacity .3s; opacity: 0; }
+  .js .ring.is-on { opacity: 1; }
+  .js .ring.is-big { width: 58px; height: 58px; margin: -29px 0 0 -29px; background: rgba(227, 173, 92, .12); border-color: rgba(227, 173, 92, .9); }
+  .js .ring.is-hidden { opacity: 0; }
+}
+
+/* The mock-up request */
+.contact-form { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 32px; max-width: 900px; }
+.contact-form .send { grid-column: 1 / -1; justify-self: start; min-height: 60px; padding: 0 34px; }
+.lead-context { margin-top: 20px; padding: 14px 18px; border-radius: 16px; background: #2a1d10; color: var(--paper); font-size: var(--step-small); max-width: 60ch; }
+.sent:empty { display: none; }
+.sent { margin-top: 28px; padding: 22px 24px; border-radius: 20px; background: #1f2a20; color: var(--paper); max-width: 52ch; }
+.sent b { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.75rem; color: var(--honey); margin-bottom: 4px; }
+.reassure { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 36px; color: var(--muted); font-size: var(--step-small); }
+.reassure li { display: flex; align-items: center; gap: 10px; }
+.reassure li::before { content: ""; width: 7px; height: 12px; border: solid var(--honey); border-width: 0 2px 2px 0; transform: rotate(45deg) translateY(-2px); }
+.contact-alt { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; }
+.wa-btn { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; background: #1f8a4c; color: #fff; font-weight: 500; text-decoration: none; }
+.wa-btn:active { transform: scale(.97); }
+
+/* The video of me sits in the portrait's teardrop */
+.portrait { position: relative; }
+.hello { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: url(#tear); cursor: pointer; }
+
+@media (max-width: 899px) {
+  .services, .apps, .bargain, .pricing, .how, .palette, .about, .faq, .contact, .foot { border-radius: 30px 30px 0 0; margin-top: -30px; }
+  .hero-title { font-size: clamp(3.75rem, 17.5vw, 5.25rem); line-height: .92; }
+  h2 { font-size: clamp(2.6rem, 12vw, 3.2rem); line-height: 1; letter-spacing: -0.01em; }
+  .contact-title { font-size: clamp(3.25rem, 15vw, 4.25rem); }
+  .contact-form { grid-template-columns: 1fr; gap: 22px; }
+  .contact-form .send { justify-self: stretch; }
+  .reassure { flex-direction: column; gap: 10px; margin-top: 28px; }
+  .contact-alt { flex-direction: column; align-items: flex-start; }
+  .wa-btn { width: 100%; justify-content: center; min-height: 54px; }
+}
+@media (prefers-reduced-motion: reduce) { .js .intro.is-on { display: none; } }
+.button { white-space: nowrap; }
+@media (max-width: 899px) { .hero-actions { flex-wrap: wrap; row-gap: 14px; } }
