@@ -73,10 +73,10 @@
 
   const shared = { uTime: { value: 0 }, uIntro: { value: posterMode ? 1 : 0 }, uPR: { value: PR }, uLift: { value: 0 } };
   const tearMat = new THREE.ShaderMaterial({
-    uniforms: Object.assign({ uMouse: { value: new THREE.Vector2(99, 99) }, uPulse: { value: 0 }, uTint: { value: new THREE.Vector3(1, 1, 1) }, uTintAmt: { value: 0 }, uDim: { value: 1 }, uReach: { value: 0.85 }, uPt: { value: 1 }, uGather: { value: 0 } }, shared),
+    uniforms: Object.assign({ uMouse: { value: new THREE.Vector2(99, 99) }, uPulse: { value: 0 }, uTint: { value: new THREE.Vector3(1, 1, 1) }, uTintAmt: { value: 0 }, uDim: { value: 1 }, uReach: { value: 0.85 }, uPt: { value: 1 }, uGather: { value: 0 }, uHeat: { value: 0 }, uSwirl: { value: 0 } }, shared),
     vertexShader: `
       attribute vec3 aStart; attribute vec3 aColor; attribute float aSize; attribute float aSeed;
-      uniform float uTime, uIntro, uPR, uLift, uPulse, uTintAmt, uDim, uReach, uPt, uGather; uniform vec2 uMouse; uniform vec3 uTint;
+      uniform float uTime, uIntro, uPR, uLift, uPulse, uTintAmt, uDim, uReach, uPt, uGather, uHeat, uSwirl; uniform vec2 uMouse; uniform vec3 uTint;
       varying vec3 vColor; varying float vAlpha;
       void main() {
         float k = clamp(uIntro * 1.45 - aSeed * 0.45, 0.0, 1.0);
@@ -89,6 +89,16 @@
         haze.xz = mat2(cos(ang), -sin(ang), sin(ang), cos(ang)) * haze.xz;
         p = mix(p, haze, gg);
         p += normalize(position) * (sin(uTime * 1.1 + aSeed * 40.0) * 0.012 + uPulse * (0.12 + aSeed * 0.45));
+        /* scrolling twists and stretches it, like smoke caught in a draught */
+        float tw = uSwirl * (p.y + 1.6) * 0.55;
+        p.xz = mat2(cos(tw), -sin(tw), sin(tw), cos(tw)) * p.xz;
+        p.y *= 1.0 + abs(uSwirl) * 0.12;
+        /* held down, it burns: it trembles and embers rise off the top */
+        p += normalize(position) * uHeat * 0.05 * sin(uTime * 23.0 + aSeed * 90.0);
+        float ember = step(0.8, aSeed) * uHeat;
+        float rise = fract(uTime * (0.35 + aSeed * 0.3) + aSeed * 13.0);
+        p.y += ember * rise * 2.4;
+        p.x += ember * sin(rise * 6.0 + aSeed * 40.0) * 0.25 * rise;
         vec4 w = modelMatrix * vec4(p, 1.0);
         vec2 d = w.xy - uMouse;
         float push = smoothstep(uReach, 0.0, length(d));
@@ -99,10 +109,11 @@
         w.x += uLift * sin(aSeed * 30.0 + w.y * 2.0) * 0.4;
         vec4 mv = viewMatrix * w;
         gl_Position = projectionMatrix * mv;
-        gl_PointSize = aSize * uPR * uPt * (9.0 / -mv.z);
+        gl_PointSize = aSize * uPR * uPt * (9.0 / -mv.z) * (1.0 + uHeat * 0.35);
         float l = dot(aColor, vec3(0.3, 0.5, 0.2));
         vColor = mix(aColor, uTint * (0.45 + 0.85 * l), uTintAmt);
-        vAlpha = (1.0 - gg * 0.8) * uDim * (0.25 + 0.75 * k) * (0.8 + 0.2 * sin(uTime * 1.7 + aSeed * 70.0)) * (1.0 - uLift * (0.3 + aSeed * 0.7));
+        vColor = mix(vColor, vec3(1.0, 0.5 + l * 0.4, 0.12 + l * 0.25) * 1.25, uHeat * 0.55);
+        vAlpha = (1.0 - ember * rise * 0.85) * (1.0 + uHeat * 0.3) * (1.0 - gg * 0.8) * uDim * (0.25 + 0.75 * k) * (0.8 + 0.2 * sin(uTime * 1.7 + aSeed * 70.0)) * (1.0 - uLift * (0.3 + aSeed * 0.7));
       }`,
     fragmentShader: `
       varying vec3 vColor; varying float vAlpha;
@@ -183,7 +194,7 @@
   const anchors = [['hero', heroPoster], ['grades', document.querySelector('.grade-anchor')], ['grader', document.getElementById('grader-poster')]];
   const cur = { x: 0, y: 0, s: 0.5 };
   let shown = null, mode = 'idle', gather = 0, puff = 0, firstArrival = true;
-  let pulse = 0, pulseV = 0;
+  let pulse = 0, pulseV = 0, swirl = 0, lastScroll = scrollY;
   const kick = (v) => { pulseV += v; };
   function applyPlace() {
     group.scale.setScalar(cur.s);
@@ -242,28 +253,63 @@
 
   /* Cursor */
   const target = new THREE.Vector2(99, 99), mouse = new THREE.Vector2(99, 99), lean = new THREE.Vector2();
-  const aim = (e) => {
-    if (e.pointerType === 'touch') return;
+  const toWorld = (x, y, v) => {
     const c = canvas.getBoundingClientRect();
-    const nx = ((e.clientX - c.left) / c.width) * 2 - 1, ny = -(((e.clientY - c.top) / c.height) * 2 - 1);
-    target.set(nx * halfW, ny * halfH);
-    lean.set(nx, ny);
+    const nx = ((x - c.left) / c.width) * 2 - 1, ny = -(((y - c.top) / c.height) * 2 - 1);
+    v.set(nx * halfW, ny * halfH);
+    return [nx, ny];
   };
-  addEventListener('pointermove', aim, { passive: true });
+  addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'touch') return;
+    const [nx, ny] = toWorld(e.clientX, e.clientY, target); lean.set(nx, ny);
+  }, { passive: true });
   document.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') { target.set(99, 99); lean.set(0, 0); } });
   let letGo = 0;
-  addEventListener('pointercancel', () => { target.set(99, 99); lean.set(0, 0); });
+  /* Fingers: the grains part around your finger, even while you scroll */
+  let touching = false;
+  const touchAt = (e) => { const p = e.touches[0]; if (!p) return; touching = true; clearTimeout(letGo); toWorld(p.clientX, p.clientY, target); };
+  addEventListener('touchstart', touchAt, { passive: true });
+  addEventListener('touchmove', touchAt, { passive: true });
+  addEventListener('touchend', () => { touching = false; clearTimeout(letGo); letGo = setTimeout(() => { if (!touching) target.set(99, 99); }, 450); }, { passive: true });
+
+  /* Tilt your phone and it turns with you */
+  const tilt = new THREE.Vector2(); let tiltBase = null, tiltAsked = false;
+  const onTilt = (e) => {
+    if (e.beta == null || e.gamma == null) return;
+    if (tiltBase === null) tiltBase = e.beta;
+    tilt.set(Math.max(-1, Math.min(1, e.gamma / 28)), Math.max(-1, Math.min(1, (e.beta - tiltBase) / 28)));
+  };
+  if (phone && 'DeviceOrientationEvent' in window && typeof DeviceOrientationEvent.requestPermission !== 'function') addEventListener('deviceorientation', onTilt, { passive: true });
+  const askTilt = () => {
+    if (tiltAsked || typeof DeviceOrientationEvent === 'undefined' || typeof DeviceOrientationEvent.requestPermission !== 'function') return;
+    tiltAsked = true;
+    DeviceOrientationEvent.requestPermission().then((r) => { if (r === 'granted') addEventListener('deviceorientation', onTilt, { passive: true }); }).catch(() => {});
+  };
+
+  /* Press and hold: it lights up and burns */
+  let heat = 0, heatTo = 0, holdTimer = 0, heldMs = 0, holdStart = 0;
+  const holdZone = document.getElementById('top');
+  const cool = () => { clearTimeout(holdTimer); if (heatTo > 0) heldMs = performance.now() - holdStart; heatTo = 0; holdZone && holdZone.classList.remove('is-burning'); };
+  if (holdZone) {
+    holdZone.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('a, button')) return;
+      heldMs = 0;
+      holdTimer = setTimeout(() => { heatTo = 1; holdStart = performance.now(); holdZone.classList.add('is-burning'); }, 220);
+    });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach((n) => holdZone.addEventListener(n, cool));
+    holdZone.addEventListener('contextmenu', (e) => { if (heatTo > 0 || heat > 0.05) e.preventDefault(); });
+  }
   /* Click or tap the hero and the tear bursts */
   const heroSec = document.getElementById('top');
   /* 'click' only fires for a real tap, never when a finger starts a scroll */
   if (heroSec) heroSec.addEventListener('click', (e) => {
     if (e.target.closest('a, button')) return;
-    kick(9); puff = 1; glow.material.color.multiplyScalar(2.4);
+    askTilt();
+    const released = heldMs > 250; heldMs = 0;
+    kick(released ? 14 : 9); puff = released ? 1.6 : 1; glow.material.color.multiplyScalar(released ? 3 : 2.4);
     dispatchEvent(new Event('tearburst'));
     if (phone || (e.pointerType && e.pointerType !== 'mouse')) {
-      const c = canvas.getBoundingClientRect();
-      const nx = ((e.clientX - c.left) / c.width) * 2 - 1, ny = -(((e.clientY - c.top) / c.height) * 2 - 1);
-      mouse.set(nx * halfW, ny * halfH); target.copy(mouse);
+      toWorld(e.clientX, e.clientY, mouse); target.copy(mouse);
       clearTimeout(letGo); letGo = setTimeout(() => { target.set(99, 99); lean.set(0, 0); }, 900);
     }
   });
@@ -273,7 +319,7 @@
   const TINTS = [[0.62, 0.2, 0.04, 1], [1, 0.52, 0.12, 0.9], [1, 0.84, 0.52, 0.55], [1, 1, 1, 0]];
   const DIMS = [0.32, 0.6, 0.85, 1];
   const GLOWS = [[0.12, 0.03, 0], [0.2, 0.08, 0.01], [0.18, 0.1, 0.03], [0.17, 0.085, 0.017]];
-  let dimTo = 1; const glowTo = new THREE.Color(0.17, 0.085, 0.017);
+  let dimTo = 1; const glowTo = new THREE.Color(0.17, 0.085, 0.017), glowHot = new THREE.Color();
   const tint = new THREE.Vector4(1, 1, 1, 0), tintTo = new THREE.Vector4();
   let gradeNow = 3, lift = 0, visible = true, frameDt = 0.016, lastNow = 0;
   function state() {
@@ -314,18 +360,24 @@
         pulseV += (-55 * pulse - 6.5 * pulseV) * frameDt; pulse += pulseV * frameDt;
         tearMat.uniforms.uPulse.value = Math.max(-0.25, pulse);
         puff *= Math.exp(-frameDt * 1.4);
-        smokeMat.uniforms.uPuff.value = puff;
+        heat += (heatTo - heat) * (heatTo > heat ? 0.045 : 0.06);
+        tearMat.uniforms.uHeat.value = heat;
+        smokeMat.uniforms.uPuff.value = Math.max(puff, heat * 1.3);
+        const sy = scrollY, sv = frameDt > 0 ? (sy - lastScroll) / frameDt : 0; lastScroll = sy;
+        swirl += (Math.max(-1, Math.min(1, sv / 2600)) - swirl) * 0.08;
+        tearMat.uniforms.uSwirl.value = swirl;
         glow.material.opacity = Math.max(0, 1 - shared.uLift.value / 1.1) * (1 - gather * 0.7);
-        mouse.lerp(target, target.x > 50 || mouse.x > 50 ? 1 : (phone ? 0.3 : 0.12));
+        mouse.lerp(target, target.x > 50 || mouse.x > 50 ? 1 : (phone ? 0.35 : 0.12));
         tint.lerp(tintTo, 0.06);
         tearMat.uniforms.uTint.value.set(tint.x, tint.y, tint.z);
         tearMat.uniforms.uTintAmt.value = tint.w;
         tearMat.uniforms.uDim.value += (dimTo - tearMat.uniforms.uDim.value) * 0.06;
-        glow.material.color.lerp(glowTo, 0.06);
+        glowHot.copy(glowTo).multiplyScalar(1 + heat * 2.2);
+        glow.material.color.lerp(glowHot, 0.08);
       }
       tearMat.uniforms.uMouse.value.copy(mouse);
-      rotY += ((posterMode ? 0.5 : t * 0.12 + lean.x * 0.45) - rotY) * 0.06;
-      rotX += ((posterMode ? 0 : -lean.y * 0.18) - rotX) * 0.06;
+      rotY += ((posterMode ? 0.5 : t * 0.12 + lean.x * 0.45 + tilt.x * 0.9) - rotY) * 0.06;
+      rotX += ((posterMode ? 0 : -lean.y * 0.18 + tilt.y * 0.45) - rotX) * 0.06;
       if (posterMode) {
         rotY = 0.5; rotX = 0;
         const pg = parseInt(new URLSearchParams(location.search).get('poster'), 10);

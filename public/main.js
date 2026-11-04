@@ -85,7 +85,7 @@
         if (el === heroTitle) { el.style.visibility = ''; gsap.from(s.lines, { ...anim, delay: 0.15 }); }
         else if (el.getBoundingClientRect().top > innerHeight * 0.9) { gsap.set(s.lines, soft ? { yPercent: 110 } : { yPercent: 110, filter: 'blur(8px)' }); whenSeen(el, () => gsap.to(s.lines, soft ? { yPercent: 0, duration: 0.8, ease: 'power4.out', stagger: 0.08 } : { yPercent: 0, filter: 'blur(0px)', duration: 1, ease: 'power4.out', stagger: 0.09 })); }
       });
-      gsap.from('.hero-sub, .hero-actions, .hero-note', { y: 18, opacity: 0, filter: soft ? 'none' : 'blur(6px)', duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.5 });
+      gsap.from('.hero-sub, .hero-actions, .promises li, .hero-note', { y: 18, opacity: 0, filter: soft ? 'none' : 'blur(6px)', duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.5 });
       ScrollTrigger.refresh();
     };
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(go);
@@ -94,7 +94,7 @@
 
   /* Blocks of content fade up out of a blur, once */
   if (motion) {
-    const sel = '.grader-lede, .check, .grader-result, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
+    const sel = '.grader-lede, .check, .grader-result, .webcheck, .ba-head p, .ba, .ba-note, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
     const items = $$(sel).filter((el) => el.getBoundingClientRect().top > innerHeight);
     gsap.set(items, soft ? { y: 24, opacity: 0 } : { y: 32, opacity: 0, filter: 'blur(8px)' });
     const show = (els) => gsap.to(els, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: 0.08, overwrite: true, clearProps: 'filter' });
@@ -502,6 +502,120 @@
     });
     $$('.plan .per').forEach((el) => { el.textContent = el.dataset[mode]; });
   }));
+
+  /* BEFORE AND AFTER: drag the line (a sideways drag; scrolling up and down still scrolls the page) */
+  const ba = $('#ba');
+  if (ba) {
+    const range = $('.ba-range', ba);
+    const set = (p) => { p = Math.max(2, Math.min(98, p)); ba.style.setProperty('--x', p + '%'); range.value = Math.round(p); };
+    const at = (e) => { const r = ba.getBoundingClientRect(); set(((e.clientX - r.left) / r.width) * 100); };
+    let down = false, decided = false, sx = 0, sy = 0, touched = false;
+    ba.addEventListener('pointerdown', (e) => {
+      touched = true; down = true; sx = e.clientX; sy = e.clientY; decided = e.pointerType !== 'touch';
+      if (decided) at(e);
+    });
+    ba.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'mouse' && !down) { touched = true; at(e); return; }
+      if (!down) return;
+      if (!decided) {
+        const dx = Math.abs(e.clientX - sx), dy = Math.abs(e.clientY - sy);
+        if (dx > 6 && dx > dy) decided = true; else if (dy > 6) { down = false; return; } else return;
+      }
+      at(e);
+    });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach((n) => ba.addEventListener(n, () => { down = false; }));
+    range.addEventListener('input', () => { touched = true; set(+range.value); });
+    if (motion) onceInView(ba, () => {
+      if (touched) return;
+      const o = { p: 50 };
+      gsap.timeline({ delay: 0.3 }).to(o, { p: 22, duration: 0.9, ease: 'power2.inOut', onUpdate: () => !touched && set(o.p) })
+        .to(o, { p: 78, duration: 1.2, ease: 'power2.inOut', onUpdate: () => !touched && set(o.p) })
+        .to(o, { p: 50, duration: 0.8, ease: 'power2.inOut', onUpdate: () => !touched && set(o.p) });
+    }, 0.5);
+  }
+
+  /* THE REAL CHECK: Google's own speed and quality test on their site, in plain English */
+  const PSI_KEY = ''; /* a free Google PageSpeed Insights API key goes here; until then visitors get a check by hand */
+  const wc = $('#webcheck');
+  if (wc) {
+    const out = $('#webcheck-out'), input = wc.site, btn = $('button', wc);
+    const ADVICE = [
+      [['largest-contentful-paint', 'first-contentful-paint', 'speed-index'], 'It takes too long to appear on a phone, and people leave before it loads.'],
+      [['total-blocking-time', 'interactive', 'max-potential-fid'], 'The page freezes while it loads, so taps do nothing for a moment.'],
+      [['cumulative-layout-shift'], 'Things jump around while it loads, so people tap the wrong button.'],
+      [['uses-optimized-images', 'modern-image-formats', 'uses-responsive-images', 'offscreen-images', 'efficient-animated-content'], 'The photos are far bigger than they need to be, which slows everything down.'],
+      [['render-blocking-resources', 'unused-javascript', 'unused-css-rules', 'unminified-javascript', 'unminified-css'], 'It loads a lot of code it never uses before showing anything.'],
+      [['viewport'], "It isn't set up for phones, so it shows as a tiny desktop page."],
+      [['font-size'], 'The text is too small to read comfortably on a phone.'],
+      [['target-size', 'tap-targets'], 'Buttons and links are too small or too close together for a thumb.'],
+      [['color-contrast'], 'Some of the text is hard to read against its background.'],
+      [['meta-description'], 'Google has no short description to show under your name in search results.'],
+      [['document-title'], 'The page title is missing, so Google and browser tabs show nothing useful.'],
+      [['image-alt'], 'Images have no descriptions, which hurts you on Google.'],
+      [['link-text'], 'Links say things like "click here", which Google can\'t make sense of.'],
+      [['is-crawlable', 'robots-txt'], 'Google may be blocked from listing your site.'],
+      [['is-on-https', 'redirects-http'], "It isn't fully secure, so browsers may warn your visitors."],
+      [['errors-in-console'], 'There are errors happening behind the scenes.'],
+    ];
+    const GRADES = [[90, 3, 'Hojari', 'Properly good. Honestly, you might not need me.'], [75, 2, 'Najdi', 'Good, one step off the top. A few fixes would get you there.'], [50, 1, 'Shazri', 'Decent from a distance, but customers notice the cracks.'], [0, 0, 'Shaabi', 'The lowest grade. Rough, but very fixable.']];
+    const mail = (url, extra) => 'mailto:prejith.ponnachan1@outlook.com?subject=' + encodeURIComponent('Please check my website') + '&body=' + encodeURIComponent('Hi Prejith,\n\nCould you check my website: ' + url + '\n' + (extra || '') + '\nMy business is: \n');
+    const byHand = (url, why) => {
+      out.innerHTML = '';
+      const p = document.createElement('p'); p.className = 'wc-note';
+      p.textContent = why || "I'll check it by hand and send you three plain-English fixes within 24 hours. Free, no strings.";
+      const a = document.createElement('a'); a.className = 'button button-light'; a.href = mail(url); a.textContent = 'Send it to me';
+      out.append(p, a);
+    };
+    const setGrade = (idx, name, line) => {
+      const nameEl = $('#grade-name'), lineEl = $('#grade-line'), poster = $('#grader-poster'), g = $('#grader');
+      if (nameEl) nameEl.textContent = name; if (lineEl) lineEl.textContent = line;
+      if (poster) poster.src = idx === 3 ? 'assets/tear-poster.webp' : 'assets/tear-g' + idx + '.webp';
+      if (g) g.dataset.grade = idx;
+    };
+    wc.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      let url = input.value.trim();
+      if (!url) { input.focus(); return; }
+      if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+      try { url = new URL(url).href; } catch (err) { byHand(input.value, "That doesn't look like a web address. Try something like yourbusiness.co.uk."); return; }
+      if (!PSI_KEY) { byHand(url); return; }
+      btn.disabled = true;
+      const steps = ['Opening your site on a phone…', 'Timing how fast it appears…', 'Checking it is easy to read and tap…', 'Seeing how Google sees it…'];
+      let k = 0; out.innerHTML = '<p class="wc-status"></p>';
+      const status = $('.wc-status', out); status.textContent = steps[0];
+      const tick = setInterval(() => { k = Math.min(steps.length - 1, k + 1); status.textContent = steps[k]; }, 3500);
+      try {
+        const api = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?strategy=mobile&category=performance&category=seo&category=accessibility&key=' + PSI_KEY + '&url=' + encodeURIComponent(url);
+        const ctrl = new AbortController(); const kill = setTimeout(() => ctrl.abort(), 70000);
+        const res = await fetch(api, { signal: ctrl.signal }); clearTimeout(kill);
+        const data = await res.json();
+        if (!res.ok || !data.lighthouseResult) throw new Error('no result');
+        const cat = data.lighthouseResult.categories, audits = data.lighthouseResult.audits;
+        const sc = (c) => Math.round(((cat[c] && cat[c].score) || 0) * 100);
+        const speed = sc('performance'), google = sc('seo'), ease = sc('accessibility');
+        const overall = Math.round((speed * 2 + google + ease) / 4);
+        const [, idx, name, line] = GRADES.find((g) => overall >= g[0]);
+        const fixes = [];
+        for (const [ids, msg] of ADVICE) {
+          if (fixes.length >= 3) break;
+          if (ids.some((id) => audits[id] && audits[id].score !== null && audits[id].score < 0.9)) fixes.push(msg);
+        }
+        setGrade(idx, name, line);
+        out.innerHTML = '';
+        const scores = document.createElement('div'); scores.className = 'wc-scores';
+        [[speed, 'Speed on a phone'], [google, 'Ready for Google'], [ease, 'Easy to use']].forEach(([v, l]) => { const d = document.createElement('div'); d.innerHTML = '<b></b><span></span>'; d.firstChild.textContent = v + '/100'; d.lastChild.textContent = l; scores.append(d); });
+        const head = document.createElement('p'); head.className = 'webcheck-title'; head.textContent = 'Your site grades as ' + name + '.';
+        out.append(head, scores);
+        if (fixes.length) { const ul = document.createElement('ul'); ul.className = 'wc-fixes'; fixes.forEach((f) => { const li = document.createElement('li'); li.textContent = f; ul.append(li); }); out.append(ul); }
+        const a = document.createElement('a'); a.className = 'button button-light'; a.href = mail(url, 'It graded as ' + name + ' (speed ' + speed + ', Google ' + google + ', ease ' + ease + ').'); a.textContent = idx === 3 ? 'Keep it that way' : 'Fix these for me';
+        const note = document.createElement('p'); note.className = 'wc-note'; note.textContent = "Tested with Google's own tools, on a phone, just now.";
+        out.append(a, note);
+        if (motion) gsap.from(out.children, { y: 14, opacity: 0, duration: 0.5, stagger: 0.07, ease: 'power3.out' });
+      } catch (err) {
+        byHand(url, "Google's checker is busy right now, so I'll check it by hand and send you three fixes within 24 hours.");
+      } finally { clearInterval(tick); btn.disabled = false; }
+    });
+  }
 
   addEventListener('load', () => hasGsap && ScrollTrigger.refresh());
 })();
