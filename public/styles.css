@@ -905,3 +905,19 @@ main, .foot { position: relative; z-index: 1; }
   .hero-actions { gap: 18px; }
   .hero-actions .button { padding: 0 18px; }
 }
+
+/* PHONES: a calmer, more premium first screen */
+@media (max-width: 899px) {
+  .hero { gap: 0; padding: 104px 22px 56px; }
+  .hero-title { font-size: clamp(3.25rem, 15vw, 4.5rem); line-height: .95; margin-bottom: 22px; }
+  .hero-sub { font-size: 1.0625rem; line-height: 1.6; color: #d9d2c4; max-width: 34ch; margin-bottom: 30px; }
+  .hero-actions { gap: 24px; margin-bottom: 8px; }
+  .hero-actions .button { min-height: 52px; padding: 0 24px; font-size: 1rem; }
+  .hero .hero-poster { min-height: 240px; margin: 4px 0 8px; }
+  .promises { margin: 0 0 28px; padding: 22px 22px 20px; border-radius: 22px; background: rgba(36, 28, 20, .72); gap: 22px 18px; }
+  .promises li { gap: 4px; }
+  .promises b { font-size: 1.375rem; letter-spacing: -0.03em; }
+  .promises span { font-size: .8125rem; line-height: 1.4; color: #a99f8e; }
+  .hero-note { font-size: .8125rem; line-height: 1.55; color: #8f8676; max-width: 30ch; }
+  section p { line-height: 1.6; }
+}
