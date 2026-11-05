@@ -1405,3 +1405,6 @@ button.blk { font: inherit; border: 0; cursor: pointer; -webkit-appearance: none
 section[id] { scroll-margin-top: 0; }
 .field::after { bottom: auto; top: 66px; }
 @media (pointer: coarse) and (min-width: 900px) { .links a { display: inline-flex; align-items: center; min-height: 44px; } }
+.foot-grid nav { gap: 4px 32px; }
+.foot-grid nav a { display: inline-flex; align-items: center; min-height: 40px; }
+.plain-mail { display: inline-block; padding-block: 6px; }

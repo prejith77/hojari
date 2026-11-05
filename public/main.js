@@ -488,7 +488,7 @@
     b.addEventListener('click', () => { b.classList.remove('is-boing'); void b.offsetWidth; b.classList.add('is-boing'); });
     b.addEventListener('animationend', () => b.classList.remove('is-boing'));
   });
-  if (motion && $('.blocks').getBoundingClientRect().top > innerHeight) { gsap.set(blocks, { yPercent: 60 }); whenSeen($('.blocks'), () => gsap.to(blocks, { yPercent: 0, duration: 1, ease: 'power4.out', stagger: 0.06, clearProps: 'transform' })); }
+  if (motion && $('.blocks').getBoundingClientRect().top > innerHeight) { gsap.set(blocks, { y: 36, opacity: 0 }); whenSeen($('.blocks'), () => gsap.to(blocks, { y: 0, opacity: 1, duration: 1, ease: 'power4.out', stagger: 0.06, clearProps: 'transform,opacity' })); }
 
   /* BUILD: a homepage that puts itself together as you choose */
   const bForm = $('#build-form');
