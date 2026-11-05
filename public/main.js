@@ -154,7 +154,7 @@
       const out = items[beat], inn = items[n];
       out.classList.remove('is-active'); inn.classList.add('is-active');
       const bl = soft ? 'none' : 'blur(10px)', b0 = soft ? 'none' : 'blur(0px)';
-      gsap.to(out, { autoAlpha: 0, y: dir * -40, filter: bl, duration: 0.4, ease: 'power2.in', overwrite: true });
+      gsap.to(out, { autoAlpha: 0, y: dir * -40, filter: bl, duration: 0.3, ease: 'power2.out', overwrite: true });
       gsap.fromTo(inn, { autoAlpha: 0, y: dir * 40, filter: bl }, { autoAlpha: 1, y: 0, filter: b0, duration: 0.6, ease: 'power3.out', overwrite: true });
       gsap.fromTo(names[n], { yPercent: dir * 110 }, { yPercent: 0, duration: 0.8, ease: 'power4.out', stagger: 0.035 });
       rail.forEach((r, i) => r.classList.toggle('is-on', i === n));
@@ -204,8 +204,8 @@
       if (changed && motion) {
         if (typeof SplitText !== 'undefined') nameSplit = SplitText.create(nameEl, { type: 'chars', mask: 'chars', charsClass: 'ch' });
         const chars = nameSplit ? nameSplit.chars : [nameEl];
-        gsap.from(chars, { yPercent: 110, duration: 0.7, ease: 'power4.out', stagger: 0.04 });
-        gsap.fromTo(poster, { scale: 0.9 }, { scale: 1, duration: 0.8, ease: 'elastic.out(1, 0.5)' });
+        gsap.from(chars, { yPercent: 110, duration: 0.45, ease: 'power3.out', stagger: 0.025, overwrite: true });
+        gsap.fromTo(poster, { scale: 0.96 }, { scale: 1, duration: 0.35, ease: 'power2.out', overwrite: true });
       }
       cta.textContent = g === 'Hojari' ? 'Keep it that way' : 'Get me to Hojari';
       cta.href = 'mailto:hello@hojari.co.uk?subject=' + encodeURIComponent('My website grades as ' + g) +
@@ -399,7 +399,9 @@
   if (motion && desktop) $$('.magnetic').forEach((b) => {
     const x = gsap.quickTo(b, 'x', { duration: 0.4, ease: 'power3.out' }), y = gsap.quickTo(b, 'y', { duration: 0.4, ease: 'power3.out' });
     b.addEventListener('pointermove', (e) => { const r = b.getBoundingClientRect(); x((e.clientX - r.left - r.width / 2) * 0.3); y((e.clientY - r.top - r.height / 2) * 0.3); });
-    b.addEventListener('pointerleave', () => { x(0); y(0); });
+    b.addEventListener('pointerleave', () => { x(0); y(0); gsap.to(b, { scale: 1, duration: 0.16, ease: 'power2.out', overwrite: 'auto' }); });
+    b.addEventListener('pointerdown', () => gsap.to(b, { scale: 0.97, duration: 0.1, ease: 'power2.out', overwrite: 'auto' }));
+    b.addEventListener('pointerup', () => gsap.to(b, { scale: 1, duration: 0.16, ease: 'power2.out', overwrite: 'auto' }));
   });
 
   /* THE MOCK-UP REQUEST: every call to action leads here and carries what the visitor was doing */
@@ -622,8 +624,9 @@
       const to = +el.dataset[mode], from = +el.textContent.replace(/[^0-9]/g, '');
       if (!motion) { el.textContent = to; return; }
       const o = { v: from };
-      gsap.to(o, { v: to, duration: 0.6, ease: 'power3.out', onUpdate: () => { el.textContent = Math.round(o.v); }, onComplete: () => { el.textContent = to; } });
-      gsap.fromTo(el, { y: -6 }, { y: 0, duration: 0.5, ease: 'back.out(2)' });
+      if (el._t) el._t.kill();
+      el._t = gsap.to(o, { v: to, duration: 0.5, ease: 'power3.out', onUpdate: () => { el.textContent = Math.round(o.v); }, onComplete: () => { el.textContent = to; } });
+      gsap.fromTo(el, { y: -4 }, { y: 0, duration: 0.3, ease: 'power3.out', overwrite: true });
     });
     $$('.plan .per').forEach((el) => { el.textContent = el.dataset[mode]; });
   }));
@@ -640,7 +643,7 @@
       notes.forEach((li) => li.classList.toggle('is-on', w >= +li.dataset.at));
       const shown = notes.filter((li) => w >= +li.dataset.at).pop();
       notes.forEach((li) => li.classList.toggle('is-now', li === shown));
-      const after = w > 0.5;
+      const after = bx._lock !== undefined ? bx._lock : w > 0.5; /* a tapped switch holds its side while the page glides there */
       bx.classList.toggle('is-after', after);
       tBtns.forEach((b, i) => { const on = (i === 1) === after; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); });
     };
@@ -658,7 +661,9 @@
       tBtns.forEach((btn) => btn.addEventListener('click', () => {
         const r = bx.getBoundingClientRect(), span = r.height - innerHeight;
         const y = scrollY + r.top + span * (btn.dataset.to === '1' ? 0.9 : 0.02);
-        if (lenis) lenis.scrollTo(y, { duration: 1.6 }); else scrollTo({ top: y, behavior: 'smooth' });
+        bx._lock = btn.dataset.to === '1'; clearTimeout(bx._lt); bx._lt = setTimeout(() => { bx._lock = undefined; tick(); }, 1100);
+        bx.classList.toggle('is-after', bx._lock);
+        if (lenis) lenis.scrollTo(y, { duration: 1 }); else scrollTo({ top: y, behavior: 'smooth' });
       }));
     } else {
       paint(1);
