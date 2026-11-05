@@ -1308,9 +1308,9 @@ h1, h2 { word-spacing: .06em; }
 
 /* Logo in the header */
 .wordmark { display: inline-flex; align-items: center; color: var(--paper); line-height: 0; }
-.wordmark svg { display: block; height: 32px; width: auto; overflow: visible; }
+.wordmark svg { display: block; height: 35px; width: auto; overflow: visible; }
 .wm-tear { fill: var(--honey); }
-@media (max-width: 899px) { .wordmark svg { height: 28px; } }
+@media (max-width: 899px) { .wordmark svg { height: 31px; } }
 
 /* Chrome on Android enlarges text it thinks is too small (the mock pages inside the phone frame). Switch that off. */
 html { text-size-adjust: 100%; }
