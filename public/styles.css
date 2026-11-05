@@ -139,7 +139,7 @@ main, .foot { position: relative; z-index: 1; }
 
 /* GRADES: live, a held scene on desktop */
 .grades.is-live { height: 320vh; padding: 0; }
-.grades.is-live .grades-stage { position: sticky; top: 0; height: 100vh; padding: 110px var(--margin) 40px; display: flex; flex-direction: column; gap: 24px; }
+.grades.is-live .grades-stage { position: sticky; top: 0; height: 100svh; padding: 110px var(--margin) 40px; display: flex; flex-direction: column; gap: 24px; }
 .grades.is-live .grades-title { font-size: var(--step-lead); max-width: 22ch; margin-bottom: 0; color: var(--muted); }
 .grades.is-live .grade-list { position: relative; flex: 1; min-height: 0; display: grid; align-items: center; }
 .grades.is-live .grade { grid-area: 1 / 1; display: block; width: min(52vw, 760px); }
@@ -205,7 +205,7 @@ main, .foot { position: relative; z-index: 1; }
 @media (hover: hover) and (pointer: fine) { .card-yours:hover .yours-mark { transform: rotate(90deg) scale(1.08); } }
 .yours-line { color: var(--muted); }
 
-.work.is-live { padding: 0 var(--margin) 0 0; height: 100vh; display: grid; grid-template-columns: 30vw minmax(0, 1fr); align-items: center; }
+.work.is-live { padding: 0 var(--margin) 0 0; height: 100svh; display: grid; grid-template-columns: 30vw minmax(0, 1fr); align-items: center; }
 .work.is-live .work-intro { margin: 0; padding: 0 40px 0 var(--margin); align-content: center; }
 .work.is-live .work-window { overflow: hidden; height: 74vh; border-radius: var(--radius); }
 .work.is-live .work-track { flex-direction: row; align-items: stretch; width: max-content; gap: 32px; padding: 0; height: 100%; }
@@ -1002,7 +1002,7 @@ h2 { font-size: calc(var(--step-head) * 1.14); line-height: .98; }
 /* Sections slide over each other on rounded edges instead of hard cuts */
 .services, .apps, .bargain, .pricing, .how, .palette, .about, .faq, .contact, .foot {
   position: relative; border-radius: 44px 44px 0 0; margin-top: -44px; }
-.services, .bargain, .how, .faq { box-shadow: 0 -30px 60px -30px rgba(0, 0, 0, .45); }
+.services, .bargain, .how, .faq { box-shadow: none; }
 
 /* First visit: the name writes itself in, then the page opens */
 .intro { display: none; }
@@ -1128,7 +1128,7 @@ h2 { font-size: calc(var(--step-head) * 1.14); line-height: .98; }
 .webcheck-sub { color: var(--muted); font-size: var(--step-small); margin-top: -6px; }
 
 /* Signature: the top tier looks the part */
-.plan-sig { background: linear-gradient(160deg, #2a2016 0%, #1c1611 60%); box-shadow: inset 0 0 0 1px rgba(227, 173, 92, .35); }
+.plan-sig { background: #241a11; box-shadow: inset 0 0 0 1px rgba(227, 173, 92, .35); }
 .plan-sig h3 { color: var(--honey); }
 .plan-split { margin-top: -10px; color: var(--muted); font-size: var(--step-small); }
 .plan li b { color: var(--paper); font-weight: 600; }
@@ -1196,7 +1196,7 @@ h2 { font-size: calc(var(--step-head) * 1.14); line-height: .98; }
 
 /* Live: the stage holds still while you scroll */
 .bx.is-live { height: 300vh; padding: 0; }
-.bx.is-live .bx-stage { position: sticky; top: 0; height: 100vh; padding: 90px var(--margin) 40px; }
+.bx.is-live .bx-stage { position: sticky; top: 0; height: 100svh; padding: 90px var(--margin) 40px; }
 
 @media (max-width: 899px) {
   .bx { padding: 88px 22px; }
@@ -1516,4 +1516,32 @@ section[id] { scroll-margin-top: 0; }
   .grader-lede { margin-top: 42px; }
   .about-lead { margin-top: 38px; }
   .contact-lede { margin-top: 48px; }
+}
+
+/* ===== Taste pass: fewer generated-looking habits ===== */
+/* FAQ group names read as small headings, not tiny capitals */
+.qa-group { font-family: var(--serif); font-weight: 400; font-size: clamp(1.5rem, 1.2rem + .8vw, 2rem); letter-spacing: -0.01em; text-transform: none; color: var(--ink); margin: 48px 0 12px; }
+.qa-group:first-child { margin-top: 0; }
+@media (max-width: 899px) { .qa-group { margin: 36px 0 10px; } }
+/* The cost comparison: the figure leads, the caption follows */
+.st-label { margin-bottom: 18px; font-size: var(--step-body); }
+.stack-total .st-label:last-child { margin-bottom: 0; }
+/* Space separates the email line from the form, not a rule */
+.contact-alt { border-top: 0; padding-top: 8px; }
+/* The promise cards no longer carry index numbers */
+.usp-card { padding-top: 30px; }
+/* Readable body text on tablets */
+@media (min-width: 600px) and (max-width: 899px) {
+  .tile-copy p, .card-body p:last-child, .step p, .about-cols p, .plan li, .freebies li, .usp-card p, .qa-body, .compare tbody td, .stack li { font-size: 1rem; }
+}
+/* Contact on wide screens: the words on the left, the form on the right */
+@media (min-width: 1100px) {
+  .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 560px); column-gap: clamp(56px, 6vw, 120px); align-items: start; }
+  .contact-title { grid-column: 1 / -1; max-width: none; }
+  .contact-lede { grid-column: 1; grid-row: 2; }
+  .contact-form { grid-column: 2; grid-row: 2 / span 4; margin-top: 40px; max-width: none; grid-template-columns: 1fr; gap: 30px; }
+  .lead-context, .sent { grid-column: 2; }
+  .reassure { grid-column: 1; grid-row: 3; align-self: start; }
+  .contact-alt { grid-column: 1; grid-row: 4; align-self: start; max-width: none; }
+  .sofar { grid-column: 1; grid-row: 5; }
 }
