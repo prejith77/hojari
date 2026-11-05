@@ -421,7 +421,7 @@
     setTimeout(() => cf && cf.name.focus({ preventScroll: true }), reduce ? 50 : 1300);
   };
   document.addEventListener('click', (e) => {
-    const a = e.target.closest('a[href^="mailto:prejith"]');
+    const a = e.target.closest('a[href^="mailto:hello@hojari"]');
     if (!a || a.classList.contains('plain-mail')) return;
     e.preventDefault();
     const subj = decodeURIComponent((a.href.match(/subject=([^&]*)/) || [, ''])[1]).replace(/^Hojari /, 'Interested in ');
