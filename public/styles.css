@@ -1255,3 +1255,4 @@ h2 { font-size: calc(var(--step-head) * 1.14); line-height: .98; }
   .proof-scores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .proof-sub { font-size: .9688rem; line-height: 1.6; }
 }
+.proof .button { justify-self: start; }
