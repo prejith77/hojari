@@ -1256,3 +1256,14 @@ h2 { font-size: calc(var(--step-head) * 1.14); line-height: .98; }
   .proof-sub { font-size: .9688rem; line-height: 1.6; }
 }
 .proof .button { justify-self: start; }
+
+/* Round 5 */
+.contact-lede { margin-top: 48px; }
+.plan li > span { display: block; }
+@media (max-width: 899px) { .contact-lede { margin-top: 30px; } }
+.bx-notes li { opacity: 1; color: #9d927f; }
+.bx-notes li b { color: #cfc6b5; }
+.bx-notes li.is-on { color: #c9bfae; }
+.bx-notes li.is-on b { color: var(--paper); }
+.hero-title { max-width: 12ch; font-size: clamp(3.5rem, 1rem + 7.2vw, 8.5rem); text-wrap: balance; }
+@media (max-width: 899px) { .hero-title { max-width: none; font-size: clamp(3rem, 14.5vw, 4.25rem); } }

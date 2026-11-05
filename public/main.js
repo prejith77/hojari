@@ -110,6 +110,8 @@
     setTimeout(() => { heroTitle.style.visibility = ''; }, 4500);
   }
 
+  /* Everything below the first screen sets itself up once the phone has a spare moment */
+  const rest = () => {
   /* Blocks of content fade up out of a blur, once */
   if (motion) {
     const sel = '.grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
@@ -723,11 +725,14 @@
       ['pointerdown', 'pointermove', 'touchstart', 'scroll', 'keydown', 'wheel'].forEach((n) => removeEventListener(n, wake));
       window.__tearLate = performance.now() > 2600;
       $$('img[data-early]').forEach((im) => { im.loading = 'eager'; });
-      load('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js').then(() => load('tear.js')).catch(() => {});
+      load('vendor/three.min.js').then(() => load('tear.js')).catch(() => {});
     };
     ['pointerdown', 'pointermove', 'touchstart', 'scroll', 'keydown', 'wheel'].forEach((n) => addEventListener(n, wake, { passive: true }));
     addEventListener('load', () => setTimeout(() => (window.requestIdleCallback || setTimeout)(wake), 6500));
   }
+
+  };
+  if (window.requestIdleCallback) requestIdleCallback(rest, { timeout: 700 }); else setTimeout(rest, 150);
 
   addEventListener('load', () => hasGsap && ScrollTrigger.refresh());
 })();
