@@ -1303,3 +1303,5 @@ h1, h2 { word-spacing: .06em; }
     box-shadow: inset 0 0 0 999px rgba(10, 7, 4, calc(var(--dim, 0) * .5)), 0 0 0 1px rgba(227, 173, 92, calc(var(--lit, 0) * .32)), 0 -14px 34px -10px rgba(0, 0, 0, .55); }
   .m-stack .usp-card::after { opacity: calc(.1 + var(--lit, 0) * .32); transition: opacity .2s; }
 }
+
+.compare thead th.us { color: #8f4a12; }
