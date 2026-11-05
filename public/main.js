@@ -112,7 +112,7 @@
 
   /* Blocks of content fade up out of a blur, once */
   if (motion) {
-    const sel = '.grader-lede, .check, .grader-result, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .ba-head p, .ba, .ba-note, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
+    const sel = '.grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
     const items = $$(sel).filter((el) => el.getBoundingClientRect().top > innerHeight);
     gsap.set(items, soft ? { y: 24, opacity: 0 } : { y: 32, opacity: 0, filter: 'blur(8px)' });
     const show = (els) => gsap.to(els, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: 0.08, overwrite: true, clearProps: 'filter' });
@@ -150,12 +150,17 @@
 
   /* GRADER: your ticks set the grade, and the tear on the right takes it */
   const grades = [
-    [0, 'Shaabi', 'The lowest one. Rough, but fixable, and fixing it is my job.'],
-    [0, 'Shaabi', 'One tick is a start. Your customers have noticed the other four.'],
-    [1, 'Shazri', 'Decent, but forgettable. People close the tab and move on.'],
-    [1, 'Shazri', 'Getting there. A couple of fixes would lift you a grade.'],
-    [2, 'Najdi', 'Properly good. One step off the top.'],
-    [3, 'Hojari', 'The top grade. Honestly, you might not need me. Fancy a chat anyway?'],
+    [0, 'Shaabi', "The lowest grade. It stays between us, and it's very fixable."],
+    [0, 'Shaabi', "Your customers have noticed. They're just too polite to say."],
+    [0, 'Shaabi', "Your customers have noticed. They're just too polite to say."],
+    [1, 'Shazri', "Fine from across the room. Up close, it's quietly costing you customers."],
+    [1, 'Shazri', "Fine from across the room. Up close, it's quietly costing you customers."],
+    [1, 'Shazri', 'Halfway there. A few fixes and you would move up a grade.'],
+    [2, 'Najdi', 'Properly good. A couple of tweaks away from the top.'],
+    [2, 'Najdi', 'Properly good. A couple of tweaks away from the top.'],
+    [2, 'Najdi', 'So close I can almost smell the frankincense.'],
+    [3, 'Hojari', "Top grade. Honestly, you might not need me. Fancy a chat anyway?"],
+    [3, 'Hojari', "Top grade. Honestly, you might not need me. Fancy a chat anyway?"],
   ];
   const graderEl = $('#grader'), form = $('#grader-form');
   if (form) {
@@ -177,17 +182,16 @@
       }
       cta.textContent = g === 'Hojari' ? 'Keep it that way' : 'Get me to Hojari';
       cta.href = 'mailto:prejith.ponnachan1@outlook.com?subject=' + encodeURIComponent('My website grades as ' + g) +
-        '&body=' + encodeURIComponent('Hi Prejith,\n\nMy website scored ' + n + ' out of 5 (' + g + ').\nMy business is: \nMy website is: \n');
+        '&body=' + encodeURIComponent('Hi Prejith,\n\nMy website scored ' + n + ' out of 10 (' + g + ').\nMy business is: \nMy website is: \n');
     });
   }
 
   /* PROMISE: each word lights up as you read down the screen */
   const promise = $('.promise');
   if (motion && promise) {
-    $$('.promise-text', promise).forEach((el) => {
+    $$('.promise-big .lit', promise).forEach((el) => {
       const text = el.textContent.trim();
-      el.setAttribute('aria-label', text);
-      el.innerHTML = text.split(/\s+/).map((w) => '<span class="w" aria-hidden="true">' + w + '</span>').join(' ');
+      el.innerHTML = text.split(/\s+/).map((w) => '<span class="w">' + w + '</span>').join(' ');
     });
     const spans = $$('.w', promise);
     let ticking = false;
@@ -196,7 +200,7 @@
       const r = promise.getBoundingClientRect(), vh = innerHeight;
       const p = Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (r.height + vh * 0.35)));
       const lit = p * spans.length * 1.15;
-      spans.forEach((sp, i) => sp.style.setProperty('--o', Math.min(1, Math.max(0.16, lit - i)).toFixed(2)));
+      spans.forEach((sp, i) => sp.style.setProperty('--o', Math.min(1, Math.max(0.42, lit - i)).toFixed(2)));
     };
     addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(light); } }, { passive: true });
     addEventListener('resize', light); light();
@@ -582,35 +586,41 @@
     $$('.plan .per').forEach((el) => { el.textContent = el.dataset[mode]; });
   }));
 
-  /* BEFORE AND AFTER: drag the line (a sideways drag; scrolling up and down still scrolls the page) */
-  const ba = $('#ba');
-  if (ba) {
-    const range = $('.ba-range', ba);
-    const set = (p) => { p = Math.max(2, Math.min(98, p)); ba.style.setProperty('--x', p + '%'); range.value = Math.round(p); };
-    const at = (e) => { const r = ba.getBoundingClientRect(); set(((e.clientX - r.left) / r.width) * 100); };
-    let down = false, decided = false, sx = 0, sy = 0, touched = false;
-    ba.addEventListener('pointerdown', (e) => {
-      touched = true; down = true; sx = e.clientX; sy = e.clientY; decided = e.pointerType !== 'touch';
-      if (decided) at(e);
-    });
-    ba.addEventListener('pointermove', (e) => {
-      if (e.pointerType === 'mouse' && !down) { touched = true; at(e); return; }
-      if (!down) return;
-      if (!decided) {
-        const dx = Math.abs(e.clientX - sx), dy = Math.abs(e.clientY - sy);
-        if (dx > 6 && dx > dy) decided = true; else if (dy > 6) { down = false; return; } else return;
-      }
-      at(e);
-    });
-    ['pointerup', 'pointercancel', 'pointerleave'].forEach((n) => ba.addEventListener(n, () => { down = false; }));
-    range.addEventListener('input', () => { touched = true; set(+range.value); });
-    if (motion) onceInView(ba, () => {
-      if (touched) return;
-      const o = { p: 50 };
-      gsap.timeline({ delay: 0.3 }).to(o, { p: 22, duration: 0.9, ease: 'power2.inOut', onUpdate: () => !touched && set(o.p) })
-        .to(o, { p: 78, duration: 1.2, ease: 'power2.inOut', onUpdate: () => !touched && set(o.p) })
-        .to(o, { p: 50, duration: 0.8, ease: 'power2.inOut', onUpdate: () => !touched && set(o.p) });
-    }, 0.5);
+  /* BEFORE AND AFTER: a held scene; scrolling wipes the old site away */
+  const bx = $('.bx');
+  if (bx) {
+    const screenEl = $('.bx-screen', bx), notes = $$('.bx-notes li', bx), tBtns = $$('.bx-toggle button', bx);
+    const fit = () => bx.style.setProperty('--bs', (screenEl.clientWidth / 1000).toFixed(4));
+    fit(); addEventListener('resize', fit);
+    const paint = (w) => {
+      bx.style.setProperty('--p', w.toFixed(4));
+      notes.forEach((li) => li.classList.toggle('is-on', w >= +li.dataset.at));
+      const shown = notes.filter((li) => w >= +li.dataset.at).pop();
+      notes.forEach((li) => li.classList.toggle('is-now', li === shown));
+      const after = w > 0.5;
+      bx.classList.toggle('is-after', after);
+      tBtns.forEach((b, i) => { const on = (i === 1) === after; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); });
+    };
+    if (motion) {
+      bx.classList.add('is-live');
+      let queued = false;
+      const tick = () => {
+        queued = false;
+        const r = bx.getBoundingClientRect(), span = r.height - innerHeight;
+        const p = Math.min(1, Math.max(0, -r.top / span));
+        paint(Math.min(1, Math.max(0, (p - 0.1) / 0.72)));
+      };
+      addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(tick); } }, { passive: true });
+      addEventListener('resize', tick); tick();
+      tBtns.forEach((btn) => btn.addEventListener('click', () => {
+        const r = bx.getBoundingClientRect(), span = r.height - innerHeight;
+        const y = scrollY + r.top + span * (btn.dataset.to === '1' ? 0.9 : 0.02);
+        if (lenis) lenis.scrollTo(y, { duration: 1.6 }); else scrollTo({ top: y, behavior: 'smooth' });
+      }));
+    } else {
+      paint(1);
+      tBtns.forEach((btn) => btn.addEventListener('click', () => paint(btn.dataset.to === '1' ? 1 : 0)));
+    }
   }
 
   /* THE REAL CHECK: Google's own speed and quality test on their site, in plain English */
@@ -657,7 +667,15 @@
       if (!url) { input.focus(); return; }
       if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
       try { url = new URL(url).href; } catch (err) { byHand(input.value, "That doesn't look like a web address. Try something like yourbusiness.co.uk."); return; }
-      if (!PSI_KEY) { byHand(url); return; }
+      if (!PSI_KEY) {
+        out.innerHTML = '';
+        const p = document.createElement('p'); p.className = 'wc-note';
+        p.textContent = "Google's test is opening in a new tab. It takes about 30 seconds. Look at the Mobile scores, then come back and tell me the numbers if you'd like a hand fixing them.";
+        const a = document.createElement('a'); a.className = 'button button-light'; a.href = mail(url, 'I ran the Google test.'); a.textContent = 'Help me fix it';
+        out.append(p, a);
+        window.open('https://pagespeed.web.dev/analysis?url=' + encodeURIComponent(url) + '&form_factor=mobile', '_blank', 'noopener');
+        return;
+      }
       btn.disabled = true;
       const steps = ['Opening your site on a phone…', 'Timing how fast it appears…', 'Checking it is easy to read and tap…', 'Seeing how Google sees it…'];
       let k = 0; out.innerHTML = '<p class="wc-status"></p>';
@@ -694,6 +712,21 @@
         byHand(url, "Google's checker is busy right now, so I'll check it by hand and send you three fixes within 24 hours.");
       } finally { clearInterval(tick); btn.disabled = false; }
     });
+  }
+
+  /* THE TEAR: the still image shows straight away; the live one wakes up the moment someone touches, scrolls or moves */
+  if (!reduce) {
+    let tearLoading = false;
+    const load = (src) => new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.body.appendChild(s); });
+    const wake = () => {
+      if (tearLoading) return; tearLoading = true;
+      ['pointerdown', 'pointermove', 'touchstart', 'scroll', 'keydown', 'wheel'].forEach((n) => removeEventListener(n, wake));
+      window.__tearLate = performance.now() > 2600;
+      $$('img[data-early]').forEach((im) => { im.loading = 'eager'; });
+      load('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js').then(() => load('tear.js')).catch(() => {});
+    };
+    ['pointerdown', 'pointermove', 'touchstart', 'scroll', 'keydown', 'wheel'].forEach((n) => addEventListener(n, wake, { passive: true }));
+    addEventListener('load', () => setTimeout(() => (window.requestIdleCallback || setTimeout)(wake), 6500));
   }
 
   addEventListener('load', () => hasGsap && ScrollTrigger.refresh());

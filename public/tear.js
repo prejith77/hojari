@@ -71,7 +71,7 @@
   geo.setAttribute('aSize', new THREE.BufferAttribute(size, 1));
   geo.setAttribute('aSeed', new THREE.BufferAttribute(sd, 1));
 
-  const shared = { uTime: { value: 0 }, uIntro: { value: posterMode ? 1 : 0 }, uPR: { value: PR }, uLift: { value: 0 } };
+  const shared = { uTime: { value: 0 }, uIntro: { value: (posterMode || window.__tearLate) ? 1 : 0 }, uPR: { value: PR }, uLift: { value: 0 } };
   const tearMat = new THREE.ShaderMaterial({
     uniforms: Object.assign({ uMouse: { value: new THREE.Vector2(99, 99) }, uPulse: { value: 0 }, uTint: { value: new THREE.Vector3(1, 1, 1) }, uTintAmt: { value: 0 }, uDim: { value: 1 }, uReach: { value: 0.85 }, uPt: { value: 1 }, uGather: { value: 0 }, uHeat: { value: 0 }, uSwirl: { value: 0 } }, shared),
     vertexShader: `
@@ -85,7 +85,7 @@
         float gg = clamp(uGather * 1.35 - aSeed * 0.35, 0.0, 1.0);
         gg = gg * gg * (3.0 - 2.0 * gg);
         float ang = gg * (2.2 + aSeed * 2.0);
-        vec3 haze = vec3(position.x * (1.6 + aSeed * 1.1), position.y * 0.25 - 1.1 - aSeed * 1.3, position.z * (1.6 + aSeed * 1.1));
+        vec3 haze = vec3(position.x * (1.15 + aSeed * 0.45), position.y * 0.35 - 0.7 - aSeed * 0.8, position.z * (1.15 + aSeed * 0.45));
         haze.xz = mat2(cos(ang), -sin(ang), sin(ang), cos(ang)) * haze.xz;
         p = mix(p, haze, gg);
         p += normalize(position) * (sin(uTime * 1.1 + aSeed * 40.0) * 0.012 + uPulse * (0.12 + aSeed * 0.45));
@@ -354,7 +354,7 @@
     if (visible || posterMode) {
       shared.uTime.value = t;
       if (!posterMode) {
-        shared.uIntro.value = Math.min(1, t / 2.6);
+        if (!window.__tearLate) shared.uIntro.value = Math.min(1, t / 2.6);
         if (phone) shared.uLift.value = lift;
         else if (lift < 0.3 && shared.uLift.value > 0.9) { shared.uLift.value = 0; gather = 1; kick(3.5); }
         else shared.uLift.value += (lift - shared.uLift.value) * 0.12;
