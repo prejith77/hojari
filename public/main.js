@@ -598,8 +598,9 @@
   const bx = $('.bx');
   if (bx) {
     const screenEl = $('.bx-screen', bx), notes = $$('.bx-notes li', bx), tBtns = $$('.bx-toggle button', bx);
-    const fit = () => bx.style.setProperty('--bs', (screenEl.clientWidth / 1000).toFixed(4));
+    const fit = () => { bx.style.setProperty('--bs', (screenEl.clientWidth / 1000).toFixed(4)); bx.style.setProperty('--az', Math.min(1, screenEl.clientWidth / (wide ? 306 : 210)).toFixed(4)); };
     fit(); addEventListener('resize', fit);
+    if (window.ResizeObserver) new ResizeObserver(fit).observe(screenEl);
     const paint = (w) => {
       bx.style.setProperty('--p', w.toFixed(4));
       notes.forEach((li) => li.classList.toggle('is-on', w >= +li.dataset.at));

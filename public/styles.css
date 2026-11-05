@@ -1305,3 +1305,22 @@ h1, h2 { word-spacing: .06em; }
 }
 
 .compare thead th.us { color: #8f4a12; }
+
+/* Logo in the header */
+.wordmark { display: inline-flex; align-items: center; color: var(--paper); line-height: 0; }
+.wordmark svg { display: block; height: 32px; width: auto; overflow: visible; }
+.wm-tear { fill: var(--honey); }
+@media (max-width: 899px) { .wordmark svg { height: 28px; } }
+
+/* Chrome on Android enlarges text it thinks is too small (the mock pages inside the phone frame). Switch that off. */
+html { text-size-adjust: 100%; }
+/* Before and after on phones: room to breathe between the switch, the phone and the note */
+@media (max-width: 899px) {
+  .bx.is-live .bx-stage { gap: 18px; padding-top: 80px; padding-bottom: 20px; }
+  .bx.is-live h2 { margin-bottom: 2px; }
+  .bx.is-live .bx-phone { height: min(52svh, 500px); }
+  .bx.is-live .bx-notes li { padding: 14px 16px 14px 50px; }
+}
+
+/* The bakery page inside the phone is laid out at one size and shrunk to fit smaller frames */
+.bx-after { zoom: var(--az, 1); }
