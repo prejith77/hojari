@@ -175,8 +175,11 @@
 
   /* Layout: the tear sits in the right of the hero; centred for the poster */
   let halfW = 4, halfH = 2.84;
+  let layoutW = 0, layoutH = 0;
   function layout() {
     const w = posterMode ? 1200 : canvas.clientWidth, h = posterMode ? 1200 : canvas.clientHeight;
+    if (w === layoutW && h === layoutH) return;
+    layoutW = w; layoutH = h;
     renderer.setSize(w, h, false);
     camera.aspect = w / h; camera.updateProjectionMatrix();
     halfH = Math.tan(THREE.MathUtils.degToRad(17.5)) * 9; halfW = halfH * camera.aspect;
