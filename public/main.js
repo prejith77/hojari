@@ -121,7 +121,7 @@
         }
         const anim = soft ? { yPercent: 110, duration: 0.9, ease: 'power4.out', stagger: 0.08 } : { yPercent: 110, filter: 'blur(8px)', duration: 1, ease: 'power4.out', stagger: 0.09 };
         if (el === heroTitle) { el.style.visibility = ''; gsap.from(s.lines, { ...anim, delay: 0.15 }); }
-        else if (el.getBoundingClientRect().top > innerHeight * 0.9) { gsap.set(s.lines, soft ? { yPercent: 110 } : { yPercent: 110, filter: 'blur(8px)' }); whenSeen(el, () => gsap.to(s.lines, soft ? { yPercent: 0, duration: 0.8, ease: 'power4.out', stagger: 0.08 } : { yPercent: 0, filter: 'blur(0px)', duration: 1, ease: 'power4.out', stagger: 0.09 })); }
+        else if (el.getBoundingClientRect().top > innerHeight * 0.9) { gsap.set(s.lines, { yPercent: 110 }); whenSeen(el, () => gsap.to(s.lines, { yPercent: 0, duration: soft ? 0.8 : 0.95, ease: 'power4.out', stagger: soft ? 0.08 : 0.09 })); }
       });
       gsap.from('.hero-sub, .hero-actions, .promises li, .hero-note', { y: 18, opacity: 0, filter: soft ? 'none' : 'blur(6px)', duration: soft ? 0.6 : 0.9, ease: 'power3.out', stagger: soft ? 0.06 : 0.1, delay: soft ? 0.2 : 0.5 });
       ScrollTrigger.refresh();
@@ -136,8 +136,8 @@
   if (motion) {
     const sel = '.grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
     const items = $$(sel).filter((el) => el.getBoundingClientRect().top > innerHeight && !(!desktop && el.matches('.usp-card')));
-    gsap.set(items, soft ? { y: 24, opacity: 0 } : { y: 32, opacity: 0, filter: 'blur(8px)' });
-    const show = (els) => gsap.to(els, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: 0.08, overwrite: true, clearProps: 'filter' });
+    gsap.set(items, { y: soft ? 24 : 32, opacity: 0 });
+    const show = (els) => gsap.to(els, { y: 0, opacity: 1, duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: 0.08, overwrite: true, clearProps: 'filter' });
     let queue = [], timer = 0;
     items.forEach((el) => whenSeen(el, () => { queue.push(el); clearTimeout(timer); timer = setTimeout(() => { show(queue); queue = []; }, 30); }));
   }
@@ -153,7 +153,7 @@
     const show = (n, dir) => {
       const out = items[beat], inn = items[n];
       out.classList.remove('is-active'); inn.classList.add('is-active');
-      const bl = soft ? 'none' : 'blur(10px)', b0 = soft ? 'none' : 'blur(0px)';
+      const bl = 'none', b0 = 'none';
       gsap.to(out, { autoAlpha: 0, y: dir * -40, filter: bl, duration: 0.3, ease: 'power2.out', overwrite: true });
       gsap.fromTo(inn, { autoAlpha: 0, y: dir * 40, filter: bl }, { autoAlpha: 1, y: 0, filter: b0, duration: 0.6, ease: 'power3.out', overwrite: true });
       gsap.fromTo(names[n], { yPercent: dir * 110 }, { yPercent: 0, duration: 0.8, ease: 'power4.out', stagger: 0.035 });
@@ -635,7 +635,7 @@
   const bx = $('.bx');
   if (bx) {
     const screenEl = $('.bx-screen', bx), notes = $$('.bx-notes li', bx), tBtns = $$('.bx-toggle button', bx);
-    const fit = () => { bx.style.setProperty('--bs', (screenEl.clientWidth / 1000).toFixed(4)); bx.style.setProperty('--az', Math.min(1, screenEl.clientWidth / (wide ? 306 : 210)).toFixed(4)); };
+    const fit = () => { bx.style.setProperty('--sh', screenEl.clientHeight + 'px'); bx.style.setProperty('--bs', (screenEl.clientWidth / 1000).toFixed(4)); bx.style.setProperty('--az', Math.min(1, screenEl.clientWidth / (wide ? 306 : 210)).toFixed(4)); };
     fit(); addEventListener('resize', fit);
     if (window.ResizeObserver) new ResizeObserver(fit).observe(screenEl);
     const paint = (w) => {
@@ -767,15 +767,17 @@
   if (!reduce) {
     let tearLoading = false;
     const load = (src) => new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.body.appendChild(s); });
-    const wake = () => {
+    const evs = ['pointermove', 'click', 'keydown'];
+    const wake = (e) => {
+      if (e && e.type === 'pointermove' && e.pointerType !== 'mouse') return;
       if (tearLoading) return; tearLoading = true;
-      ['pointerdown', 'pointermove', 'touchstart', 'scroll', 'keydown', 'wheel'].forEach((n) => removeEventListener(n, wake));
+      evs.forEach((n) => removeEventListener(n, wake));
       window.__tearLate = performance.now() > 2600;
       $$('img[data-early]').forEach((im) => { im.loading = 'eager'; });
       load('vendor/three.min.js').then(() => load('tear.js')).catch(() => {});
     };
-    ['pointerdown', 'pointermove', 'touchstart', 'scroll', 'keydown', 'wheel'].forEach((n) => addEventListener(n, wake, { passive: true }));
-    addEventListener('load', () => setTimeout(() => (window.requestIdleCallback || setTimeout)(wake), 6500));
+    evs.forEach((n) => addEventListener(n, wake, { passive: true }));
+    addEventListener('load', () => setTimeout(() => (window.requestIdleCallback || setTimeout)(() => wake()), 6500));
   }
 
 
@@ -785,7 +787,7 @@
   const gForm = $('#grader-form'), gResult = $('.grader-result');
   if (gForm && gResult && innerWidth < 600) {
     const pill = document.createElement('button');
-    pill.type = 'button'; pill.className = 'grade-pill'; pill.setAttribute('aria-label', 'See your grade');
+    pill.type = 'button'; pill.className = 'grade-pill';
     pill.innerHTML = '<span class="gp-label">Your grade</span><span class="gp-name"></span><span class="gp-meter"><i></i></span>';
     document.body.appendChild(pill);
     const gpName = $('.gp-name', pill), gpBar = $('.gp-meter i', pill);
@@ -865,18 +867,18 @@
     const frame = () => {
       tk = false;
       const vh = innerHeight;
+      const ur = usps.map((c) => c.getBoundingClientRect()), hr = drifts.map((h) => h.getBoundingClientRect());
       usps.forEach((c, i) => {
-        const r = c.getBoundingClientRect();
+        const r = ur[i];
         if (r.bottom < -40 || r.top > vh + 40) return;
-        const next = usps[i + 1];
-        const p = next ? cl((r.bottom - next.getBoundingClientRect().top) / r.height) : 0;
+        const p = ur[i + 1] ? cl((r.bottom - ur[i + 1].top) / r.height) : 0;
         c.style.transform = 'scale(' + (1 - p * 0.07).toFixed(4) + ')';
         c.style.setProperty('--dim', p.toFixed(3));
         /* a card glows as it reaches the middle of the screen, like the spotlight on a laptop */
         c.style.setProperty('--lit', cl(1 - Math.abs((r.top + r.height / 2) / vh - 0.45) * 2.4).toFixed(3));
       });
       drifts.forEach((h, i) => {
-        const r = h.getBoundingClientRect();
+        const r = hr[i];
         if (r.bottom < 0 || r.top > vh) return;
         h.style.translate = (((r.top / vh) - 0.4) * (i % 2 ? 16 : -16)).toFixed(1) + 'px 0';
       });
@@ -885,7 +887,8 @@
     frame();
   }
   };
-  if (window.requestIdleCallback) requestIdleCallback(rest, { timeout: 700 }); else setTimeout(rest, 150);
+  const restAll = () => { rest(); if (hasGsap) { ScrollTrigger.sort(); ScrollTrigger.refresh(); } };
+  if (window.requestIdleCallback) requestIdleCallback(restAll, { timeout: 700 }); else setTimeout(restAll, 150);
 
   addEventListener('load', () => hasGsap && ScrollTrigger.refresh());
 })();
