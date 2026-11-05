@@ -431,7 +431,7 @@
   });
   if (cf) cf.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const msgs = { name: 'Your name, so I know who to reply to.', email: 'An email address I can actually reply to.', business: 'The name of your business, so I can build your mock-up.' };
+    const msgs = { name: 'Your name, so I know who to reply to.', email: 'An email address that works, so I can reply.', business: 'The name of your business, so I can build your mock-up.' };
     let first = null;
     Object.keys(msgs).forEach((k) => {
       const el = cf[k], err = $('#err-' + k), bad = !el.checkValidity();
@@ -507,7 +507,7 @@
       ['Dentist', 'Check-ups without the dread.', 'New patients welcome. Evening appointments available.', 'Book a check-up', ['Check-up £45', 'Hygienist £60', 'Whitening'], 'I didn\'t even mind going. Weird.', 'Bright Street Dental', [[4, 10], [46, 22], [44, 82]]],
       ['Trades', 'Fixed properly the first time.', 'Same-day call-outs and fixed prices you can see upfront.', 'Get a quote', ['Boiler service £79', 'Same-day call-outs', 'Fully insured'], 'Turned up on time and cleaned up after.', 'Ace Plumbing', [[60, 30], [10, 4], [36, 80]]],
       ['Cleaner', 'Come home to a clean house.', 'Weekly, fortnightly or a one-off deep clean.', 'Get a quote', ['Regular clean £16/hr', 'Deep clean', 'End of tenancy'], 'I didn\'t know my oven was that colour.', 'Shine & Co', [[40, 4], [8, 40], [50, 82]]],
-      ['Photographer', 'Photos you\'ll actually frame.', 'Weddings, portraits and brand shoots, booked a year ahead.', 'Check my dates', ['Weddings from £1,200', 'Portraits £150', 'Brand shoots'], 'We cried looking at them. Good crying.', 'Frame & Field', [[18, 0], [50, 30], [12, 84]]],
+      ['Photographer', 'Photos you\'ll want on the wall.', 'Weddings, portraits and brand shoots, booked a year ahead.', 'Check my dates', ['Weddings from £1,200', 'Portraits £150', 'Brand shoots'], 'We cried looking at them. Good crying.', 'Frame & Field', [[18, 0], [50, 30], [12, 84]]],
       ['Accountant', 'Your tax return, done before the panic.', 'Fixed monthly fees for sole traders and small companies.', 'Book a free call', ['Self assessment £150', 'Bookkeeping', 'VAT returns'], 'First January I haven\'t panicked.', 'Clear Books', [[62, 6], [20, 18], [8, 84]]],
       ['Florist', 'Flowers that make the card look lazy.', 'Same-day delivery across town, ordered in a minute.', 'Order flowers', ['Bouquets from £35', 'Same-day delivery', 'Weddings'], 'She said yes. The flowers helped.', 'Petal & Stem', [[24, 4], [60, 26], [16, 80]]],
       ['Tutor', 'Maths that finally makes sense.', 'GCSE and A level maths, online or in person.', 'Book a trial lesson', ['Trial lesson free', 'GCSE maths £35/hr', 'A level £40/hr'], 'Went from a 4 to a 7.', 'Top Marks Tutoring', [[52, 0], [4, 14], [34, 82]]],
