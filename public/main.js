@@ -617,7 +617,6 @@
   }
 
   /* BARGAIN: strike through the old price once you see it */
-  onceInView($('.stack-total'), () => $('.stack-total').classList.add('is-on'), 0.5);
 
   /* PRICING: monthly or yearly */
   const billBtns = $$('.bill .chip');

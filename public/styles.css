@@ -1587,3 +1587,11 @@ section[id] { scroll-margin-top: 0; }
 
 .faq-groups > [hidden] { display: none !important; }
 .freebies ul.is-short > li:nth-child(n+5) { display: none; }
+
+/* ===== Premium pass ===== */
+/* Header lines up with the page's own margins */
+.nav { width: calc(100% - 2 * var(--margin)); }
+/* The 2009 bakery site, in full */
+.b-table { width: 100%; border-collapse: collapse; margin: 6px 0 14px; font-size: 15px; }
+.b-table td { border: 1px solid #999; padding: 6px 8px; background: #fff; }
+.bx-desk .b-h { margin-top: 18px; }
