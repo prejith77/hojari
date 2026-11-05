@@ -164,6 +164,9 @@
     [3, 'Hojari', "Top grade. Honestly, you might not need me. Fancy a chat anyway?"],
     [3, 'Hojari', "Top grade. Honestly, you might not need me. Fancy a chat anyway?"],
   ];
+  /* Each grade picture comes in phone and laptop sizes */
+  const gradeSet = (i) => i === 3 ? 'assets/tear-poster-360.webp 360w, assets/tear-poster-460.webp 460w, assets/tear-poster.webp 720w'
+    : 'assets/tear-g' + i + '-360.webp 360w, assets/tear-g' + i + '-480.webp 480w, assets/tear-g' + i + '.webp 720w';
   const graderEl = $('#grader'), form = $('#grader-form');
   if (form) {
     let nameSplit = null;
@@ -176,6 +179,7 @@
       const changed = nameEl.textContent !== g;
       nameEl.textContent = g; lineEl.textContent = line;
       graderEl.dataset.grade = idx;
+      poster.srcset = gradeSet(idx);
       poster.src = idx === 3 ? 'assets/tear-poster.webp' : 'assets/tear-g' + idx + '.webp';
       if (changed && motion) {
         if (typeof SplitText !== 'undefined') nameSplit = SplitText.create(nameEl, { type: 'chars', mask: 'chars', charsClass: 'ch' });
@@ -662,6 +666,7 @@
     const setGrade = (idx, name, line) => {
       const nameEl = $('#grade-name'), lineEl = $('#grade-line'), poster = $('#grader-poster'), g = $('#grader');
       if (nameEl) nameEl.textContent = name; if (lineEl) lineEl.textContent = line;
+      if (poster) poster.srcset = gradeSet(idx);
       if (poster) poster.src = idx === 3 ? 'assets/tear-poster.webp' : 'assets/tear-g' + idx + '.webp';
       if (g) g.dataset.grade = idx;
     };
