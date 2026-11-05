@@ -138,7 +138,7 @@ main, .foot { position: relative; z-index: 1; }
 .grades-swipe { display: none; }
 
 /* GRADES: live, a held scene on desktop */
-.grades.is-live { height: 320vh; padding: 0; }
+.grades.is-live { height: 250vh; padding: 0; }
 .grades.is-live .grades-stage { position: sticky; top: 0; height: 100svh; padding: 110px var(--margin) 40px; display: flex; flex-direction: column; gap: 24px; }
 .grades.is-live .grades-title { font-size: var(--step-lead); max-width: 22ch; margin-bottom: 0; color: var(--muted); }
 .grades.is-live .grade-list { position: relative; flex: 1; min-height: 0; display: grid; align-items: center; }
@@ -1195,7 +1195,7 @@ h2 { font-size: calc(var(--step-head) * 1.14); line-height: .98; }
 .bx-seam { position: absolute; left: 0; right: 0; z-index: 3; top: 0; transform: translateY(calc((1 - var(--p, 0)) * var(--sh, 600px))); height: 2px; margin-top: -1px; background: var(--honey); box-shadow: 0 0 18px 4px rgba(227, 173, 92, .7); opacity: calc(min(var(--p, 0) * 20, 1) * min((1 - var(--p, 0)) * 20, 1)); pointer-events: none; }
 
 /* Live: the stage holds still while you scroll */
-.bx.is-live { height: 300vh; padding: 0; }
+.bx.is-live { height: 230vh; padding: 0; }
 .bx.is-live .bx-stage { position: sticky; top: 0; height: 100svh; padding: 90px var(--margin) 40px; }
 
 @media (max-width: 899px) {
@@ -1209,7 +1209,7 @@ h2 { font-size: calc(var(--step-head) * 1.14); line-height: .98; }
   .bx-screen { border-radius: 35px; }
   .x-h { font-size: 27px; }
 
-  .bx.is-live { height: 320vh; }
+  .bx.is-live { height: 250vh; }
   .bx.is-live .bx-stage { height: 100svh; padding: 76px 22px 16px; gap: 10px; grid-template-rows: auto auto minmax(0, 1fr) auto; align-content: stretch; }
   .bx.is-live .bx-copy { gap: 10px; }
   .bx.is-live h2 { font-size: clamp(2rem, 9vw, 2.5rem); }
@@ -1557,3 +1557,33 @@ section[id] { scroll-margin-top: 0; }
 @media (max-width: 899px) { .hero-title { font-size: min(10.2vw, 3.3rem); } }
 @media (min-width: 600px) and (max-width: 899px) { .hero-title { font-size: min(8.4vw, 4.6rem); } }
 @media (min-width: 600px) and (max-width: 899px) { .hero-title { font-size: min(10vw, 5.4rem); } }
+
+/* ===== Shorter, calmer page ===== */
+.faq-more { margin-top: 28px; min-height: 52px; padding: 0 28px; border: 0; border-radius: 999px; background: var(--ink); color: var(--paper); font: 500 1rem/1 var(--sans); cursor: pointer; transition: transform .16s var(--ease-out), background-color .2s; }
+.faq-more:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .faq-more:hover { background: #2a2118; } }
+.plan ul.is-short > li:nth-child(n+6) { display: none; }
+.plan-more { justify-self: start; min-height: 44px; padding: 0 18px; border: 1px solid currentColor; border-radius: 999px; background: transparent; color: inherit; opacity: .8; font: 500 .9375rem/1 var(--sans); cursor: pointer; }
+.hero-note { transition: opacity .3s var(--ease-out); }
+.hero-note.is-gone { opacity: 0; }
+/* Ordered steps keep their dots and the fill as you scroll, without index numbers */
+.step-n, .bx-notes li::before, .case-list li::before { font-size: 0; }
+.step-n { width: 22px; height: 22px; margin: 21px; }
+.bx-notes li::before { width: 10px; height: 10px; top: 22px; left: 22px; }
+.bx-notes li { padding-left: 44px; }
+.case-list li::before { width: 10px; height: 10px; top: 8px; left: 8px; background: var(--honey); }
+.case-list li { padding-left: 32px; }
+@media (max-width: 899px) { .step-n { width: 18px; height: 18px; margin: 17px; } }
+/* Nothing meant to be read under 14px */
+.hero-note, .reassure, .credits, .foot-last, .card-meta, .apps-note, .grade-rank, .gp-label, .st-label, .bx-cap, .webcheck p, .plan-for { font-size: max(14px, 1em); }
+.grade-rank { font-size: 15px; letter-spacing: 0; text-transform: none; }
+/* Phones: the price switch becomes a full-width bar, the menu button sits by the main button */
+@media (max-width: 899px) {
+  .pricing > .bill.is-floating { width: auto; margin: 0 -22px 18px; border-radius: 0; border: 0; justify-content: center; padding: 8px; background: var(--night); box-shadow: 0 1px 0 rgba(243, 239, 230, .06); }
+  .wordmark { margin-right: auto; }
+  .menu-btn { margin-left: auto; margin-right: 6px; }
+}
+@media (min-width: 600px) and (max-width: 899px) { .pricing > .bill.is-floating { margin: 0 -48px 18px; } }
+
+.faq-groups > [hidden] { display: none !important; }
+.freebies ul.is-short > li:nth-child(n+5) { display: none; }

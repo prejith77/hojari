@@ -143,70 +143,66 @@
   </div>
 </section>
 
-<section class="build" id="build" aria-labelledby="build-title">
-  <div class="build-head">
-    <h2 id="build-title" class="split">Build yours in <em>ten seconds</em></h2>
-    <p>Type your business name, pick what you do and what you need, and watch a homepage put itself together. Or press Surprise me if you're feeling brave.</p>
-  </div>
-  <div class="build-grid">
-    <div class="mock-stage">
-      <div class="mock" id="mock" data-view="laptop" aria-hidden="true" data-ui>
-        <div class="mock-bar"><i></i><i></i><i></i><span class="mock-url" id="m-url">yourbusiness.co.uk</span></div>
-        <div class="mock-page" id="m-page">
-          <div class="m-nav"><b id="m-logo">Your Business</b><span class="m-link">About</span><span class="m-link">Services</span><span class="m-pill" id="m-cta1">Order ahead</span><span class="m-burger"><i></i><i></i></span></div>
-          <div class="m-hero">
-            <div class="m-hero-text"><p class="m-h" id="m-head">Good coffee, two minutes from your desk.</p><p class="m-sub" id="m-sub">Open from 7. Order ahead and skip the queue.</p><span class="m-btn" id="m-cta2">Order ahead</span></div>
-            <div class="m-art"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
-          </div>
-          <div class="m-sec m-book" data-f="booking" hidden><b>Book online</b><div class="m-days"><span class="on">Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span></div><div class="m-slots"><span>09:00</span><span class="on">10:30</span><span>12:00</span><span>14:30</span></div></div>
-          <div class="m-sec m-tiles" data-f="prices"><div><b id="m-t1">Flat white £3.20</b></div><div><b id="m-t2">Breakfast till 11</b></div><div><b id="m-t3">Cakes baked here</b></div></div>
-          <div class="m-sec m-reviews" data-f="reviews"><p class="m-quote" id="m-quote">"Best flat white on the high street."</p><span>Rated 4.9 from 212 Google reviews</span></div>
-          <div class="m-sec m-gallery" data-f="gallery" hidden><i></i><i></i><i></i><i></i></div>
-          <div class="m-sec m-map" data-f="map" hidden><div class="m-mapart"><i></i><i></i><i></i><b></b></div><div><b>Find us</b><span>Open today till 6</span></div></div>
-          <div class="m-foot"><span id="m-copy">© Your Business</span><span>Privacy</span></div>
-          <span class="m-wa" data-f="whatsapp" hidden>Chat on WhatsApp</span>
-        </div>
+<section class="ba-sec bx" id="before-after" aria-labelledby="ba-title">
+  <div class="bx-stage">
+    <div class="bx-copy">
+      <h2 id="ba-title" class="split">Same bakery. <em>Different grade.</em></h2>
+      <p class="bx-lede">Keep scrolling and watch a tired website turn into one that sells bread.</p>
+      <div class="bx-toggle" role="group" aria-label="Show before or after">
+        <button type="button" class="is-on" data-to="0" aria-pressed="true">Before</button><button type="button" data-to="1" aria-pressed="false">After</button><i></i>
       </div>
+      <ol class="bx-notes">
+        <li data-at="0"><b>The before.</b> A website plenty of businesses still have. Go on, try reading the opening hours.</li>
+        <li data-at="0.18"><b>Made for a phone.</b> Nobody has to pinch and zoom to find the opening hours.</li>
+        <li data-at="0.4"><b>Order from bed.</b> Orders open until 10pm, ready to collect at 7.</li>
+        <li data-at="0.62"><b>Reviews up front.</b> 380 happy locals do the selling, so the bakery doesn't have to.</li>
+        <li data-at="0.84"><b>The call button follows your thumb.</b> Wherever you are on the page, ordering is one tap away.</li>
+      </ol>
     </div>
-    <form class="build-controls" id="build-form" onsubmit="return false">
-      <div class="name-row">
-        <label class="field"><input id="b-name" name="bname" maxlength="26" placeholder=" " autocomplete="organization"><span>Your business name</span></label>
-        <button type="button" class="surprise" id="b-surprise">Surprise me</button>
-      </div>
-      <fieldset class="pick">
-        <legend>What do you do?</legend>
-        <div class="chips" id="b-types"></div>
-      </fieldset>
-      <fieldset class="pick">
-        <legend>What does it need?</legend>
-        <div class="chips" id="b-feats">
-          <button type="button" class="chip" data-f="booking" aria-pressed="false">Online booking</button><button type="button" class="chip is-on" data-f="prices" aria-pressed="true">Prices</button><button type="button" class="chip is-on" data-f="reviews" aria-pressed="true">Reviews</button><button type="button" class="chip" data-f="gallery" aria-pressed="false">Gallery</button><button type="button" class="chip" data-f="map" aria-pressed="false">Map</button><button type="button" class="chip" data-f="whatsapp" aria-pressed="false">WhatsApp button</button>
+    <div class="bx-device" data-ui>
+      <div class="bx-chip" aria-hidden="true"><span class="bx-g bx-g0">Shaabi</span><span class="bx-g bx-g1">Hojari</span></div>
+      <div class="bx-phone">
+        <div class="bx-screen">
+          <div class="bx-before" role="img" aria-label="Before: an old desktop website, squeezed onto a phone">
+            <div class="bx-desk">
+              <div class="b-top">RIVERSIDE BAKERY</div>
+              <div class="b-menu"><u>Home</u> | <u>About Us</u> | <u>Our History</u> | <u>Products</u> | <u>Gallery</u> | <u>News</u> | <u>Links</u> | <u>Contact Us</u></div>
+              <div class="bx-desk-body">
+                <div>
+                  <p class="b-h">Welcome to our website!!</p>
+                  <p>Riverside Bakery was established in 1987 by the Thompson family and we have been baking bread for the local community ever since. We pride ourselves on quality and service. Please browse our website to find out more about us and our range of products which are available in store during normal opening hours.</p>
+                  <p>Our products include white bread, brown bread, rolls, cakes and much more. Please telephone us for prices.</p>
+                  <p class="b-tiny">Last updated: March 2017 &nbsp; | &nbsp; Best viewed in Internet Explorer</p>
+                </div>
+                <div class="b-img">image coming soon</div>
+              </div>
+              <div class="b-foot">Tel: 01234 567890 &nbsp;&nbsp; Fax: 01234 567891 &nbsp;&nbsp; Visitors: 004213</div>
+            </div>
+          </div>
+          <div class="bx-after" role="img" aria-label="After: a Hojari website for the same bakery">
+            <div class="x-bar"><b>Riverside Bakery</b><span class="x-menu"><i></i><i></i></span></div>
+            <div class="x-hero">
+              <p class="x-kick">Mill Street, since 1987</p>
+              <p class="x-h">Fresh bread by 7am, every day.</p>
+              <p class="x-sub">Sourdough, pastries and proper coffee. Order tonight, collect warm in the morning.</p>
+              <span class="x-btn">Order for tomorrow</span>
+            </div>
+            <p class="x-stars"><b>4.9</b> from 380 Google reviews</p>
+            <div class="x-list">
+              <p><span>Sourdough loaf</span><b>£4.20</b></p>
+              <p><span>Cinnamon bun</span><b>£2.80</b></p>
+              <p><span>Flat white</span><b>£3.10</b></p>
+            </div>
+            <div class="x-dock"><span>Call</span><span class="x-dock-main">Order now</span></div>
+          </div>
+          <i class="bx-seam" aria-hidden="true"></i>
         </div>
-      </fieldset>
-      <div class="pick-row">
-        <fieldset class="pick">
-          <legend>Pick a look</legend>
-          <div class="chips" id="b-looks">
-            <button type="button" class="chip is-on" aria-pressed="true"><i style="background:#9a4f12"></i>Warm</button><button type="button" class="chip" aria-pressed="false"><i style="background:#2b5a42"></i>Fresh</button><button type="button" class="chip" aria-pressed="false"><i style="background:#e05a2b"></i>Bold</button>
-          </div>
-        </fieldset>
-        <fieldset class="pick view-pick">
-          <legend>View it on</legend>
-          <div class="chips" id="b-view">
-            <button type="button" class="chip is-on" data-v="laptop" aria-pressed="true">Laptop</button><button type="button" class="chip" data-v="phone" aria-pressed="false">Phone</button>
-          </div>
-        </fieldset>
       </div>
-      <a class="button button-light magnetic" id="b-send" href="mailto:hello@hojari.co.uk?subject=My%20homepage">Send me the real version</a>
-      <p class="build-note">I'll send back a proper mock-up of your real homepage. It costs nothing, and you won't get a sales call every Tuesday after.</p>
-    </form>
+      <p class="bx-note">A made-up bakery, to show the difference.</p>
+    </div>
   </div>
 </section>
 
-<section class="promise" id="promise" aria-label="How I look after you">
-  <p class="promise-text promise-big"><span class="sr">You'll have my WhatsApp, and I'm rubbish at ignoring it.</span><span class="lit" aria-hidden="true">You'll have my WhatsApp, and I'm rubbish at ignoring it.</span></p>
-  <p class="promise-small">I reply the same day in UK hours. If something breaks on a Friday night, I'm the one fixing it, and I'll tell you when it's sorted.</p>
-</section>
 
 <section class="usp" id="why" aria-labelledby="usp-title">
   <div class="usp-head">
@@ -299,66 +295,66 @@
   </div>
 </section>
 
-<section class="ba-sec bx" id="before-after" aria-labelledby="ba-title">
-  <div class="bx-stage">
-    <div class="bx-copy">
-      <h2 id="ba-title" class="split">Same bakery. <em>Different grade.</em></h2>
-      <p class="bx-lede">Keep scrolling and watch a tired website turn into one that sells bread.</p>
-      <div class="bx-toggle" role="group" aria-label="Show before or after">
-        <button type="button" class="is-on" data-to="0" aria-pressed="true">Before</button><button type="button" data-to="1" aria-pressed="false">After</button><i></i>
-      </div>
-      <ol class="bx-notes">
-        <li data-at="0"><b>The before.</b> A website plenty of businesses still have. Go on, try reading the opening hours.</li>
-        <li data-at="0.18"><b>Made for a phone.</b> Nobody has to pinch and zoom to find the opening hours.</li>
-        <li data-at="0.4"><b>Order from bed.</b> Orders open until 10pm, ready to collect at 7.</li>
-        <li data-at="0.62"><b>Reviews up front.</b> 380 happy locals do the selling, so the bakery doesn't have to.</li>
-        <li data-at="0.84"><b>The call button follows your thumb.</b> Wherever you are on the page, ordering is one tap away.</li>
-      </ol>
-    </div>
-    <div class="bx-device" data-ui>
-      <div class="bx-chip" aria-hidden="true"><span class="bx-g bx-g0">Shaabi</span><span class="bx-g bx-g1">Hojari</span></div>
-      <div class="bx-phone">
-        <div class="bx-screen">
-          <div class="bx-before" role="img" aria-label="Before: an old desktop website, squeezed onto a phone">
-            <div class="bx-desk">
-              <div class="b-top">RIVERSIDE BAKERY</div>
-              <div class="b-menu"><u>Home</u> | <u>About Us</u> | <u>Our History</u> | <u>Products</u> | <u>Gallery</u> | <u>News</u> | <u>Links</u> | <u>Contact Us</u></div>
-              <div class="bx-desk-body">
-                <div>
-                  <p class="b-h">Welcome to our website!!</p>
-                  <p>Riverside Bakery was established in 1987 by the Thompson family and we have been baking bread for the local community ever since. We pride ourselves on quality and service. Please browse our website to find out more about us and our range of products which are available in store during normal opening hours.</p>
-                  <p>Our products include white bread, brown bread, rolls, cakes and much more. Please telephone us for prices.</p>
-                  <p class="b-tiny">Last updated: March 2017 &nbsp; | &nbsp; Best viewed in Internet Explorer</p>
-                </div>
-                <div class="b-img">image coming soon</div>
-              </div>
-              <div class="b-foot">Tel: 01234 567890 &nbsp;&nbsp; Fax: 01234 567891 &nbsp;&nbsp; Visitors: 004213</div>
-            </div>
+
+<section class="build" id="build" aria-labelledby="build-title">
+  <div class="build-head">
+    <h2 id="build-title" class="split">Build yours in <em>ten seconds</em></h2>
+    <p>Type your business name, pick what you do and what you need, and watch a homepage put itself together. Or press Surprise me if you're feeling brave.</p>
+  </div>
+  <div class="build-grid">
+    <div class="mock-stage">
+      <div class="mock" id="mock" data-view="laptop" aria-hidden="true" data-ui>
+        <div class="mock-bar"><i></i><i></i><i></i><span class="mock-url" id="m-url">yourbusiness.co.uk</span></div>
+        <div class="mock-page" id="m-page">
+          <div class="m-nav"><b id="m-logo">Your Business</b><span class="m-link">About</span><span class="m-link">Services</span><span class="m-pill" id="m-cta1">Order ahead</span><span class="m-burger"><i></i><i></i></span></div>
+          <div class="m-hero">
+            <div class="m-hero-text"><p class="m-h" id="m-head">Good coffee, two minutes from your desk.</p><p class="m-sub" id="m-sub">Open from 7. Order ahead and skip the queue.</p><span class="m-btn" id="m-cta2">Order ahead</span></div>
+            <div class="m-art"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
           </div>
-          <div class="bx-after" role="img" aria-label="After: a Hojari website for the same bakery">
-            <div class="x-bar"><b>Riverside Bakery</b><span class="x-menu"><i></i><i></i></span></div>
-            <div class="x-hero">
-              <p class="x-kick">Mill Street, since 1987</p>
-              <p class="x-h">Fresh bread by 7am, every day.</p>
-              <p class="x-sub">Sourdough, pastries and proper coffee. Order tonight, collect warm in the morning.</p>
-              <span class="x-btn">Order for tomorrow</span>
-            </div>
-            <p class="x-stars"><b>4.9</b> from 380 Google reviews</p>
-            <div class="x-list">
-              <p><span>Sourdough loaf</span><b>£4.20</b></p>
-              <p><span>Cinnamon bun</span><b>£2.80</b></p>
-              <p><span>Flat white</span><b>£3.10</b></p>
-            </div>
-            <div class="x-dock"><span>Call</span><span class="x-dock-main">Order now</span></div>
-          </div>
-          <i class="bx-seam" aria-hidden="true"></i>
+          <div class="m-sec m-book" data-f="booking" hidden><b>Book online</b><div class="m-days"><span class="on">Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span></div><div class="m-slots"><span>09:00</span><span class="on">10:30</span><span>12:00</span><span>14:30</span></div></div>
+          <div class="m-sec m-tiles" data-f="prices"><div><b id="m-t1">Flat white £3.20</b></div><div><b id="m-t2">Breakfast till 11</b></div><div><b id="m-t3">Cakes baked here</b></div></div>
+          <div class="m-sec m-reviews" data-f="reviews"><p class="m-quote" id="m-quote">"Best flat white on the high street."</p><span>Rated 4.9 from 212 Google reviews</span></div>
+          <div class="m-sec m-gallery" data-f="gallery" hidden><i></i><i></i><i></i><i></i></div>
+          <div class="m-sec m-map" data-f="map" hidden><div class="m-mapart"><i></i><i></i><i></i><b></b></div><div><b>Find us</b><span>Open today till 6</span></div></div>
+          <div class="m-foot"><span id="m-copy">© Your Business</span><span>Privacy</span></div>
+          <span class="m-wa" data-f="whatsapp" hidden>Chat on WhatsApp</span>
         </div>
       </div>
-      <p class="bx-note">A made-up bakery, to show the difference.</p>
     </div>
+    <form class="build-controls" id="build-form" onsubmit="return false">
+      <div class="name-row">
+        <label class="field"><input id="b-name" name="bname" maxlength="26" placeholder=" " autocomplete="organization"><span>Your business name</span></label>
+        <button type="button" class="surprise" id="b-surprise">Surprise me</button>
+      </div>
+      <fieldset class="pick">
+        <legend>What do you do?</legend>
+        <div class="chips" id="b-types"></div>
+      </fieldset>
+      <fieldset class="pick">
+        <legend>What does it need?</legend>
+        <div class="chips" id="b-feats">
+          <button type="button" class="chip" data-f="booking" aria-pressed="false">Online booking</button><button type="button" class="chip is-on" data-f="prices" aria-pressed="true">Prices</button><button type="button" class="chip is-on" data-f="reviews" aria-pressed="true">Reviews</button><button type="button" class="chip" data-f="gallery" aria-pressed="false">Gallery</button><button type="button" class="chip" data-f="map" aria-pressed="false">Map</button><button type="button" class="chip" data-f="whatsapp" aria-pressed="false">WhatsApp button</button>
+        </div>
+      </fieldset>
+      <div class="pick-row">
+        <fieldset class="pick">
+          <legend>Pick a look</legend>
+          <div class="chips" id="b-looks">
+            <button type="button" class="chip is-on" aria-pressed="true"><i style="background:#9a4f12"></i>Warm</button><button type="button" class="chip" aria-pressed="false"><i style="background:#2b5a42"></i>Fresh</button><button type="button" class="chip" aria-pressed="false"><i style="background:#e05a2b"></i>Bold</button>
+          </div>
+        </fieldset>
+        <fieldset class="pick view-pick">
+          <legend>View it on</legend>
+          <div class="chips" id="b-view">
+            <button type="button" class="chip is-on" data-v="laptop" aria-pressed="true">Laptop</button><button type="button" class="chip" data-v="phone" aria-pressed="false">Phone</button>
+          </div>
+        </fieldset>
+      </div>
+      <a class="button button-light magnetic" id="b-send" href="mailto:hello@hojari.co.uk?subject=My%20homepage">Send me the real version</a>
+      <p class="build-note">I'll send back a proper mock-up of your real homepage. It costs nothing, and you won't get a sales call every Tuesday after.</p>
+    </form>
   </div>
 </section>
-
 <section class="services" id="services" aria-labelledby="services-title">
   <div class="services-head">
     <h2 id="services-title" class="split">What's <em>included</em></h2>
@@ -479,10 +475,7 @@
     <tbody>
       <tr><th scope="row">Upfront cost</th><td>Often £1,500 or more</td><td class="us">£0</td></tr>
       <tr><th scope="row">Your homepage</th><td>After you've paid</td><td class="us">Free mock-up in 48 hours, before you pay</td></tr>
-      <tr><th scope="row">Time to go live</th><td>Weeks, often months</td><td class="us">5 days</td></tr>
       <tr><th scope="row">Changes</th><td>Raise a ticket and wait</td><td class="us">WhatsApp me, live within 48 hours</td></tr>
-      <tr><th scope="row">Who you talk to</th><td>An account manager</td><td class="us">Me, the person who built it</td></tr>
-      <tr><th scope="row">Contract</th><td>Often a year or more</td><td class="us">3 months, then cancel anytime</td></tr>
       <tr><th scope="row">Not happy?</th><td>Rarely a refund</td><td class="us">Money back in your first 30 days</td></tr>
     </tbody>
   </table>
@@ -495,8 +488,8 @@
       <button type="button" class="chip is-on" data-bill="m" aria-pressed="true">Monthly</button><button type="button" class="chip" data-bill="y" aria-pressed="false">Yearly <i>2 months free</i></button>
     </div>
   </div>
-  <p class="founding"><b>Founding offer.</b> I'm taking on my first 10 businesses at these prices, locked in for as long as you stay.</p>
-  <p class="pricing-sub">No setup fee and no long contract. Stay three months, then cancel whenever you like. If you're not happy in your first 30 days, you get your money back. If you're in Oman or the Gulf, I'll quote you in rials or dirhams.</p>
+  <p class="founding"><b>Founding prices.</b> Lock in today's rate for as long as you stay.</p>
+  <p class="pricing-sub">No setup fee, cancel any time after three months, and your money back if you're not happy in the first 30. Prices in rials or dirhams for Oman and the Gulf.</p>
   <div class="plans">
     <article class="plan spot">
       <h3>Silver</h3>
@@ -569,36 +562,6 @@
   </div>
 </section>
 
-<section class="how" id="how" aria-labelledby="how-title">
-  <div class="how-head">
-    <h2 id="how-title" class="split">How it <em>works</em></h2>
-    <p>Four steps, and you see your own homepage at step two, before you've paid anything.</p>
-    <a class="button button-dark magnetic" href="#contact">Get your free mock-up</a>
-  </div>
-  <ol class="steps">
-    <li class="step"><span class="step-n">1</span><div><h3>A short call</h3><p>Fifteen minutes on video or WhatsApp. You tell me what you sell, who buys it, and what drives you mad about your current site.</p></div></li>
-    <li class="step"><span class="step-n">2</span><div><h3>Your homepage in 48 hours</h3><p>You get a mock-up of your own homepage, built around your business. Love it and we carry on. Don't, and you owe me nothing.</p></div></li>
-    <li class="step"><span class="step-n">3</span><div><h3>Live in 5 days</h3><p>I write the words with you and build every page. You're live within five days of sending your photos, with your Google profile sorted too.</p></div></li>
-    <li class="step"><span class="step-n">4</span><div><h3>Looked after</h3><p>Every month I make your changes, keep the site fast and safe, and on Royal Green I send you a short report in plain English. You can WhatsApp me any time.</p></div></li>
-    <li class="steps-line" aria-hidden="true"><b></b></li>
-  </ol>
-</section>
-
-<section class="palette" id="palette" aria-labelledby="palette-title">
-  <div class="palette-head">
-    <h2 id="palette-title" class="split">Why it looks <em>like this</em></h2>
-    <p>Every colour on this site comes from frankincense or the place it grows in Oman.<span class="desk-only"> Hover over one.</span></p>
-  </div>
-  <ul class="swatches">
-    <li class="sw" tabindex="0" style="--c:#120d09;--t:#f2f0eb"><b>Burner black</b><span class="hex">#120D09</span><p>The charcoal in an Omani incense burner. It's the background, so your work is the brightest thing on the screen.</p></li>
-    <li class="sw is-open" tabindex="0" style="--c:#d7dcc7;--t:#17120c"><b>Hojari pale</b><span class="hex">#D7DCC7</span><p>The colour of a top-grade tear, pale with a hint of green. It's the grade this whole studio is named after.</p></li>
-    <li class="sw" tabindex="0" style="--c:#e3ad5c;--t:#17120c"><b>Honey</b><span class="hex">#E3AD5C</span><p>What resin looks like held up to the light. I use it for anything you can press.</p></li>
-    <li class="sw" tabindex="0" style="--c:#b8661d;--t:#f2f0eb"><b>Amber</b><span class="hex">#B8661D</span><p>Lower-grade resin, warmer and rougher. It turns up for contrast, the way Shaabi does in the grades.</p></li>
-    <li class="sw" tabindex="0" style="--c:#e7e3db;--t:#17120c"><b>Dhofar stone</b><span class="hex">#E7E3DB</span><p>The pale ground the trees grow out of. It's behind the pages you read, because it's easier on the eyes than bright white.</p></li>
-    <li class="sw" tabindex="0" style="--c:#2b5a42;--t:#f2f0eb"><b>Khareef green</b><span class="hex">#2B5A42</span><p>Every summer the monsoon turns Dhofar green for a few weeks. It shows up here now and then, about as often as Dhofar gets it.</p></li>
-  </ul>
-</section>
-
 <section class="about" id="about" aria-labelledby="about-title">
   <div class="about-grid">
     <figure class="portrait" data-tilt>
@@ -635,6 +598,22 @@
     </div>
   </div>
 </section>
+<section class="how" id="how" aria-labelledby="how-title">
+  <div class="how-head">
+    <h2 id="how-title" class="split">How it <em>works</em></h2>
+    <p>Four steps, and you see your own homepage at step two, before you've paid anything.</p>
+    <a class="button button-dark magnetic" href="#contact">Get your free mock-up</a>
+  </div>
+  <ol class="steps">
+    <li class="step"><span class="step-n">1</span><div><h3>A short call</h3><p>Fifteen minutes on video or WhatsApp. You tell me what you sell, who buys it, and what drives you mad about your current site.</p></div></li>
+    <li class="step"><span class="step-n">2</span><div><h3>Your homepage in 48 hours</h3><p>You get a mock-up of your own homepage, built around your business. Love it and we carry on. Don't, and you owe me nothing.</p></div></li>
+    <li class="step"><span class="step-n">3</span><div><h3>Live in 5 days</h3><p>I write the words with you and build every page. You're live within five days of sending your photos, with your Google profile sorted too.</p></div></li>
+    <li class="step"><span class="step-n">4</span><div><h3>Looked after</h3><p>Every month I make your changes, keep the site fast and safe, and on Royal Green I send you a short report in plain English. You can WhatsApp me any time.</p></div></li>
+    <li class="steps-line" aria-hidden="true"><b></b></li>
+  </ol>
+</section>
+
+
 
 <section class="faq" id="faq" aria-labelledby="faq-title">
   <div class="faq-head">

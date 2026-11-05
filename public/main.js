@@ -71,6 +71,10 @@
     addEventListener('keydown', (e) => { if (e.key === 'Escape' && menuBtn.getAttribute('aria-expanded') === 'true') { setMenu(false); menuBtn.focus(); } });
   }
 
+  /* The small note under the hero fades before it reaches the header */
+  const hNote = $('.hero-note');
+  if (hNote) new IntersectionObserver(([e]) => hNote.classList.toggle('is-gone', !e.isIntersecting), { rootMargin: '-120px 0px 0px 0px' }).observe(hNote);
+
   /* Nav tightens once you start scrolling */
   const nav = $('#nav');
   const navCheck = () => nav.classList.toggle('scrolled', scrollY > 80);
@@ -803,6 +807,7 @@
     const sync = () => pill.classList.toggle('is-on', inForm && !resultShown);
     new IntersectionObserver(([e]) => { inForm = e.isIntersecting; sync(); }, { rootMargin: '-15% 0px -35% 0px' }).observe(gForm);
     new IntersectionObserver(([e]) => { resultShown = e.isIntersecting; sync(); }, { threshold: 0.3 }).observe(gResult);
+    const wc = $('.webcheck'); if (wc) new IntersectionObserver(([e]) => { if (e.isIntersecting) { inForm = false; sync(); } }, { threshold: 0.01 }).observe(wc);
   }
 
   /* Pricing: the monthly / yearly switch rides along with the plans, so you see the prices change */
@@ -810,7 +815,7 @@
   if (bill && plansEl && innerWidth < 900) { plansEl.parentNode.insertBefore(bill, plansEl); bill.classList.add('is-floating'); }
 
   /* Pricing: long plan lists fold on phones, with everything one tap away */
-  if (innerWidth < 900) $$('.plan ul').forEach((ul) => {
+  $$('.plan ul').forEach((ul) => {
     const n = $$(':scope > li', ul).length;
     if (n <= 5) return;
     ul.classList.add('is-short');
@@ -825,6 +830,38 @@
       if (hasGsap) ScrollTrigger.refresh();
     });
   });
+
+  /* Free with every plan: four show, the rest one tap away */
+  const fl = $('.freebies ul');
+  if (fl && $$(':scope > li', fl).length > 4) {
+    const n = $$(':scope > li', fl).length;
+    fl.classList.add('is-short');
+    const more = document.createElement('button');
+    more.type = 'button'; more.className = 'plan-more'; more.setAttribute('aria-expanded', 'false'); more.textContent = 'Show all ' + n + ' extras';
+    fl.after(more);
+    more.addEventListener('click', () => { const open = !fl.classList.toggle('is-short'); more.setAttribute('aria-expanded', open); more.textContent = open ? 'Show fewer' : 'Show all ' + n + ' extras'; if (hasGsap) ScrollTrigger.refresh(); });
+  }
+
+  /* FAQ: the money questions show, the rest wait behind one button */
+  const fGroups = $('.faq-groups');
+  if (fGroups) {
+    const kids = [...fGroups.children], firstQs = kids.findIndex((k) => k.classList.contains('qas'));
+    const rest = kids.slice(firstQs + 1);
+    const total = $$('.qa', fGroups).length;
+    if (rest.length) {
+      rest.forEach((k) => { k.hidden = true; });
+      const more = document.createElement('button');
+      more.type = 'button'; more.className = 'faq-more'; more.setAttribute('aria-expanded', 'false');
+      more.textContent = 'Show all ' + total + ' questions';
+      fGroups.appendChild(more);
+      more.addEventListener('click', () => {
+        rest.forEach((k) => { k.hidden = false; });
+        more.remove();
+        if (hasGsap) ScrollTrigger.refresh();
+        const q = rest.find((k) => k.classList.contains('qas')); const s = q && $('summary', q); if (s) s.focus({ preventScroll: true });
+      });
+    }
+  }
 
   /* Pricing: Royal Green, the one most people pick, lights up as it arrives */
   const best = $('.plan-best');
