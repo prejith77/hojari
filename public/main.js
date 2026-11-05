@@ -48,7 +48,27 @@
     $$('a[href^="#"]').forEach((a) => a.addEventListener('click', (e) => {
       const id = a.getAttribute('href'); const el = id.length > 1 && $(id); if (!el) return;
       e.preventDefault(); lenis.scrollTo(el, { offset: id === '#top' ? 0 : -20, duration: 1.4 });
+      history.pushState(null, '', id);
+      if (!el.matches('a, button, input, [tabindex]')) el.setAttribute('tabindex', '-1');
+      el.focus({ preventScroll: true });
     }));
+  }
+
+  /* The menu on phones and tablets */
+  const menuBtn = $('.menu-btn'), menu = $('#menu');
+  if (menuBtn && menu) {
+    const setMenu = (open) => {
+      menuBtn.setAttribute('aria-expanded', open);
+      $('#nav').classList.toggle('is-open', open);
+      document.documentElement.classList.toggle('menu-open', open);
+      if (open) {
+        if (motion) gsap.fromTo($$('a', menu), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out', stagger: 0.04 });
+        $('a', menu).focus({ preventScroll: true });
+      }
+    };
+    menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
+    $$('a', menu).forEach((a) => a.addEventListener('click', () => setMenu(false)));
+    addEventListener('keydown', (e) => { if (e.key === 'Escape' && menuBtn.getAttribute('aria-expanded') === 'true') { setMenu(false); menuBtn.focus(); } });
   }
 
   /* Nav tightens once you start scrolling */
@@ -221,6 +241,12 @@
     const dist = () => Math.max(0, track.scrollWidth - win.clientWidth);
     const run = gsap.to(track, { x: () => -dist(), ease: 'none',
       scrollTrigger: { trigger: work, pin: true, scrub: 1, start: 'top top', end: () => '+=' + dist(), invalidateOnRefresh: true } });
+    $$('.card-link', work).forEach((link) => link.addEventListener('focus', () => {
+      const st = run.scrollTrigger; if (!st) return;
+      const share = Math.min(1, link.closest('.card').offsetLeft / Math.max(1, dist()));
+      const y = st.start + (st.end - st.start) * share;
+      if (lenis) lenis.scrollTo(y, { immediate: true }); else scrollTo(0, y);
+    }));
     $$('.card-media img', work).forEach((img) => gsap.fromTo(img, { xPercent: -4, scale: 1.12 }, { xPercent: 4, scale: 1.12, ease: 'none',
       scrollTrigger: { containerAnimation: run, trigger: img.closest('.card'), start: 'left right', end: 'right left', scrub: true } }));
   }
@@ -403,8 +429,16 @@
   });
   if (cf) cf.addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!cf.reportValidity()) return;
-    const data = { name: cf.name.value.trim(), email: cf.email.value.trim(), business: cf.business.value.trim(), website: cf.website.value.trim(), context: ctxField.value };
+    const msgs = { name: 'Your name, so I know who to reply to.', email: 'An email address I can actually reply to.', business: 'The name of your business, so I can build your mock-up.' };
+    let first = null;
+    Object.keys(msgs).forEach((k) => {
+      const el = cf[k], err = $('#err-' + k), bad = !el.checkValidity();
+      el.setAttribute('aria-invalid', bad); el.closest('.field').classList.toggle('is-bad', bad);
+      err.textContent = bad ? msgs[k] : '';
+      if (bad && !first) first = el;
+    });
+    if (first) { first.focus(); return; }
+    const data = { name: cf.name.value.trim(), email: cf.email.value.trim(), business: cf.business.value.trim(), website: cf.website.value.trim(), context: ctxField.value, _gotcha: cf._gotcha ? cf._gotcha.value : '' };
     const btn = $('.send', cf);
     if (FORM_ENDPOINT) {
       btn.disabled = true; btn.textContent = 'Sending…';
@@ -744,9 +778,9 @@
   if (motion && !desktop) {
     const cl = (v) => Math.min(1, Math.max(0, v));
     /* The six promises stack up as you scroll, each one sinking back under the next */
-    const usps = $$('.usp-card');
+    const usps = innerWidth < 600 ? $$('.usp-card') : []; /* tablets get a two-column grid instead */
     usps.forEach((c, i) => c.style.setProperty('--i', i));
-    document.documentElement.classList.add('m-stack');
+    if (usps.length) document.documentElement.classList.add('m-stack');
     /* Big headings drift a touch as they pass */
     const drifts = $$('main h2').filter((h) => !h.closest('.bx, .grades, .contact'));
     let tk = false;

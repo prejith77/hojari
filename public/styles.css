@@ -1324,3 +1324,84 @@ html { text-size-adjust: 100%; }
 
 /* The bakery page inside the phone is laid out at one size and shrunk to fit smaller frames */
 .bx-after { zoom: var(--az, 1); }
+
+/* ===== Tablets held upright (600–899px): their own layout, not a stretched phone ===== */
+@media (min-width: 600px) and (max-width: 899px) {
+  :root { --m-pad: 112px; }
+  .hero, .usp, .grader, .services, .pricing, .how, .faq, .build, .case, .apps, .bargain, .palette, .ba-sec, .contact, .promise, .bx { padding-left: 48px; padding-right: 48px; }
+  .work-intro, .work-track, .about-grid { padding-left: 48px; padding-right: 48px; }
+  .foot-line, .foot-grid, .credits, .foot-last { padding-left: 48px; padding-right: 48px; }
+
+  .hero { padding-top: 132px; gap: 14px; }
+  .hero-title { font-size: clamp(4.5rem, 11.5vw, 6.5rem); }
+  .hero-sub { font-size: 1.25rem; line-height: 1.55; max-width: 36ch; }
+  .hero-actions { grid-template-columns: auto auto; justify-content: start; gap: 14px; }
+  .hero-actions .button, .hero-actions .hero-work { width: auto; padding: 0 30px; }
+  .hero .hero-poster { height: min(42svh, 460px); }
+
+  h2 { font-size: clamp(3.25rem, 8vw, 4.5rem); }
+  .contact-title { font-size: clamp(4rem, 11vw, 5.5rem); }
+  .services-head p, .bargain-head p, .build-head p, .palette-head p, .ba-head p, .how-head > p, .work-intro p,
+  .grader-lede, .apps-lede, .contact-lede, .pricing-sub, .case-lede, .about-lead, .usp-head p { font-size: 1.1875rem; max-width: 42ch; }
+
+  .usp-list { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .usp-card { padding: 30px 26px 32px; }
+  .plans { grid-template-columns: 1fr 1fr; }
+  .plans .plan-sig { grid-column: 1 / -1; }
+  .contact-form { grid-template-columns: 1fr 1fr; gap: 36px 32px; }
+  .contact-form .send { justify-self: start; }
+  .reassure { flex-direction: row; gap: 12px 28px; }
+  .how-head .button { width: auto; justify-self: start; }
+
+  .bx.is-live .bx-stage { padding: 96px 48px 24px; gap: 22px; }
+  .bx.is-live .bx-phone { height: min(60svh, 640px); }
+  .bx.is-live .bx-toggle { width: 240px; }
+  .bx.is-live .bx-toggle button { height: 44px; }
+  .bx.is-live .bx-notes li { font-size: 1.0625rem; max-width: 560px; }
+}
+
+/* ===== Touch screens: everything you tap is at least 44px ===== */
+@media (max-width: 899px), (pointer: coarse) {
+  .foot-grid nav a { display: inline-flex; align-items: center; min-height: 44px; }
+  .text-link { display: inline-flex; align-items: center; min-height: 44px; }
+  .bx-toggle button { min-height: 44px; }
+}
+
+/* ===== Audit fixes ===== */
+html { scroll-padding-top: 90px; }
+/* Focus you can see on the light sections */
+.services :focus-visible, .bargain :focus-visible, .how :focus-visible, .faq :focus-visible, .palette :focus-visible, .sw:focus-visible { outline-color: var(--ink); }
+/* Small amber text that's dark enough to read */
+.qa-group { color: #8f4a12; }
+.compare tbody td::before { opacity: 1; }
+.compare tbody td:not(.us)::before { color: #6b6152; }
+/* Form fields that look like fields */
+.field input { border-bottom-color: rgba(243, 239, 230, .4); }
+.field-err { display: block; min-height: 0; padding-top: 6px; font-style: normal; font-size: .875rem; color: #f0a37a; }
+.field-err:empty { padding: 0; }
+.field.is-bad input { border-bottom-color: #f0a37a; }
+/* Before and after on short laptop screens: the phone fits */
+@media (min-width: 900px) { .bx.is-live .bx-phone { height: min(660px, calc(100svh - 190px)); width: auto; aspect-ratio: 330 / 660; } }
+/* The grade pictures stay inside their own scene */
+.grades.is-live .grades-stage { contain: paint; }
+/* Footer letters are buttons now */
+button.blk { font: inherit; border: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
+/* Chips and time slots big enough for a thumb */
+@media (max-width: 899px) { .chip, .slot, .chips button { min-height: 44px; } }
+
+/* Menu */
+.menu-btn, .m-only { display: none; }
+@media (max-width: 899px) {
+  .menu-btn { display: grid; place-content: center; gap: 5px; width: 44px; height: 44px; margin-right: 8px; border: 0; border-radius: 50%; background: rgba(243, 239, 230, .08); cursor: pointer; }
+  .menu-btn i { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--paper); transition: transform .35s var(--ease-out); }
+  .nav.is-open .menu-btn i:first-of-type { transform: translateY(3.5px) rotate(45deg); }
+  .nav.is-open .menu-btn i:last-of-type { transform: translateY(-3.5px) rotate(-45deg); }
+  .nav.is-open .links { display: flex; flex-direction: column; gap: 0; position: absolute; top: 100%; left: 0; right: 0; height: calc(100svh - 100%); overflow-y: auto; overscroll-behavior: contain; padding: 18px 22px 40px; background: var(--night); }
+  .nav.is-open .links a, .nav.is-open .links .m-only { display: block; padding: 16px 0; border-bottom: 1px solid var(--line); font-family: var(--serif); font-weight: 400; font-size: 2.125rem; letter-spacing: -0.01em; color: var(--paper); }
+  .menu-open, .menu-open body { overflow: hidden; }
+}
+@media (min-width: 600px) and (max-width: 899px) { .nav.is-open .links { padding: 24px 48px 48px; } .nav.is-open .links a { font-size: 2.75rem; } }
+
+section[id] { scroll-margin-top: 0; }
+.field::after { bottom: auto; top: 66px; }
+@media (pointer: coarse) and (min-width: 900px) { .links a { display: inline-flex; align-items: center; min-height: 44px; } }
