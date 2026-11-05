@@ -208,7 +208,7 @@
         gsap.fromTo(poster, { scale: 0.9 }, { scale: 1, duration: 0.8, ease: 'elastic.out(1, 0.5)' });
       }
       cta.textContent = g === 'Hojari' ? 'Keep it that way' : 'Get me to Hojari';
-      cta.href = 'mailto:prejith.ponnachan1@outlook.com?subject=' + encodeURIComponent('My website grades as ' + g) +
+      cta.href = 'mailto:hello@hojari.co.uk?subject=' + encodeURIComponent('My website grades as ' + g) +
         '&body=' + encodeURIComponent('Hi Prejith,\n\nMy website scored ' + n + ' out of 10 (' + g + ').\nMy business is: \nMy website is: \n');
     });
   }
@@ -452,8 +452,8 @@
         return;
       } catch (err) { btn.disabled = false; btn.textContent = 'Send me my mock-up'; }
     }
-    sent.innerHTML = '<b>Nearly there.</b>Your email app is opening with everything filled in. Just press send. If nothing opens, email prejith.ponnachan1@outlook.com.';
-    location.href = 'mailto:prejith.ponnachan1@outlook.com?subject=' + encodeURIComponent('Free mock-up for ' + (data.business || data.name)) +
+    sent.innerHTML = '<b>Nearly there.</b>Your email app is opening with everything filled in. Just press send. If nothing opens, email hello@hojari.co.uk.';
+    location.href = 'mailto:hello@hojari.co.uk?subject=' + encodeURIComponent('Free mock-up for ' + (data.business || data.name)) +
       '&body=' + encodeURIComponent('Hi Prejith,\n\nName: ' + data.name + '\nEmail: ' + data.email + '\nBusiness: ' + data.business + '\nWebsite: ' + (data.website || 'none yet') + (data.context ? '\nNote: ' + data.context : '') + '\n');
   });
 
@@ -527,7 +527,7 @@
     const slug = (s) => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '') || 'yourbusiness';
     const pressed = (btns, n) => btns.forEach((x, i) => { x.classList.toggle('is-on', i === n); x.setAttribute('aria-pressed', i === n); });
     const updateLink = () => {
-      send.href = 'mailto:prejith.ponnachan1@outlook.com?subject=' + encodeURIComponent('My homepage: ' + biz()) +
+      send.href = 'mailto:hello@hojari.co.uk?subject=' + encodeURIComponent('My homepage: ' + biz()) +
         '&body=' + encodeURIComponent('Hi Prejith,\n\nI played with the homepage builder.\nBusiness: ' + biz() + '\nWhat we do: ' + types[t][0] +
         '\nWhat it needs: ' + ([...feats].map((f) => featNames[f]).join(', ') || 'just the basics') + '\nLook I liked: ' + looks[l][0] + '\n\nMy website (if I have one): \n');
     };
@@ -690,7 +690,7 @@
       [['errors-in-console'], 'There are errors happening behind the scenes.'],
     ];
     const GRADES = [[90, 3, 'Hojari', 'Properly good. Honestly, you might not need me.'], [75, 2, 'Najdi', 'Good, one step off the top. A few fixes would get you there.'], [50, 1, 'Shazri', 'Decent from a distance, but customers notice the cracks.'], [0, 0, 'Shaabi', 'The lowest grade. Rough, but very fixable.']];
-    const mail = (url, extra) => 'mailto:prejith.ponnachan1@outlook.com?subject=' + encodeURIComponent('Please check my website') + '&body=' + encodeURIComponent('Hi Prejith,\n\nCould you check my website: ' + url + '\n' + (extra || '') + '\nMy business is: \n');
+    const mail = (url, extra) => 'mailto:hello@hojari.co.uk?subject=' + encodeURIComponent('Please check my website') + '&body=' + encodeURIComponent('Hi Prejith,\n\nCould you check my website: ' + url + '\n' + (extra || '') + '\nMy business is: \n');
     const byHand = (url, why) => {
       out.innerHTML = '';
       const p = document.createElement('p'); p.className = 'wc-note';
