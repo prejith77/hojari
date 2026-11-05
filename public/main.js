@@ -103,7 +103,7 @@
         if (el === heroTitle) { el.style.visibility = ''; gsap.from(s.lines, { ...anim, delay: 0.15 }); }
         else if (el.getBoundingClientRect().top > innerHeight * 0.9) { gsap.set(s.lines, soft ? { yPercent: 110 } : { yPercent: 110, filter: 'blur(8px)' }); whenSeen(el, () => gsap.to(s.lines, soft ? { yPercent: 0, duration: 0.8, ease: 'power4.out', stagger: 0.08 } : { yPercent: 0, filter: 'blur(0px)', duration: 1, ease: 'power4.out', stagger: 0.09 })); }
       });
-      gsap.from('.hero-sub, .hero-actions, .promises li, .hero-note', { y: 18, opacity: 0, filter: soft ? 'none' : 'blur(6px)', duration: 0.9, ease: 'power3.out', stagger: 0.1, delay: 0.5 });
+      gsap.from('.hero-sub, .hero-actions, .promises li, .hero-note', { y: 18, opacity: 0, filter: soft ? 'none' : 'blur(6px)', duration: soft ? 0.6 : 0.9, ease: 'power3.out', stagger: soft ? 0.06 : 0.1, delay: soft ? 0.2 : 0.5 });
       ScrollTrigger.refresh();
     };
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => introDone).then(go);
@@ -115,7 +115,7 @@
   /* Blocks of content fade up out of a blur, once */
   if (motion) {
     const sel = '.grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
-    const items = $$(sel).filter((el) => el.getBoundingClientRect().top > innerHeight);
+    const items = $$(sel).filter((el) => el.getBoundingClientRect().top > innerHeight && !(!desktop && el.matches('.usp-card')));
     gsap.set(items, soft ? { y: 24, opacity: 0 } : { y: 32, opacity: 0, filter: 'blur(8px)' });
     const show = (els) => gsap.to(els, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: 0.08, overwrite: true, clearProps: 'filter' });
     let queue = [], timer = 0;
@@ -169,6 +169,7 @@
     let nameSplit = null;
     const nameEl = $('#grade-name'), lineEl = $('#grade-line'), cta = $('#grade-cta'), poster = $('#grader-poster');
     form.addEventListener('change', () => {
+      if (!desktop && navigator.vibrate) navigator.vibrate(8); /* a tiny tap you can feel, on Android */
       const n = $$('input:checked', form).length;
       const [idx, g, line] = grades[n];
       if (nameSplit) { nameSplit.revert(); nameSplit = null; }
@@ -732,6 +733,39 @@
     addEventListener('load', () => setTimeout(() => (window.requestIdleCallback || setTimeout)(wake), 6500));
   }
 
+
+  /* PHONES: their own version of the desktop magic, driven by your thumb instead of a mouse */
+  if (motion && !desktop) {
+    const cl = (v) => Math.min(1, Math.max(0, v));
+    /* The six promises stack up as you scroll, each one sinking back under the next */
+    const usps = $$('.usp-card');
+    usps.forEach((c, i) => c.style.setProperty('--i', i));
+    document.documentElement.classList.add('m-stack');
+    /* Big headings drift a touch as they pass */
+    const drifts = $$('main h2').filter((h) => !h.closest('.bx, .grades, .contact'));
+    let tk = false;
+    const frame = () => {
+      tk = false;
+      const vh = innerHeight;
+      usps.forEach((c, i) => {
+        const r = c.getBoundingClientRect();
+        if (r.bottom < -40 || r.top > vh + 40) return;
+        const next = usps[i + 1];
+        const p = next ? cl((r.bottom - next.getBoundingClientRect().top) / r.height) : 0;
+        c.style.transform = 'scale(' + (1 - p * 0.07).toFixed(4) + ')';
+        c.style.setProperty('--dim', p.toFixed(3));
+        /* a card glows as it reaches the middle of the screen, like the spotlight on a laptop */
+        c.style.setProperty('--lit', cl(1 - Math.abs((r.top + r.height / 2) / vh - 0.45) * 2.4).toFixed(3));
+      });
+      drifts.forEach((h, i) => {
+        const r = h.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;
+        h.style.translate = (((r.top / vh) - 0.4) * (i % 2 ? 16 : -16)).toFixed(1) + 'px 0';
+      });
+    };
+    addEventListener('scroll', () => { if (!tk) { tk = true; requestAnimationFrame(frame); } }, { passive: true });
+    frame();
+  }
   };
   if (window.requestIdleCallback) requestIdleCallback(rest, { timeout: 700 }); else setTimeout(rest, 150);
 

@@ -1290,3 +1290,16 @@ h1, h2 { word-spacing: .06em; }
 }
 
 .hero-pic { display: contents; }
+
+/* Round 7: italic descenders (the g in "get") swing left, so give every split line room on both sides */
+.split .line-mask { padding: 0 .16em .3em; margin: 0 -.16em -.3em; }
+.grades-title, .grades.is-live .grades-title { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; line-height: 1; }
+.grades-title em { font-weight: 400; }
+
+/* Phones: the promises stack, and each card lights up as it reaches the middle of the screen */
+@media (max-width: 899px) {
+  .m-stack .usp-list { gap: 18px; }
+  .m-stack .usp-card { position: sticky; top: calc(86px + var(--i, 0) * 12px); transform-origin: 50% 0; will-change: transform;
+    box-shadow: inset 0 0 0 999px rgba(10, 7, 4, calc(var(--dim, 0) * .5)), 0 0 0 1px rgba(227, 173, 92, calc(var(--lit, 0) * .32)), 0 -14px 34px -10px rgba(0, 0, 0, .55); }
+  .m-stack .usp-card::after { opacity: calc(.1 + var(--lit, 0) * .32); transition: opacity .2s; }
+}
