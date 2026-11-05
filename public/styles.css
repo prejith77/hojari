@@ -1434,3 +1434,51 @@ section[id] { scroll-margin-top: 0; }
   .build .chips > * { scroll-snap-align: start; }
   .menu-btn { flex: none; min-width: 44px; }
 }
+
+/* ===== Second pass ===== */
+/* Grader pill (phones) */
+.grade-pill { position: fixed; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 40; display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 8px 18px 8px 20px; border: 1px solid rgba(227, 173, 92, .5); border-radius: 999px; background: rgba(18, 13, 9, .94); color: var(--paper); font: 500 14px/1 var(--sans); cursor: pointer; translate: -50% 150%; opacity: 0; pointer-events: none; transition: translate .35s var(--ease-out), opacity .25s; box-shadow: 0 12px 30px -10px rgba(0, 0, 0, .7); }
+.grade-pill.is-on { translate: -50% 0; opacity: 1; pointer-events: auto; }
+.grade-pill:active { scale: .97; }
+.gp-label { color: var(--muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+.gp-name { display: inline-block; overflow: hidden; min-width: 4.6em; font-family: var(--serif); font-size: 23px; color: var(--honey); }
+.gp-meter { width: 56px; height: 4px; border-radius: 2px; background: #3a2c1f; overflow: hidden; }
+.gp-meter i { display: block; height: 100%; background: var(--honey); transform-origin: left; transform: scaleX(0); transition: transform .4s var(--ease-out); }
+@media (min-width: 600px) { .grade-pill { display: none; } }
+
+/* Grader on tablets: switches on the left, your grade stays in view on the right */
+@media (min-width: 600px) and (max-width: 899px) {
+  .grader { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); column-gap: 32px; }
+  .grader-text { grid-column: 1; grid-row: 1; }
+  .grader-result { grid-column: 2; grid-row: 1; position: sticky; top: 104px; align-self: start; }
+}
+
+/* Pricing on phones: the switch floats with the plans, long lists fold */
+@media (max-width: 899px) {
+  .pricing > .bill.is-floating { position: sticky; top: 72px; z-index: 6; display: flex; width: max-content; margin: 0 auto 18px; border: 1px solid #2a2118; box-shadow: 0 10px 26px -10px rgba(0, 0, 0, .8); }
+  .plan ul.is-short > li:nth-child(n+6) { display: none; }
+  .plan-more { justify-self: start; min-height: 44px; padding: 0 18px; border: 1px solid currentColor; border-radius: 999px; background: transparent; color: inherit; opacity: .8; font: 500 .9375rem/1 var(--sans); cursor: pointer; transition: transform .16s var(--ease-out), opacity .2s; }
+  .plan-more:active { transform: scale(.96); }
+}
+
+/* Royal Green lights up as it arrives */
+.plan-best { position: relative; }
+.plan-best::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 2px var(--honey), 0 0 40px -6px rgba(227, 173, 92, .45); opacity: 0; scale: .985; pointer-events: none; transition: opacity .9s var(--ease-out) .2s, scale .9s var(--ease-out) .2s; }
+.plan-best.is-lit::after, .no-js .plan-best::after { opacity: 1; scale: 1; }
+
+/* The £0 lands like a stamp once the old price is struck through */
+@keyframes stamp { 0% { opacity: 0; transform: scale(1.35) rotate(-8deg); } 55% { opacity: 1; } 100% { opacity: 1; transform: none; } }
+.js .stack-total:not(.is-on) .st-new { opacity: 0; }
+.js .stack-total.is-on .st-new { animation: stamp .55s cubic-bezier(.34, 1.56, .64, 1) .6s both; }
+
+/* "Your homepage so far" by the contact form */
+.sofar { margin: 40px 0 0; max-width: 380px; }
+.sofar .mock { pointer-events: none; }
+.sofar figcaption { margin-top: 12px; font-size: .9375rem; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .stack-total .st-new { opacity: 1; animation: none; }
+  .plan-best::after { opacity: 1; scale: 1; transition: none; }
+  .grade-pill { transition: opacity .15s; }
+}
+.gp-label { white-space: nowrap; }

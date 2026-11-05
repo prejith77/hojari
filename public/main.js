@@ -779,6 +779,79 @@
   }
 
 
+  /* SECOND PASS: on phones, you see the result of whatever you tap */
+
+  /* Grader: a small live pill shows your grade while the switches are on screen */
+  const gForm = $('#grader-form'), gResult = $('.grader-result');
+  if (gForm && gResult && innerWidth < 600) {
+    const pill = document.createElement('button');
+    pill.type = 'button'; pill.className = 'grade-pill'; pill.setAttribute('aria-label', 'See your grade');
+    pill.innerHTML = '<span class="gp-label">Your grade</span><span class="gp-name"></span><span class="gp-meter"><i></i></span>';
+    document.body.appendChild(pill);
+    const gpName = $('.gp-name', pill), gpBar = $('.gp-meter i', pill);
+    const upd = (animate) => {
+      gpName.textContent = $('#grade-name').textContent;
+      gpBar.style.transform = 'scaleX(' + ($$('input:checked', gForm).length / 10) + ')';
+      if (animate && motion) gsap.fromTo(gpName, { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.35, ease: 'power3.out', overwrite: true });
+    };
+    upd(false);
+    gForm.addEventListener('change', () => upd(true));
+    pill.addEventListener('click', () => gResult.scrollIntoView({ behavior: motion ? 'smooth' : 'auto', block: 'center' }));
+    let inForm = false, resultShown = false;
+    const sync = () => pill.classList.toggle('is-on', inForm && !resultShown);
+    new IntersectionObserver(([e]) => { inForm = e.isIntersecting; sync(); }, { rootMargin: '-15% 0px -35% 0px' }).observe(gForm);
+    new IntersectionObserver(([e]) => { resultShown = e.isIntersecting; sync(); }, { threshold: 0.3 }).observe(gResult);
+  }
+
+  /* Pricing: the monthly / yearly switch rides along with the plans, so you see the prices change */
+  const bill = $('.bill'), plansEl = $('.plans');
+  if (bill && plansEl && innerWidth < 900) { plansEl.parentNode.insertBefore(bill, plansEl); bill.classList.add('is-floating'); }
+
+  /* Pricing: long plan lists fold on phones, with everything one tap away */
+  if (innerWidth < 900) $$('.plan ul').forEach((ul) => {
+    const n = $$(':scope > li', ul).length;
+    if (n <= 5) return;
+    ul.classList.add('is-short');
+    const more = document.createElement('button');
+    more.type = 'button'; more.className = 'plan-more'; more.setAttribute('aria-expanded', 'false');
+    more.textContent = 'Show all ' + n + ' features';
+    ul.after(more);
+    more.addEventListener('click', () => {
+      const open = !ul.classList.toggle('is-short');
+      more.setAttribute('aria-expanded', open);
+      more.textContent = open ? 'Show fewer' : 'Show all ' + n + ' features';
+      if (hasGsap) ScrollTrigger.refresh();
+    });
+  });
+
+  /* Pricing: Royal Green, the one most people pick, lights up as it arrives */
+  const best = $('.plan-best');
+  if (best) onceInView(best, () => best.classList.add('is-lit'), 0.4);
+
+  /* Contact: if you played with "Build yours", your homepage so far waits for you by the form */
+  const mockEl = $('#mock'), cForm = $('#contact-form');
+  if (mockEl && cForm && bForm) {
+    let built = false, shown = false;
+    bForm.addEventListener('input', () => { built = true; });
+    bForm.addEventListener('click', (e) => { if (e.target.closest('button')) built = true; });
+    const showSoFar = () => {
+      if (!built || shown) return;
+      shown = true;
+      const fig = document.createElement('figure');
+      fig.className = 'sofar';
+      const copy = mockEl.cloneNode(true);
+      copy.removeAttribute('id'); copy.querySelectorAll('[id]').forEach((x) => x.removeAttribute('id'));
+      fig.appendChild(copy);
+      const cap = document.createElement('figcaption');
+      cap.textContent = "Your homepage so far. I'll make the real one.";
+      fig.appendChild(cap);
+      cForm.before(fig);
+      if (motion) gsap.from(fig, { y: 24, opacity: 0, duration: 0.7, ease: 'power3.out' });
+      if (hasGsap) ScrollTrigger.refresh();
+    };
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) showSoFar(); }, { rootMargin: '0px 0px 30% 0px' }).observe($('#contact'));
+  }
+
   /* PHONES: their own version of the desktop magic, driven by your thumb instead of a mouse */
   if (motion && !desktop) {
     const cl = (v) => Math.min(1, Math.max(0, v));
