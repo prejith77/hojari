@@ -172,12 +172,12 @@
 
   /* GRADER: your ticks set the grade, and the tear on the right takes it */
   const grades = [
-    [0, 'Shaabi', "The lowest grade. It stays between us, and it's very fixable."],
+    [0, 'Shaabi', "The lowest grade, and the one I most enjoy fixing."],
     [0, 'Shaabi', "Your customers have noticed. They're just too polite to say."],
     [0, 'Shaabi', "Your customers have noticed. They're just too polite to say."],
-    [1, 'Shazri', "Fine from across the room. Up close, it's quietly costing you customers."],
-    [1, 'Shazri', "Fine from across the room. Up close, it's quietly costing you customers."],
-    [1, 'Shazri', 'Halfway there. A few fixes and you would move up a grade.'],
+    [1, 'Shazri', "Fine from across the room. Up close, people give up and ring someone else."],
+    [1, 'Shazri', "Fine from across the room. Up close, people give up and ring someone else."],
+    [1, 'Shazri', 'Halfway there. Fix a few things and you\'re up a grade.'],
     [2, 'Najdi', 'Properly good. A couple of tweaks away from the top.'],
     [2, 'Najdi', 'Properly good. A couple of tweaks away from the top.'],
     [2, 'Najdi', 'So close I can almost smell the frankincense.'],
@@ -319,7 +319,7 @@
     btn.addEventListener('click', () => {
       if (!time) return;
       btn.classList.add('is-done'); btn.textContent = 'Booked';
-      out.textContent = `Booked for ${full[day]} at ${time}. That's how easy it should be for your customers.`;
+      out.textContent = `Booked for ${full[day]} at ${time}. Your customers could do that in their pyjamas.`;
       if (motion) gsap.fromTo(btn, { scale: 0.94 }, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.45)' });
     });
   }
@@ -448,7 +448,7 @@
         const res = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
         if (!res.ok) throw new Error('send failed');
         cf.reset(); ctxNote.hidden = true;
-        sent.innerHTML = '<b>Thank you, ' + data.name.replace(/[<>&]/g, '') + '.</b>Your mock-up is on its way. I\'ll be in touch within a day, usually sooner.';
+        sent.innerHTML = '<b>Thank you, ' + data.name.replace(/[<>&]/g, '') + '.</b>I\'ve got everything I need. You\'ll hear from me within a day, and your mock-up lands within 48 hours.';
         if (motion) gsap.from(sent, { y: 16, opacity: 0, duration: 0.6, ease: 'power3.out' });
         btn.textContent = 'Sent';
         return;
@@ -499,7 +499,7 @@
     const types = [
       ['Café', 'Good coffee, two minutes from your desk.', 'Open from 7. Order ahead and skip the queue.', 'Order ahead', ['Flat white £3.20', 'Breakfast till 11', 'Cakes baked here'], 'Best flat white on the high street.', 'The Daily Grind', [[8, 4], [58, 10], [22, 78]]],
       ['Restaurant', 'Book the table before your mate does.', 'Seasonal menu, proper portions, open till late.', 'Book a table', ['Sunday roast £18', 'Two courses £24', 'Private room'], 'We\'ve been back four times this month.', 'Moon & Spoon', [[44, 0], [6, 24], [40, 80]]],
-      ['Salon', 'Leave looking like the photo you showed us.', 'Late appointments on Thursdays. Walk-ins when we can.', 'Book a chair', ['Cut and finish £45', 'Colour from £70', 'Late Thursdays'], 'Finally, someone who listens.', 'Studio Nine', [[48, 2], [6, 30], [30, 82]]],
+      ['Salon', 'Leave looking like the photo you showed us.', 'Late appointments on Thursdays. Walk-ins when we can.', 'Book a chair', ['Cut and finish £45', 'Colour from £70', 'Late Thursdays'], 'Cut it exactly how I asked, which never happens.', 'Studio Nine', [[48, 2], [6, 30], [30, 82]]],
       ['Barber', 'Fresh trim, no small talk required.', 'Walk in or book online. In and out in 30 minutes.', 'Book a cut', ['Skin fade £22', 'Beard trim £12', 'Kids\' cut £15'], 'Best fade in the city, no contest.', 'Fade Factory', [[10, 20], [52, 4], [30, 80]]],
       ['Nails and beauty', 'Nails you\'ll keep looking at.', 'Gel, acrylics and brows, booked in two taps.', 'Book now', ['Gel manicure £30', 'Brows £18', 'Full set £40'], 'They lasted three weeks. Three!', 'Nailed It Studio', [[56, 18], [14, 6], [20, 82]]],
       ['Personal trainer', 'Stronger by summer. Actually this time.', 'One-to-one sessions and plans that fit round work.', 'Book a free session', ['First session free', '10 sessions £350', 'Online plans'], 'Down two sizes and I actually enjoy it.', 'Stronger Mondays', [[26, 26], [62, 2], [6, 80]]],
@@ -508,10 +508,10 @@
       ['Trades', 'Fixed properly the first time.', 'Same-day call-outs and fixed prices you can see upfront.', 'Get a quote', ['Boiler service £79', 'Same-day call-outs', 'Fully insured'], 'Turned up on time and cleaned up after.', 'Ace Plumbing', [[60, 30], [10, 4], [36, 80]]],
       ['Cleaner', 'Come home to a clean house.', 'Weekly, fortnightly or a one-off deep clean.', 'Get a quote', ['Regular clean £16/hr', 'Deep clean', 'End of tenancy'], 'I didn\'t know my oven was that colour.', 'Shine & Co', [[40, 4], [8, 40], [50, 82]]],
       ['Photographer', 'Photos you\'ll actually frame.', 'Weddings, portraits and brand shoots, booked a year ahead.', 'Check my dates', ['Weddings from £1,200', 'Portraits £150', 'Brand shoots'], 'We cried looking at them. Good crying.', 'Frame & Field', [[18, 0], [50, 30], [12, 84]]],
-      ['Accountant', 'Taxes done. Panic cancelled.', 'Fixed monthly fees for sole traders and small companies.', 'Book a free call', ['Self assessment £150', 'Bookkeeping', 'VAT returns'], 'First January I haven\'t panicked.', 'Clear Books', [[62, 6], [20, 18], [8, 84]]],
+      ['Accountant', 'Your tax return, done before the panic.', 'Fixed monthly fees for sole traders and small companies.', 'Book a free call', ['Self assessment £150', 'Bookkeeping', 'VAT returns'], 'First January I haven\'t panicked.', 'Clear Books', [[62, 6], [20, 18], [8, 84]]],
       ['Florist', 'Flowers that make the card look lazy.', 'Same-day delivery across town, ordered in a minute.', 'Order flowers', ['Bouquets from £35', 'Same-day delivery', 'Weddings'], 'She said yes. The flowers helped.', 'Petal & Stem', [[24, 4], [60, 26], [16, 80]]],
-      ['Tutor', 'Grades up, stress down.', 'GCSE and A level maths, online or in person.', 'Book a trial lesson', ['Trial lesson free', 'GCSE maths £35/hr', 'A level £40/hr'], 'Went from a 4 to a 7.', 'Top Marks Tutoring', [[52, 0], [4, 14], [34, 82]]],
-      ['Shop', 'Small shop, good taste, free local delivery.', 'New stock every week, wrapped properly if it\'s a gift.', 'Shop now', ['New in this week', 'Gift wrapping', 'Free delivery over £30'], 'Wrapped better than I could ever do it.', 'Kept & Co', [[14, 26], [56, 14], [10, 84]]],
+      ['Tutor', 'Maths that finally makes sense.', 'GCSE and A level maths, online or in person.', 'Book a trial lesson', ['Trial lesson free', 'GCSE maths £35/hr', 'A level £40/hr'], 'Went from a 4 to a 7.', 'Top Marks Tutoring', [[52, 0], [4, 14], [34, 82]]],
+      ['Shop', 'The little shop with the good presents.', 'New stock every week, wrapped properly if it\'s a gift.', 'Shop now', ['New in this week', 'Gift wrapping', 'Free delivery over £30'], 'Wrapped better than I could ever do it.', 'Kept & Co', [[14, 26], [56, 14], [10, 84]]],
     ];
     const looks = [
       ['Warm', { '--bg': '#f6efe3', '--ink': '#2a1a0d', '--acc': '#9a4f12', '--acc2': '#e3ad5c' }],
@@ -692,14 +692,14 @@
       [['link-text'], 'Links say things like "click here", which Google can\'t make sense of.'],
       [['is-crawlable', 'robots-txt'], 'Google may be blocked from listing your site.'],
       [['is-on-https', 'redirects-http'], "It isn't fully secure, so browsers may warn your visitors."],
-      [['errors-in-console'], 'There are errors happening behind the scenes.'],
+      [['errors-in-console'], 'The page throws errors in the background, so some parts may not work.'],
     ];
     const GRADES = [[90, 3, 'Hojari', 'Properly good. Honestly, you might not need me.'], [75, 2, 'Najdi', 'Good, one step off the top. A few fixes would get you there.'], [50, 1, 'Shazri', 'Decent from a distance, but customers notice the cracks.'], [0, 0, 'Shaabi', 'The lowest grade. Rough, but very fixable.']];
     const mail = (url, extra) => 'mailto:hello@hojari.co.uk?subject=' + encodeURIComponent('Please check my website') + '&body=' + encodeURIComponent('Hi Prejith,\n\nCould you check my website: ' + url + '\n' + (extra || '') + '\nMy business is: \n');
     const byHand = (url, why) => {
       out.innerHTML = '';
       const p = document.createElement('p'); p.className = 'wc-note';
-      p.textContent = why || "I'll check it by hand and send you three plain-English fixes within 24 hours. Free, no strings.";
+      p.textContent = why || "I'll check it by hand and send you three plain-English fixes within 24 hours. This bit's on me.";
       const a = document.createElement('a'); a.className = 'button button-light'; a.href = mail(url); a.textContent = 'Send it to me';
       out.append(p, a);
     };

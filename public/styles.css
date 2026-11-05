@@ -1492,3 +1492,28 @@ section[id] { scroll-margin-top: 0; }
 }
 .ticker { font-variant-numeric: tabular-nums; }
 @media (pointer: coarse) { .hero-title .ch, .hero-title [class*="char"] { will-change: auto; } }
+
+/* ===== Spacing pass: one rhythm for headings and the words under them ===== */
+.hero-title { line-height: .96; }
+.hero-sub { margin-top: clamp(28px, 2.6vw, 40px); }
+.apps-lede, .case-status, .how-head > p { margin-top: clamp(10px, .9vw, 14px); }
+.bx-lede { margin-top: clamp(8px, .8vw, 12px); }
+.faq-head p { margin-top: clamp(12px, 1.1vw, 18px); }
+.about-lead { margin-top: clamp(40px, 4.3vw, 64px); }
+.grader-lede { margin-top: clamp(38px, 4.1vw, 60px); }
+.about-cols h3, .usp-card h3 + p, .freebies h3 { margin-bottom: 14px; }
+.grades .grade-rank { margin-top: 18px; }
+.grades.is-live .grade-rank { margin-top: 14px; }
+@media (max-width: 899px) {
+  .about-lead, .apps-lede, .grader-lede, .bx-lede, .case-status, .work-intro p, .faq-head p, .how-head > p { margin-top: 22px; }
+  .hero-sub { margin-top: 20px; }
+}
+.work-intro p { margin-top: clamp(10px, 1.1vw, 16px); }
+@media (max-width: 899px) {
+  .apps-lede, .case-status, .how-head > p { margin-top: 6px; }
+  .work-intro p { margin-top: 10px; }
+  .faq-head p { margin-top: 16px; }
+  .grader-lede { margin-top: 42px; }
+  .about-lead { margin-top: 38px; }
+  .contact-lede { margin-top: 48px; }
+}
