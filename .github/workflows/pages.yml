@@ -23,6 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Put the stylesheet inside the page
+        run: python3 .github/scripts/inline_css.py
       - uses: actions/upload-pages-artifact@v3
         with:
           path: public

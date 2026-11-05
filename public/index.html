@@ -18,7 +18,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"%3E%3Crect width="512" height="512" rx="112" fill="%23120D09"/%3E%3Cg transform="translate%28126.0 40%29 scale%282.6%29"%3E%3Cpath d="M50 22 C57 44 80 68 82 96 C84 123 68 142 49 142 C29 142 15 125 17 101 C19 74 42 51 50 22 Z" fill="%23E3AD5C"/%3E%3Cpath d="M47 130 C37 118 60 104 49 90 C40 78 58 66 51 52 C49 46 50 41 50 37" fill="none" stroke="%23120D09" stroke-width="3.4" stroke-linecap="round"/%3E%3C/g%3E%3C/svg%3E">
 <script>document.documentElement.classList.add('js')</script>
 <style>@font-face{font-family:'Albert Sans';font-style:normal;font-weight:400 600;font-display:swap;src:url(fonts/AlbertSans.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/InstrumentSerif.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;font-display:swap;src:url(fonts/InstrumentSerif-Italic.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}</style>
-<link rel="preload" as="image" href="assets/tear-poster.webp" imagesrcset="assets/tear-poster-460.webp 460w, assets/tear-poster.webp 720w" imagesizes="(max-width: 899px) 320px, 44vw" fetchpriority="high">
+<link rel="preload" as="image" type="image/avif" imagesrcset="assets/tear-poster-400.avif 400w, assets/tear-poster-560.avif 560w, assets/tear-poster-720.avif 720w" imagesizes="(max-width: 899px) 320px, 44vw" fetchpriority="high">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -44,7 +44,7 @@
 <main id="main">
 
 <section class="hero" id="top" aria-labelledby="hero-title">
-  <img class="hero-poster" src="assets/tear-poster.webp" srcset="assets/tear-poster-460.webp 460w, assets/tear-poster.webp 720w" sizes="(max-width: 899px) 320px, 44vw" width="1200" height="1200" alt="" fetchpriority="high">
+  <picture class="hero-pic"><source type="image/avif" srcset="assets/tear-poster-400.avif 400w, assets/tear-poster-560.avif 560w, assets/tear-poster-720.avif 720w" sizes="(max-width: 899px) 320px, 44vw"><img class="hero-poster" src="assets/tear-poster.webp" srcset="assets/tear-poster-460.webp 460w, assets/tear-poster.webp 720w" sizes="(max-width: 899px) 320px, 44vw" width="1200" height="1200" alt="" fetchpriority="high"></picture>
   <div class="hero-text">
     <h1 id="hero-title" class="hero-title split">So good your rivals <em>screenshot it.</em></h1>
     <p class="hero-sub">Frankincense was once worth its weight in gold. I'm Prejith, and I build websites with the same idea: they look a million quid, and they're built to get your phone ringing with paying customers.</p>
@@ -594,7 +594,7 @@
 <section class="about" id="about" aria-labelledby="about-title">
   <div class="about-grid">
     <figure class="portrait" data-tilt>
-      <video class="hello" id="hello" data-src="assets/hello.mp4" poster="assets/own/portrait.webp" playsinline muted preload="metadata" hidden></video>
+      <video class="hello" id="hello" data-src="assets/hello.mp4" data-poster="assets/own/portrait.webp" playsinline muted preload="metadata" hidden></video>
       <img class="tear" src="assets/own/portrait.webp" width="1100" height="1100" alt="Portrait of Prejith, founder of Hojari" loading="lazy">
     </figure>
     <div class="about-text">

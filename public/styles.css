@@ -1288,3 +1288,5 @@ h1, h2 { word-spacing: .06em; }
   .reassure { margin-top: 28px; }
   .contact-alt { margin-top: 36px; padding-top: 32px; }
 }
+
+.hero-pic { display: contents; }

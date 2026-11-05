@@ -422,6 +422,7 @@
   const HELLO_VIDEO = false; /* set to true once assets/hello.mp4 is added */
   const hello = $('#hello');
   if (hello && HELLO_VIDEO) {
+    hello.poster = hello.dataset.poster;
     hello.src = hello.dataset.src;
     hello.addEventListener('loadeddata', () => { hello.hidden = false; }, { once: true });
     hello.addEventListener('click', () => { if (hello.paused) { hello.muted = false; hello.currentTime = 0; hello.play(); } else hello.pause(); });
