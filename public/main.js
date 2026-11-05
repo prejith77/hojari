@@ -403,7 +403,7 @@
   });
 
   /* THE MOCK-UP REQUEST: every call to action leads here and carries what the visitor was doing */
-  const FORM_ENDPOINT = ''; /* e.g. https://formspree.io/f/abcdwxyz; until then the form opens an email */
+  const FORM_ENDPOINT = 'https://formspree.io/f/mrppjrdb'; /* e.g. https://formspree.io/f/abcdwxyz; until then the form opens an email */
   const WHATSAPP = '';      /* full number with country code, digits only, e.g. 447700900123 */
   const cf = $('#contact-form'), ctxField = cf && cf.context, ctxNote = $('#lead-context'), sent = $('#sent');
   if (WHATSAPP) {
