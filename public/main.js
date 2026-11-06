@@ -239,7 +239,7 @@
 
   /* WORK: a pinned horizontal run on desktop, pictures drifting inside their frames */
   const work = $('#work'), track = $('.work-track');
-  if (motion && wide && work) {
+  if (motion && wide && work && track) {
     work.classList.add('is-live');
     const win = $('.work-window', work);
     const dist = () => Math.max(0, track.scrollWidth - win.clientWidth);
@@ -414,7 +414,7 @@
   const cf = $('#contact-form'), ctxField = cf && cf.context, ctxNote = $('#lead-context'), sent = $('#sent');
   if (WHATSAPP) {
     const wa = $('#wa-btn');
-    wa.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent("Hi Prejith, I'd like a free mock-up of my homepage.");
+    wa.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent("Hi Prejith, I'd like to talk about my business.");
     wa.target = '_blank'; wa.rel = 'noopener'; wa.hidden = false;
   }
   const goLead = (note) => {
@@ -424,6 +424,7 @@
     if (lenis) lenis.scrollTo(target, { offset: -20, duration: 1.4 }); else target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
     setTimeout(() => cf && cf.name.focus({ preventScroll: true }), reduce ? 50 : 1300);
   };
+  window.hjLead = goLead;
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="mailto:hello@hojari"]');
     if (!a || a.classList.contains('plain-mail')) return;
@@ -435,7 +436,7 @@
   });
   if (cf) cf.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const msgs = { name: 'Your name, so I know who to reply to.', email: 'An email address that works, so I can reply.', business: 'The name of your business, so I can build your mock-up.' };
+    const msgs = { name: 'Your name, so I know who to reply to.', email: 'An email address that works, so I can reply.', business: 'The name of your business, so I can look it up before I reply.' };
     let first = null;
     Object.keys(msgs).forEach((k) => {
       const el = cf[k], err = $('#err-' + k), bad = !el.checkValidity();
@@ -452,14 +453,14 @@
         const res = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
         if (!res.ok) throw new Error('send failed');
         cf.reset(); ctxNote.hidden = true;
-        sent.innerHTML = '<b>Thank you, ' + data.name.replace(/[<>&]/g, '') + '.</b>I\'ve got everything I need. You\'ll hear from me within a day, and your mock-up lands within 48 hours.';
+        sent.innerHTML = '<b>Thank you, ' + data.name.replace(/[<>&]/g, '') + '.</b>It\'s with me now. You\'ll hear back within 24 hours with my thoughts and a fixed price.';
         if (motion) gsap.from(sent, { y: 16, opacity: 0, duration: 0.6, ease: 'power3.out' });
         btn.textContent = 'Sent';
         return;
-      } catch (err) { btn.disabled = false; btn.textContent = 'Send me my mock-up'; }
+      } catch (err) { btn.disabled = false; btn.textContent = 'Send it to me'; }
     }
     sent.innerHTML = '<b>Nearly there.</b>Your email app is opening with everything filled in. Just press send. If nothing opens, email hello@hojari.co.uk.';
-    location.href = 'mailto:hello@hojari.co.uk?subject=' + encodeURIComponent('Free mock-up for ' + (data.business || data.name)) +
+    location.href = 'mailto:hello@hojari.co.uk?subject=' + encodeURIComponent('New project: ' + (data.business || data.name)) +
       '&body=' + encodeURIComponent('Hi Prejith,\n\nName: ' + data.name + '\nEmail: ' + data.email + '\nBusiness: ' + data.business + '\nWebsite: ' + (data.website || 'none yet') + (data.context ? '\nNote: ' + data.context : '') + '\n');
   });
 

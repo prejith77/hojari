@@ -335,6 +335,11 @@
       if (r.top < vh * 0.6 && r.bottom > vh * 0.3) g = +graderEl.dataset.grade || 0;
       lift = Math.min(1.25, Math.max(0, (vh * 0.6 - r.bottom) / (vh * 0.6)) * 1.25);
       visible = r.bottom > -vh * 0.2;
+    } else if (heroEl) {
+      /* No grader on the page: the tear lifts away as the hero scrolls off */
+      const r = heroEl.getBoundingClientRect();
+      lift = Math.min(1.25, Math.max(0, (vh * 0.55 - r.bottom) / (vh * 0.55)) * 1.25);
+      visible = r.bottom > -vh * 0.1;
     }
     if (g !== gradeNow) { gradeNow = g; kick(3.5); }
     tintTo.set(...TINTS[g]); dimTo = DIMS[g]; glowTo.setRGB(...GLOWS[g]);
