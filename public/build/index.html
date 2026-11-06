@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build your app in 60 seconds · Hojari</title>
+<meta name="description" content="Name it, pick what your business does, choose a colour and up to three features. Your app builds itself, and you can tap through it.">
+<link rel="canonical" href="https://hojari.co.uk/build/">
+<meta property="og:title" content="Build your app in 60 seconds · Hojari">
+<meta property="og:description" content="Name it, pick a colour and up to three features, then tap through the app you made.">
+<meta property="og:image" content="https://hojari.co.uk/assets/og-card-2.jpg">
+<meta name="theme-color" content="#120d09">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="../fonts/InstrumentSerif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../sub.css">
+<link rel="stylesheet" href="build.css">
+</head>
+<body>
+<header class="top">
+  <a class="top-mark" href="../" aria-label="Hojari home"><img src="../assets/wordmark.svg" alt="Hojari" width="104" height="31"></a>
+  <div class="top-right"><a class="top-back" href="../#demos">Back to the demos</a></div>
+</header>
+
+<main class="bd" id="main">
+  <div class="bd-head">
+    <h1>Build your app in <em>60 seconds</em></h1>
+    <p class="bd-lede">Give it a name, tell it what you do and pick what it should do. It builds itself as you go, and every button in it works.</p>
+  </div>
+
+  <div class="bd-stage">
+    <div class="bd-controls">
+      <div class="bd-steps" role="tablist" aria-label="Steps">
+        <button type="button" role="tab" id="s-name" aria-controls="c-name" aria-selected="true"><i>1</i>Name</button>
+        <button type="button" role="tab" id="s-type" aria-controls="c-type" aria-selected="false" tabindex="-1"><i>2</i>Business</button>
+        <button type="button" role="tab" id="s-colour" aria-controls="c-colour" aria-selected="false" tabindex="-1"><i>3</i>Colour</button>
+        <button type="button" role="tab" id="s-feat" aria-controls="c-feat" aria-selected="false" tabindex="-1"><i>4</i>Features</button>
+      </div>
+
+      <div class="bd-panel" role="tabpanel" id="c-name" aria-labelledby="s-name">
+        <label class="field"><span>What's your app called?</span><input id="b-name" maxlength="24" autocomplete="organization" value="Saffron &amp; Sage"></label>
+        <p class="bd-tip">Use your business name. It goes on the home screen icon too.</p>
+      </div>
+      <div class="bd-panel" role="tabpanel" id="c-type" aria-labelledby="s-type" hidden>
+        <p class="bd-q" id="q-type">What does the business do?</p>
+        <div class="bd-chips" role="radiogroup" aria-labelledby="q-type" data-k="type"></div>
+      </div>
+      <div class="bd-panel" role="tabpanel" id="c-colour" aria-labelledby="s-colour" hidden>
+        <p class="bd-q" id="q-colour">Pick a colour</p>
+        <div class="bd-swatches" role="radiogroup" aria-labelledby="q-colour"></div>
+      </div>
+      <div class="bd-panel" role="tabpanel" id="c-feat" aria-labelledby="s-feat" hidden>
+        <p class="bd-q" id="q-feat">What should it do? <span class="bd-left">Up to 3.</span></p>
+        <div class="bd-chips bd-feats" aria-labelledby="q-feat"></div>
+      </div>
+
+      <div class="bd-nav">
+        <button type="button" class="button button-line bd-prev">Back</button>
+        <button type="button" class="button button-light arrow bd-next">Next</button>
+      </div>
+
+      <div class="bd-done" hidden>
+        <p class="bd-q">Your app is ready. Tap around it.</p>
+        <p class="bd-tip">Built for real, it would take your bookings, orders and payments, keep every customer's details in one place and send the reminders for you. It works on any phone and saves to the home screen, no app store needed.</p>
+        <div class="bd-actions">
+          <a class="button button-light arrow bd-price" href="../start/?from=build">Price this app for real</a>
+          <button type="button" class="button button-line bd-again">Change something</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="bd-device">
+      <div class="dv" style="--c:#2b5a42">
+        <div class="dv-screen">
+          <div class="dv-status" aria-hidden="true"><span>9:41</span><span class="dv-icons"><i></i><i></i><i></i></span></div>
+          <div class="dv-app" aria-live="polite"></div>
+          <nav class="dv-tabs" aria-label="App"></nav>
+        </div>
+      </div>
+      <p class="bd-caption">This is a working sample. Nothing you tap is saved or sent.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <p>© 2026 Hojari · <a href="mailto:hello@hojari.co.uk">hello@hojari.co.uk</a></p>
+  <nav aria-label="Footer"><a href="../">Home</a><a href="../#demos">Demos</a><a href="../portal/">Client portal</a><a href="../start/">Start a project</a><a href="../#pricing">Prices</a></nav>
+</footer>
+<script src="../sub.js"></script>
+<script src="build.js"></script>
+</body>
+</html>

@@ -74,8 +74,7 @@
       const d = new Date(start); d.setDate(start.getDate() + i);
       const b = document.createElement('button');
       b.type = 'button'; b.dataset.i = i;
-      b.innerHTML = DAY[d.getDay()] + '<b>' + d.getDate() + '</b>';
-      b.setAttribute('aria-label', DAY[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()]);
+      b.innerHTML = DAY[d.getDay()] + ' <b>' + d.getDate() + '</b><span class="sr"> ' + MON[d.getMonth()] + '</span>';
       b._date = d;
       days.appendChild(b);
     }

@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design your package · Hojari</title>
+<meta name="description" content="Seven quick questions about your business. You'll see which tools I'd build, the package that fits and a fixed price, then hear back within 24 hours.">
+<link rel="canonical" href="https://hojari.co.uk/start/">
+<meta property="og:title" content="Design your package · Hojari">
+<meta property="og:description" content="Seven quick questions, then the tools I'd build for your business and a fixed price.">
+<meta property="og:image" content="https://hojari.co.uk/assets/og-card-2.jpg">
+<meta name="theme-color" content="#120d09">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="../fonts/InstrumentSerif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../sub.css">
+<link rel="stylesheet" href="start.css">
+</head>
+<body>
+<header class="top">
+  <a class="top-mark" href="../" aria-label="Hojari home"><img src="../assets/wordmark.svg" alt="Hojari" width="104" height="31"></a>
+  <div class="top-right"><a class="top-back" href="../">Back to the site</a></div>
+</header>
+
+<main class="q" id="main">
+  <div class="q-bar" aria-hidden="true"><i></i></div>
+
+  <form class="q-form" novalidate>
+    <!-- 1 -->
+    <section class="q-step is-on" data-step="name" aria-labelledby="q1">
+      <p class="q-count">Question 1 of 7</p>
+      <h1 id="q1">First, what's your business <em>called?</em></h1>
+      <p class="q-plan" hidden></p>
+      <label class="field"><span>Business name</span><input name="business" autocomplete="organization" required maxlength="80"><em class="q-err" aria-live="polite"></em></label>
+      <label class="field"><span>Your website, if you have one</span><input name="website" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" maxlength="120" placeholder="yourbusiness.com"></label>
+    </section>
+
+    <!-- 2 -->
+    <section class="q-step" data-step="kind" aria-labelledby="q2">
+      <p class="q-count">Question 2 of 7</p>
+      <h2 id="q2">What does <em class="q-biz">your business</em> do?</h2>
+      <div class="q-opts" data-name="kind" data-max="1" role="radiogroup" aria-labelledby="q2">
+        <button type="button" data-v="Health and beauty">Health and beauty<small>Salons, spas, clinics</small></button>
+        <button type="button" data-v="Food and drink">Food and drink<small>Cafés, restaurants, bakeries</small></button>
+        <button type="button" data-v="Trades and home services">Trades and home services<small>Builders, gardeners, cleaners</small></button>
+        <button type="button" data-v="Professional services">Professional services<small>Law, accounts, consulting</small></button>
+        <button type="button" data-v="Coaching and wellbeing">Coaching and wellbeing<small>Coaches, therapists, trainers</small></button>
+        <button type="button" data-v="Fitness and sport">Fitness and sport<small>Gyms, studios, clubs</small></button>
+        <button type="button" data-v="Retail">Shops and online selling<small>Products, in person or online</small></button>
+        <button type="button" data-v="Property">Property<small>Lettings, sales, management</small></button>
+        <button type="button" data-v="Education">Education and training<small>Tutors, schools, courses</small></button>
+        <button type="button" data-v="Something else">Something else<small>Tell me more at the end</small></button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="q-step" data-step="online" aria-labelledby="q3">
+      <p class="q-count">Question 3 of 7</p>
+      <h2 id="q3">What should your customers be able to do <em>without ringing you?</em></h2>
+      <p class="q-hint">Choose up to 3. <span class="q-left" aria-live="polite"></span></p>
+      <div class="q-opts q-multi" data-name="online" data-max="3">
+        <button type="button" data-v="book">Book an appointment or a slot</button>
+        <button type="button" data-v="buy">Order or buy from you</button>
+        <button type="button" data-v="price">Get a price or a quote</button>
+        <button type="button" data-v="pay">Pay, or pay a deposit</button>
+        <button type="button" data-v="ask">Get answers to their questions, any hour</button>
+        <button type="button" data-v="account">Sign in to see their progress or account</button>
+        <button type="button" data-v="join">Join a membership, class or course</button>
+        <button type="button" data-v="find">Find you on Google and pick you</button>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="q-step" data-step="time" aria-labelledby="q4">
+      <p class="q-count">Question 4 of 7</p>
+      <h2 id="q4">Where does your week <em>go?</em></h2>
+      <p class="q-hint">Choose up to 3 of the jobs that eat the most time. <span class="q-left" aria-live="polite"></span></p>
+      <div class="q-opts q-multi" data-name="time" data-max="3">
+        <button type="button" data-v="answers">Answering the same questions again and again</button>
+        <button type="button" data-v="diary">Back and forth over booking times</button>
+        <button type="button" data-v="quotes">Writing quotes and invoices</button>
+        <button type="button" data-v="chasing">Chasing people who haven't paid</button>
+        <button type="button" data-v="copying">Copying details from one app to another</button>
+        <button type="button" data-v="updates">Keeping clients updated on their job</button>
+        <button type="button" data-v="numbers">Working out how the month is going</button>
+        <button type="button" data-v="reviews">Asking for reviews and repeat bookings</button>
+        <button type="button" data-v="rota">Planning who works where and when</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="q-step" data-step="now" aria-labelledby="q5">
+      <p class="q-count">Question 5 of 7</p>
+      <h2 id="q5">What do you have <em>today?</em></h2>
+      <div class="q-opts" data-name="now" data-max="1" role="radiogroup" aria-labelledby="q5">
+        <button type="button" data-v="No website yet">No website yet</button>
+        <button type="button" data-v="A website I'd rather people didn't see">A website I'd rather people didn't see</button>
+        <button type="button" data-v="A decent website that doesn't do enough">A decent website that doesn't do enough</button>
+        <button type="button" data-v="A website and a pile of apps that don't talk to each other">A website and a pile of apps that don't talk to each other</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="q-step" data-step="team" aria-labelledby="q6">
+      <p class="q-count">Question 6 of 7</p>
+      <h2 id="q6">How many people work in the <em>business?</em></h2>
+      <div class="q-opts q-row" data-name="team" data-max="1" role="radiogroup" aria-labelledby="q6">
+        <button type="button" data-v="Just me">Just me</button>
+        <button type="button" data-v="2 to 5">2 to 5</button>
+        <button type="button" data-v="6 to 20">6 to 20</button>
+        <button type="button" data-v="More than 20">More than 20</button>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="q-step" data-step="when" aria-labelledby="q7">
+      <p class="q-count">Question 7 of 7</p>
+      <h2 id="q7">When would you like it <em>working?</em></h2>
+      <div class="q-opts" data-name="when" data-max="1" role="radiogroup" aria-labelledby="q7">
+        <button type="button" data-v="As soon as possible">As soon as possible</button>
+        <button type="button" data-v="Within a month">Within a month</button>
+        <button type="button" data-v="In the next few months">In the next few months</button>
+        <button type="button" data-v="I'm just looking for now">I'm just looking for now</button>
+      </div>
+    </section>
+
+    <!-- Result -->
+    <section class="q-step q-result" data-step="result" aria-labelledby="qr">
+      <p class="q-count">Your package</p>
+      <h2 id="qr">Here's what I'd build for <em class="q-biz">your business</em></h2>
+      <p class="q-lede">Your website comes with every package. These are the tools I'd add, picked from your answers. Change them if you like: up to three is the Hojari standard, so each one gets built properly.</p>
+
+      <div class="r-grid">
+        <div class="r-tools">
+          <p class="r-label">Your tools <span class="r-n" aria-live="polite"></span></p>
+          <div class="r-list"></div>
+          <label class="r-scratch"><input type="checkbox" name="scratch"><span><b>I need something built from scratch</b>An app, a portal or a platform of my own that no off-the-shelf tool does.</span></label>
+        </div>
+
+        <aside class="r-card" aria-live="polite">
+          <div class="r-cardtop"><p class="r-grade"></p><div class="cur" role="group" aria-label="Currency"><button type="button" data-cur="GBP">£</button><button type="button" data-cur="USD">$</button><button type="button" data-cur="AED">AED</button></div></div>
+          <p class="r-what"></p>
+          <p class="r-price"><span>from</span> <b class="r-build"></b></p>
+          <p class="r-found">Founding clients pay <b class="r-fbuild"></b>, 30% off, in return for an honest review and a case study.</p>
+          <p class="r-care">Then <b class="r-carep"></b> a month for care: hosting, backups, small changes and one improvement every month.</p>
+          <ul class="r-incl"></ul>
+          <p class="r-note">Fixed price in writing before I start. You try it on a private link for seven days before you pay a penny.</p>
+        </aside>
+      </div>
+
+      <div class="q-send">
+        <h3>Send it to me and I'll reply within 24 hours</h3>
+        <p>With my thoughts on your business and a fixed price. Nothing to pay, nothing to sign.</p>
+        <div class="q-fields">
+          <label class="field"><span>Your name</span><input name="name" autocomplete="name" required maxlength="80"><em class="q-err" aria-live="polite"></em></label>
+          <label class="field"><span>Your email</span><input name="email" type="email" autocomplete="email" autocapitalize="off" spellcheck="false" required maxlength="120"><em class="q-err" aria-live="polite"></em></label>
+          <label class="field"><span>WhatsApp number, if you'd rather talk there</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30"></label>
+          <label class="field q-wide"><span>Anything else I should know?</span><textarea name="notes" maxlength="2000" placeholder="An idea, a deadline, something that drives you mad"></textarea></label>
+        </div>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="sr" aria-hidden="true">
+        <button class="button button-light arrow q-submit" type="submit">Send me my package</button>
+      </div>
+    </section>
+
+    <!-- Sent -->
+    <section class="q-step q-sent" data-step="sent" aria-labelledby="qs" tabindex="-1">
+      <span class="q-tick" aria-hidden="true"></span>
+      <h2 id="qs">It's with me, <em class="q-person">thank you</em></h2>
+      <p class="q-lede">You'll hear back within 24 hours with my thoughts and a fixed price. If you want to see more in the meantime, try a demo.</p>
+      <div class="q-sentlinks"><a class="button button-ghost" href="../#demos">Try the live demos</a><a class="button button-ghost" href="../build/">Build your app in 60 seconds</a></div>
+    </section>
+
+    <nav class="q-nav" aria-label="Questions">
+      <button type="button" class="button button-line q-back">Back</button>
+      <button type="button" class="button button-light arrow q-next">Next</button>
+    </nav>
+  </form>
+</main>
+
+<footer class="foot">
+  <p>© 2026 Hojari · <a href="mailto:hello@hojari.co.uk">hello@hojari.co.uk</a></p>
+  <nav aria-label="Footer"><a href="../">Home</a><a href="../#demos">Demos</a><a href="../build/">Build your app</a><a href="../portal/">Client portal</a><a href="../#pricing">Prices</a></nav>
+</footer>
+<script src="../sub.js"></script>
+<script src="start.js"></script>
+</body>
+</html>

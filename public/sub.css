@@ -1,0 +1,78 @@
+/* Hojari inner pages: the questionnaire, the app builder and the client portal. Same palette and type as the homepage. */
+@font-face { font-family: 'Albert Sans'; font-style: normal; font-weight: 400 600; font-display: swap; src: url(fonts/AlbertSans.woff2) format('woff2'); }
+@font-face { font-family: 'Instrument Serif'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/InstrumentSerif.woff2) format('woff2'); }
+@font-face { font-family: 'Instrument Serif'; font-style: italic; font-weight: 400; font-display: swap; src: url(fonts/InstrumentSerif-Italic.woff2) format('woff2'); }
+:root {
+  --night: #120d09; --night-2: #1c1611; --night-3: #2a221a; --line: rgba(243, 239, 230, .12);
+  --paper: #f2f0eb; --muted: #b8ae9c; --resin: #d7dcc7; --honey: #e3ad5c; --amber: #b8661d; --khareef: #2b5a42;
+  --sand: #e7e3db; --sand-2: #f2f0eb; --ink: #17120c; --ink-muted: #5b5144; --ink-line: rgba(23, 18, 12, .12);
+  --sans: "Albert Sans", system-ui, sans-serif; --serif: "Instrument Serif", Georgia, serif;
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2.5rem, 1.6rem + 3.6vw, 4.75rem);
+  --margin: clamp(20px, 3vw, 48px);
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+html, body { overflow-x: clip; }
+body { margin: 0; min-height: 100svh; display: flex; flex-direction: column; background: var(--night); color: var(--paper); font: 400 var(--step-body)/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+h1, h2, h3, p, figure, ul, ol { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+p { text-wrap: pretty; }
+h1, h2 { font: 400 var(--step-head)/1 var(--serif); letter-spacing: -0.015em; text-wrap: balance; }
+h1 em, h2 em { font-style: italic; color: var(--honey); }
+h3 { font: 400 1.5rem/1.15 var(--serif); }
+button, input, textarea, select { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--honey); outline-offset: 3px; }
+::selection { background: var(--honey); color: var(--ink); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+/* Header */
+.top { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px var(--margin); background: rgba(18, 13, 9, .86); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); padding-top: max(14px, env(safe-area-inset-top)); }
+.top-mark { display: block; width: 104px; }
+.top-mark img { width: 100%; height: auto; }
+.top-right { display: flex; align-items: center; gap: 10px; }
+.top-back { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; font-size: var(--step-small); color: var(--muted); text-decoration: none; }
+@media (hover: hover) and (pointer: fine) { .top-back:hover { color: var(--paper); } }
+
+/* Buttons */
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; border: 1px solid transparent; font: 500 var(--step-body)/1 var(--sans); text-decoration: none; cursor: pointer; transition: transform .16s var(--ease-out), background-color .2s, color .2s, border-color .2s, opacity .2s; touch-action: manipulation; -webkit-user-select: none; user-select: none; }
+.button:active { transform: scale(.97); }
+.button:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+.button-light { background: var(--paper); color: var(--ink); }
+.button-light.arrow::after { content: "\2192"; display: inline-block; transition: transform .25s var(--ease-out); }
+.button-ghost { background: var(--night-3); color: var(--paper); }
+.button-line { background: none; color: var(--paper); border-color: var(--line); }
+.button-small { min-height: 40px; padding: 0 16px; font-size: var(--step-small); }
+@media (hover: hover) and (pointer: fine) {
+  .button-light:not(:disabled):hover { background: var(--honey); }
+  .button-light.arrow:not(:disabled):hover::after { transform: translateX(5px); }
+  .button-ghost:not(:disabled):hover { background: #3a2f24; }
+  .button-line:not(:disabled):hover { border-color: var(--honey); }
+}
+
+/* Currency switch */
+.cur { display: inline-flex; gap: 2px; padding: 4px; border-radius: 999px; background: var(--night-3); }
+.cur button { min-height: 36px; min-width: 44px; padding: 0 12px; border-radius: 999px; border: 0; background: none; color: var(--muted); font-size: 13px; font-weight: 500; cursor: pointer; }
+.cur button[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
+
+/* Fields */
+.field { display: grid; gap: 8px; }
+.field > span { font-size: var(--step-small); font-weight: 500; color: var(--muted); }
+.field input, .field textarea { width: 100%; min-height: 54px; padding: 14px 16px; border-radius: 16px; border: 1px solid var(--line); background: var(--night-2); color: var(--paper); font-size: 16px; transition: border-color .2s; }
+.field textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--honey); }
+.field input[aria-invalid="true"] { border-color: #e0795c; }
+.field em { font-style: normal; font-size: 13px; color: #f0a184; min-height: 1em; }
+
+.foot { margin-top: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; padding: 28px var(--margin) max(28px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); color: var(--muted); font-size: var(--step-small); }
+.foot nav { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+.foot a { text-decoration: none; }
+@media (hover: hover) and (pointer: fine) { .foot a:hover { color: var(--paper); } }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
