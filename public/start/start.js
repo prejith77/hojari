@@ -106,12 +106,12 @@
     nav.hidden = step === 'result' || step === 'sent';
     next.textContent = at === QUESTIONS - 1 ? 'See my package' : 'Next';
     next.disabled = !ready();
-    if (!fromPop) history.pushState({ q: at }, '', '');
+    if (!fromPop) { try { history.pushState({ q: at }, '', ''); } catch (e) {} }
     window.scrollTo({ top: 0, behavior: HJ.reduce ? 'auto' : 'smooth' });
     const focusEl = step === 'name' ? form.business : s.querySelector('h1, h2');
     if (focusEl) { if (!focusEl.hasAttribute('tabindex') && focusEl.tagName !== 'INPUT') focusEl.setAttribute('tabindex', '-1'); setTimeout(() => focusEl.focus({ preventScroll: true }), 50); }
   }
-  history.replaceState({ q: 0 }, '', '');
+  try { history.replaceState({ q: 0 }, '', ''); } catch (e) {}
   addEventListener('popstate', (e) => { if (e.state && typeof e.state.q === 'number' && steps[at].dataset.step !== 'sent') go(e.state.q, true); });
 
   next.addEventListener('click', () => go(at + 1));
@@ -173,7 +173,7 @@
       names.forEach((n) => incl.push(n));
       incl.push('All of it sharing one set of customer records');
       if (!t.includes('dashboard')) incl.push("An owner's dashboard with your numbers on your phone");
-      incl.push('The Count, measured before and 30 days after launch');
+      incl.push('Your costs and admin hours measured before launch, and again 30 days after');
     } else {
       $('.r-what').textContent = names.length ? 'Your website, plus one tool' : 'Your website, ready for a tool when you want one';
       incl.push('A website of up to 8 pages, written and designed for your customers');

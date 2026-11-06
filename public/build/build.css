@@ -49,7 +49,7 @@
 .dv-app { flex: 1; overflow-y: auto; scrollbar-width: none; }
 .dv-app::-webkit-scrollbar { display: none; }
 .dv-tabs { display: flex; justify-content: space-around; padding: 8px 6px max(10px, 12px); border-top: 1px solid rgba(27,23,18,.08); background: #fff; }
-.dv-tabs button { display: grid; justify-items: center; gap: 3px; min-width: 56px; min-height: 44px; padding: 2px 4px; border: 0; background: none; color: #6b6155; font-size: 10.5px; font-weight: 500; cursor: pointer; }
+.dv-tabs button { display: grid; justify-items: center; gap: 3px; min-width: 56px; min-height: 44px; padding: 2px 4px; border: 0; background: none; color: #6b6155; font-size: 12px; font-weight: 500; cursor: pointer; }
 .dv-tabs svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .dv-tabs button[aria-current="page"] { color: var(--c); }
 
@@ -65,7 +65,7 @@
 .ap-tile:first-child:nth-last-child(odd), .ap-tile.wide { grid-column: 1 / -1; min-height: 84px; }
 .ap-tile svg { width: 24px; height: 24px; stroke: var(--c); fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .ap-tile b { font-size: 15px; }
-.ap-tile span { font-size: 12px; color: #655b4f; }
+.ap-tile span { font-size: 13px; color: #655b4f; }
 .ap-tile:active { transform: scale(.97); }
 @keyframes ap-pop { from { opacity: 0; transform: translateY(10px) scale(.97); } }
 .ap-card { padding: 14px; border-radius: 16px; background: #fff; border: 1px solid rgba(27,23,18,.08); }

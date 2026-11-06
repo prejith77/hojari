@@ -246,7 +246,7 @@
     $('#ct-r').addEventListener('input', count);
     $('.ct-send').addEventListener('click', (e) => {
       const c = count();
-      const note = 'My Count: ' + money(c.soft + c.time) + ' a year (' + money(c.soft) + ' on software, ' + money(c.time) + ' on ' + c.hours + ' hours of admin a week at ' + c.rate + ' an hour). Apps: ' + (c.apps.join(', ') || 'none listed');
+      const note = 'My numbers: ' + money(c.soft + c.time) + ' a year (' + money(c.soft) + ' on software, ' + money(c.time) + ' on ' + c.hours + ' hours of admin a week at ' + c.rate + ' an hour). Apps: ' + (c.apps.join(', ') || 'none listed');
       if (window.hjLead) { e.preventDefault(); window.hjLead(note); }
     });
   }

@@ -7,8 +7,8 @@
   --paper: #f2f0eb; --muted: #b8ae9c; --resin: #d7dcc7; --honey: #e3ad5c; --amber: #b8661d; --khareef: #2b5a42;
   --sand: #e7e3db; --sand-2: #f2f0eb; --ink: #17120c; --ink-muted: #5b5144; --ink-line: rgba(23, 18, 12, .12);
   --sans: "Albert Sans", system-ui, sans-serif; --serif: "Instrument Serif", Georgia, serif;
-  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
-  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-small: clamp(0.9375rem, 0.91rem + 0.1vw, 1rem);
+  --step-body: clamp(1.125rem, 1.06rem + 0.25vw, 1.25rem);
   --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
   --step-head: clamp(2.5rem, 1.6rem + 3.6vw, 4.75rem);
   --margin: clamp(20px, 3vw, 48px);

@@ -1840,3 +1840,27 @@ section[id] { scroll-margin-top: 0; }
   .hj-shots img.ph { width: 30%; }
 }
 @media (prefers-reduced-motion: reduce) { .hj-panel:not([hidden]), .ch-msg { animation: none; } .ds-chart i { transition: none; } }
+
+/* ==========================================================
+   Phone polish: tighter rhythm, bigger small text, demo tabs that fit
+   ========================================================== */
+:root { --step-small: clamp(0.9375rem, 0.91rem + 0.1vw, 1rem); --step-body: clamp(1.125rem, 1.06rem + 0.25vw, 1.25rem); }
+.hj-room, .hj-room-body { grid-template-columns: minmax(0, 1fr); }
+.hj-room > *, .hj-room-body > * { min-width: 0; }
+@media (min-width: 900px) { .hj-room-body { grid-template-columns: minmax(0, 390px) minmax(0, 1fr); } }
+.hj-plan li, .hj-care-box li { font-size: 16.5px; }
+.ct-note { font-size: 16.5px; }
+@media (max-width: 899px) {
+  .hero { padding-bottom: 12px; }
+  .promises { margin-bottom: 0; }
+  .promises span { font-size: 14.5px; }
+  .hero-note { display: none; }
+  .hj-fix, .hj-demos, .hj-count, .hj-work, .hj-standard, .hj-pricing, .hj-how, .hj-about, .hj-faq { padding: 64px 20px; }
+  .hj-fix { padding-top: 56px; }
+  .hj-head { margin-bottom: 28px; }
+  .hj-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; max-width: 420px; }
+  .hj-tabs button { padding: 0 4px; font-size: 14.5px; }
+  .hj-side-note { font-size: 1.5rem; }
+}
+@media (max-width: 899px) { .hero .hero-sub { font-size: 1.1875rem; } .contact { padding-top: 64px; padding-bottom: 64px; } }
+@media (max-width: 899px) { .hero-actions { grid-template-columns: 1fr; gap: 10px; } .hero-actions > * { width: 100%; justify-content: center; text-align: center; white-space: nowrap; } }
