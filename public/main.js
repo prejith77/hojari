@@ -771,7 +771,7 @@
   if (!reduce) {
     let tearLoading = false;
     const load = (src) => new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.body.appendChild(s); });
-    const evs = ['pointermove', 'click', 'keydown'];
+    const evs = ['pointermove', 'pointerdown', 'touchstart', 'scroll', 'click', 'keydown'];
     const wake = (e) => {
       if (e && e.type === 'pointermove' && e.pointerType !== 'mouse') return;
       if (tearLoading) return; tearLoading = true;
@@ -781,7 +781,8 @@
       load('vendor/three.min.js').then(() => load('tear.js')).catch(() => {});
     };
     evs.forEach((n) => addEventListener(n, wake, { passive: true }));
-    addEventListener('load', () => setTimeout(() => (window.requestIdleCallback || setTimeout)(() => wake()), 6500));
+    /* No touch at all: wake anyway once the page has settled; the idle wait is capped so a busy phone can't stall it */
+    addEventListener('load', () => setTimeout(() => (window.requestIdleCallback ? requestIdleCallback(() => wake(), { timeout: 1200 }) : wake()), 2500));
   }
 
 

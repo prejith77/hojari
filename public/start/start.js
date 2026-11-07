@@ -47,7 +47,7 @@
 
   /* Choices */
   $$('.q-opts').forEach((group) => {
-    const name = group.dataset.name, max = +group.dataset.max, single = max === 1;
+    const name = group.dataset.name, max = +group.dataset.max || Infinity, single = max === 1;
     const btns = $$('button', group);
     btns.forEach((b) => b.setAttribute(single ? 'aria-checked' : 'aria-pressed', 'false'));
     if (single) btns.forEach((b) => b.setAttribute('role', 'radio'));
@@ -55,7 +55,7 @@
     const sync = () => {
       const n = answers[name].length;
       if (!single) btns.forEach((b) => { b.disabled = n >= max && b.getAttribute('aria-pressed') !== 'true'; });
-      if (left) left.textContent = n === 0 ? '' : n >= max ? 'That’s three.' : (max - n) + ' more if you like.';
+      if (left) left.textContent = n === 0 ? '' : max === Infinity ? n + ' chosen.' : n >= max ? 'That’s three.' : (max - n) + ' more if you like.';
       next.disabled = !ready();
     };
     group.addEventListener('click', (e) => {
@@ -121,16 +121,17 @@
     if (e.key === 'Enter' && e.target.tagName === 'INPUT' && steps[at].dataset.step === 'name') { e.preventDefault(); go(at + 1); }
   });
 
-  /* The result: up to three tools, the package they need, and the price */
+  /* The result: a plan that explains itself. Each tool says which answer it answers. */
   const list = $('.r-list'), scratch = form.scratch;
-  let built = false;
+  let built = false, reasons = {};
+  const label = (name, v) => { const b = $('.q-opts[data-name="' + name + '"] button[data-v="' + v + '"]'); return b ? b.firstChild.textContent.trim() : v; };
   function pickTools() {
-    const score = {};
-    const add = (t, n) => { score[t] = (score[t] || 0) + n; };
-    ['online', 'time'].forEach((k) => answers[k].forEach((v) => { const w = WEIGHTS[k][v] || {}; Object.keys(w).forEach((t) => add(t, w[t])); }));
-    if (/pile of apps/.test(answers.now[0] || '')) add('records', 1);
-    if (/6 to 20|More than 20/.test(answers.team[0] || '')) { add('dashboard', 1); add('rota', 1); }
-    fromBuild.forEach((t) => add(t, 4));
+    const score = {}; reasons = {};
+    const add = (t, n, why) => { score[t] = (score[t] || 0) + n; if (why) (reasons[t] = reasons[t] || []).push(why); };
+    ['online', 'time'].forEach((k) => answers[k].forEach((v) => { const w = WEIGHTS[k][v] || {}; Object.keys(w).forEach((t) => add(t, w[t], label(k, v))); }));
+    if (/pile of apps/.test(answers.now[0] || '')) add('records', 1, 'You have a pile of apps that don’t talk to each other');
+    if (/6 to 20|More than 20/.test(answers.team[0] || '')) { add('dashboard', 1, 'Your team is ' + answers.team[0].toLowerCase()); add('rota', 1, 'Your team is ' + answers.team[0].toLowerCase()); }
+    fromBuild.forEach((t) => add(t, 4, 'It was in the app you built'));
     const order = Object.keys(TOOLS);
     return Object.keys(score).sort((a, b) => score[b] - score[a] || order.indexOf(a) - order.indexOf(b)).slice(0, 3);
   }
@@ -144,50 +145,66 @@
       l.innerHTML = '<input type="checkbox" name="tool"><b></b><span></span>';
       const box = l.firstChild; box.value = k; box.checked = chosen.includes(k);
       l.children[1].textContent = TOOLS[k][0];
-      if (box.checked) { const why = document.createElement('i'); why.className = 'r-why'; why.textContent = 'From your answers'; why.style.fontStyle = 'normal'; l.children[1].appendChild(why); }
       l.children[2].textContent = TOOLS[k][1];
       list.appendChild(l);
     });
-    /* Chosen first, the rest after */
     $$('.r-tool', list).sort((a, b) => b.firstChild.checked - a.firstChild.checked).forEach((l) => list.appendChild(l));
     if (plan === 'signature') scratch.checked = true;
     update();
   }
   function tools() { return $$('input[name="tool"]:checked', list).map((i) => i.value); }
   function pkg() { const n = tools().length; return scratch.checked ? 'signature' : n <= 1 ? 'silver' : 'royal-green'; }
+  const SHORT = { booking: 'online booking', ordering: 'an online shop', quotes: 'quotes and invoices', payments: 'online payments', assistant: 'an enquiry assistant', records: 'one customer record', dashboard: 'an owner’s dashboard', portal: 'a client portal', followups: 'review and rebooking reminders', memberships: 'memberships and courses', rota: 'a team planner', search: 'Google set up properly' };
+  const NUM = ['', 'one tool', 'two tools', 'three tools'];
+  const joinAnd = (a) => a.length < 2 ? (a[0] || '') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
+  function item(n, title, text, because) {
+    const li = document.createElement('li'); li.className = 'r-item';
+    li.innerHTML = '<span class="r-num" aria-hidden="true"></span><div><b></b><p></p></div>';
+    li.querySelector('.r-num').textContent = n; li.querySelector('b').textContent = title; li.querySelector('p').textContent = text;
+    if (because) { const w = document.createElement('p'); w.className = 'r-because'; w.textContent = because; li.lastChild.appendChild(w); }
+    return li;
+  }
   function update() {
     const t = tools(), p = pkg(), P = HJ.PRICES[p];
     $$('input[name="tool"]', list).forEach((i) => { i.disabled = !i.checked && t.length >= 3; });
-    $('.r-n').textContent = t.length + ' of 3 chosen';
+    $('.r-n').textContent = '(' + t.length + ' of 3)';
     $('.r-grade').textContent = P.name;
-    const names = t.map((k) => TOOLS[k][0]);
-    const incl = [];
-    if (p === 'signature') {
-      $('.r-what').textContent = 'Software built from scratch, around how you work';
-      incl.push('Your own app, portal or platform, designed with you');
-      if (names.length) incl.push('Built in: ' + names.join(', ').toLowerCase());
-      incl.push('A website to match', 'Works on any phone and saves to the home screen', 'Built in stages you see and use as we go');
-    } else if (p === 'royal-green') {
-      $('.r-what').textContent = 'Your website, plus a connected system';
-      incl.push('A website of up to 8 pages, written and designed for your customers');
-      names.forEach((n) => incl.push(n));
-      incl.push('All of it sharing one set of customer records');
-      if (!t.includes('dashboard')) incl.push("An owner's dashboard with your numbers on your phone");
-      incl.push('Your costs and admin hours measured before launch, and again 30 days after');
-    } else {
-      $('.r-what').textContent = names.length ? 'Your website, plus one tool' : 'Your website, ready for a tool when you want one';
-      incl.push('A website of up to 8 pages, written and designed for your customers');
-      names.forEach((n) => incl.push(n));
-      incl.push('Google Business Profile set up properly', 'Live within 7 days of your words and photos');
-    }
-    const ul = $('.r-incl'); ul.innerHTML = '';
-    incl.forEach((x) => { const li = document.createElement('li'); li.textContent = x; ul.appendChild(li); });
+    const names = t.map((k) => SHORT[k]);
+
+    /* One sentence that says what they're getting */
+    const sum = $('.r-summary');
+    if (p === 'signature') { sum.textContent = 'Your own software, built from scratch around how you work, with a website to match. That’s our Signature grade.'; $('.r-what').textContent = 'Software built from scratch'; }
+    else if (p === 'royal-green') { sum.textContent = 'Your website, plus ' + NUM[t.length] + ' that work together: ' + joinAnd(names) + '. That’s Royal Green, the grade most businesses pick.'; $('.r-what').textContent = 'Your website, plus a connected system'; }
+    else if (t.length) { sum.textContent = 'Your website, plus ' + names[0] + '. That’s our Silver grade: the simplest way to stop doing this by hand.'; $('.r-what').textContent = 'Your website, plus one tool'; }
+    else { sum.textContent = 'A website that wins you customers, ready to add a tool whenever you want one. That’s our Silver grade.'; $('.r-what').textContent = 'Your website'; }
+
+    /* The plan, numbered, each tool tied to the answer behind it */
+    const ol = $('.r-plan'); ol.innerHTML = ''; let n = 1;
+    if (p === 'signature') ol.appendChild(item(n++, 'Your own app or platform', 'Designed with you around how your business runs, built in stages you see and use as we go, and it works on any phone.', null));
+    ol.appendChild(item(n++, p === 'signature' ? 'A website to match' : 'Your website', 'Up to 8 pages, written and designed for your customers, quick on every phone and easy for you to change.', null));
+    t.forEach((k) => {
+      const r = reasons[k] && reasons[k].length ? 'You said: ' + reasons[k].slice(0, 2).map((x) => '“' + x + '”').join(' and ') : 'You added this';
+      ol.appendChild(item(n++, TOOLS[k][0], TOOLS[k][1], r));
+    });
+    if (p === 'royal-green' && !t.includes('dashboard')) ol.appendChild(item(n++, 'Your numbers on your phone', 'An owner’s dashboard with bookings, sales and reviews as they happen. Included in Royal Green.', null));
+
+    /* What else they asked for that the three tools don't cover */
+    const covered = new Set(t), later = [];
+    if (p === 'royal-green') covered.add('dashboard');
+    ['online', 'time'].forEach((k) => answers[k].forEach((v) => {
+      const w = Object.keys(WEIGHTS[k][v] || {});
+      if (w.length && !w.some((x) => covered.has(x))) later.push(label(k, v));
+    }));
+    const box = $('.r-later'); box.hidden = !later.length || p === 'signature';
+    const ul = $('.r-chips'); ul.innerHTML = '';
+    later.forEach((x) => { const li = document.createElement('li'); li.textContent = x; ul.appendChild(li); });
     paintPrice();
   }
   function paintPrice() {
     if (!built) return;
     const P = HJ.PRICES[pkg()], c = HJ.cur;
-    $('.r-build').textContent = HJ.money(P.build[c]);
+    $('.r-buildp').textContent = HJ.money(P.build[c]);
+    $('.r-third').textContent = HJ.money(Math.ceil(P.build[c] / 3));
     $('.r-fbuild').textContent = HJ.money(HJ.founding(P.build[c]));
     $('.r-carep').textContent = HJ.money(P.care[c]);
   }
