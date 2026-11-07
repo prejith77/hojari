@@ -148,11 +148,14 @@
 
   /* GRADES: the held scene. Scroll moves the tear down the grades, Shaabi to Hojari */
   const gradesEl = $('#grades');
+  /* The page may have switched the pinned layout on before this script ran; take it off again where it can't animate */
+  if (gradesEl && !(motion && (wide || root.classList.contains('webgl')))) gradesEl.classList.remove('is-live');
   if (motion && (wide || root.classList.contains('webgl')) && gradesEl) {
     gradesEl.classList.add('is-live');
     const items = $$('.grade', gradesEl), rail = $$('.grade-rail span', gradesEl), railBar = $('.grade-rail', gradesEl);
     const names = items.map((g) => (typeof SplitText !== 'undefined' ? SplitText.create($('.grade-name', g), { type: 'chars', mask: 'chars', charsClass: 'ch' }).chars : [$('.grade-name', g)]));
     gsap.set(items, { autoAlpha: 0 }); gsap.set(items[0], { autoAlpha: 1 }); items[0].classList.add('is-active'); rail[0].classList.add('is-on');
+    gradesEl.classList.add('is-ready');
     let beat = 0;
     const show = (n, dir) => {
       const out = items[beat], inn = items[n];
