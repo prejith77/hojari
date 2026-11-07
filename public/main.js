@@ -776,13 +776,17 @@
       if (e && e.type === 'pointermove' && e.pointerType !== 'mouse') return;
       if (tearLoading) return; tearLoading = true;
       evs.forEach((n) => removeEventListener(n, wake));
-      window.__tearLate = performance.now() > 2600;
       $$('img[data-early]').forEach((im) => { im.loading = 'eager'; });
       load('vendor/three.min.js').then(() => load('tear.js')).catch(() => {});
     };
     evs.forEach((n) => addEventListener(n, wake, { passive: true }));
-    /* No touch at all: wake anyway once the page has settled; the idle wait is capped so a busy phone can't stall it */
-    addEventListener('load', () => setTimeout(() => (window.requestIdleCallback ? requestIdleCallback(() => wake(), { timeout: 1200 }) : wake()), 2500));
+    /* Laptops have the power to spare, so the live tear starts as soon as the page has loaded instead of waiting for the mouse.
+       Phones wait for a touch or scroll, or 2.5s of quiet, so the first paint stays fast; the idle wait is capped so a busy phone can't stall it */
+    const laptop = matchMedia('(min-width: 900px) and (pointer: fine)').matches;
+    const idle = (ms) => (window.requestIdleCallback ? requestIdleCallback(() => wake(), { timeout: ms }) : wake());
+    const start = () => (laptop ? idle(300) : setTimeout(() => idle(1200), 2500));
+    /* This script can run after the page has already finished loading, and then a 'load' listener would never fire */
+    if (document.readyState === 'complete') start(); else addEventListener('load', start, { once: true });
   }
 
 
