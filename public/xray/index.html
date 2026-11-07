@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A free X-ray of your website · Hojari</title>
+<meta name="description" content="Send your web address and within 48 hours you get a short report: what customers see on a phone, where you lose them, what your apps cost and the one thing to fix first. Free, and it stays between us.">
+<link rel="canonical" href="https://hojari.co.uk/xray/">
+<meta property="og:title" content="A free X-ray of your website · Hojari">
+<meta property="og:description" content="What your customers see, where you lose them, and the one thing to fix first. Free, within 48 hours.">
+<meta property="og:image" content="https://hojari.co.uk/assets/og-card-2.jpg">
+<meta name="theme-color" content="#120d09">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="../fonts/InstrumentSerif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../sub.css">
+<link rel="stylesheet" href="xray.css">
+</head>
+<body>
+<header class="top">
+  <a class="top-mark" href="../" aria-label="Hojari home"><img src="../assets/wordmark.svg" alt="Hojari" width="104" height="31"></a>
+  <div class="top-right"><a class="top-back" href="../">Back to the site</a></div>
+</header>
+
+<main class="xr" id="main">
+  <div class="xr-intro">
+    <h1>A free X-ray of your <em>website</em></h1>
+    <p class="xr-lede">Send me your web address. Within 48 hours I’ll send you a short report on what your customers see, where you’re losing them, and the one thing I’d fix first. It’s free, and it stays between us.</p>
+    <p class="xr-from" hidden></p>
+  </div>
+
+  <div class="xr-grid">
+    <section class="xr-what" aria-labelledby="xr-what-title">
+      <h2 id="xr-what-title">What’s in it</h2>
+      <ol class="xr-list">
+        <li><b>How fast it is on a phone</b><span>Measured with Google’s own test, the one your ranking depends on.</span></li>
+        <li><b>What a new customer sees first</b><span>Your first screen on a phone, and whether it says clearly what you do.</span></li>
+        <li><b>How many taps it takes to book, buy or call</b><span>I try it myself and count, and note where it breaks.</span></li>
+        <li><b>How you look on Google</b><span>Your rating, your reviews, and whether people searching for what you do can find you.</span></li>
+        <li><b>What your apps cost you</b><span>Tell me what you pay for and I’ll add it up for the year.</span></li>
+        <li><b>The one thing to fix first</b><span>With a sketch of what it would look like.</span></li>
+      </ol>
+
+      <figure class="xr-sample" aria-label="A sample X-ray for a made-up bakery">
+        <figcaption><b>Sample X-ray</b><span>Riverside Bakery, a made-up business</span></figcaption>
+        <dl>
+          <div class="bad"><dt>Speed on a phone</dt><dd>6.8 seconds to show</dd></div>
+          <div class="bad"><dt>First screen</dt><dd>“Welcome to our website!!”</dd></div>
+          <div class="bad"><dt>Taps to order</dt><dd>5, and the last one rings a landline</dd></div>
+          <div class="mid"><dt>Google</dt><dd>4.9 from 380 reviews, none of them on the site</dd></div>
+          <div class="mid"><dt>Apps</dt><dd>£1,140 a year across four apps</dd></div>
+          <div class="fix"><dt>Fix first</dt><dd>Put the reviews and an “Order for tomorrow” button on the first screen</dd></div>
+        </dl>
+      </figure>
+    </section>
+
+    <form class="xr-form" novalidate>
+      <div class="xr-fields">
+        <h2>Send me your website</h2>
+        <label class="field"><span>Your website</span><input name="site" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" required maxlength="200" placeholder="yourbusiness.com"><em class="q-err" aria-live="polite"></em></label>
+        <label class="field"><span>Your name</span><input name="name" autocomplete="name" required maxlength="80"><em class="q-err" aria-live="polite"></em></label>
+        <label class="field"><span>Your email</span><input name="email" type="email" autocomplete="email" autocapitalize="off" spellcheck="false" required maxlength="120"><em class="q-err" aria-live="polite"></em></label>
+        <label class="field"><span>WhatsApp number, if you’d rather get it there</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30"></label>
+        <label class="field"><span>Anything you’d like me to look at?</span><textarea name="notes" maxlength="1500" placeholder="A page that isn’t working, an app you’re paying too much for"></textarea></label>
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="sr" aria-hidden="true">
+        <button class="button button-light arrow xr-go" type="submit">Send me my X-ray</button>
+        <p class="xr-small">It’s free, and there’s no card to enter and nothing to sign.</p>
+      </div>
+      <div class="xr-sent" hidden tabindex="-1">
+        <span class="xr-tick" aria-hidden="true"></span>
+        <h2>Got it, <em class="xr-who">thank you</em></h2>
+        <p>Your X-ray will be with you within 48 hours. While you wait, try the demos, or see what it would cost to fix.</p>
+        <div class="xr-links"><a class="button button-ghost" href="../#demos">Try the live demos</a><a class="button button-ghost" href="../start/">Design your package</a></div>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer class="foot">
+  <p>© 2026 Hojari · <a href="mailto:hello@hojari.co.uk">hello@hojari.co.uk</a></p>
+  <nav aria-label="Footer"><a href="../">Home</a><a href="../solutions/">What I build</a><a href="../grade/">Grade your website</a><a href="../start/">Start a project</a><a href="../#pricing">Prices</a></nav>
+</footer>
+<script src="../sub.js"></script>
+<script src="xray.js"></script>
+</body>
+</html>

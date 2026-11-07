@@ -59,8 +59,8 @@
     <section class="q-step" data-step="online" aria-labelledby="q3">
       <p class="q-count">Question 3 of 7</p>
       <h2 id="q3">What should your customers be able to do <em>without ringing you?</em></h2>
-      <p class="q-hint">Choose up to 3. <span class="q-left" aria-live="polite"></span></p>
-      <div class="q-opts q-multi" data-name="online" data-max="3">
+      <p class="q-hint">Choose as many as you like. <span class="q-left" aria-live="polite"></span></p>
+      <div class="q-opts q-multi" data-name="online" data-max="0">
         <button type="button" data-v="book">Book an appointment or a slot</button>
         <button type="button" data-v="buy">Order or buy from you</button>
         <button type="button" data-v="price">Get a price or a quote</button>
@@ -129,24 +129,40 @@
     <!-- Result -->
     <section class="q-step q-result" data-step="result" aria-labelledby="qr">
       <p class="q-count">Your package</p>
-      <h2 id="qr">Here's what I'd build for <em class="q-biz">your business</em></h2>
-      <p class="q-lede">Your website comes with every package. These are the tools I'd add, picked from your answers. Change them if you like: up to three is the Hojari standard, so each one gets built properly.</p>
+      <h2 id="qr">Here’s what I’d build for <em class="q-biz">your business</em></h2>
+      <p class="q-lede r-summary"></p>
 
       <div class="r-grid">
-        <div class="r-tools">
-          <p class="r-label">Your tools <span class="r-n" aria-live="polite"></span></p>
-          <div class="r-list"></div>
-          <label class="r-scratch"><input type="checkbox" name="scratch"><span><b>I need something built from scratch</b>An app, a portal or a platform of my own that no off-the-shelf tool does.</span></label>
+        <div class="r-main">
+          <ol class="r-plan" aria-live="polite"></ol>
+
+          <div class="r-later" hidden>
+            <p class="r-label">Also on your list</p>
+            <ul class="r-chips"></ul>
+            <p class="r-later-note">Three tools at a time is the Hojari standard, so each one is built properly. These can come next. If you’d rather have everything at once, tick “built from scratch” below and it becomes Signature.</p>
+          </div>
+
+          <details class="r-swap">
+            <summary>Change the tools <span class="r-n"></span></summary>
+            <p class="r-swap-note">Pick up to three. Your plan and price update as you go.</p>
+            <div class="r-list"></div>
+          </details>
+
+          <label class="r-scratch"><input type="checkbox" name="scratch"><span><b>I need something built from scratch</b>An app, a portal or a platform of my own that no ready-made tool does.</span></label>
         </div>
 
         <aside class="r-card" aria-live="polite">
           <div class="r-cardtop"><p class="r-grade"></p><div class="cur" role="group" aria-label="Currency"><button type="button" data-cur="GBP">£</button><button type="button" data-cur="USD">$</button><button type="button" data-cur="AED">AED</button></div></div>
           <p class="r-what"></p>
-          <p class="r-price"><span>from</span> <b class="r-build"></b></p>
+          <p class="r-price"><span>from</span> <b class="r-buildp"></b></p>
+          <p class="r-split">or three monthly payments of <b class="r-third"></b>, at no extra cost</p>
           <p class="r-found">Founding clients pay <b class="r-fbuild"></b>, 30% off, in return for an honest review and a case study.</p>
           <p class="r-care">Then <b class="r-carep"></b> a month for care: hosting, backups, small changes and one improvement every month.</p>
-          <ul class="r-incl"></ul>
-          <p class="r-note">Fixed price in writing before I start. You try it on a private link for seven days before you pay a penny.</p>
+          <ol class="r-next">
+            <li><b>Within 24 hours</b> I reply with a fixed price, in writing.</li>
+            <li><b>Within 7 days</b> you try it on your own business, on a private link.</li>
+            <li><b>Only when you’re happy</b> do you pay, and it goes live on your own domain.</li>
+          </ol>
         </aside>
       </div>
 
@@ -181,7 +197,7 @@
 
 <footer class="foot">
   <p>© 2026 Hojari · <a href="mailto:hello@hojari.co.uk">hello@hojari.co.uk</a></p>
-  <nav aria-label="Footer"><a href="../">Home</a><a href="../#demos">Demos</a><a href="../build/">Build your app</a><a href="../portal/">Client portal</a><a href="../#pricing">Prices</a></nav>
+  <nav aria-label="Footer"><a href="../">Home</a><a href="../#demos">Demos</a><a href="../build/">Build your app</a><a href="../portal/">Client portal</a><a href="../solutions/">What I build</a><a href="../xray/">Free X-ray</a><a href="../#pricing">Prices</a></nav>
 </footer>
 <script src="../sub.js"></script>
 <script src="start.js"></script>
