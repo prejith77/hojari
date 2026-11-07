@@ -2079,3 +2079,8 @@ html:not(.has-tear) .hero-poster { animation: poster-breathe 2.8s ease-in-out in
 .hj-voice-text summary::after { content: ""; width: 7px; height: 7px; margin-left: 9px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s var(--ease-out); }
 .hj-voice-text[open] summary::after { transform: translateY(1px) rotate(-135deg); }
 .hj-about-text .hj-voice-text p { margin-top: 8px; font-size: 15px; line-height: 1.65; color: var(--resin); }
+
+/* Trust pass */
+.form-privacy { grid-column: 1 / -1; font-size: .9375rem; color: var(--muted); }
+.form-privacy a { color: inherit; text-underline-offset: 4px; }
+.hj-head p .text-link, .pricing p .text-link { margin-left: 6px; white-space: nowrap; }
