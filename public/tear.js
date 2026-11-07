@@ -73,7 +73,7 @@
   geo.setAttribute('aSize', new THREE.BufferAttribute(size, 1));
   geo.setAttribute('aSeed', new THREE.BufferAttribute(sd, 1));
 
-  const shared = { uTime: { value: 0 }, uIntro: { value: (posterMode || window.__tearLate) ? 1 : 0 }, uPR: { value: PR }, uLift: { value: 0 } };
+  const shared = { uTime: { value: 0 }, uIntro: { value: 1 }, uPR: { value: PR }, uLift: { value: 0 } };
   const tearMat = new THREE.ShaderMaterial({
     uniforms: Object.assign({ uMouse: { value: new THREE.Vector2(99, 99) }, uPulse: { value: 0 }, uTint: { value: new THREE.Vector3(1, 1, 1) }, uTintAmt: { value: 0 }, uDim: { value: 1 }, uReach: { value: 0.85 }, uPt: { value: 1 }, uGather: { value: 0 }, uHeat: { value: 0 }, uSwirl: { value: 0 } }, shared),
     vertexShader: `
@@ -146,22 +146,23 @@
   sGeo.setAttribute('aSeed', new THREE.BufferAttribute(sSeed, 1));
   sGeo.setAttribute('aRand', new THREE.BufferAttribute(sRand, 3));
   const smokeMat = new THREE.ShaderMaterial({
-    uniforms: Object.assign({ uOrigin: { value: new THREE.Vector3() }, uPuff: { value: 0 } }, shared),
+    uniforms: Object.assign({ uOrigin: { value: new THREE.Vector3() }, uPuff: { value: 0 }, uSc: { value: 1 }, uSp: { value: 1 } }, shared),
     vertexShader: `
       attribute float aSeed; attribute vec3 aRand;
-      uniform float uTime, uIntro, uPR, uLift, uPuff; uniform vec3 uOrigin;
+      uniform float uTime, uIntro, uPR, uLift, uPuff, uSc, uSp; uniform vec3 uOrigin;
       varying float vA;
       void main() {
         float life = fract(uTime * 0.045 * (0.6 + aRand.x * 0.7) + aSeed);
         float h = life * 4.4;
         float spread = 0.04 + life * (0.55 + uPuff * 0.35);
         vec3 p = uOrigin;
-        p.y += h;
-        p.x += sin(h * 1.25 + uTime * 0.22) * 0.38 * min(1.0, h) + aRand.z * spread + sin(h * 3.1 + aRand.y * 6.28) * 0.08 * life;
-        p.z += cos(h * 0.9 + uTime * 0.17) * 0.25 * min(1.0, h) + (aRand.y - 0.5) * spread;
+        vec3 o = vec3(0.0, h, 0.0);
+        o.x += sin(h * 1.25 + uTime * 0.22) * 0.38 * min(1.0, h) + aRand.z * spread + sin(h * 3.1 + aRand.y * 6.28) * 0.08 * life;
+        o.z += cos(h * 0.9 + uTime * 0.17) * 0.25 * min(1.0, h) + (aRand.y - 0.5) * spread;
+        p += o * uSc;
         vec4 mv = viewMatrix * vec4(p, 1.0);
         gl_Position = projectionMatrix * mv;
-        gl_PointSize = (3.0 + life * 30.0) * uPR * (9.0 / -mv.z);
+        gl_PointSize = (3.0 + life * 30.0) * uPR * uSp * (9.0 / -mv.z);
         vA = smoothstep(0.0, 0.06, life) * (1.0 - life) * smoothstep(0.6, 1.0, uIntro) * (1.0 - uLift * 0.5) * (1.0 + uPuff * 1.8);
       }`,
     fragmentShader: `
@@ -191,7 +192,9 @@
     glow.position.set(group.position.x + 0.1 * sc, group.position.y - 0.1 * sc, -1.5);
     glow.scale.set((posterMode ? 5.2 : 7) * sc, (posterMode ? 5.6 : 7.5) * sc, 1);
     smokeMat.uniforms.uOrigin.value.set(group.position.x + 0.2 * sc, group.position.y + 1.55 * sc, 0);
+    if (deskAnchor) deskAnchor();
   }
+  let deskAnchor = null;
   layout();
   addEventListener('resize', layout);
   /* Phones: the tear sits on an anchor (the hero image, the grades stage, the grader result) and flies between them */
@@ -220,6 +223,25 @@
     if (document.fonts) document.fonts.ready.then(place);
     new IntersectionObserver(([en]) => { inView = en.isIntersecting; }).observe(canvas);
   }
+  /* Laptops: the live tear sits exactly on the still picture, same spot, size, glow and spark size, so the handover from one to the other can't be seen.
+     The numbers come from how the still is rendered: a 1200px square, the tear at scale 1.3, its centre 2.1% left of and 10.6% below the middle */
+  if (!phone && !posterMode && heroPoster) {
+    deskAnchor = () => {
+      const sz = Math.min(heroPoster.offsetWidth, heroPoster.offsetHeight);
+      if (!sz) return;
+      const r = heroPoster.getBoundingClientRect(), w = canvas.clientWidth || innerWidth, h = canvas.clientHeight || innerHeight;
+      const cx = r.left + r.width / 2 - sz * 0.0211, cy = r.top + scrollY + r.height / 2 + sz * 0.1057;
+      const s = 1.3 * sz / h, x = (cx / w * 2 - 1) * halfW, y = -(cy / h * 2 - 1) * halfH;
+      group.scale.setScalar(s); group.position.set(x, y, 0);
+      glow.position.set(x + 0.1 * s, y - 0.1 * s, -1.5); glow.scale.set(5.2 * s, 5.6 * s, 1);
+      smokeMat.uniforms.uOrigin.value.set(x + 0.2 * s, y + 1.55 * s, 0);
+      tearMat.uniforms.uReach.value = 0.85 * s;
+      tearMat.uniforms.uPt.value = sz / 1200;
+      smokeMat.uniforms.uSc.value = s / 1.3; smokeMat.uniforms.uSp.value = sz / 1200;
+    };
+    deskAnchor();
+    new ResizeObserver(() => deskAnchor()).observe(heroPoster);
+  }
   const anchors = [['hero', heroPoster], ['grades', document.querySelector('.grade-anchor')], ['grader', document.getElementById('grader-poster')]];
   const cur = { x: 0, y: 0, s: 0.5 };
   let shown = null, mode = 'idle', gather = 0, puff = 0, firstArrival = true;
@@ -233,12 +255,20 @@
     smokeMat.uniforms.uOrigin.value.set(cur.x + 0.2 * cur.s, cur.y + 1.55 * cur.s, 0);
     tearMat.uniforms.uReach.value = 0.6 * cur.s;
     tearMat.uniforms.uPt.value = Math.min(1, Math.max(0.55, cur.s * 1.5));
+    if (pinned) {
+      /* Pinned on the hero picture: match the still exactly. Phones draw a third of the sparks and a quarter of the smoke,
+         so each one is drawn a little bigger to give the same density */
+      glow.scale.set(5.2 * cur.s, 5.6 * cur.s, 1);
+      tearMat.uniforms.uPt.value = ptK * 1.61;
+      smokeMat.uniforms.uSc.value = cur.s / 1.3; smokeMat.uniforms.uSp.value = ptK * 1.93;
+    }
   }
+  let ptK = 0.3;
   function pinnedState() {
-    const w = canvas.clientWidth || 1, h = canvas.clientHeight || 1, perPx = (2 * halfH) / h;
+    const w = canvas.clientWidth || 1, h = canvas.clientHeight || 1;
     const sz = Math.min(box.pw, box.ph);
-    const cx = box.ox + box.pw / 2, cy = box.oy + box.ph / 2 + sz * 0.105;
-    cur.s = (0.67 * sz * perPx) / 2.94;
+    const cx = box.ox + box.pw / 2 - sz * 0.0211, cy = box.oy + box.ph / 2 + sz * 0.1057;
+    cur.s = 1.3 * sz / h; ptK = sz / 1200;
     cur.x = (cx / w * 2 - 1) * halfW;
     cur.y = -(cy / h * 2 - 1) * halfH;
     shown = 'hero'; lift = 0; visible = inView;
@@ -383,14 +413,15 @@
   }
 
   const t0 = performance.now();
-  let rotX = 0, rotY = 0, first = true, wasVisible = true, lastW = 0, lastH = 0;
+  /* The live tear starts from exactly the pose and moment the still picture was taken at, so the handover is invisible */
+  let rotX = 0, rotY = 0.5, first = true, wasVisible = true, lastW = 0, lastH = 0;
   let slow = 0, pr = PR, lastPointer = -1e9, skip = 0;
   addEventListener('pointermove', () => { lastPointer = performance.now(); }, { passive: true });
   addEventListener('pointerdown', () => { lastPointer = performance.now(); }, { passive: true });
   function frame(now) {
     /* Laptops: while nobody is touching it the tear only drifts, so it redraws 30 times a second instead of 60 */
     if (!phone && !posterMode && now - lastPointer > 1200 && (skip ^= 1)) { requestAnimationFrame(frame); return; }
-    const t = posterMode ? 14 : (now - t0) / 1000;
+    const t = 14 + (posterMode ? 0 : (now - t0) / 1000);
     frameDt = lastNow ? Math.min(0.05, (now - lastNow) / 1000) : 0.016; lastNow = now;
     if (!posterMode && visible && !document.hidden) {
       slow = frameDt > 0.022 ? slow + 1 : Math.max(0, slow - 2);
@@ -405,7 +436,6 @@
     if (visible || posterMode) {
       shared.uTime.value = t;
       if (!posterMode) {
-        if (!window.__tearLate) shared.uIntro.value = Math.min(1, t / 2.6);
         if (phone) shared.uLift.value = lift;
         else if (lift < 0.3 && shared.uLift.value > 0.9) { shared.uLift.value = 0; gather = 1; kick(3.5); }
         else shared.uLift.value += (lift - shared.uLift.value) * 0.12;
@@ -430,7 +460,7 @@
         glow.material.color.lerp(glowHot, 0.08);
       }
       tearMat.uniforms.uMouse.value.copy(mouse);
-      rotY += ((posterMode ? 0.5 : t * 0.12 + lean.x * 0.45 + tilt.x * 0.9) - rotY) * 0.06;
+      rotY += ((posterMode ? 0.5 : 0.5 + (t - 14) * 0.12 + lean.x * 0.45 + tilt.x * 0.9) - rotY) * 0.06;
       rotX += ((posterMode ? 0 : -lean.y * 0.18 + tilt.y * 0.45) - rotX) * 0.06;
       if (posterMode) {
         rotY = 0.5; rotX = 0;
