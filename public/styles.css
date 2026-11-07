@@ -148,6 +148,8 @@ main, .foot { position: relative; z-index: 1; }
 .grades.is-live .grade-text { font-size: min(var(--step-lead), 3.4vh); max-width: 32ch; }
 .grades.is-live .grade-poster { position: fixed; right: 6vw; top: 50%; translate: 0 -50%; width: min(60vh, 40vw); opacity: 0; transition: opacity .5s; }
 .grades.is-live .grade.is-active .grade-poster { opacity: 1; }
+.grades.is-live:not(.is-ready) .grade:not(:first-child) { visibility: hidden; }
+.grades.is-live:not(.is-ready) .grade:first-child .grade-poster { opacity: 1; }
 .has-tear .grades.is-live .grade-poster { display: none; }
 .grades.is-live .grade-rail { display: grid; grid-template-columns: repeat(4, max-content); gap: 36px; position: relative; padding-bottom: 14px; font-size: var(--step-small); color: var(--muted); }
 .grade-rail span { transition: color .3s; }
@@ -2059,3 +2061,21 @@ html:not(.has-tear) .hero-poster { animation: poster-breathe 2.8s ease-in-out in
 .hj-about-text p.hj-creds { text-wrap: balance; }
 .app-btn[hidden] { display: none; }
 .ct-chip b { color: #8a4612; }
+
+/* Voice message: your face in the play button, where it was recorded, and the words for anyone who can't play sound */
+.hj-voice { display: grid; gap: 12px; justify-self: start; margin: 4px 0 6px; padding: 14px 22px 14px 14px; border-radius: 26px; background: var(--night-3); border: 1px solid var(--line); max-width: 520px; }
+.hj-voice-row { display: flex; align-items: center; gap: 16px; }
+.hj-voice figcaption b { display: block; color: var(--paper); font-weight: 600; font-size: 15.5px; line-height: 1.3; }
+.hj-voice figcaption span { display: block; margin-top: 3px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.hj-voice-btn { width: 60px; height: 60px; padding: 0; background: var(--night); overflow: visible; }
+.hj-voice-btn img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.hj-voice-btn::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: rgba(18, 13, 9, .35); transition: background-color .2s ease-out; }
+.hj-voice-btn::before { inset: -5px; -webkit-mask: radial-gradient(circle, transparent 32px, #000 33px); mask: radial-gradient(circle, transparent 32px, #000 33px); }
+.hj-voice-btn i { z-index: 1; left: 24px; top: 21px; border-color: transparent transparent transparent var(--paper); }
+.hj-voice.is-playing .hj-voice-btn i { left: 23px; top: 22px; background: linear-gradient(90deg, var(--paper) 0 5px, transparent 5px 9px, var(--paper) 9px); }
+.hj-voice.is-playing .hj-voice-btn::after { background: rgba(18, 13, 9, .2); }
+.hj-voice-text summary { display: inline-flex; align-items: center; min-height: 32px; font-size: 13.5px; font-weight: 500; color: var(--honey); cursor: pointer; list-style: none; }
+.hj-voice-text summary::-webkit-details-marker { display: none; }
+.hj-voice-text summary::after { content: ""; width: 7px; height: 7px; margin-left: 9px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s var(--ease-out); }
+.hj-voice-text[open] summary::after { transform: translateY(1px) rotate(-135deg); }
+.hj-about-text .hj-voice-text p { margin-top: 8px; font-size: 15px; line-height: 1.65; color: var(--resin); }

@@ -321,14 +321,15 @@
   if (voice) {
     const au = $('audio', voice), btn = $('.hj-voice-btn', voice), time = $('.hj-voice-time', voice);
     /* Switch on with data-ready="yes" once assets/prejith-hello.mp3 is uploaded */
-    if (voice.dataset.ready === 'yes') voice.hidden = false;
+    if (voice.dataset.ready === 'yes') { voice.hidden = false; au.preload = 'metadata'; }
     const mins = (t) => Math.floor(t / 60) + ':' + String(Math.floor(t % 60)).padStart(2, '0');
     btn.addEventListener('click', () => { if (au.paused) au.play(); else au.pause(); });
     au.addEventListener('play', () => { voice.classList.add('is-playing'); btn.setAttribute('aria-label', 'Pause the voice note'); });
-    au.addEventListener('pause', () => { voice.classList.remove('is-playing'); btn.setAttribute('aria-label', 'Play a voice note from Prejith'); });
-    au.addEventListener('loadedmetadata', () => { time.textContent = mins(au.duration); });
-    au.addEventListener('timeupdate', () => { if (au.duration) { time.textContent = mins(au.currentTime) + ' / ' + mins(au.duration); voice.style.setProperty('--p', (au.currentTime / au.duration).toFixed(3)); } });
-    au.addEventListener('ended', () => { voice.style.setProperty('--p', 0); time.textContent = mins(au.duration); });
+    const where = 'Recorded in Muscat';
+    au.addEventListener('pause', () => { voice.classList.remove('is-playing'); btn.setAttribute('aria-label', 'Play a voice message from Prejith'); });
+    au.addEventListener('loadedmetadata', () => { time.textContent = where + ' · ' + mins(au.duration); });
+    au.addEventListener('timeupdate', () => { if (au.duration) { time.textContent = mins(au.currentTime) + ' / ' + mins(au.duration); btn.style.setProperty('--p', (au.currentTime / au.duration).toFixed(3)); } });
+    au.addEventListener('ended', () => { btn.style.setProperty('--p', 0); time.textContent = where + ' · ' + mins(au.duration); });
   }
 
   setCur(cur, false);
