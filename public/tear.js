@@ -10,6 +10,8 @@
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const phone = !matchMedia('(min-width: 900px)').matches && !posterMode;
   if (!posterMode && (reduce || innerHeight > (window.screen.height || innerHeight) * 1.6)) return;
+  /* Phones on a page where the tear would fly between several spots (the grade page) keep the still posters: smooth scrolling comes first */
+  if (phone && (document.querySelector('.grade-anchor') || document.getElementById('grader-poster'))) return;
 
   let renderer;
   try { renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false, preserveDrawingBuffer: posterMode }); }
@@ -194,6 +196,30 @@
   addEventListener('resize', layout);
   /* Phones: the tear sits on an anchor (the hero image, the grades stage, the grader result) and flies between them */
   const heroPoster = document.querySelector('.hero-poster');
+  /* With only the hero to sit on, the canvas is pinned over the hero image instead of fixed to the screen:
+     the browser scrolls it like any picture, so it can never trail behind your thumb, and it is a fraction of the size to draw */
+  const heroBox = document.getElementById('top');
+  const pinned = phone && heroPoster && heroBox && !document.querySelector('.grade-anchor') && !document.getElementById('grader-poster');
+  const box = { ox: 0, oy: 0, pw: 1, ph: 1 };
+  let inView = true;
+  if (pinned) {
+    heroBox.appendChild(canvas);
+    canvas.classList.add('is-pinned');
+    const place = () => {
+      const hr = heroBox.getBoundingClientRect(), pr = heroPoster.getBoundingClientRect();
+      const padTop = pr.height * 0.75, padBottom = pr.height * 0.08;
+      const left = 0, width = hr.width;
+      const top = pr.top - hr.top - padTop, height = pr.height + padTop + padBottom;
+      Object.assign(canvas.style, { left: left + 'px', top: top + 'px', width: width + 'px', height: height + 'px' });
+      box.ox = pr.left - hr.left - left; box.oy = padTop; box.pw = pr.width; box.ph = pr.height;
+      layoutW = 0; layout();
+    };
+    place();
+    new ResizeObserver(place).observe(heroPoster);
+    addEventListener('resize', place);
+    if (document.fonts) document.fonts.ready.then(place);
+    new IntersectionObserver(([en]) => { inView = en.isIntersecting; }).observe(canvas);
+  }
   const anchors = [['hero', heroPoster], ['grades', document.querySelector('.grade-anchor')], ['grader', document.getElementById('grader-poster')]];
   const cur = { x: 0, y: 0, s: 0.5 };
   let shown = null, mode = 'idle', gather = 0, puff = 0, firstArrival = true;
@@ -207,6 +233,17 @@
     smokeMat.uniforms.uOrigin.value.set(cur.x + 0.2 * cur.s, cur.y + 1.55 * cur.s, 0);
     tearMat.uniforms.uReach.value = 0.6 * cur.s;
     tearMat.uniforms.uPt.value = Math.min(1, Math.max(0.55, cur.s * 1.5));
+  }
+  function pinnedState() {
+    const w = canvas.clientWidth || 1, h = canvas.clientHeight || 1, perPx = (2 * halfH) / h;
+    const sz = Math.min(box.pw, box.ph);
+    const cx = box.ox + box.pw / 2, cy = box.oy + box.ph / 2 + sz * 0.105;
+    cur.s = (0.67 * sz * perPx) / 2.94;
+    cur.x = (cx / w * 2 - 1) * halfW;
+    cur.y = -(cy / h * 2 - 1) * halfH;
+    shown = 'hero'; lift = 0; visible = inView;
+    tintTo.set(...TINTS[3]); dimTo = DIMS[3]; glowTo.setRGB(...GLOWS[3]);
+    applyPlace();
   }
   function phoneState(dt) {
     const c = canvas.getBoundingClientRect(), perPx = (2 * halfH) / c.height;
@@ -327,7 +364,7 @@
   let gradeNow = 3, lift = 0, visible = true, frameDt = 0.016, lastNow = 0;
   function state() {
     const vh = innerHeight;
-    if (phone) { phoneState(frameDt); return; }
+    if (phone) { if (pinned) pinnedState(); else phoneState(frameDt); return; }
     let g = 3;
     if (gradesEl) { const r = gradesEl.getBoundingClientRect(); if (r.top < vh * 0.5 && r.bottom > vh * 0.5) g = +gradesEl.dataset.beat || 0; }
     if (graderEl) {
@@ -347,9 +384,18 @@
 
   const t0 = performance.now();
   let rotX = 0, rotY = 0, first = true, wasVisible = true, lastW = 0, lastH = 0;
+  let slow = 0, pr = PR, lastPointer = -1e9, skip = 0;
+  addEventListener('pointermove', () => { lastPointer = performance.now(); }, { passive: true });
+  addEventListener('pointerdown', () => { lastPointer = performance.now(); }, { passive: true });
   function frame(now) {
+    /* Laptops: while nobody is touching it the tear only drifts, so it redraws 30 times a second instead of 60 */
+    if (!phone && !posterMode && now - lastPointer > 1200 && (skip ^= 1)) { requestAnimationFrame(frame); return; }
     const t = posterMode ? 14 : (now - t0) / 1000;
     frameDt = lastNow ? Math.min(0.05, (now - lastNow) / 1000) : 0.016; lastNow = now;
+    if (!posterMode && visible && !document.hidden) {
+      slow = frameDt > 0.022 ? slow + 1 : Math.max(0, slow - 2);
+      if (slow > 45 && pr > 0.75) { pr = Math.max(0.75, pr - 0.25); renderer.setPixelRatio(pr); shared.uPR.value = pr; layoutW = 0; layout(); slow = 0; }
+    }
     if (!posterMode) {
       if (canvas.clientWidth !== lastW || canvas.clientHeight !== lastH) { lastW = canvas.clientWidth; lastH = canvas.clientHeight; layout(); }
       state();

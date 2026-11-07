@@ -1887,3 +1887,8 @@ section[id] { scroll-margin-top: 0; }
 .hj-refer b { color: var(--paper); font-weight: 600; }
 .bx-note a { color: var(--honey); }
 @media (max-width: 899px) { .hj-xray { padding: 0 20px 64px; } .hj-xray-in { padding: 26px 22px; border-radius: 26px; } .hj-xray-actions .button { width: 100%; } }
+
+/* Phones: the tear is pinned over the hero image and scrolls with it; the smoke fades out softly at the top */
+.tear-canvas.is-pinned { position: absolute; inset: auto; z-index: 0; -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%); mask-image: linear-gradient(to bottom, transparent 0, #000 22%); }
+/* Phones: the hero text and buttons sit above the pinned tear, so its smoke drifts behind them */
+@media (max-width: 899px) { .hero-title, .hero-sub, .hero-actions, .promises { position: relative; z-index: 1; } }
