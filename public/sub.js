@@ -1,6 +1,7 @@
 /* Shared by the inner pages: prices in your currency (GBP, USD or AED) and sending a message to Prejith. */
 (() => {
   const PRICES = {
+    fix: { name: 'The one-week fix', build: { GBP: 450, USD: 585, AED: 2100 }, care: { GBP: 29, USD: 39, AED: 139 } },
     silver: { name: 'Silver', build: { GBP: 750, USD: 975, AED: 3500 }, care: { GBP: 49, USD: 65, AED: 235 } },
     'royal-green': { name: 'Royal Green', build: { GBP: 1950, USD: 2500, AED: 9250 }, care: { GBP: 99, USD: 129, AED: 465 } },
     signature: { name: 'Signature', build: { GBP: 3950, USD: 5100, AED: 18750 }, care: { GBP: 149, USD: 195, AED: 700 } },

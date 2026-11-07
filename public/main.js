@@ -99,7 +99,7 @@
   /* Headlines: masked lines rise and sharpen */
   const heroTitle = $('.hero-title');
   if (motion && typeof SplitText !== 'undefined') {
-    heroTitle.style.visibility = 'hidden';
+    if (heroTitle) heroTitle.style.visibility = 'hidden';
     const go = () => {
       $$('.split').forEach((el) => {
         const s = el === heroTitle
@@ -131,7 +131,7 @@
       ScrollTrigger.refresh();
     };
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => introDone).then(go);
-    setTimeout(() => { heroTitle.style.visibility = ''; }, 4500);
+    setTimeout(() => { if (heroTitle) heroTitle.style.visibility = ''; }, 4500);
   }
 
   /* Everything below the first screen sets itself up once the phone has a spare moment */
@@ -211,9 +211,8 @@
         gsap.from(chars, { yPercent: 110, duration: 0.45, ease: 'power3.out', stagger: 0.025, overwrite: true });
         gsap.fromTo(poster, { scale: 0.96 }, { scale: 1, duration: 0.35, ease: 'power2.out', overwrite: true });
       }
-      cta.textContent = g === 'Hojari' ? 'Keep it that way' : 'Get me to Hojari';
-      cta.href = 'mailto:hello@hojari.co.uk?subject=' + encodeURIComponent('My website grades as ' + g) +
-        '&body=' + encodeURIComponent('Hi Prejith,\n\nMy website scored ' + n + ' out of 10 (' + g + ').\nMy business is: \nMy website is: \n');
+      cta.textContent = g === 'Hojari' ? 'Check it with a free X-ray' : 'Get my free X-ray';
+      cta.href = 'xray/?grade=' + encodeURIComponent(g) + '&score=' + n;
     });
   }
 
@@ -412,8 +411,9 @@
   const FORM_ENDPOINT = 'https://formspree.io/f/mrppjrdb'; /* e.g. https://formspree.io/f/abcdwxyz; until then the form opens an email */
   const WHATSAPP = '447825742878';      /* full number with country code, digits only, e.g. 447700900123 */
   const cf = $('#contact-form'), ctxField = cf && cf.context, ctxNote = $('#lead-context'), sent = $('#sent');
-  if (WHATSAPP) {
-    const wa = $('#wa-btn');
+  const waBtn = $('#wa-btn');
+  if (WHATSAPP && waBtn) {
+    const wa = waBtn;
     wa.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent("Hi Prejith, I'd like to talk about my business.");
     wa.target = '_blank'; wa.rel = 'noopener'; wa.hidden = false;
   }
@@ -704,7 +704,7 @@
       out.innerHTML = '';
       const p = document.createElement('p'); p.className = 'wc-note';
       p.textContent = why || "I'll check it by hand and send you three plain-English fixes within 24 hours. This bit's on me.";
-      const a = document.createElement('a'); a.className = 'button button-light'; a.href = mail(url); a.textContent = 'Send it to me';
+      const a = document.createElement('a'); a.className = 'button button-light'; a.href = 'xray/?site=' + encodeURIComponent(url); a.textContent = 'Get my free X-ray';
       out.append(p, a);
     };
     const setGrade = (idx, name, line) => {

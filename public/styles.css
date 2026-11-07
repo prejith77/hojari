@@ -1864,3 +1864,26 @@ section[id] { scroll-margin-top: 0; }
 }
 @media (max-width: 899px) { .hero .hero-sub { font-size: 1.1875rem; } .contact { padding-top: 64px; padding-bottom: 64px; } }
 @media (max-width: 899px) { .hero-actions { grid-template-columns: 1fr; gap: 10px; } .hero-actions > * { width: 100%; justify-content: center; text-align: center; white-space: nowrap; } }
+
+/* ==========================================================
+   Brainstorm picks: the free X-ray, the one-week fix, referrals
+   ========================================================== */
+.hj-fixmore { margin-top: 28px; }
+.hj-fixmore .text-link, .hj-xray-actions .text-link { font-size: var(--step-body); }
+.hj-xray { position: relative; padding: 0 var(--margin) 120px; background: var(--night); }
+.hj-xray-in { display: grid; gap: 18px; max-width: 1240px; margin: 0 auto; padding: clamp(28px, 4vw, 56px); border-radius: 32px; background: radial-gradient(120% 140% at 100% 0%, rgba(227,173,92,.16), transparent 55%), var(--night-2); border: 1px solid rgba(227,173,92,.32); }
+.hj-xray-in h2 em { color: var(--honey); }
+.hj-xray-in p { color: var(--resin); font-size: var(--step-lead); line-height: 1.45; max-width: 52ch; }
+.hj-xray-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; margin-top: 6px; }
+.hj-fixoffer { display: grid; gap: 18px; margin-top: 16px; padding: 28px 26px; border-radius: 28px; background: var(--night); border: 1px dashed rgba(227,173,92,.45); }
+.hj-fixoffer h3 { font: 500 var(--step-body)/1.4 var(--sans); letter-spacing: 0; color: var(--paper); margin-top: 8px; }
+.hj-fixoffer-copy p:not(.hj-grade) { margin-top: 8px; color: var(--muted); font-size: 16px; line-height: 1.55; max-width: 60ch; }
+.hj-fixoffer-price { display: grid; gap: 8px; align-content: start; }
+.hj-fixoffer-price .button { margin-top: 6px; }
+@media (min-width: 1000px) { .hj-fixoffer { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: center; gap: 40px; } .hj-fixoffer-price .button { justify-self: start; } }
+@media (max-width: 999px) { .hj-fixoffer-price .button { width: 100%; } }
+@media (min-width: 900px) { .hj-care-box ul { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); } }
+.hj-refer { margin: 16px 0 0; padding: 18px 22px; border-radius: 20px; background: var(--night); border: 1px solid var(--line); color: var(--muted); font-size: 16px; line-height: 1.55; max-width: none; }
+.hj-refer b { color: var(--paper); font-weight: 600; }
+.bx-note a { color: var(--honey); }
+@media (max-width: 899px) { .hj-xray { padding: 0 20px 64px; } .hj-xray-in { padding: 26px 22px; border-radius: 26px; } .hj-xray-actions .button { width: 100%; } }

@@ -153,7 +153,8 @@
     update();
   }
   function tools() { return $$('input[name="tool"]:checked', list).map((i) => i.value); }
-  function pkg() { const n = tools().length; return scratch.checked ? 'signature' : n <= 1 ? 'silver' : 'royal-green'; }
+  const keepsSite = () => /decent website/.test(answers.now[0] || '') || plan === 'fix';
+  function pkg() { const n = tools().length; return scratch.checked ? 'signature' : n === 1 && keepsSite() ? 'fix' : n <= 1 ? 'silver' : 'royal-green'; }
   const SHORT = { booking: 'online booking', ordering: 'an online shop', quotes: 'quotes and invoices', payments: 'online payments', assistant: 'an enquiry assistant', records: 'one customer record', dashboard: 'an owner’s dashboard', portal: 'a client portal', followups: 'review and rebooking reminders', memberships: 'memberships and courses', rota: 'a team planner', search: 'Google set up properly' };
   const NUM = ['', 'one tool', 'two tools', 'three tools'];
   const joinAnd = (a) => a.length < 2 ? (a[0] || '') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
@@ -175,17 +176,19 @@
     const sum = $('.r-summary');
     if (p === 'signature') { sum.textContent = 'Your own software, built from scratch around how you work, with a website to match. That’s our Signature grade.'; $('.r-what').textContent = 'Software built from scratch'; }
     else if (p === 'royal-green') { sum.textContent = 'Your website, plus ' + NUM[t.length] + ' that work together: ' + joinAnd(names) + '. That’s Royal Green, the grade most businesses pick.'; $('.r-what').textContent = 'Your website, plus a connected system'; }
+    else if (p === 'fix') { sum.textContent = 'You keep the website you have, and I add ' + names[0] + ' to it, working within 7 days. That’s the one-week fix.'; $('.r-what').textContent = 'One tool, added to your website'; }
     else if (t.length) { sum.textContent = 'Your website, plus ' + names[0] + '. That’s our Silver grade: the simplest way to stop doing this by hand.'; $('.r-what').textContent = 'Your website, plus one tool'; }
     else { sum.textContent = 'A website that wins you customers, ready to add a tool whenever you want one. That’s our Silver grade.'; $('.r-what').textContent = 'Your website'; }
 
     /* The plan, numbered, each tool tied to the answer behind it */
     const ol = $('.r-plan'); ol.innerHTML = ''; let n = 1;
     if (p === 'signature') ol.appendChild(item(n++, 'Your own app or platform', 'Designed with you around how your business runs, built in stages you see and use as we go, and it works on any phone.', null));
-    ol.appendChild(item(n++, p === 'signature' ? 'A website to match' : 'Your website', 'Up to 8 pages, written and designed for your customers, quick on every phone and easy for you to change.', null));
+    if (p !== 'fix') ol.appendChild(item(n++, p === 'signature' ? 'A website to match' : 'Your website', 'Up to 8 pages, written and designed for your customers, quick on every phone and easy for you to change.', null));
     t.forEach((k) => {
       const r = reasons[k] && reasons[k].length ? 'You said: ' + reasons[k].slice(0, 2).map((x) => '“' + x + '”').join(' and ') : 'You added this';
       ol.appendChild(item(n++, TOOLS[k][0], TOOLS[k][1], r));
     });
+    if (p === 'fix') ol.appendChild(item(n++, 'Fitted to the website you have', 'It works inside your current website, so nothing else has to change. Want a new website as well? Add a second tool under “Change the tools” and it becomes Royal Green.', null));
     if (p === 'royal-green' && !t.includes('dashboard')) ol.appendChild(item(n++, 'Your numbers on your phone', 'An owner’s dashboard with bookings, sales and reviews as they happen. Included in Royal Green.', null));
 
     /* What else they asked for that the three tools don't cover */
