@@ -252,7 +252,8 @@
   });
   tabs.addEventListener('click', (e) => { const g = e.target.closest('[data-go]'); if (g) go(g.dataset.go); });
 
-  HJ.onCurrency(() => { if (st.screen !== 'home') go(st.screen); });
+  let built = false;
+  HJ.onCurrency(() => { if (built) go(st.screen); });
   dv.style.setProperty('--c', st.colour);
-  paintFeats(); showStep(0); go('home');
+  paintFeats(); showStep(0); go('home'); built = true;
 })();

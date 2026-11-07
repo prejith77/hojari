@@ -1901,3 +1901,161 @@ section[id] { scroll-margin-top: 0; }
 @keyframes poster-breathe { from { scale: 1; } to { scale: 1.014; } }
 html:not(.has-tear) .hero-poster { animation: poster-breathe 2.8s ease-in-out infinite alternate; }
 @media (prefers-reduced-motion: reduce) { html:not(.has-tear) .hero-poster { animation: none; } }
+
+/* ==========================================================
+   Clarity pass: clearer promises, currencies everywhere, the Standard you can open, care and referral perks
+   ========================================================== */
+
+/* Hero promises: four equal columns with a hairline between them, so the gaps are even */
+@media (min-width: 900px) {
+  .promises { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; width: 100%; max-width: 720px; }
+  .promises li { gap: 6px; align-content: start; padding: 0 18px; border-left: 1px solid var(--line); }
+  .promises li:first-child { padding-left: 0; border-left: 0; }
+  .promises span { line-height: 1.4; text-wrap: pretty; }
+}
+@media (max-width: 899px) { .promises li { align-content: start; } .promises span { text-wrap: pretty; } }
+
+/* Section heads: a little more air between a big title and its intro */
+.hj-head { gap: 24px; }
+@media (min-width: 900px) { .hj-head { gap: 30px; } }
+
+/* The Count: currency, quick-add subscriptions, clearer labels */
+.hj-cur-light { justify-self: start; margin: 0; background: #fff; border: 1px solid var(--ink-line); }
+.hj-cur-light button { color: var(--ink-muted); }
+.hj-cur-light button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.ct-in > .ct-label, .ct-hours .ct-label { color: var(--ink); font-size: 15px; margin-bottom: 14px; }
+.ct-hours .ct-label { margin-bottom: 0; }
+.ct-hours label span { line-height: 1.45; color: var(--ink-muted); }
+.ct-presets { margin-top: 18px; }
+.ct-presets[hidden] { display: none; }
+.ct-presets p { margin-bottom: 10px; font-size: 13.5px; color: var(--ink-muted); }
+.ct-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ct-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ink-line); background: var(--sand-2); color: var(--ink); font: 500 13.5px/1 var(--sans); white-space: nowrap; cursor: pointer; transition: background-color .15s ease-out, transform .12s var(--ease-out); -webkit-tap-highlight-color: transparent; }
+.ct-chip b { font-weight: 600; color: var(--amber); }
+.ct-chip:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .ct-chip:hover { background: #fff; } }
+/* Phones: one swipeable row instead of a wall of chips */
+@media (max-width: 899px) {
+  .ct-chips { flex-wrap: nowrap; overflow-x: auto; margin: 0 -20px; padding: 0 20px 4px; scroll-snap-type: x proximity; scrollbar-width: none; overscroll-behavior-x: contain; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 20px, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, transparent 0, #000 20px, #000 calc(100% - 28px), transparent); }
+  .ct-chips::-webkit-scrollbar { display: none; }
+  .ct-chip { scroll-snap-align: start; }
+}
+.ct-add { margin-top: 14px; }
+
+/* Demo phone: room at the bottom so nothing sits on the rounded edge, and an even rhythm on the confirmation */
+.hj-panel { padding-bottom: 52px; }
+.bk-done { gap: 0; }
+.bk-done .tick { margin-bottom: 20px; }
+.bk-done .done-title { margin-bottom: 14px; }
+.bk-done .bk-summary { font-size: 17px; line-height: 1.45; margin-bottom: 10px; }
+.bk-done .done-note { margin-bottom: 24px; }
+.qt-doc .doc-actions { gap: 8px; margin-top: 6px; }
+.qt-paid { margin-top: 4px; }
+.ds-toggle { margin-top: 2px; }
+.ds-kpis { margin-top: 16px; }
+.ds-chart { margin-top: 10px; }
+#p-dash .app-label { margin-top: 22px; }
+
+/* Recent work: the third project runs full width */
+.hj-case-copy { display: grid; gap: 12px; }
+@media (min-width: 900px) {
+  .hj-case-wide { grid-column: 1 / -1; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 44px; align-items: center; }
+  .hj-case-wide .hj-shots { margin-bottom: 0; }
+}
+
+/* The Hojari Standard: a list you open on a phone, a list and a signed card on a laptop */
+.std-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.std-item { border-bottom: 1px solid var(--line); }
+.std-pick { display: flex; align-items: center; gap: 16px; width: 100%; min-height: 76px; padding: 18px 0; border: 0; background: none; color: var(--paper); text-align: left; font: 400 clamp(1.625rem, 1.25rem + 1.2vw, 2.25rem)/1.1 var(--serif); letter-spacing: -0.01em; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.std-pick i { flex: none; width: 26px; font: 600 12px/1 var(--sans); font-style: normal; letter-spacing: .08em; color: var(--honey); }
+.std-pick span { flex: 1; }
+.std-pick::after { content: ""; flex: none; width: 10px; height: 10px; margin-right: 6px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: translateY(-3px) rotate(45deg); transition: transform .25s var(--ease-out); }
+.std-item.is-on .std-pick::after { transform: translateY(2px) rotate(-135deg); }
+.std-card { display: none; padding: 0 0 28px 42px; }
+.std-item.is-on .std-card { display: block; animation: std-in .3s var(--ease-out); }
+.std-kicker, .std-card h3 { display: none; }
+.std-card dl { display: grid; gap: 16px; margin: 0; }
+.std-card dt { font: 600 11.5px/1.2 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--honey); }
+.std-card dd { margin: 6px 0 0; color: var(--resin); font-size: 16.5px; line-height: 1.55; max-width: 52ch; }
+.std-sign { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 24px; margin-top: 30px; color: var(--muted); font-size: var(--step-small); }
+.std-sign b { font: italic 400 2.5rem/1 var(--serif); color: var(--honey); }
+@keyframes std-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (min-width: 900px) {
+  .std-list { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-auto-rows: auto; column-gap: 56px; border-top: 0; }
+  .std-item { display: contents; }
+  .std-pick { grid-column: 1; min-height: 84px; padding: 20px 4px; border-bottom: 1px solid var(--line); color: var(--muted); transition: color .2s ease-out; }
+  .std-item:first-child .std-pick { border-top: 1px solid var(--line); }
+  .std-item.is-on .std-pick { color: var(--paper); }
+  .std-pick::after { width: 18px; height: 1.5px; border: 0; background: var(--honey); transform: scaleX(0); transform-origin: left; transition: transform .3s var(--ease-out); }
+  .std-item.is-on .std-pick::after { transform: scaleX(1); }
+  .std-card { grid-column: 2; grid-row: 1 / span 5; align-self: start; padding: 40px 40px 36px; border-radius: 28px; background: linear-gradient(160deg, rgba(227,173,92,.10), rgba(227,173,92,0) 45%), var(--night); border: 1px solid rgba(227,173,92,.28); }
+  .std-kicker { display: block; font: 600 12px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .std-card h3 { display: block; margin: 14px 0 28px; font: 400 clamp(2.25rem, 1.6rem + 1.6vw, 3.25rem)/1.02 var(--serif); letter-spacing: -0.015em; color: var(--paper); }
+  .std-card dl { gap: 0; border-top: 1px solid var(--line); }
+  .std-card dl > dt { padding-top: 18px; }
+  .std-card dd { margin: 6px 0 0; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .std-card dd:last-of-type { border-bottom: 0; padding-bottom: 0; }
+  .std-sign { margin-top: 36px; }
+}
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) { .std-pick:hover { color: var(--paper); } }
+
+/* Care: what's included, in three plain groups */
+.hj-care-box { gap: 26px; padding: 32px 28px; }
+.care-head { display: grid; gap: 10px; }
+.care-head .hj-grade { font-size: 1.75rem; }
+.care-head .hj-grade b { font-weight: 400; }
+.care-head h3 { font: 500 var(--step-body)/1.35 var(--sans); letter-spacing: 0; color: var(--paper); max-width: 44ch; }
+.care-head p:not(.hj-grade) { color: var(--muted); font-size: 15px; }
+.care-groups { display: grid; gap: 24px; }
+.care-t { margin-bottom: 12px; font: 600 11.5px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--honey); }
+.hj-care-box .care-groups ul { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.care-groups li { position: relative; padding-left: 26px; color: var(--paper); font-size: 15.5px; line-height: 1.5; }
+.care-groups li::before { content: ""; position: absolute; left: 3px; top: .3em; width: 6px; height: 11px; border: solid var(--honey); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+@media (min-width: 900px) { .hj-care-box { padding: 40px; } .care-groups { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 36px; } }
+
+/* Recommend a business: the two rewards up front */
+.hj-refer { display: grid; gap: 22px; padding: 30px 26px; border-radius: 28px; background: linear-gradient(135deg, rgba(227,173,92,.15), rgba(227,173,92,.03) 60%), var(--night); border: 1px solid rgba(227,173,92,.4); }
+.refer-copy { display: grid; gap: 10px; }
+.refer-copy .hj-grade { font-size: 1.75rem; }
+.refer-copy h3 { font: 500 var(--step-body)/1.35 var(--sans); letter-spacing: 0; color: var(--paper); }
+.refer-copy p:not(.hj-grade) { color: var(--muted); font-size: 15.5px; line-height: 1.55; }
+.refer-perks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.refer-perks p { display: grid; gap: 6px; padding: 18px 16px; border-radius: 18px; background: rgba(18, 13, 9, .65); border: 1px solid var(--line); }
+.refer-perks b { font: 400 2.125rem/1 var(--serif); color: var(--honey); }
+.refer-perks span { font-size: 14px; line-height: 1.4; color: var(--resin); }
+.refer-share { justify-self: start; }
+@media (min-width: 900px) {
+  .hj-refer { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); align-items: center; gap: 20px 48px; padding: 40px; }
+  .refer-perks { grid-column: 2; grid-row: 1 / span 2; }
+  .refer-share { grid-column: 1; }
+}
+
+/* About: credentials and a voice note */
+.hj-about-text p.hj-creds { font-size: 13.5px; line-height: 1.6; color: var(--muted); }
+.hj-voice { display: flex; align-items: center; gap: 14px; justify-self: start; padding: 10px 22px 10px 10px; border-radius: 999px; background: var(--night-3); border: 1px solid var(--line); }
+.hj-voice[hidden] { display: none; }
+.hj-voice b { display: block; color: var(--paper); font-weight: 600; font-size: 15px; }
+.hj-voice span { display: block; margin-top: 2px; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.hj-voice-btn { position: relative; flex: none; width: 50px; height: 50px; border-radius: 50%; border: 0; background: var(--honey); cursor: pointer; transition: transform .12s var(--ease-out); }
+.hj-voice-btn:active { transform: scale(.95); }
+.hj-voice-btn::before { content: ""; position: absolute; inset: -5px; border-radius: 50%; background: conic-gradient(var(--honey) calc(var(--p, 0) * 360deg), rgba(243, 239, 230, .14) 0); -webkit-mask: radial-gradient(circle, transparent 28px, #000 29px); mask: radial-gradient(circle, transparent 28px, #000 29px); }
+.hj-voice-btn i { position: absolute; left: 20px; top: 16px; width: 0; height: 0; border-style: solid; border-width: 9px 0 9px 14px; border-color: transparent transparent transparent var(--ink); }
+.hj-voice.is-playing .hj-voice-btn i { left: 18px; top: 17px; width: 14px; height: 16px; border: 0; background: linear-gradient(90deg, var(--ink) 0 5px, transparent 5px 9px, var(--ink) 9px); }
+
+@media (prefers-reduced-motion: reduce) { .std-item.is-on .std-card { animation: none; } }
+/* Keep the Count's cards inside the screen even with the swipeable row of subscriptions */
+.ct > *, .ct-presets { min-width: 0; }
+/* Standard: tight label-to-text, more room between groups */
+.std-card dl { gap: 0; }
+.std-card dd { margin: 6px 0 18px; }
+.std-card dd:last-of-type { margin-bottom: 0; }
+@media (min-width: 900px) { .std-card dd { margin: 6px 0 0; } }
+.ct-hours output { grid-row: 1; grid-column: 2; align-self: start; padding: 4px 10px; border-radius: 999px; background: var(--sand-2); font-size: 15px; white-space: nowrap; }
+@media (min-width: 900px) {
+  .std-card dd { max-width: none; }
+  .std-sign { justify-content: flex-end; align-items: baseline; gap: 20px; }
+}
+.care-head .hj-grade { display: block; }
+.hj-about-text p.hj-creds { text-wrap: balance; }
+.app-btn[hidden] { display: none; }
+.ct-chip b { color: #8a4612; }

@@ -76,3 +76,4 @@ button, input, textarea, select { font: inherit; color: inherit; }
 @media (hover: hover) and (pointer: fine) { .foot a:hover { color: var(--paper); } }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+@media (max-width: 520px) { .tb-long { display: none; } .top-right { gap: 6px; } }

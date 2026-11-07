@@ -21,8 +21,13 @@
   try { cur = localStorage.getItem('hj-cur') || guess(); } catch (e) { cur = guess(); }
   if (!CUR[cur]) cur = 'GBP';
   const money = (n) => CUR[cur].fmt(Math.round(n));
+  /* Rough exchange rates, so a typed price keeps its meaning when the currency changes */
+  const RATE = { GBP: 1, USD: 1.3, AED: 4.75 };
+  const RANGE = { GBP: [8, 80], USD: [10, 105], AED: [40, 380] };
+  const conv = (n, from, to) => Math.round(n * RATE[to] / RATE[from]);
   function setCur(c, save) {
     if (!CUR[c]) return;
+    if (c !== cur) recount(cur, c);
     cur = c;
     if (save) { try { localStorage.setItem('hj-cur', c); } catch (e) {} }
     $$('[data-gbp]').forEach((el) => { el.textContent = money(+el.dataset[CUR[c].key]); });
@@ -126,8 +131,9 @@
       if (r.dataset.qty) { const q = +m2.value; return [name + ', ' + q + ' m²', (+r.dataset.price) * q / 10]; }
       return [name, +r.dataset.price];
     });
-    const gbp = (n) => '£' + Math.round(n).toLocaleString('en-GB');
+    const gbp = (n) => money(conv(n, 'GBP', cur));
     function total() {
+      rows.forEach((r) => { const b = r.parentNode.querySelector('b'); b.textContent = gbp(+r.dataset.price) + (r.dataset.qty ? ' / 10 m²' : ''); });
       const turf = rows.find((r) => r.dataset.qty);
       slider.classList.toggle('is-off', !turf.checked);
       m2.disabled = !turf.checked;
@@ -139,24 +145,33 @@
     }
     rows.forEach((r) => r.addEventListener('change', total));
     m2.addEventListener('input', total);
-    $('.qt-go', qt).addEventListener('click', () => {
+    function fillDoc() {
       const ul = $('.doc-lines', doc); ul.innerHTML = '';
       lines().forEach(([n, p]) => { const li = document.createElement('li'); li.innerHTML = '<span></span><b></b>'; li.firstChild.textContent = n; li.lastChild.textContent = gbp(p); ul.appendChild(li); });
       $('.qt-sum2', doc).textContent = gbp(total());
+    }
+    document.addEventListener('hj:currency', () => { total(); if (!doc.hidden) fillDoc(); });
+    $('.qt-go', qt).addEventListener('click', () => {
+      fillDoc();
       $('.qt-date', doc).textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
       $('.qt-paid', doc).hidden = true; $('.qt-accept', doc).hidden = false;
       qt.hidden = true; doc.hidden = false;
       $('#p-quote').scrollTop = 0;
     });
-    $('.qt-accept', doc).addEventListener('click', (e) => { e.currentTarget.hidden = true; $('.qt-paid', doc).hidden = false; });
+    $('.qt-accept', doc).addEventListener('click', (e) => {
+      e.currentTarget.hidden = true;
+      const paid = $('.qt-paid', doc); paid.hidden = false;
+      const panel = $('#p-quote');
+      panel.scrollTo({ top: panel.scrollHeight, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    });
     $('.qt-back', doc).addEventListener('click', () => { doc.hidden = true; qt.hidden = false; });
     total();
   }
 
   /* ---------- Dashboard ---------- */
   const DS = {
-    week: { range: 'This week', bars: [5, 7, 4, 8, 9, 6, 3], k: { bookings: '42', sales: '£3,860', new: '17', rating: '4.9' }, d: { bookings: '+12%', sales: '+8%', new: '+21%', rating: '31 reviews' } },
-    month: { range: 'This month', bars: [22, 28, 25, 31, 27, 34, 30, 36, 33, 38, 35, 41], k: { bookings: '186', sales: '£16,240', new: '64', rating: '4.9' }, d: { bookings: '+9%', sales: '+14%', new: '+18%', rating: '118 reviews' } },
+    week: { range: 'This week', bars: [5, 7, 4, 8, 9, 6, 3], k: { bookings: '42', sales: 3860, new: '17', rating: '4.9' }, d: { bookings: '+12%', sales: '+8%', new: '+21%', rating: '31 reviews' } },
+    month: { range: 'This month', bars: [22, 28, 25, 31, 27, 34, 30, 36, 33, 38, 35, 41], k: { bookings: '186', sales: 16240, new: '64', rating: '4.9' }, d: { bookings: '+9%', sales: '+14%', new: '+18%', rating: '118 reviews' } },
   };
   let range = 'week';
   const chart = $('.ds-chart');
@@ -167,21 +182,22 @@
     r.bars.forEach((v) => { const i = document.createElement('i'); i.style.transform = 'scaleY(0.04)'; chart.appendChild(i); requestAnimationFrame(() => requestAnimationFrame(() => { i.style.transform = 'scaleY(' + (v / max).toFixed(3) + ')'; })); });
     chart.style.setProperty('--n', r.bars.length);
     $('.ds-range').textContent = r.range;
-    Object.keys(r.k).forEach((k) => { $('[data-k="' + k + '"]').textContent = r.k[k]; $('[data-d="' + k + '"]').textContent = r.d[k]; });
+    Object.keys(r.k).forEach((k) => { $('[data-k="' + k + '"]').textContent = k === 'sales' ? money(Math.round(conv(r.k[k], 'GBP', cur) / 10) * 10) : r.k[k]; $('[data-d="' + k + '"]').textContent = r.d[k]; });
   }
+  document.addEventListener('hj:currency', () => { if (chart) drawChart(); });
   $$('.ds-toggle button').forEach((b) => b.addEventListener('click', () => {
     range = b.dataset.r;
     $$('.ds-toggle button').forEach((x) => x.classList.toggle('is-on', x === b));
     drawChart();
   }));
 
-  /* ---------- Assistant (scripted, so it never says anything wrong) ---------- */
+  /* ---------- Enquiries chat (scripted, so it never says anything wrong) ---------- */
   const log = $('.ch-log'), quick = $('.ch-quick');
   let chatStarted = false;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const SCRIPT = {
     start: { say: ["Hello, this is Harbour Dental. I can answer questions, give you prices or book you in. What can I help with?"], opts: ['price', 'book', 'hours', 'human'] },
-    price: { me: 'How much is a check-up?', say: ['A check-up with a scale and polish is £65, and it takes about 40 minutes.', 'New patients get their first X-rays free. Shall I find you a time?'], opts: ['book', 'hours', 'human'] },
+    price: { me: 'How much is a check-up?', say: [() => 'A check-up with a scale and polish is ' + money(Math.round(conv(65, 'GBP', cur) / 5) * 5) + ', and it takes about 40 minutes.', 'New patients get their first X-rays free. Shall I find you a time?'], opts: ['book', 'hours', 'human'] },
     book: { me: 'Can I book an appointment?', say: ['Of course. The next free check-ups are tomorrow at 9:30 and Thursday at 16:15.', 'Tap one and I’ll hold it for you.'], opts: ['slot1', 'slot2', 'human'] },
     slot1: { me: 'Tomorrow at 9:30, please.', say: ['Done. You’re booked in for tomorrow at 9:30. I’ve sent a confirmation, and I’ll remind you the evening before.'], opts: ['hours', 'restart'] },
     slot2: { me: 'Thursday at 16:15 works.', say: ['Done. You’re booked in for Thursday at 16:15. I’ve sent a confirmation, and I’ll remind you the evening before.'], opts: ['hours', 'restart'] },
@@ -204,7 +220,8 @@
     if (s.reset) { log.innerHTML = ''; return run('start'); }
     quick.innerHTML = '';
     if (s.me) bubble(s.me, 'me');
-    for (const line of s.say) {
+    for (const said of s.say) {
+      const line = typeof said === 'function' ? said() : said;
       const t = bubble('Typing…', 'bot typing');
       await new Promise((r) => setTimeout(r, reduce ? 150 : 550 + Math.min(900, line.length * 9)));
       t.classList.remove('typing'); t.textContent = line;
@@ -215,8 +232,27 @@
   quick && quick.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) run(b.dataset.k); });
 
   /* ---------- The Count ---------- */
-  const apps = $('.ct-apps');
-  const START = [['Booking system', 45], ['Email marketing', 30], ['Accounts', 28], ['Website builder', 22]];
+  const apps = $('.ct-apps'), chips = $('.ct-chips');
+  /* Typical monthly prices in pounds; they convert to the visitor's currency */
+  const START = [['Booking system', 45], ['Email marketing', 30], ['Accounts app', 28], ['Website builder', 22]];
+  const PRESETS = [['Online shop', 29], ['Customer records (CRM)', 40], ['Rotas and scheduling', 35], ['Forms and surveys', 20], ['Live chat', 25], ['Reviews app', 30], ['Loyalty app', 35], ['Invoicing app', 15], ['Design app', 11], ['Phone system', 25], ['Email and office apps', 12], ['File storage', 8]].concat(START);
+  function recount(from, to) {
+    if (!apps) return;
+    $$('.ct-cost', apps).forEach((i) => { if (i.value !== '') i.value = conv(+i.value, from, to); });
+    const hr = $('#ct-r'), v = conv(+hr.value, from, to);
+    hr.min = RANGE[to][0]; hr.max = RANGE[to][1]; hr.value = Math.min(RANGE[to][1], Math.max(RANGE[to][0], v));
+  }
+  function paintChips() {
+    if (!chips) return;
+    const have = new Set($$('.ct-row', apps).map((d) => d.children[0].value.trim().toLowerCase()));
+    chips.innerHTML = '';
+    PRESETS.filter(([n]) => !have.has(n.toLowerCase())).forEach(([n, c]) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'ct-chip'; b.dataset.n = n; b.dataset.c = c;
+      b.innerHTML = '<span></span><b></b>'; b.firstChild.textContent = n; b.lastChild.textContent = '+ ' + money(conv(c, 'GBP', cur));
+      chips.appendChild(b);
+    });
+    $('.ct-presets').hidden = !chips.children.length;
+  }
   function row(name, cost) {
     const d = document.createElement('div'); d.className = 'ct-row';
     d.innerHTML = '<input type="text" aria-label="App name" maxlength="40"><input class="ct-cost" type="number" inputmode="decimal" min="0" step="1" aria-label="Cost per month"><button type="button" aria-label="Remove">×</button>';
@@ -227,6 +263,7 @@
   }
   function count() {
     if (!apps) return;
+    paintChips();
     const h = $('#ct-h'), r = $('#ct-r');
     const soft = $$('.ct-cost', apps).reduce((a, i) => a + Math.max(0, +i.value || 0), 0) * 12;
     const time = (+h.value) * (+r.value) * 52;
@@ -238,7 +275,13 @@
     return { soft, time, apps: $$('.ct-row', apps).map((d) => d.children[0].value.trim() + ' ' + money(+d.children[1].value || 0)).filter((x) => x.trim()), hours: h.value, rate: money(+r.value) };
   }
   if (apps) {
-    START.forEach(([n, c]) => row(n, c));
+    START.forEach(([n, c]) => row(n, conv(c, 'GBP', cur)));
+    const hr = $('#ct-r'); hr.min = RANGE[cur][0]; hr.max = RANGE[cur][1]; hr.value = conv(20, 'GBP', cur);
+    chips.addEventListener('click', (e) => {
+      const b = e.target.closest('.ct-chip'); if (!b) return;
+      row(b.dataset.n, conv(+b.dataset.c, 'GBP', cur)); count();
+      const next = chips.querySelector('.ct-chip'); if (next) next.focus({ preventScroll: true });
+    });
     apps.addEventListener('input', count);
     apps.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { b.parentNode.remove(); count(); } });
     $('.ct-add').addEventListener('click', () => { row('', '').children[0].focus(); });
@@ -249,6 +292,43 @@
       const note = 'My numbers: ' + money(c.soft + c.time) + ' a year (' + money(c.soft) + ' on software, ' + money(c.time) + ' on ' + c.hours + ' hours of admin a week at ' + c.rate + ' an hour). Apps: ' + (c.apps.join(', ') || 'none listed');
       if (window.hjLead) { e.preventDefault(); window.hjLead(note); }
     });
+  }
+
+  /* ---------- The Hojari Standard: pick a promise to read it in full ---------- */
+  const std = $('[data-std]');
+  if (std) {
+    const wideStd = matchMedia('(min-width: 900px)');
+    std.addEventListener('click', (e) => {
+      const b = e.target.closest('.std-pick'); if (!b) return;
+      const item = b.parentNode, open = item.classList.contains('is-on');
+      /* On a laptop one promise is always showing; on a phone you can close the one you opened */
+      if (open && wideStd.matches) return;
+      $$('.std-item', std).forEach((it) => { const on = it === item && !open; it.classList.toggle('is-on', on); it.firstElementChild.setAttribute('aria-expanded', on); });
+    });
+  }
+
+  /* ---------- Recommend a business: share a short message ---------- */
+  const share = $('.refer-share');
+  if (share) share.addEventListener('click', async () => {
+    const text = 'Have a look at Hojari. Prejith builds websites and booking, quotes and payment tools for small businesses, and you try it for 7 days before you pay. Mention my name and you get 10% off.';
+    const url = 'https://hojari.co.uk/';
+    if (navigator.share) { try { await navigator.share({ title: 'Hojari', text, url }); return; } catch (err) { if (err && err.name === 'AbortError') return; } }
+    window.open('https://wa.me/?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'noopener');
+  });
+
+  /* ---------- A voice note from Prejith: hidden until the recording is added ---------- */
+  const voice = $('.hj-voice');
+  if (voice) {
+    const au = $('audio', voice), btn = $('.hj-voice-btn', voice), time = $('.hj-voice-time', voice);
+    /* Switch on with data-ready="yes" once assets/prejith-hello.mp3 is uploaded */
+    if (voice.dataset.ready === 'yes') voice.hidden = false;
+    const mins = (t) => Math.floor(t / 60) + ':' + String(Math.floor(t % 60)).padStart(2, '0');
+    btn.addEventListener('click', () => { if (au.paused) au.play(); else au.pause(); });
+    au.addEventListener('play', () => { voice.classList.add('is-playing'); btn.setAttribute('aria-label', 'Pause the voice note'); });
+    au.addEventListener('pause', () => { voice.classList.remove('is-playing'); btn.setAttribute('aria-label', 'Play a voice note from Prejith'); });
+    au.addEventListener('loadedmetadata', () => { time.textContent = mins(au.duration); });
+    au.addEventListener('timeupdate', () => { if (au.duration) { time.textContent = mins(au.currentTime) + ' / ' + mins(au.duration); voice.style.setProperty('--p', (au.currentTime / au.duration).toFixed(3)); } });
+    au.addEventListener('ended', () => { voice.style.setProperty('--p', 0); time.textContent = mins(au.duration); });
   }
 
   setCur(cur, false);

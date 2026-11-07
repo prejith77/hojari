@@ -13,7 +13,7 @@
     ordering: ['Online ordering and shop', 'Orders and payments through your website, with receipts and stock handled for you.'],
     quotes: ['Quotes and invoices', 'Price a job in minutes, turn it into an invoice in one tap, and late payers get chased for you.'],
     payments: ['Payments and deposits', 'Card payments and deposits online, so a no-show costs you less.'],
-    assistant: ['Enquiry assistant', 'Answers the questions you get every day, on your website and WhatsApp, and hands over to you when it should.'],
+    assistant: ['Instant replies', 'Answers the questions you get every day, on your website and WhatsApp, and hands over to you when it should.'],
     records: ['One customer record', 'Every customer, booking and payment in one place that all your tools read from, so nothing is typed twice.'],
     dashboard: ["Owner's dashboard", 'Bookings, sales and reviews on your phone as they happen, without a spreadsheet.'],
     portal: ['Client portal', 'Clients sign in to see progress, documents and invoices, without having to ask you.'],
@@ -155,7 +155,7 @@
   function tools() { return $$('input[name="tool"]:checked', list).map((i) => i.value); }
   const keepsSite = () => /decent website/.test(answers.now[0] || '') || plan === 'fix';
   function pkg() { const n = tools().length; return scratch.checked ? 'signature' : n === 1 && keepsSite() ? 'fix' : n <= 1 ? 'silver' : 'royal-green'; }
-  const SHORT = { booking: 'online booking', ordering: 'an online shop', quotes: 'quotes and invoices', payments: 'online payments', assistant: 'an enquiry assistant', records: 'one customer record', dashboard: 'an owner’s dashboard', portal: 'a client portal', followups: 'review and rebooking reminders', memberships: 'memberships and courses', rota: 'a team planner', search: 'Google set up properly' };
+  const SHORT = { booking: 'online booking', ordering: 'an online shop', quotes: 'quotes and invoices', payments: 'online payments', assistant: 'instant replies to enquiries', records: 'one customer record', dashboard: 'an owner’s dashboard', portal: 'a client portal', followups: 'review and rebooking reminders', memberships: 'memberships and courses', rota: 'a team planner', search: 'Google set up properly' };
   const NUM = ['', 'one tool', 'two tools', 'three tools'];
   const joinAnd = (a) => a.length < 2 ? (a[0] || '') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1];
   function item(n, title, text, because) {
