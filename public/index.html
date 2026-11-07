@@ -56,16 +56,16 @@
   <picture class="hero-pic"><source type="image/avif" srcset="assets/tear-poster-400.avif 400w, assets/tear-poster-560.avif 560w, assets/tear-poster-720.avif 720w" sizes="(max-width: 899px) 320px, 44vw"><img class="hero-poster" src="assets/tear-poster.webp" srcset="assets/tear-poster-460.webp 460w, assets/tear-poster.webp 720w" sizes="(max-width: 899px) 320px, 44vw" width="1200" height="1200" alt="" fetchpriority="high"></picture>
   <div class="hero-text">
     <h1 id="hero-title" class="hero-title split"><span class="hl">Websites and software,</span> <em>made to the finest grade.</em></h1>
-    <p class="hero-sub">Hojari is named after the best frankincense in the world, and every build is held to that grade. I design your website and the software behind it around how your business runs, and you use it on your own business before you pay.</p>
+    <p class="hero-sub">I build websites for small businesses, and the tools behind them: online booking, quotes and invoices, online ordering, client portals and a dashboard for your numbers. You try it on your own business for 7 days before you pay anything.</p>
     <div class="hero-actions">
       <a class="button button-light magnetic" href="start/"><span class="long">Design your package</span><span class="short">Design your package</span></a>
       <a class="text-link hero-work" href="#demos">Try a live demo</a>
     </div>
     <ul class="promises" aria-label="My promises">
-      <li><b>£0</b><span>Until you're happy</span></li>
-      <li><b>24h</b><span>Reply, always</span></li>
-      <li><b>7 days</b><span>To go live</span></li>
-      <li><b>30 days</b><span>Results, or your money back</span></li>
+      <li><b>Free</b><span>to try for 7 days before you pay</span></li>
+      <li><b>24 hours</b><span>to hear back from me, every time</span></li>
+      <li><b>7 days</b><span>to go live once I have your words and photos</span></li>
+      <li><b>30 days</b><span>to see results, or your build fee back</span></li>
     </ul>
   </div>
   <p class="hero-note">That's a tear of Hojari, the top grade of Omani frankincense, drawn in code.<span class="desk-only"> Move your cursor through it, click it, or hold it down.</span><span class="phone-only"> Drag, tap or hold it.</span></p>
@@ -111,7 +111,7 @@
       <button type="button" role="tab" id="t-book" aria-controls="p-book" aria-selected="true">Booking</button>
       <button type="button" role="tab" id="t-quote" aria-controls="p-quote" aria-selected="false" tabindex="-1">Quotes</button>
       <button type="button" role="tab" id="t-dash" aria-controls="p-dash" aria-selected="false" tabindex="-1">Dashboard</button>
-      <button type="button" role="tab" id="t-chat" aria-controls="p-chat" aria-selected="false" tabindex="-1">Assistant</button>
+      <button type="button" role="tab" id="t-chat" aria-controls="p-chat" aria-selected="false" tabindex="-1">Enquiries</button>
     </div>
     <div class="hj-room-body">
       <div class="hj-phone">
@@ -174,7 +174,7 @@
             </div>
             <div class="ds-chart" aria-hidden="true"></div>
             <p class="app-label">Latest review</p>
-            <blockquote class="ds-review">“Booked at 11pm, reminded the day before, in and out on time. Lovely.” <cite>Sana, five stars</cite></blockquote>
+            <blockquote class="ds-review">“Booked late at night, got a reminder the day before, and was in and out on time. Lovely.” <cite>Sana, five stars</cite></blockquote>
           </div>
 
           <div class="hj-panel" role="tabpanel" id="p-chat" aria-labelledby="t-chat" hidden>
@@ -273,23 +273,33 @@
 <section class="hj-count" id="count" aria-labelledby="count-title">
   <div class="hj-head">
     <h2 id="count-title" class="split">What is your software <em>really costing you?</em></h2>
-    <p class="hj-lede">This is The Count. Add the apps you pay for each month and the hours your team spends on admin, and it works out what that costs you in a year. It's the number my work is measured against.</p>
+    <p class="hj-lede">List the apps you pay for each month and the hours your team spends on admin. The Count adds it up for a whole year. It's the number I set out to bring down, and how you'll know my work has paid off.</p>
+    <div class="hj-cur hj-cur-light" role="group" aria-label="Currency">
+      <button type="button" data-cur="GBP" aria-pressed="true">£ GBP</button>
+      <button type="button" data-cur="USD" aria-pressed="false">$ USD</button>
+      <button type="button" data-cur="AED" aria-pressed="false">AED</button>
+    </div>
   </div>
   <div class="ct">
     <div class="ct-in">
-      <p class="ct-label">Apps and subscriptions, per month</p>
+      <p class="ct-label">1. What you pay each month for apps and subscriptions</p>
       <div class="ct-apps"></div>
-      <button type="button" class="ct-add">Add another</button>
+      <div class="ct-presets">
+        <p>Tap any you also pay for:</p>
+        <div class="ct-chips"></div>
+      </div>
+      <button type="button" class="ct-add">Add your own</button>
       <div class="ct-hours">
-        <label><span>Hours a week your team spends on admin</span><input type="range" min="0" max="60" step="1" value="10" id="ct-h"><output for="ct-h">10 hours</output></label>
-        <label><span>What an hour of their time costs</span><input type="range" min="10" max="80" step="1" value="20" id="ct-r"><output for="ct-r">£20</output></label>
+        <p class="ct-label">2. Time spent on admin</p>
+        <label><span>Hours a week your team spends on emails, bookings, invoices and copying details between apps</span><input type="range" min="0" max="60" step="1" value="10" id="ct-h"><output for="ct-h">10 hours</output></label>
+        <label><span>What an hour of their time costs you</span><input type="range" min="8" max="80" step="1" value="20" id="ct-r"><output for="ct-r">£20</output></label>
       </div>
     </div>
     <div class="ct-out" aria-live="polite">
       <p class="ct-label">Every year, you spend</p>
       <p class="ct-big"><b class="ct-total">£0</b></p>
       <div class="ct-split"><p><span>On software</span><b class="ct-soft">£0</b></p><p><span>On admin time</span><b class="ct-time">£0</b></p></div>
-      <p class="ct-note">That's the number I set out to bring down. Send it to me and I'll show you where the savings are.</p>
+      <p class="ct-note">Send me your numbers and within 48 hours I'll show you where the savings are, free.</p>
       <a class="button button-light ct-send" href="#contact" data-context="count">Send me my numbers</a>
     </div>
   </div>
@@ -298,7 +308,7 @@
 <section class="hj-work" id="work" aria-labelledby="work-title">
   <div class="hj-head">
     <h2 id="work-title" class="split">Recent <em>work</em></h2>
-    <p class="hj-lede">Two builds in progress right now, both live to look at.</p>
+    <p class="hj-lede">Two client websites in progress, and a personal project that shows how far a website can go. All three are live, so open them on your phone.</p>
   </div>
   <div class="hj-cases">
     <a class="hj-case" href="https://tess-pereira.vercel.app/" target="_blank" rel="noopener">
@@ -313,21 +323,87 @@
       <h3>Performance Pathway</h3>
       <p>A club team, one-to-one coaching, group sessions and parties under one roof. Parents tap their child's age and the site points them to the right session, with a booking button on every screen.</p>
     </a>
+    <a class="hj-case hj-case-wide" href="https://doomsday-dossier.github.io/doomsday-dossier/" target="_blank" rel="noopener">
+      <div class="hj-shots"><img src="assets/work/dossier-desk.webp" alt="Doomsday Dossier's opening screen on a laptop" width="1440" height="900" loading="lazy"><img class="ph" src="assets/work/dossier-phone.webp" alt="Doomsday Dossier's opening screen on a phone" width="780" height="1688" loading="lazy"></div>
+      <div class="hj-case-copy">
+        <p class="hj-tag">Live · Personal project · Unofficial fan site</p>
+        <h3>Doomsday Dossier</h3>
+        <p>A fan archive for Avengers: Doomsday, built as Doctor Doom's own computer. Character files, a countdown to release, a combat simulator with live fan votes, and every fact traced to a Marvel announcement. The 3D, the motion and every sound are made in code, and it runs smoothly on a phone.</p>
+      </div>
+    </a>
   </div>
 </section>
 
 <section class="hj-standard" id="standard" aria-labelledby="standard-title">
   <div class="hj-head">
     <h2 id="standard-title" class="split">The Hojari <em>Standard</em></h2>
-    <p class="hj-lede">Five promises, in writing. Ask any other studio to match them.</p>
+    <p class="hj-lede">Five promises, written into every agreement. Choose one to see exactly what it means for you.</p>
   </div>
-  <ol class="hj-promises">
-    <li><h3>Try it before you pay</h3><p>You get a working version, set up with your business, on a private preview link. Use it for seven days. When you're happy, you pay and it moves to your own domain, in your name. If it isn't for you, you owe nothing.</p></li>
-    <li><h3>Results, or your money back</h3><p>I call it The Count. Before we start, I count what you spend on software, the hours your team spends on admin and how long customers wait for a reply. Thirty days after launch I count again. If none of the three has improved, you get your build fee back.</p></li>
-    <li><h3>Better every month</h3><p>On a care plan, I ship one improvement every month without being asked, chosen from how your customers actually use what I built. You also get a one-page report: enquiries, bookings, reply times and what changed.</p></li>
-    <li><h3>Live in days</h3><p>Websites and one-week fixes go live within 7 days of everything I need arriving, and bigger tools within 14. Miss it, and your first month of care is free.</p></li>
-    <li><h3>A reply within 24 hours</h3><p>You deal with me from the first message to launch and long after it, and you'll always hear back within a day.</p></li>
-  </ol>
+  <div class="std" data-std>
+    <ol class="std-list">
+      <li class="std-item is-on">
+        <button type="button" class="std-pick" aria-expanded="true" aria-controls="std-1"><i>01</i><span>Try it before you pay</span></button>
+        <div class="std-card" id="std-1">
+          <p class="std-kicker">Promise 01 of 05</p>
+          <h3>Try it before you pay</h3>
+          <dl>
+            <dt>What you get</dt><dd>A working version, set up with your business, on a private link. Use it on your business for seven days.</dd>
+            <dt>How it works</dt><dd>When you're happy, you pay and it moves to your own domain, registered in your name.</dd>
+            <dt>If it isn't for you</dt><dd>You owe nothing. No deposit, no fee.</dd>
+          </dl>
+        </div>
+      </li>
+      <li class="std-item">
+        <button type="button" class="std-pick" aria-expanded="false" aria-controls="std-2"><i>02</i><span>Results, or your money back</span></button>
+        <div class="std-card" id="std-2">
+          <p class="std-kicker">Promise 02 of 05</p>
+          <h3>Results, or your money back</h3>
+          <dl>
+            <dt>Before we start</dt><dd>I count three things: what you spend on software, the hours your team spends on admin, and how long customers wait for a reply.</dd>
+            <dt>30 days after launch</dt><dd>I count all three again and show you both sets of numbers side by side.</dd>
+            <dt>If none has improved</dt><dd>You get your build fee back.</dd>
+          </dl>
+        </div>
+      </li>
+      <li class="std-item">
+        <button type="button" class="std-pick" aria-expanded="false" aria-controls="std-3"><i>03</i><span>Better every month</span></button>
+        <div class="std-card" id="std-3">
+          <p class="std-kicker">Promise 03 of 05</p>
+          <h3>Better every month</h3>
+          <dl>
+            <dt>What you get</dt><dd>On a care plan, one improvement every month without you asking, chosen from how your customers actually use what I built.</dd>
+            <dt>How you'll know</dt><dd>A one-page report each month: enquiries, bookings, reply times and what changed.</dd>
+            <dt>No lock-in</dt><dd>After the first three months, care runs month to month. Stay because it's worth it, not because you're tied in.</dd>
+          </dl>
+        </div>
+      </li>
+      <li class="std-item">
+        <button type="button" class="std-pick" aria-expanded="false" aria-controls="std-4"><i>04</i><span>Live in days, not months</span></button>
+        <div class="std-card" id="std-4">
+          <p class="std-kicker">Promise 04 of 05</p>
+          <h3>Live in days, not months</h3>
+          <dl>
+            <dt>Websites and one-week fixes</dt><dd>Live within 7 days of your words and photos arriving.</dd>
+            <dt>Bigger tools</dt><dd>Live within 14 days.</dd>
+            <dt>If I miss it</dt><dd>Your first month of care is free.</dd>
+          </dl>
+        </div>
+      </li>
+      <li class="std-item">
+        <button type="button" class="std-pick" aria-expanded="false" aria-controls="std-5"><i>05</i><span>A reply within 24 hours</span></button>
+        <div class="std-card" id="std-5">
+          <p class="std-kicker">Promise 05 of 05</p>
+          <h3>A reply within 24 hours</h3>
+          <dl>
+            <dt>Who you deal with</dt><dd>Me, Prejith. From the first message to launch and long after it. No account managers, no hand-offs.</dd>
+            <dt>How fast</dt><dd>You'll always hear back within a day.</dd>
+            <dt>If something breaks</dt><dd>Anything that stops customers booking, buying or getting in touch is fixed first.</dd>
+          </dl>
+        </div>
+      </li>
+    </ol>
+    <p class="std-sign"><span>All five go into your written agreement, signed by me.</span><b>Prejith</b></p>
+  </div>
 </section>
 
 <section class="hj-pricing" id="pricing" aria-labelledby="pricing-title">
@@ -349,7 +425,7 @@
       <p class="hj-care">then <b data-gbp="49" data-usd="65" data-aed="235">£49</b> a month for care</p>
       <ul>
         <li>A website of up to 8 pages, written and designed for your customers</li>
-        <li>One tool of your choice, such as booking, quotes, ordering or a WhatsApp assistant</li>
+        <li>One tool of your choice, such as booking, quotes, ordering or instant replies on WhatsApp</li>
         <li>Google Business Profile set up properly</li>
         <li>Live within 7 days of your words and photos</li>
       </ul>
@@ -395,11 +471,44 @@
     </div>
   </article>
   <div class="hj-care-box">
-    <p class="ct-label">Every care plan includes</p>
-    <ul><li>Hosting, security and daily backups</li><li>Small changes, sent on WhatsApp</li><li>One improvement every month</li><li>A one-page report every month</li><li>A reply within 24 hours, always</li></ul>
-    <p class="hj-small">Spread the build over three monthly payments at no extra cost. Care runs month to month after the first three months.</p>
+    <div class="care-head">
+      <p class="hj-grade">Care, from <b data-gbp="29" data-usd="39" data-aed="139">£29</b> a month</p>
+      <h3>Everything that keeps your site fast, safe and getting better</h3>
+      <p>One fixed monthly price. No call-out fees, no surprise bills.</p>
+    </div>
+    <div class="care-groups">
+      <div><p class="care-t">Looked after</p><ul>
+        <li>Hosting, security and daily backups</li>
+        <li>Your site checked every few minutes, and I'm alerted if it ever goes down</li>
+        <li>Updates and security fixes applied for you</li>
+        <li>Your domain and security certificate renewed on time</li>
+      </ul></div>
+      <div><p class="care-t">Getting better</p><ul>
+        <li>One improvement every month, without you asking</li>
+        <li>A one-page report every month: enquiries, bookings and reply times</li>
+        <li>A speed and health check every month</li>
+      </ul></div>
+      <div><p class="care-t">On your side</p><ul>
+        <li>Small changes, sent on WhatsApp</li>
+        <li>A reply within 24 hours, always</li>
+        <li>Anything stopping customers booking or paying is fixed first</li>
+        <li>Leave any time after three months, and I hand everything over</li>
+      </ul></div>
+    </div>
+    <p class="hj-small">Spread the build over three monthly payments at no extra cost.</p>
   </div>
-  <p class="hj-refer"><b>Know a business that needs this?</b> Recommend them. When they go ahead, they get 10% off their build and you get a month of care free.</p>
+  <div class="hj-refer">
+    <div class="refer-copy">
+      <p class="hj-grade">Recommend a business</p>
+      <h3>Know someone who needs this? You both get rewarded.</h3>
+      <p>Send them my way and mention your name. When they go ahead with a build, you both get rewarded.</p>
+    </div>
+    <div class="refer-perks">
+      <p><b>10% off</b><span>their build</span></p>
+      <p><b>1 month</b><span>of care free for you</span></p>
+    </div>
+    <button type="button" class="button button-light refer-share">Send them Hojari</button>
+  </div>
   <div class="hj-cta-row"><a class="button button-light" href="start/">Not sure which? Answer a few questions</a></div>
 </section>
 
@@ -417,11 +526,17 @@
   <figure class="hj-me"><img src="assets/prejith-560.webp" srcset="assets/prejith-560.webp 560w, assets/prejith.webp 1100w" sizes="(max-width: 899px) 70vw, 420px" alt="Prejith, the founder of Hojari" width="560" height="560" loading="lazy"></figure>
   <div class="hj-about-text">
     <h2 id="about-title" class="split">Hi, I'm <em>Prejith</em></h2>
-    <p class="hj-about-lead">My family is from Kerala, I grew up in Muscat, and I studied and worked in the UK. When someone asks where I'm from, the honest answer takes a minute.</p>
-    <p>I've always been happiest building my own thing. In my day job I work in product and operations, and the tools I built there gave my team back hours every week. That's when I saw how many people lose their days to work a good system could do for them.</p>
-    <p>Every day I see people struggling, and plenty of them are too proud to say so. Owners answer customers at midnight, and good people stay stuck in jobs that won't let them grow. Hojari is how I help the first get their time back, and how I show the second that you can build something of your own.</p>
-    <p>I started in marketing, with an MSc in International Marketing from Coventry and a CMI Level 7, so everything I build is made to bring customers in and to suit how your day really runs.</p>
-    <p class="hj-sign">Hojari is the finest grade of Omani frankincense. It's the only grade I make.</p>
+    <p class="hj-about-lead">I'm a Malayali, raised between Kerala, Muscat and England. Ask me where I'm from and you'll get the long version.</p>
+    <p>England meant Papworth Everard, then Coventry for my master's, then Birmingham. Today I live in Muscat, where my day job is running the ordering, stock and suppliers for a business with more than 9,000 products.</p>
+    <p>The tools I built there gave my team back hours every week, and I started seeing the same problem everywhere: good people losing their days to work a simple system could do for them. Owners answering customers at midnight. Teams typing the same details into three places. Hojari is how I fix that for businesses like yours.</p>
+    <p>I'm the one you talk to, from the first message to long after launch. I'll tell you straight if something won't pay for itself, and I only take on three new clients a month so each one gets my full attention.</p>
+    <p class="hj-creds">MSc International Marketing Management, Coventry University · CMI Level 7 · Six Sigma Yellow Belt</p>
+    <div class="hj-voice" data-ready="no" hidden>
+      <button type="button" class="hj-voice-btn" aria-label="Play a voice note from Prejith"><i aria-hidden="true"></i></button>
+      <div><b>Hear it from me</b><span class="hj-voice-time">A short voice note</span></div>
+      <audio preload="none" src="assets/prejith-hello.mp3"></audio>
+    </div>
+    <p class="hj-sign">Hojari is the finest grade of frankincense, and it comes from Oman, where I live. It's the only grade I make.</p>
   </div>
 </section>
 
@@ -433,7 +548,7 @@
     <details><summary>Is the price fixed?</summary><p>Yes. After our first conversation you get a fixed price in writing. It only changes if you ask for something new, and you'll know the cost before I start on it.</p></details>
     <details><summary>What happens if something breaks?</summary><p>Message me. Anything that stops customers booking, buying or getting in touch is fixed first, and you'll hear back within 24 hours.</p></details>
     <details><summary>Can I leave?</summary><p>Care runs month to month after the first three months. If you leave, I hand everything over and help you move it.</p></details>
-    <details><summary>Do you use AI?</summary><p>Yes. I build with the latest AI coding tools, which is why the work is quick and the prices are what they are. Every page and every tool is checked and tested by me before it reaches you.</p></details>
+    <details><summary>Who will I actually be dealing with?</summary><p>Me, Prejith, from the first message to launch and after it. No account managers and no hand-offs, which is why I take on three new clients a month at most.</p></details>
     <details><summary>Do you reward referrals?</summary><p>Yes. Recommend a business, and when they go ahead they get 10% off their build and you get a month of care free.</p></details>
     <details><summary>Where do you work?</summary><p>With businesses in the UK and the Gulf, all online. Prices show in pounds, dollars or dirhams.</p></details>
   </div>
