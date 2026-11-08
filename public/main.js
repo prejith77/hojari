@@ -25,7 +25,8 @@
   const intro = $('#intro');
   let seenIntro = false;
   try { seenIntro = localStorage.getItem('hojari-intro') === '1'; } catch (e) { seenIntro = true; }
-  if (intro && motion && !seenIntro) {
+  /* Phones skip it: the page itself is the first thing they see, with no wait */
+  if (intro && motion && desktop && !seenIntro) {
     intro.classList.add('is-on');
     try { localStorage.setItem('hojari-intro', '1'); } catch (e) { /* private mode */ }
     introDone = new Promise((resolve) => {
@@ -109,25 +110,12 @@
           /* Tap the tear on a phone and the headline jumps */
           addEventListener('tearburst', () => gsap.fromTo(s.chars, { y: 0 }, { y: -18, duration: 0.22, ease: 'power2.out', yoyo: true, repeat: 1, stagger: { each: 0.025, from: 'center' }, overwrite: true }));
         }
-        if (el === heroTitle && desktop) {
-          /* The headline leans towards your cursor, letter by letter */
-          const ys = s.chars.map((ch) => gsap.quickTo(ch, 'y', { duration: 0.6, ease: 'power3.out' }));
-          const rs = s.chars.map((ch) => gsap.quickTo(ch, 'rotation', { duration: 0.6, ease: 'power3.out' }));
-          addEventListener('pointermove', (e) => {
-            if (scrollY > innerHeight) return;
-            s.chars.forEach((ch, i) => {
-              const r = ch.getBoundingClientRect();
-              const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
-              const f = Math.max(0, 1 - Math.hypot(dx, dy) / 240);
-              ys[i](-f * f * 28); rs[i](f * Math.sign(dx || 1) * -7);
-            });
-          }, { passive: true });
-        }
-        const anim = soft ? { yPercent: 110, duration: 0.9, ease: 'power4.out', stagger: 0.08 } : { yPercent: 110, filter: 'blur(8px)', duration: 1, ease: 'power4.out', stagger: 0.09 };
+        const anim = soft ? { yPercent: 110, duration: 0.9, ease: 'power4.out', stagger: 0.08 } : { yPercent: 110, duration: 1, ease: 'power4.out', stagger: 0.09 };
         if (el === heroTitle) { el.style.visibility = ''; gsap.from(s.lines, { ...anim, delay: 0.15 }); }
         else if (el.getBoundingClientRect().top > innerHeight * 0.9) { gsap.set(s.lines, { yPercent: 110 }); whenSeen(el, () => gsap.to(s.lines, { yPercent: 0, duration: soft ? 0.8 : 0.95, ease: 'power4.out', stagger: soft ? 0.08 : 0.09 })); }
       });
-      gsap.from('.hero-sub, .hero-actions, .promises li, .hero-note', { y: 18, opacity: 0, filter: soft ? 'none' : 'blur(6px)', duration: soft ? 0.6 : 0.9, ease: 'power3.out', stagger: soft ? 0.06 : 0.1, delay: soft ? 0.2 : 0.5 });
+      const heroBits = $$('.hero-actions, .promises li');
+      if (heroBits.length) gsap.from(heroBits, { y: 18, opacity: 0, duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: soft ? 0.06 : 0.08, delay: soft ? 0.15 : 0.3 });
       ScrollTrigger.refresh();
     };
     (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => introDone).then(go);
@@ -136,7 +124,7 @@
 
   /* Everything below the first screen sets itself up once the phone has a spare moment */
   const rest = () => {
-  /* Blocks of content fade up out of a blur, once */
+  /* Blocks of content fade up, once */
   if (motion) {
     const sel = '.grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
     const items = $$(sel).filter((el) => el.getBoundingClientRect().top > innerHeight && !(!desktop && el.matches('.usp-card')));
@@ -419,6 +407,7 @@
     const wa = waBtn;
     wa.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent("Hi Prejith, I'd like to talk about my business.");
     wa.target = '_blank'; wa.rel = 'noopener'; wa.hidden = false;
+    $$('.wa-link').forEach((a) => { a.href = wa.href; a.target = '_blank'; a.rel = 'noopener'; a.hidden = false; });
   }
   const goLead = (note) => {
     if (ctxField) ctxField.value = note || '';

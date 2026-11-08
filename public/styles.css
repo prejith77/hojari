@@ -1184,7 +1184,7 @@ h2 { font-size: calc(var(--step-head) * 1.14); line-height: .98; }
 .x-bar { display: flex; justify-content: space-between; align-items: center; font-size: 15px; letter-spacing: -0.02em; }
 .x-menu { display: grid; gap: 4px; } .x-menu i { width: 18px; height: 2px; background: #2a1a0d; }
 .x-hero { display: grid; gap: 8px; justify-items: start; padding: 18px 16px 18px; border-radius: 20px; background: #9a4f12; color: #f6efe3; }
-.x-kick { font-size: 11px; opacity: .8; text-transform: uppercase; letter-spacing: .1em; }
+.x-kick { font-size: 11px; opacity: 1; text-transform: uppercase; letter-spacing: .1em; }
 .x-h { font-family: var(--serif); font-size: 32px; line-height: .98; max-width: none; }
 .x-sub { font-size: 12.5px; line-height: 1.45; opacity: .9; }
 .x-btn { margin-top: 4px; padding: 10px 16px; border-radius: 999px; background: #f6efe3; color: #2a1a0d; font-size: 13px; font-weight: 600; }
@@ -1388,7 +1388,7 @@ html { scroll-padding-top: 90px; }
 /* The grade pictures stay inside their own scene */
 .grades.is-live .grades-stage { contain: paint; }
 /* Footer letters are buttons now */
-button.blk { font: inherit; border: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
+button.blk { font-family: inherit; border: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
 /* Chips and time slots big enough for a thumb */
 @media (max-width: 899px) { .chip, .slot, .chips button { min-height: 44px; } }
 
@@ -2084,3 +2084,49 @@ html:not(.has-tear) .hero-poster { animation: poster-breathe 2.8s ease-in-out in
 .form-privacy { grid-column: 1 / -1; font-size: .9375rem; color: var(--muted); }
 .form-privacy a { color: inherit; text-underline-offset: 4px; }
 .hj-head p .text-link, .pricing p .text-link { margin-left: 6px; white-space: nowrap; }
+
+/* ===== Premium pass, 8 Nov ===== */
+/* WhatsApp line under the hero buttons */
+.hero-wa[hidden] { display: none; }
+/* Six more pains, one tap away */
+.hj-fixmore-list > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; cursor: pointer; list-style: none; color: var(--honey); font-weight: 500; }
+.hj-fixmore-list > summary::-webkit-details-marker { display: none; }
+.hj-fixmore-list > summary i { width: 9px; height: 9px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-3px) rotate(45deg); transition: transform .25s var(--ease-out); }
+.hj-fixmore-list[open] > summary i { transform: translateY(2px) rotate(-135deg); }
+/* The Count says its starting numbers are an example */
+.ct-example { margin: -4px 0 14px; font-size: 14px; color: var(--ink-muted); }
+/* Fan site, one line under the client work */
+.hj-side { max-width: 1240px; margin: 28px auto 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+/* Tier names stay, the plain line does the explaining */
+.hj-plan h3 { font-size: clamp(1.125rem, 1.6vw, 1.3rem); line-height: 1.3; font-weight: 600; }
+/* Care: four on view, the rest behind a tap */
+.care-top { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.care-top li { position: relative; padding-left: 22px; line-height: 1.5; }
+.care-top li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 50%; background: var(--honey); }
+.care-more { margin-top: 18px; }
+.care-more > summary { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; list-style: none; color: var(--honey); font-weight: 500; }
+.care-more > summary::-webkit-details-marker { display: none; }
+.care-more > summary i { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .25s var(--ease-out); }
+.care-more[open] > summary i { transform: translateY(2px) rotate(-135deg); }
+.care-more .care-groups { margin-top: 12px; }
+/* Thumb-sized targets */
+.hj-cur button { min-height: 44px; }
+.ct-chip { min-height: 44px; }
+.ct-row button { width: 44px; height: 44px; }
+.hj-voice-text summary { min-height: 44px; }
+.plain-mail { padding-block: 12px; }
+.foot-grid nav a { min-height: 44px; }
+.bk-services .chip { min-height: 44px; }
+.nav .wordmark { min-height: 44px; }
+.nav .button-small, .nav .button-small:is(*) { min-height: 44px; }
+.ct-hours input[type="range"] { height: 44px; }
+/* Small phones (under 360px): nothing clipped */
+@media (max-width: 359px) {
+  .nav .button-small { padding: 0 12px; }
+  .nav { gap: 10px; padding-left: 16px; padding-right: 12px; }
+  .nav .wordmark svg { height: 30px; }
+  .menu-btn { margin-right: 0; }
+  .hj-cta-row .button { white-space: normal; text-align: center; max-width: 100%; }
+  .foot-grid nav { grid-template-columns: 1fr 1fr; column-gap: 16px; }
+  .foot-grid nav a { overflow-wrap: anywhere; }
+}
