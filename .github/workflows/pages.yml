@@ -30,3 +30,6 @@ jobs:
           path: public
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Tell Bing about the changes (IndexNow)
+        continue-on-error: true
+        run: sleep 30 && python3 .github/scripts/indexnow.py

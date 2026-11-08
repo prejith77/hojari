@@ -1,0 +1,31 @@
+# Hojari
+
+> Hojari is a one-person web and software studio run by Prejith Ponnachan, for small businesses in the UK (including Birmingham and Coventry) and in Muscat and the Gulf. It builds websites and the tools behind them: online booking, quotes and invoices, online ordering, client portals and owner dashboards. Fixed prices, and clients try a working version on their own business for 7 days before paying anything.
+
+Hojari is named after the top grade of Omani frankincense. It is not a frankincense seller. All work happens online, by video call, WhatsApp and email. Contact: hello@hojari.co.uk, or the form at https://hojari.co.uk/#contact.
+
+## Plans (fixed prices, in pounds; dollars and dirhams on the site)
+
+- [Silver](https://hojari.co.uk/#pricing): from £750, then £49 a month for care. A website of up to 8 pages plus one tool, such as booking, quotes, ordering or instant WhatsApp replies. Live within 7 days of receiving words and photos.
+- [Royal Green](https://hojari.co.uk/#pricing): from £1,950, then £99 a month for care. Everything in Silver, plus up to three tools sharing one set of customer records, and an owner's dashboard.
+- [Signature](https://hojari.co.uk/#pricing): from £3,950, then £149 a month for care. A custom app, client portal or platform, with a website to match.
+- [The one-week fix](https://hojari.co.uk/#pricing): from £450, then £29 a month for care. One tool that takes a job off the owner's hands, working within 7 days on the website they already have.
+
+## Promises
+
+- Free to try for 7 days before paying.
+- A reply within 24 hours.
+- Live within 7 days of receiving words and photos.
+- 30 days after launch, costs and admin hours are measured again; if nothing has improved, the build fee is refunded.
+- The domain, words, photos and customer data are in the client's name, and the code is theirs once the build is paid.
+
+## Pages
+
+- [Home](https://hojari.co.uk/): what Hojari builds, live demos, prices and how it works.
+- [What I build](https://hojari.co.uk/solutions/): booking, quotes to payment, ordering, client portals and more, by type of business.
+- [Free website X-ray](https://hojari.co.uk/xray/): a free report within 48 hours on speed, Google presence and the one thing to fix first.
+- [Try it free](https://hojari.co.uk/start/): seven questions to shape a plan and price.
+- [Client portal demo](https://hojari.co.uk/portal/)
+- [Build an app in 60 seconds](https://hojari.co.uk/build/)
+- [Terms](https://hojari.co.uk/terms/)
+- [Privacy](https://hojari.co.uk/privacy/)
