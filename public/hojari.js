@@ -54,6 +54,16 @@
     if (id === 'p-dash') drawChart();
     if (id === 'p-chat' && !chatStarted) startChat();
   }
+  /* Links from other pages, such as /#demo-booking, open that demo */
+  const fromHash = { '#demo-booking': 't-book', '#demo-quote': 't-quote', '#demo-dashboard': 't-dash', '#demo-enquiries': 't-chat' }[location.hash];
+  if (fromHash && $('#' + fromHash)) { pick($('#' + fromHash)); addEventListener('load', () => setTimeout(() => { const d = $('#demos'); if (d) scrollTo(0, d.getBoundingClientRect().top + scrollY - 20); }, 60)); }
+  /* Plans swipe on phones: the dots follow the card in view */
+  const plans = $('.hj-plans'), dots = $$('.hj-dots i');
+  if (plans && dots.length) {
+    const cards = $$('.hj-plan', plans);
+    const mark = () => { const mid = plans.scrollLeft + plans.clientWidth / 2; let best = 0, dist = 1e9; cards.forEach((c, n) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < dist) { dist = d; best = n; } }); dots.forEach((d, n) => d.classList.toggle('on', n === best)); };
+    plans.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true }); mark();
+  }
   /* Links elsewhere on the page that open a particular demo */
   $$('[data-demo]').forEach((a) => a.addEventListener('click', () => { const t = $('#' + a.dataset.demo); if (t) pick(t); }));
   /* On phones the calculator's app list starts folded, with the total and the time sliders in view */

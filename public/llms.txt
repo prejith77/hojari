@@ -23,6 +23,10 @@ Hojari is named after the top grade of Omani frankincense. It is not a frankince
 
 - [Home](https://hojari.co.uk/): what Hojari builds, live demos, prices and how it works.
 - [What I build](https://hojari.co.uk/solutions/): booking, quotes to payment, ordering, client portals and more, by type of business.
+- [Online booking](https://hojari.co.uk/booking/): booking at any hour, deposits up front and reminders, from £750 with a new website or £450 on an existing one.
+- [Quotes and invoices](https://hojari.co.uk/quotes-invoices/): instant quotes, deposits, one-tap invoices and late payments chased, same prices.
+- [Tess Pereira's website](https://hojari.co.uk/work/tess-pereira/): a live client site for an international psychologist and coach in Dubai, and what was built.
+- [Book a 15-minute call](https://hojari.co.uk/call/): pick a day and time of day; the exact time is confirmed within 24 hours.
 - [Free website X-ray](https://hojari.co.uk/xray/): a free report within 48 hours on speed, Google presence and the one thing to fix first.
 - [Try it free](https://hojari.co.uk/start/): seven questions to shape a plan and price.
 - [Client portal demo](https://hojari.co.uk/portal/)

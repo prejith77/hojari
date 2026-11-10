@@ -1,0 +1,87 @@
+/* Article pages: booking, quotes and invoices, the Tess Pereira story, book a call. Builds on sub.css. */
+.pg { flex: 1; width: 100%; max-width: 1240px; margin: 0 auto; padding: clamp(48px, 8vh, 104px) var(--margin) 40px; }
+.pg-intro { display: grid; gap: 22px; max-width: 820px; }
+.pg-kicker { font-size: var(--step-small); font-weight: 600; color: var(--honey); }
+.pg-lede { font-size: var(--step-lead); line-height: 1.45; color: var(--muted); max-width: 40ch; }
+.pg-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin-top: 8px; }
+.pg-link { font-weight: 500; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 6px; text-decoration-color: rgba(242, 240, 235, .35); }
+.pg-link::after { content: " \2192"; color: var(--honey); }
+@media (hover: hover) and (pointer: fine) { .pg-link:hover { text-decoration-color: var(--honey); } }
+
+.pg-sec { padding-top: clamp(88px, 12vh, 144px); }
+.pg-sec > h2 { max-width: 18ch; }
+.pg-sec > .pg-sub { margin-top: 20px; max-width: 46ch; color: var(--muted); font-size: var(--step-lead); line-height: 1.45; }
+
+/* Two-column "what you get" list */
+.pg-list { display: grid; margin-top: 48px; border-top: 1px solid var(--line); }
+.pg-list li { display: grid; gap: 8px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+.pg-list b { font: 400 clamp(1.5rem, 1.3rem + .7vw, 1.875rem)/1.15 var(--serif); }
+.pg-list p { color: var(--muted); line-height: 1.6; max-width: 56ch; }
+@media (min-width: 900px) {
+  .pg-list { grid-template-columns: 1fr 1fr; column-gap: 64px; border-top: 0; }
+  .pg-list li:nth-child(-n+2) { border-top: 1px solid var(--line); }
+}
+
+/* Numbered steps */
+.pg-steps { display: grid; gap: 0; margin-top: 48px; counter-reset: st; border-top: 1px solid var(--line); }
+.pg-steps li { counter-increment: st; display: grid; grid-template-columns: 48px 1fr; gap: 6px 14px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+.pg-steps li::before { content: counter(st, decimal-leading-zero); grid-row: span 2; font-size: var(--step-small); font-weight: 600; color: var(--honey); padding-top: 8px; }
+.pg-steps b { font: 400 clamp(1.5rem, 1.3rem + .7vw, 1.875rem)/1.15 var(--serif); }
+.pg-steps p { color: var(--muted); line-height: 1.6; max-width: 60ch; }
+
+/* Price panel */
+.pg-price { display: grid; gap: 12px; margin-top: 48px; }
+@media (min-width: 900px) { .pg-price { grid-template-columns: 1fr 1fr; gap: 16px; } }
+.pg-plan { display: grid; align-content: start; gap: 10px; padding: 30px 28px; border-radius: 28px; background: var(--night-2); border: 1px solid var(--line); }
+.pg-plan h3 { font-size: 1.75rem; color: var(--honey); }
+.pg-plan .pg-amt { font: 400 3rem/1 var(--serif); }
+.pg-plan .pg-amt small { font: 500 15px/1 var(--sans); color: var(--muted); margin-right: 6px; }
+.pg-plan p { color: var(--muted); line-height: 1.55; }
+.pg-plan .button { justify-self: start; margin-top: 8px; }
+.pg-note { margin-top: 18px; color: var(--muted); font-size: var(--step-small); max-width: 60ch; }
+
+/* Pictures */
+.pg-shots { display: grid; gap: 12px; margin-top: 48px; }
+@media (min-width: 900px) { .pg-shots { grid-template-columns: 2.1fr 1fr; gap: 16px; align-items: start; } }
+.pg-shots figure { border-radius: 24px; overflow: hidden; border: 1px solid var(--line); background: var(--night-2); }
+.pg-shots figcaption { padding: 12px 16px; font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); }
+
+/* Questions */
+.pg-qs { margin-top: 40px; border-top: 1px solid var(--line); }
+.pg-qs details { border-bottom: 1px solid var(--line); }
+.pg-qs summary { list-style: none; display: flex; justify-content: space-between; gap: 16px; padding: 24px 0; cursor: pointer; font: 400 clamp(1.25rem, 1.05rem + .6vw, 1.625rem)/1.25 var(--serif); }
+.pg-qs summary::-webkit-details-marker { display: none; }
+.pg-qs summary::after { content: "+"; flex: none; font: 300 1.5rem/1 var(--sans); color: var(--honey); transition: transform .25s var(--ease-out); }
+.pg-qs details[open] summary::after { transform: rotate(45deg); }
+.pg-qs details p { padding: 0 40px 24px 0; color: var(--muted); line-height: 1.6; max-width: 64ch; }
+
+/* Closing panel */
+.pg-end { display: grid; gap: 16px; margin-top: clamp(88px, 12vh, 144px); padding: clamp(30px, 4vw, 52px); border-radius: 28px; background: var(--paper); color: var(--ink); }
+.pg-end h2 { color: var(--ink); }
+.pg-end h2 em { color: var(--amber); }
+.pg-end p { color: var(--ink-muted); max-width: 54ch; }
+.pg-end .pg-actions .button-light { background: var(--ink); color: var(--paper); }
+.pg-end .pg-link { color: var(--ink); text-decoration-color: rgba(23, 18, 12, .35); }
+.pg-end .pg-link::after { color: var(--amber); }
+.pg-end :focus-visible { outline-color: var(--ink); }
+
+/* Book a call form */
+.call { display: grid; gap: 28px; margin-top: 48px; max-width: 760px; }
+.call fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 12px; }
+.call legend { padding: 0; margin-bottom: 4px; font-size: var(--step-small); font-weight: 500; color: var(--muted); }
+.call-days, .call-times { display: flex; flex-wrap: wrap; gap: 8px; }
+.call-days label, .call-times label { position: relative; }
+.call-days input, .call-times input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.call-days span, .call-times span { display: grid; place-items: center; min-height: 52px; min-width: 64px; padding: 6px 16px; border-radius: 16px; border: 1px solid var(--line); background: var(--night-2); color: var(--paper); font-size: 15px; line-height: 1.2; text-align: center; transition: background-color .2s, color .2s, border-color .2s; }
+.call-days span small { display: block; font-size: 12px; color: var(--muted); }
+.call-days input:checked + span, .call-times input:checked + span { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.call-days input:checked + span small { color: var(--ink-muted); }
+.call-days input:focus-visible + span, .call-times input:focus-visible + span { outline: 3px solid var(--honey); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .call-days span:hover, .call-times span:hover { border-color: var(--honey); } }
+.call-fields { display: grid; gap: 16px; }
+@media (min-width: 700px) { .call-fields { grid-template-columns: 1fr 1fr; } .call-fields .field-wide { grid-column: 1 / -1; } }
+.call .button { justify-self: start; }
+.call-done { padding: 30px 28px; border-radius: 28px; background: var(--night-2); border: 1px solid var(--line); }
+.call-done h2 { font-size: clamp(2rem, 1.6rem + 1.6vw, 3rem); }
+.call-done p { margin-top: 12px; color: var(--muted); }
+.call-small { color: var(--muted); font-size: 14px; }

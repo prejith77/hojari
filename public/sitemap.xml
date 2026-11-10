@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://hojari.co.uk/</loc><lastmod>2026-11-08</lastmod><changefreq>monthly</changefreq></url>
+  <url><loc>https://hojari.co.uk/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq></url>
   <url><loc>https://hojari.co.uk/start/</loc><lastmod>2026-11-08</lastmod><changefreq>monthly</changefreq></url>
   <url><loc>https://hojari.co.uk/build/</loc><lastmod>2026-11-08</lastmod><changefreq>monthly</changefreq></url>
   <url><loc>https://hojari.co.uk/portal/</loc><lastmod>2026-11-08</lastmod><changefreq>monthly</changefreq></url>
   <url><loc>https://hojari.co.uk/xray/</loc><lastmod>2026-11-08</lastmod><changefreq>monthly</changefreq></url>
-  <url><loc>https://hojari.co.uk/solutions/</loc><lastmod>2026-11-08</lastmod><changefreq>monthly</changefreq></url>
+  <url><loc>https://hojari.co.uk/solutions/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq></url>
   <url><loc>https://hojari.co.uk/grade/</loc><lastmod>2026-11-08</lastmod><changefreq>monthly</changefreq></url>
   <url><loc>https://hojari.co.uk/terms/</loc><lastmod>2026-11-08</lastmod><changefreq>yearly</changefreq></url>
   <url><loc>https://hojari.co.uk/privacy/</loc><lastmod>2026-11-08</lastmod><changefreq>yearly</changefreq></url>
+  <url><loc>https://hojari.co.uk/booking/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq></url>
+  <url><loc>https://hojari.co.uk/quotes-invoices/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq></url>
+  <url><loc>https://hojari.co.uk/work/tess-pereira/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq></url>
+  <url><loc>https://hojari.co.uk/call/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq></url>
 </urlset>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Book a 15-minute call · Hojari</title>
+<meta name="description" content="Book a free 15-minute call with Prejith at Hojari. Pick a day and a time of day, and he confirms the exact time within 24 hours.">
+<meta property="og:url" content="https://hojari.co.uk/call/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hojari">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://hojari.co.uk/call/">
+<meta property="og:title" content="Book a 15-minute call · Hojari">
+<meta property="og:description" content="Pick a day and a time of day. The exact time is confirmed within 24 hours.">
+<meta property="og:image" content="https://hojari.co.uk/assets/og-card-3.jpg">
+<meta name="theme-color" content="#120d09">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="preload" href="../fonts/InstrumentSerif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/InstrumentSerif-Italic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../fonts/AlbertSans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../sub.css">
+<link rel="stylesheet" href="../page.css">
+</head>
+<body>
+<header class="top">
+  <a class="top-mark" href="../" aria-label="Hojari home"><img src="../assets/wordmark.svg" alt="Hojari" width="104" height="31"></a>
+  <div class="top-right"><a class="top-back" href="../">Back to the site</a></div>
+</header>
+
+<main class="pg" id="main">
+  <div class="pg-intro">
+    <p class="pg-kicker">Free, no obligation</p>
+    <h1>Book a <em>15-minute call</em></h1>
+    <p class="pg-lede">Pick a day and a time of day that suit you. I’ll confirm the exact time within 24 hours, by email or WhatsApp.</p>
+  </div>
+
+  <form class="call" id="call" novalidate>
+    <fieldset>
+      <legend>Which day suits you?</legend>
+      <div class="call-days" id="call-days"></div>
+      <noscript><label class="field"><span>Which days suit you?</span><input name="day" autocomplete="off"></label></noscript>
+    </fieldset>
+    <fieldset>
+      <legend>What time of day? (UK time)</legend>
+      <div class="call-times">
+        <label><input type="radio" name="time" value="Morning, 9am to 12pm UK"><span>Morning<br>9am to 12pm</span></label>
+        <label><input type="radio" name="time" value="Afternoon, 12pm to 5pm UK"><span>Afternoon<br>12pm to 5pm</span></label>
+        <label><input type="radio" name="time" value="Evening, 5pm to 8pm UK"><span>Evening<br>5pm to 8pm</span></label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>How would you like to talk?</legend>
+      <div class="call-times">
+        <label><input type="radio" name="how" value="Video call" checked><span>Video call</span></label>
+        <label><input type="radio" name="how" value="WhatsApp call"><span>WhatsApp call</span></label>
+        <label><input type="radio" name="how" value="Phone call"><span>Phone call</span></label>
+      </div>
+    </fieldset>
+    <div class="call-fields">
+      <label class="field"><span>Your name</span><input name="name" autocomplete="name" required><em aria-live="polite"></em></label>
+      <label class="field"><span>Your email</span><input name="email" type="email" autocomplete="email" required><em aria-live="polite"></em></label>
+      <label class="field"><span>Your business</span><input name="business" autocomplete="organization"></label>
+      <label class="field"><span>Your phone, if you’d like a WhatsApp or phone call</span><input name="phone" type="tel" autocomplete="tel"></label>
+      <label class="field field-wide"><span>What would you like to talk about? (optional)</span><textarea name="note"></textarea></label>
+    </div>
+    <p class="call-small" id="call-err" aria-live="polite"></p>
+    <button class="button button-light arrow" type="submit">Request my call</button>
+    <p class="call-small">I only use your details to arrange the call and reply to you. <a href="../privacy/">How I handle them</a></p>
+  </form>
+  <div class="call-done" id="call-done" hidden tabindex="-1">
+    <h2>Thank you, <em>that’s with me</em></h2>
+    <p>I’ll confirm the exact time within 24 hours. If anything changes, just reply to my email.</p>
+  </div>
+
+</main>
+
+<footer class="foot">
+  <p>© 2026 Hojari · <a href="mailto:hello@hojari.co.uk">hello@hojari.co.uk</a> · <a href="https://www.linkedin.com/company/hojari/" target="_blank" rel="noopener">LinkedIn</a></p>
+  <nav aria-label="Footer"><a href="../">Home</a><a href="../booking/">Online booking</a><a href="../quotes-invoices/">Quotes and invoices</a><a href="../call/">Book a call</a><a href="../#pricing">Prices</a><a href="../terms/">Terms</a><a href="../privacy/">Privacy</a></nav>
+</footer>
+<script src="../sub.js"></script>
+<script src="call.js"></script>
+</body>
+</html>

@@ -2247,3 +2247,20 @@ ul.hj-creds { list-style: none; padding: 0; display: grid; gap: 2px; }
 .hj-pricing > .hj-cta-row { margin-top: 44px; }
 /* Intro paragraphs sit exactly one column wide on desktop, so they line up with the two-column rows below */
 @media (min-width: 900px) { .hj-head .hj-lede { max-width: calc((100% - 64px) / 2); text-wrap: pretty; } }
+
+/* Prices: swipe between the three plans on phones */
+.hj-swipe, .hj-dots { display: none; }
+@media (max-width: 899px) {
+  .hj-swipe { display: block; margin-top: 30px; color: var(--muted); font-size: var(--step-small); }
+  .hj-pricing > .hj-plans { display: flex; gap: 12px; margin: 14px -20px 0; padding: 4px 20px 6px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: 20px; overscroll-behavior-x: contain; scrollbar-width: none; }
+  .hj-plans::-webkit-scrollbar { display: none; }
+  .hj-plans > .hj-plan { flex: 0 0 min(86%, 400px); scroll-snap-align: start; }
+  .hj-plans:focus-visible { outline-offset: -3px; }
+  .hj-dots { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+  .hj-dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--line); transition: background-color .25s, transform .25s var(--ease-out); }
+  .hj-dots i.on { background: var(--honey); transform: scale(1.25); }
+}
+/* Link to the Tess Pereira story under Recent work */
+.hj-story { margin-top: 28px; }
+.hj-story .text-link { font-size: var(--step-body); }
+.contact-alt span + span { display: block; margin-top: 4px; }
