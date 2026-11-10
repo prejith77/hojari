@@ -2208,3 +2208,8 @@ ul.hj-creds { list-style: none; padding: 0; display: grid; gap: 2px; }
 
 .hj-steps-5 li { align-content: start; }
 @media (min-width: 900px) { .hj-fixrows li { display: grid; grid-template-columns: 1fr auto; align-items: baseline; } }
+/* After the plans: each option on its own line, link underneath on phones, even spacing */
+.hj-after-plans { gap: 10px; }
+.hj-after-plans p { margin: 0; }
+@media (max-width: 599px) { .hj-after-plans p { display: grid; justify-items: center; gap: 2px; } .hj-after-plans .text-link { padding-block: 8px; } }
+.hj-how .hj-lede { text-wrap: balance; }
