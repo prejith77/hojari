@@ -2213,3 +2213,35 @@ ul.hj-creds { list-style: none; padding: 0; display: grid; gap: 2px; }
 .hj-after-plans p { margin: 0; }
 @media (max-width: 599px) { .hj-after-plans p { display: grid; justify-items: center; gap: 2px; } .hj-after-plans .text-link { padding-block: 8px; } }
 .hj-how .hj-lede { text-wrap: balance; }
+
+/* Breathing room (10 Nov 2026): more space between and inside sections */
+@media (min-width: 900px) {
+  .hj-fix, .hj-demos, .hj-count, .hj-work, .hj-pricing, .hj-how, .hj-about, .hj-faq { padding-top: 152px; padding-bottom: 152px; }
+  .hj-head { margin-bottom: 72px; }
+  .hj-fixrows li { padding: 26px 0; }
+  .hj-qs summary { padding: 28px 0; }
+  .hj-after-plans { margin-top: 28px; }
+  /* How it works as five calm rows: promise and step on the left, the detail on the right */
+  .hj-steps.hj-steps-5 { grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--ink-line); }
+  .hj-steps-5 li { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); grid-template-areas: "kick text" "title text"; column-gap: 72px; row-gap: 8px; align-items: start; padding: 36px 0; border-top: 0; border-bottom: 1px solid var(--ink-line); }
+  .hj-steps-5 li > i { grid-area: kick; }
+  .hj-steps-5 li > b { grid-area: title; font-size: 2rem; }
+  .hj-steps-5 li > p { grid-area: text; max-width: 36em; padding-top: 4px; line-height: 1.6; }
+  .hj-how-sign { margin-top: 40px; }
+}
+@media (max-width: 899px) {
+  .hj-fix, .hj-demos, .hj-count, .hj-work, .hj-pricing, .hj-how, .hj-about, .hj-faq { padding-top: 96px; padding-bottom: 96px; }
+  .hj-fix { padding-top: 88px; }
+  .hj-head { margin-bottom: 44px; }
+  .hj-fixrows li { padding: 22px 0; gap: 8px 16px; }
+  .hj-steps li { gap: 12px; padding: 30px 0; }
+  .hj-steps p { line-height: 1.6; }
+  .hj-plans { gap: 20px; }
+  .hj-qs summary { padding: 24px 0; }
+  .hj-after-plans { margin-top: 26px; gap: 16px; }
+  .contact { padding: 104px 20px 88px; }
+}
+.hj-pricing > .hj-founding { margin-top: 24px; }
+.hj-pricing > .hj-plans { margin-top: 36px; }
+.hj-pricing > .hj-fixoffer, .hj-pricing > .hj-care-box { margin-top: 24px; }
+.hj-pricing > .hj-cta-row { margin-top: 44px; }
