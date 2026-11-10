@@ -71,8 +71,9 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .field em { font-style: normal; font-size: 13px; color: #f0a184; min-height: 1em; }
 
 .foot { margin-top: auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; padding: 28px var(--margin) max(28px, env(safe-area-inset-bottom)); border-top: 1px solid var(--line); color: var(--muted); font-size: var(--step-small); }
-.foot nav { display: flex; flex-wrap: wrap; gap: 6px 20px; }
-.foot a { text-decoration: none; }
+.foot nav { display: flex; flex-wrap: wrap; gap: 0 20px; }
+.foot a { text-decoration: none; display: inline-block; padding-block: 12px; }
+.foot { padding-block: 16px max(16px, env(safe-area-inset-bottom)); }
 @media (hover: hover) and (pointer: fine) { .foot a:hover { color: var(--paper); } }
 
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
