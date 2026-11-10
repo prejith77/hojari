@@ -1753,6 +1753,8 @@ section[id] { scroll-margin-top: 0; }
 .hj-shots { position: relative; aspect-ratio: 16 / 11; margin-bottom: 10px; border-radius: 22px; overflow: hidden; background: var(--night-3); }
 .hj-shots img { position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .6s var(--ease-out); }
 .hj-shots img.ph { left: auto; right: 6%; top: 12%; width: 27%; height: auto; aspect-ratio: 390 / 844; border-radius: 16px; border: 4px solid #0b0806; box-shadow: 0 30px 60px -20px rgba(0,0,0,.7); }
+/* Phone over the left of the screenshot when the site's name sits on the right */
+.hj-shots.ph-left img.ph { right: auto; left: 3.5%; }
 @media (hover: hover) and (pointer: fine) { .hj-case:hover .hj-shots img:first-child { transform: scale(1.03); } .hj-case:hover .hj-shots img.ph { transform: translateY(-8px); } }
 .hj-tag { font-size: var(--step-small); color: var(--honey); font-weight: 500; }
 .hj-case h3 { font: 400 clamp(2rem, 1.5rem + 1.5vw, 2.75rem)/1 var(--serif); letter-spacing: -0.015em; }
@@ -2162,7 +2164,7 @@ html:not(.has-tear) .hero-poster { animation: poster-breathe 2.8s ease-in-out in
 /* The nav keeps one width: no resizing on scroll, only the background deepens */
 .nav { transition: background-color .3s var(--ease-out); }
 @media (min-width: 900px) { .nav.scrolled { width: min(calc(100% - 2 * var(--margin)), 1280px); } }
-@media (max-width: 899px) { .nav.scrolled { width: calc(100% - 2 * var(--margin)); } }
+@media (max-width: 899px) { .nav, .nav.scrolled { width: 100%; } }
 /* About and footer on the same column as every other section on wide screens */
 @media (min-width: 900px) {
   .hj-about { padding-left: max(var(--margin), calc((100% - 1240px) / 2)); padding-right: max(var(--margin), calc((100% - 1240px) / 2)); }
