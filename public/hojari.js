@@ -54,6 +54,11 @@
     if (id === 'p-dash') drawChart();
     if (id === 'p-chat' && !chatStarted) startChat();
   }
+  /* Links elsewhere on the page that open a particular demo */
+  $$('[data-demo]').forEach((a) => a.addEventListener('click', () => { const t = $('#' + a.dataset.demo); if (t) pick(t); }));
+  /* On phones the calculator's app list starts folded, with the total and the time sliders in view */
+  const ctMore = $('.ct-more');
+  if (ctMore && matchMedia('(max-width: 899px)').matches) ctMore.open = false;
   tabs.forEach((t, i) => {
     t.addEventListener('click', () => pick(t));
     t.addEventListener('keydown', (e) => {

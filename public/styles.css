@@ -2180,3 +2180,31 @@ html:not(.has-tear) .hero-poster { animation: poster-breathe 2.8s ease-in-out in
 ul.hj-creds { list-style: none; padding: 0; display: grid; gap: 2px; }
 /* "Six more things I fix" spans the full width */
 .hj-fixlist > .hj-fixmore-list { grid-column: 1 / -1; }
+
+/* Lighter page (10 Nov 2026): What I fix as six short rows, each pointing at its demo */
+.hj-fixrows { list-style: none; padding: 0; display: grid; border-top: 1px solid var(--line); }
+.hj-fixrows li { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.hj-fixrows span { font: 400 clamp(1.375rem, 1.1rem + 1vw, 1.875rem)/1.2 var(--serif); letter-spacing: -0.01em; }
+.hj-fixrows .text-link { flex: none; color: var(--honey); font-size: var(--step-small); }
+@media (min-width: 900px) { .hj-fixrows { grid-template-columns: 1fr 1fr; column-gap: 64px; border-top: 0; } .hj-fixrows li:nth-child(-n+2) { border-top: 1px solid var(--line); } }
+/* How it works carries the five promises */
+@media (min-width: 900px) { .hj-steps.hj-steps-5 { grid-template-columns: repeat(5, 1fr); gap: 28px; } }
+.hj-steps i { font-style: normal; font-size: var(--step-small); font-weight: 600; color: #8f4c14; }
+.hj-how-sign { color: var(--ink-muted); }
+.hj-how-sign b { color: var(--amber); }
+/* After the plans: one main button, then two quiet options */
+.hj-after-plans { display: grid; gap: 4px; justify-items: center; text-align: center; margin-top: 18px; color: var(--muted); font-size: var(--step-body); line-height: 1.6; }
+.hj-after-plans .text-link { color: var(--paper); }
+/* Calculator app list: always open on wide screens, one tap on phones */
+.ct-more > summary { display: none; }
+@media (max-width: 899px) {
+  .ct-more > summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; padding: 0 16px; border-radius: 14px; border: 1px solid var(--ink-line); cursor: pointer; list-style: none; color: var(--ink); font-weight: 500; }
+  .ct-more > summary::-webkit-details-marker { display: none; }
+  .ct-more > summary i { width: 9px; height: 9px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-3px) rotate(45deg); transition: transform .25s var(--ease-out); }
+  .ct-more[open] > summary { margin-bottom: 14px; }
+  .ct-more[open] > summary i { transform: translateY(2px) rotate(-135deg); }
+}
+@media (max-width: 899px) { .hj-fixrows li { padding: 14px 0; gap: 4px 16px; } .hj-fixrows span { font-size: 1.3125rem; } }
+
+.hj-steps-5 li { align-content: start; }
+@media (min-width: 900px) { .hj-fixrows li { display: grid; grid-template-columns: 1fr auto; align-items: baseline; } }
