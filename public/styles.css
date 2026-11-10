@@ -2245,3 +2245,5 @@ ul.hj-creds { list-style: none; padding: 0; display: grid; gap: 2px; }
 .hj-pricing > .hj-plans { margin-top: 36px; }
 .hj-pricing > .hj-fixoffer, .hj-pricing > .hj-care-box { margin-top: 24px; }
 .hj-pricing > .hj-cta-row { margin-top: 44px; }
+/* Intro paragraphs sit exactly one column wide on desktop, so they line up with the two-column rows below */
+@media (min-width: 900px) { .hj-head .hj-lede { max-width: calc((100% - 64px) / 2); text-wrap: pretty; } }
