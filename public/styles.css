@@ -401,7 +401,6 @@ main, .foot { position: relative; z-index: 1; }
 .case-text { display: grid; gap: 24px; justify-items: start; }
 .case-status { display: inline-flex; align-items: center; gap: 10px; color: var(--honey); font-weight: 500; }
 .case-status i { position: relative; width: 9px; height: 9px; border-radius: 50%; background: var(--honey); }
-.case-status i::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--honey); animation: pulse 1.8s var(--ease-out) infinite; }
 @keyframes pulse { 0% { transform: scale(1); opacity: .6; } 100% { transform: scale(3.2); opacity: 0; } }
 .case-lede { font-size: var(--step-lead); line-height: 1.4; }
 .case-list { display: grid; gap: 14px; counter-reset: c; }
@@ -687,8 +686,6 @@ main, .foot { position: relative; z-index: 1; }
 .blk:nth-child(5) { background: var(--amber); color: var(--paper); height: 78%; }
 .blk:nth-child(6) { background: var(--paper); color: var(--ink); height: 88%; }
 @media (hover: hover) and (pointer: fine) { .blk:hover { transform: translateY(-8%); } }
-.blk.is-boing { animation: boing .7s var(--spring); }
-@keyframes boing { 0% { transform: scale(1, 1); } 30% { transform: scale(1.06, .86); } 60% { transform: scale(.96, 1.08) translateY(-10%); } 100% { transform: none; } }
 .foot-grid { display: flex; justify-content: space-between; gap: 32px; padding: 64px var(--margin) 0; }
 .foot-grid nav { display: grid; grid-template-columns: repeat(3, max-content); gap: 10px 32px; }
 .foot-grid a { text-decoration: none; }
@@ -1841,8 +1838,6 @@ section[id] { scroll-margin-top: 0; }
 .has-tear .tear-canvas { opacity: 1; }
 .hero-poster { transition: opacity 450ms cubic-bezier(0.23, 1, 0.32, 1), visibility 0s linear 450ms; }
 .has-tear .hero-poster { visibility: hidden; opacity: 0; }
-@keyframes poster-breathe { from { scale: 1; } to { scale: 1.014; } }
-html:not(.has-tear) .hero-poster { animation: poster-breathe 2.8s ease-in-out infinite alternate; }
 @media (prefers-reduced-motion: reduce) { html:not(.has-tear) .hero-poster { animation: none; } }
 
 /* ==========================================================
@@ -2298,10 +2293,8 @@ ul.hj-creds { list-style: none; padding: 0; display: grid; gap: 2px; }
 .blk:nth-child(odd) { background: var(--honey); color: var(--ink); }
 .blk:nth-child(even) { background: var(--night-3); color: var(--honey); }
 .blk { transition: transform .25s var(--ease-out); }
-.blk.is-boing { animation: none; }
 
 /* Quieter motion */
-html:not(.has-tear) .hero-poster { animation: none; }
 body:has(input:hover, textarea:hover, select:hover, .field:hover) .ring { opacity: 0; }
 .bx.is-live { height: 190vh; }
 @media (max-width: 899px) { .bx.is-live { height: 210vh; } }
@@ -2325,3 +2318,15 @@ h3 { text-wrap: balance; }
 .nav.scrolled { background: rgba(18, 13, 9, .94); }
 /* The Count on phones: the app list opens from a plain row, not a box inside the card */
 @media (max-width: 899px) { .ct-more > summary { border: 0; border-block: 1px solid var(--ink-line); border-radius: 0; padding: 0; } }
+/* The action bar: controls, not content, and out of the tab order while hidden */
+@media (max-width: 899px) {
+  .m-bar { visibility: hidden; transition: transform .35s var(--ease-out), opacity .25s, visibility 0s linear .35s; }
+  .m-bar.is-on { visibility: visible; transition: transform .35s var(--ease-out), opacity .25s, visibility 0s; }
+  .m-bar a { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; transition: transform .12s var(--ease-out); }
+}
+/* Bar timing: in at 280ms, out faster at 200ms */
+@media (max-width: 899px) {
+  .m-bar { transition: transform .2s var(--ease-out), opacity .2s, visibility 0s linear .2s; }
+  .m-bar.is-on { transition: transform .28s var(--ease-out), opacity .28s, visibility 0s; }
+}
+@media (prefers-reduced-motion: reduce) { .m-bar, .m-bar.is-on { transition: opacity .2s, visibility 0s; transform: none; } }
