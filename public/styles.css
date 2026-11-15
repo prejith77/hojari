@@ -2453,3 +2453,9 @@ html:not(.js) .hj-room { display: none; }
 /* anchor links land below the nav */
 [id] { scroll-margin-top: 84px; }
 @media (min-width: 1000px) { .hj-plan h3 { min-height: 2.8em; } }
+
+/* The build film */
+.hj-film { margin: 64px auto 0; max-width: 1240px; }
+.hj-film video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 24px; background: var(--night-2, #1d1610); border: 1px solid var(--line); object-fit: cover; }
+.hj-film figcaption { margin-top: 14px; color: var(--muted); font-size: var(--step-small); }
+@media (max-width: 899px) { .hj-film { margin-top: 40px; } .hj-film video { aspect-ratio: 1 / 1; border-radius: 20px; } }

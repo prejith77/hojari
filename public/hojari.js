@@ -371,4 +371,16 @@
   /* The cursor ring steps aside over form fields */
   const ring = $('.ring');
   if (ring) $$('input, textarea, select').forEach((f) => { f.addEventListener('mouseenter', () => ring.classList.add('is-hidden')); f.addEventListener('mouseleave', () => ring.classList.remove('is-hidden')); });
+  /* The build film plays once, muted, when it comes into view. With reduced motion it waits for a tap */
+  const film = $('.hj-film video');
+  if (film) {
+    const phone = matchMedia('(max-width: 899px)').matches;
+    if (phone) film.poster = 'assets/video/process-square.webp';
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !window.IntersectionObserver) { film.controls = true; }
+    else {
+      const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { film.play().catch(() => { film.controls = true; }); io.disconnect(); } }, { threshold: 0.5 });
+      io.observe(film);
+      film.addEventListener('ended', () => { film.controls = true; });
+    }
+  }
 })();
