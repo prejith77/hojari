@@ -445,7 +445,7 @@
         const res = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
         if (!res.ok) throw new Error('send failed');
         cf.reset(); ctxNote.hidden = true;
-        sent.innerHTML = '<b>Thank you, ' + data.name.replace(/[<>&]/g, '') + '.</b>It\'s with me now. You\'ll hear back within 24 hours with my thoughts and a fixed price.';
+        sent.innerHTML = '<b>Thank you, ' + data.name.replace(/[<>&]/g, '') + '.</b>It\'s with me now. You\'ll hear back within one working day with my thoughts and a fixed price.';
         if (motion) gsap.from(sent, { y: 16, opacity: 0, duration: 0.6, ease: 'power3.out' });
         btn.textContent = 'Sent';
         return;
@@ -691,7 +691,7 @@
     const byHand = (url, why) => {
       out.innerHTML = '';
       const p = document.createElement('p'); p.className = 'wc-note';
-      p.textContent = why || "I'll check it by hand and send you three plain-English fixes within 24 hours. This bit's on me.";
+      p.textContent = why || "I'll check it by hand and send you three plain-English fixes within one working day. This bit's on me.";
       const a = document.createElement('a'); a.className = 'button button-light'; a.href = 'xray/?site=' + encodeURIComponent(url); a.textContent = 'Get my free X-ray';
       out.append(p, a);
     };
@@ -750,7 +750,7 @@
         out.append(a, note);
         if (motion) gsap.from(out.children, { y: 14, opacity: 0, duration: 0.5, stagger: 0.07, ease: 'power3.out' });
       } catch (err) {
-        byHand(url, "Google's checker is busy right now, so I'll check it by hand and send you three fixes within 24 hours.");
+        byHand(url, "Google's checker is busy right now, so I'll check it by hand and send you three fixes within one working day.");
       } finally { clearInterval(tick); btn.disabled = false; }
     });
   }

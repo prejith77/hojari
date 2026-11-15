@@ -2374,3 +2374,37 @@ html:not(.has-tear) .hero-note span { display: none; }
   .bx.is-live .bx-notes li:not(.is-now) { opacity: 0; visibility: hidden; }
 }
 .foot-grid > div p + p { margin-top: 12px; }
+
+/* ===== Simple homepage, 15 Nov ===== */
+.hj-three { position: relative; padding: 152px var(--margin); }
+.hj-three > * { max-width: 1240px; margin-left: auto; margin-right: auto; }
+.hj-three-steps { list-style: none; padding: 0; display: grid; gap: 0; counter-reset: s; border-top: 1px solid var(--line); }
+.hj-three-steps li { counter-increment: s; display: grid; gap: 10px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+.hj-three-steps li::before { content: counter(s); font: 400 2.5rem/1 var(--serif); color: var(--honey); }
+.hj-three-steps b { font: 400 1.75rem/1.15 var(--serif); color: var(--paper); }
+.hj-three-steps p { color: var(--muted); max-width: 44ch; line-height: 1.6; }
+@media (min-width: 900px) {
+  .hj-three-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; border-top: 0; }
+  .hj-three-steps li { border-bottom: 0; border-top: 1px solid var(--line); padding-top: 28px; }
+}
+@media (max-width: 899px) { .hj-three { padding: 96px 20px; } }
+.hj-grade small { display: block; margin-top: 6px; font: 500 var(--step-small)/1.2 var(--sans); color: var(--muted); }
+.hj-plan.is-pick .hj-grade small { color: var(--muted); }
+/* Phones: the three plans stack, no swiping */
+@media (max-width: 999px) {
+  .hj-pricing > .hj-plans { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin: 32px 0 0; padding: 0; overflow: visible; }
+  .hj-plans > .hj-plan { flex: none; }
+}
+.hj-pricing > .hj-small .text-link { color: var(--paper); }
+/* Shorter page: tighter section rhythm, compact plans on phones */
+.hj-three, .hj-demos, .hj-work, .hj-pricing, .hj-about, .hj-faq { padding-top: 120px; padding-bottom: 120px; }
+@media (max-width: 899px) {
+  .hj-three, .hj-demos, .hj-work, .hj-pricing, .hj-about, .hj-faq { padding-top: 72px; padding-bottom: 72px; }
+  .hj-plan { padding: 22px 20px; gap: 10px; }
+  .hj-plan ul { gap: 6px; }
+  .hj-plan li { font-size: 15px; }
+  .blocks { height: 16vh; min-height: 110px; }
+}
+.hj-three-steps li { align-content: start; }
+.hj-three-steps li::before { display: block; height: 2.5rem; }
+.hj-three-steps b { display: block; }
