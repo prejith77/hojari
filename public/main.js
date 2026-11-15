@@ -111,7 +111,7 @@
           addEventListener('tearburst', () => gsap.fromTo(s.chars, { y: 0 }, { y: -18, duration: 0.22, ease: 'power2.out', yoyo: true, repeat: 1, stagger: { each: 0.025, from: 'center' }, overwrite: true }));
         }
         const anim = soft ? { yPercent: 110, duration: 0.9, ease: 'power4.out', stagger: 0.08 } : { yPercent: 110, duration: 1, ease: 'power4.out', stagger: 0.09 };
-        if (el === heroTitle) { el.style.visibility = ''; gsap.from(s.lines, { ...anim, delay: 0.15 }); }
+        if (el === heroTitle) { el.style.visibility = ''; gsap.from(s.lines, { ...anim, filter: 'blur(10px)', clearProps: 'filter', delay: 0.15 }); }
         else if (el.getBoundingClientRect().top > innerHeight * 0.9) { gsap.set(s.lines, { yPercent: 110 }); whenSeen(el, () => gsap.to(s.lines, { yPercent: 0, duration: soft ? 0.8 : 0.95, ease: 'power4.out', stagger: soft ? 0.08 : 0.09 })); }
       });
       const heroBits = $$('.hero-actions, .promises li');

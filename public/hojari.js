@@ -382,4 +382,44 @@
       io.observe(film);
     }
   }
+  /* ---------- Motion pass: one job each ---------- */
+  const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* How it works: as the film plays, the step it is showing lights up. Scene starts in seconds: Day 1 at 5s, Day 3 at 20s, Day 7 at 29s */
+  const filmV = $('.hj-film video'), steps = $$('.hj-three-steps li');
+  if (filmV && steps.length === 3) {
+    const at = (s) => (s >= 29 ? 2 : s >= 20 ? 1 : s >= 5 ? 0 : -1);
+    const light = () => {
+      const k = filmV.paused || filmV.ended ? -1 : at(filmV.currentTime);
+      $('.hj-three-steps').classList.toggle('is-playing', k >= 0);
+      steps.forEach((li, n) => li.classList.toggle('is-now', n === k));
+    };
+    ['timeupdate', 'play', 'pause', 'ended', 'seeked'].forEach((ev) => filmV.addEventListener(ev, light));
+  }
+
+  /* Work: on a laptop the project cards lean a few degrees towards the cursor */
+  if (finePointer && !calm) $$('.hj-case').forEach((c) => {
+    const shots = $('.hj-shots', c); if (!shots) return;
+    let raf = 0;
+    c.addEventListener('pointermove', (e) => {
+      const r = shots.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => { shots.style.transform = `perspective(1100px) rotateY(${(x * 5).toFixed(2)}deg) rotateX(${(-y * 4).toFixed(2)}deg)`; shots.style.setProperty('--px', (x * 10).toFixed(1) + 'px'); shots.style.setProperty('--py', (y * 8).toFixed(1) + 'px'); });
+    });
+    c.addEventListener('pointerleave', () => { cancelAnimationFrame(raf); shots.style.transform = ''; shots.style.setProperty('--px', '0px'); shots.style.setProperty('--py', '0px'); });
+  });
+
+  /* Prices: a soft light follows the cursor across the plan cards */
+  if (finePointer) $$('.hj-plan').forEach((p) => p.addEventListener('pointermove', (e) => {
+    const r = p.getBoundingClientRect(); p.style.setProperty('--mx', (e.clientX - r.left) + 'px'); p.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }));
+
+  /* Between sections: a thin line of light draws across as each section arrives */
+  const seams = $$('main > section:not(.hero)');
+  if (window.IntersectionObserver && !calm) {
+    seams.forEach((s) => s.classList.add('has-seam'));
+    const so = new IntersectionObserver((ens) => ens.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('seam-on'); so.unobserve(en.target); } }), { rootMargin: '0px 0px -30% 0px' });
+    seams.forEach((s) => so.observe(s));
+  } else seams.forEach((s) => s.classList.add('has-seam', 'seam-on'));
 })();

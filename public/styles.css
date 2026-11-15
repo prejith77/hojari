@@ -2242,3 +2242,36 @@ html:not(.js) .hj-room { display: none; }
 .hj-film video { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 24px; background: var(--night-2, #1d1610); border: 1px solid var(--line); object-fit: cover; }
 .hj-film figcaption { margin-top: 14px; color: var(--muted); font-size: var(--step-small); }
 @media (max-width: 899px) { .hj-film { margin-top: 40px; } .hj-film video { aspect-ratio: 1 / 1; border-radius: 20px; } }
+
+/* ===== Motion pass, 15 Nov ===== */
+/* 1. How it works beside the film on laptops; the step the film is on lights up */
+.hj-three-steps li { transition: opacity .4s var(--ease-out); }
+.hj-three-steps li::before { transition: color .4s var(--ease-out); }
+.hj-three-steps li > b, .hj-three-steps li > p { transition: opacity .4s var(--ease-out); }
+.hj-three-steps.is-playing li:not(.is-now) > b, .hj-three-steps.is-playing li:not(.is-now) > p { opacity: .4; }
+.hj-three-steps.is-playing li:not(.is-now)::before { color: var(--muted); }
+@media (min-width: 1100px) {
+  .hj-three-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.65fr); gap: 56px; align-items: center; max-width: 1240px; margin: 0 auto; }
+  .hj-three-grid .hj-three-steps { grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--line); }
+  .hj-three-grid .hj-three-steps li { border-top: 0; border-bottom: 1px solid var(--line); padding: 22px 0; grid-template-columns: 2.5rem 1fr; column-gap: 12px; }
+  .hj-three-grid .hj-three-steps li::before { grid-row: span 2; height: auto; font-size: 2rem; }
+  .hj-three-grid .hj-film { margin: 0; }
+}
+/* 3. Work cards lean towards the cursor (laptops only) */
+@media (hover: hover) and (pointer: fine) {
+  .hj-shots { transition: transform .5s var(--ease-out); transform-style: preserve-3d; will-change: transform; }
+  .hj-shots img.ph { translate: var(--px, 0px) var(--py, 0px); transition: translate .5s var(--ease-out), transform .6s var(--ease-out); }
+}
+/* 4. A soft light follows the cursor across the plans (laptops only) */
+@media (hover: hover) and (pointer: fine) {
+  .hj-plan { isolation: isolate; }
+  .hj-plan::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1; opacity: 0; transition: opacity .3s var(--ease-out);
+    background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 0%), rgba(227, 173, 92, .10), transparent 70%); }
+  .hj-plan:hover::before { opacity: 1; }
+}
+/* 5. A thin line of light marks each new section */
+main > section.has-seam { position: relative; }
+main > section.has-seam::before { content: ""; position: absolute; top: 0; left: max(var(--margin, 20px), calc((100% - 1240px) / 2)); right: max(var(--margin, 20px), calc((100% - 1240px) / 2));
+  height: 1px; background: linear-gradient(90deg, transparent, rgba(227, 173, 92, .45) 50%, transparent); transform: scaleX(0); transform-origin: 50% 50%; transition: transform 1.1s var(--ease-out); pointer-events: none; }
+main > section.has-seam.seam-on::before { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) { main > section.has-seam::before { transition: none; } }
