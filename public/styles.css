@@ -2410,13 +2410,46 @@ html:not(.has-tear) .hero-note span { display: none; }
 .hj-three-steps b { display: block; }
 
 /* Plans: the feature list is always open on laptops, a tap away on phones */
-.plan-more > summary { display: none; }
+.plan-incl > summary { display: none; }
 @media (max-width: 899px) {
-  .plan-more > summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; border-top: 1px solid var(--line); cursor: pointer; list-style: none; color: var(--paper); font-weight: 500; font-size: 15px; }
-  .plan-more > summary::-webkit-details-marker { display: none; }
-  .plan-more > summary i { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s var(--ease-out); }
-  .plan-more[open] > summary i { transform: translateY(2px) rotate(-135deg); }
-  .plan-more[open] > summary { margin-bottom: 10px; }
+  .plan-incl > summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; border-top: 1px solid var(--line); cursor: pointer; list-style: none; color: var(--paper); font-weight: 500; font-size: 15px; }
+  .plan-incl > summary::-webkit-details-marker { display: none; }
+  .plan-incl > summary i { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s var(--ease-out); }
+  .plan-incl[open] > summary i { transform: translateY(2px) rotate(-135deg); }
+  .plan-incl[open] > summary { margin-bottom: 10px; }
   /* The promises repeat How it works, which sits right below the hero */
   .hero .promises { display: none; }
 }
+
+/* ===== Premium pass, 15 Nov (design review) ===== */
+/* 2. plan buttons wrap inside their pill on mid-size laptops */
+.hj-plan .button { white-space: normal; padding-inline: 16px; text-align: center; }
+/* 3. "My pick" sits on the card's border, so prices and buttons line up across the three */
+.hj-plan { position: relative; }
+.hj-plan .hj-grade > span { position: absolute; top: -13px; left: 24px; padding: 3px 12px; border: 1px solid var(--honey); border-radius: 999px; background: var(--night); font: 500 13px/1.3 var(--sans); color: var(--honey); }
+/* 5. no dead band under the hero on tablets and phones */
+@media (max-width: 899px) { .hero { min-height: 0; padding-bottom: 48px; } }
+@media (min-width: 600px) and (max-width: 899px) { .hero .hero-pic .hero-poster, .hero .hero-poster { width: min(30vw, 220px); height: min(30vw, 220px); } }
+/* 6. mid-size laptops: the subline clears the tear, and the promises give way to the caption */
+@media (min-width: 900px) and (max-width: 1199px) { .hero-sub { max-width: 30ch; } .hero .promises { display: none; } }
+.promises b { white-space: nowrap; }
+/* 7. footer links sit together, and inline links stay in their sentence */
+.foot-grid nav { align-content: start; }
+.foot-grid p .plain-mail { display: inline; padding: 0; min-height: 0; }
+/* 8. one call to action at a time on phones */
+@media (max-width: 899px) { .nav > .button { transition: opacity .2s; } body:has(.m-bar.is-on) .nav > .button { opacity: 0; pointer-events: none; } }
+/* 9. small print under the prices reads as one paragraph */
+.hj-pricing > .hj-small { text-align: left; }
+.hj-small .text-link { display: inline; min-height: 0; }
+/* 11. the demo note sits beside the middle of the phone */
+@media (min-width: 900px) { .hj-room-body { grid-template-columns: minmax(0, 390px) minmax(0, 460px); align-items: center; } }
+/* 12. the phone bar clears the home indicator */
+@media (max-width: 899px) { .m-bar { bottom: max(12px, calc(env(safe-area-inset-bottom, 0px) + 8px)); } }
+/* press feedback on tabs and the currency switch */
+.hj-tabs button, .hj-cur button { transition: transform .12s var(--ease-out), background-color .2s, color .2s; }
+.hj-tabs button:active, .hj-cur button:active { transform: scale(.97); }
+/* without JavaScript the demos can't run, so they step aside rather than show an empty diary */
+html:not(.js) .hj-room { display: none; }
+/* anchor links land below the nav */
+[id] { scroll-margin-top: 84px; }
+@media (min-width: 1000px) { .hj-plan h3 { min-height: 2.8em; } }
