@@ -6,9 +6,9 @@ Hojari is named after the top grade of Omani frankincense. It is not a frankince
 
 ## Plans (fixed prices, in pounds; dollars and dirhams on the site)
 
-- [Silver](https://hojari.co.uk/#pricing): from £750, then £49 a month for care. A website of up to 8 pages plus one tool, such as booking, quotes, ordering or instant WhatsApp replies. Live within 7 days of receiving words and photos.
-- [Royal Green](https://hojari.co.uk/#pricing): from £1,950, then £99 a month for care. Everything in Silver, plus up to three tools sharing one set of customer records, and an owner's dashboard.
-- [Signature](https://hojari.co.uk/#pricing): from £3,950, then £149 a month for care. A custom app, client portal or platform, with a website to match.
+- [Website (Silver)](https://hojari.co.uk/#pricing): from £750, then £49 a month for care. A website of up to 8 pages plus one tool, such as booking, quotes, ordering or instant WhatsApp replies. Live within 7 days of receiving words and photos.
+- [Website + tools (Royal Green)](https://hojari.co.uk/#pricing): from £1,950, then £99 a month for care. Everything in Silver, plus up to three tools sharing one set of customer records, and an owner's dashboard.
+- [Custom app (Signature)](https://hojari.co.uk/#pricing): from £3,950, then £149 a month for care. A custom app, client portal or platform, with a website to match.
 - [The one-week fix](https://hojari.co.uk/#pricing): from £450, then £29 a month for care. One tool that takes a job off the owner's hands, working within 7 days on the website they already have.
 
 ## Promises
@@ -34,3 +34,4 @@ Hojari is named after the top grade of Omani frankincense. It is not a frankince
 - [Build an app in 60 seconds](https://hojari.co.uk/build/)
 - [Terms](https://hojari.co.uk/terms/)
 - [Privacy](https://hojari.co.uk/privacy/)
+- Founding clients get 30% off the build in return for a short case study. Three new clients a month.
