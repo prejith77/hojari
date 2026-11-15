@@ -71,7 +71,9 @@
   /* Links elsewhere on the page that open a particular demo */
   $$('[data-demo]').forEach((a) => a.addEventListener('click', () => { const t = $('#' + a.dataset.demo); if (t) pick(t); }));
   /* On phones each plan's list folds behind "What's included", so the three prices fit on fewer screens */
-  if (matchMedia('(max-width: 899px)').matches) $$('.plan-incl').forEach((d) => { d.open = false; });
+  const mqP = matchMedia('(max-width: 899px)');
+  const foldPlans = () => $$('.plan-incl').forEach((d) => { d.open = !mqP.matches; });
+  foldPlans(); mqP.addEventListener('change', foldPlans);
   /* On phones the calculator's app list starts folded, with the total and the time sliders in view */
   const ctMore = $('.ct-more');
   if (ctMore && matchMedia('(max-width: 899px)').matches) ctMore.open = false;
@@ -364,9 +366,8 @@
     const show = () => mbar.classList.toggle('is-on', pastHero && !atForm);
     new IntersectionObserver(([en]) => { pastHero = !en.isIntersecting; show(); }, { rootMargin: '-40% 0px 0px 0px' }).observe(hero);
     /* from the form down to the footer, the bar stays out of the way */
-    /* from the form down to the footer, and while the bakery is pinned, the bar stays out of the way */
-    const bakery = $('#before-after');
-    if (contactSec) { const check = () => { const br = bakery && bakery.getBoundingClientRect(); const at = contactSec.getBoundingClientRect().top < innerHeight * 0.85 || (br && br.top < innerHeight * 0.5 && br.bottom > innerHeight * 0.5); if (at !== atForm) { atForm = at; show(); } }; addEventListener('scroll', () => requestAnimationFrame(check), { passive: true }); check(); }
+    /* from the form down to the footer, the bar stays out of the way */
+    if (contactSec) { const check = () => { const at = contactSec.getBoundingClientRect().top < innerHeight * 0.85; if (at !== atForm) { atForm = at; show(); } }; addEventListener('scroll', () => requestAnimationFrame(check), { passive: true }); check(); }
   }
   /* The cursor ring steps aside over form fields */
   const ring = $('.ring');
@@ -374,13 +375,11 @@
   /* The build film plays once, muted, when it comes into view. With reduced motion it waits for a tap */
   const film = $('.hj-film video');
   if (film) {
-    const phone = matchMedia('(max-width: 899px)').matches;
-    if (phone) film.poster = 'assets/video/process-square.webp';
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !window.IntersectionObserver) { film.controls = true; }
+    film.poster = matchMedia('(max-width: 899px)').matches ? 'assets/video/process-square.webp' : 'assets/video/process-wide.webp';
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !window.IntersectionObserver) { /* waits for a tap */ }
     else {
-      const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { film.play().catch(() => { film.controls = true; }); io.disconnect(); } }, { threshold: 0.5 });
+      const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { film.play().catch(() => {}); io.disconnect(); } }, { threshold: 0.5 });
       io.observe(film);
-      film.addEventListener('ended', () => { film.controls = true; });
     }
   }
 })();

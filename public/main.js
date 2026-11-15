@@ -129,7 +129,7 @@
     const sel = '.hj-three-steps li, .hj-plan, .hj-case, .hj-qs details, .grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
     const items = $$(sel).filter((el) => el.getBoundingClientRect().top > innerHeight && !(!desktop && el.matches('.usp-card')));
     gsap.set(items, { y: soft ? 24 : 32, opacity: 0 });
-    const show = (els) => gsap.to(els, { y: 0, opacity: 1, duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: 0.08, overwrite: true, clearProps: 'filter' });
+    const show = (els) => gsap.to(els, { y: 0, opacity: 1, duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: { amount: 0.24, ease: 'power2.out' }, overwrite: true, clearProps: 'filter' });
     let queue = [], timer = 0;
     items.forEach((el) => whenSeen(el, () => { queue.push(el); clearTimeout(timer); timer = setTimeout(() => { show(queue); queue = []; }, 30); }));
   }
