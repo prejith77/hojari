@@ -73,7 +73,7 @@
   /* On phones each plan's list folds behind "What's included", so the three prices fit on fewer screens */
   const mqP = matchMedia('(max-width: 899px)');
   const foldPlans = () => $$('.plan-incl').forEach((d) => { d.open = !mqP.matches; });
-  foldPlans(); mqP.addEventListener('change', foldPlans);
+  foldPlans(); if (mqP.addEventListener) mqP.addEventListener('change', foldPlans); else mqP.addListener(foldPlans);
   /* On phones the calculator's app list starts folded, with the total and the time sliders in view */
   const ctMore = $('.ct-more');
   if (ctMore && matchMedia('(max-width: 899px)').matches) ctMore.open = false;
@@ -378,7 +378,7 @@
     film.poster = matchMedia('(max-width: 899px)').matches ? 'assets/video/process-square.webp' : 'assets/video/process-wide.webp';
     if (matchMedia('(prefers-reduced-motion: reduce)').matches || !window.IntersectionObserver) { /* waits for a tap */ }
     else {
-      const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { film.play().catch(() => {}); io.disconnect(); } }, { threshold: 0.5 });
+      const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) film.play().then(() => io.disconnect()).catch(() => {}); }, { threshold: 0.5 });
       io.observe(film);
     }
   }

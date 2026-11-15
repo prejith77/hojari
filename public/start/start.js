@@ -174,11 +174,11 @@
 
     /* One sentence that says what they're getting */
     const sum = $('.r-summary');
-    if (p === 'signature') { sum.textContent = 'Your own software, built from scratch around how you work, with a website to match. That’s our Signature grade.'; $('.r-what').textContent = 'Software built from scratch'; }
-    else if (p === 'royal-green') { sum.textContent = 'Your website, plus ' + NUM[t.length] + ' that work together: ' + joinAnd(names) + '. That’s Royal Green, the grade most businesses pick.'; $('.r-what').textContent = 'Your website, plus a connected system'; }
+    if (p === 'signature') { sum.textContent = 'Your own software, built from scratch around how you work, with a website to match. That’s my Signature grade.'; $('.r-what').textContent = 'Software built from scratch'; }
+    else if (p === 'royal-green') { sum.textContent = 'Your website, plus ' + NUM[t.length] + ' that work together: ' + joinAnd(names) + '. That’s Royal Green, the one I’d pick for most businesses.'; $('.r-what').textContent = 'Your website, plus a connected system'; }
     else if (p === 'fix') { sum.textContent = 'You keep the website you have, and I add ' + names[0] + ' to it, working within 7 days. That’s the one-week fix.'; $('.r-what').textContent = 'One tool, added to your website'; }
-    else if (t.length) { sum.textContent = 'Your website, plus ' + names[0] + '. That’s our Silver grade: the simplest way to stop doing this by hand.'; $('.r-what').textContent = 'Your website, plus one tool'; }
-    else { sum.textContent = 'A website that wins you customers, ready to add a tool whenever you want one. That’s our Silver grade.'; $('.r-what').textContent = 'Your website'; }
+    else if (t.length) { sum.textContent = 'Your website, plus ' + names[0] + '. That’s my Silver grade: the simplest way to stop doing this by hand.'; $('.r-what').textContent = 'Your website, plus one tool'; }
+    else { sum.textContent = 'A website that wins you customers, ready to add a tool whenever you want one. That’s my Silver grade.'; $('.r-what').textContent = 'Your website'; }
 
     /* The plan, numbered, each tool tied to the answer behind it */
     const ol = $('.r-plan'); ol.innerHTML = ''; let n = 1;

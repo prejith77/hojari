@@ -445,7 +445,7 @@
         const res = await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
         if (!res.ok) throw new Error('send failed');
         cf.reset(); ctxNote.hidden = true;
-        sent.innerHTML = '<b>Thank you, ' + data.name.replace(/[<>&]/g, '') + '.</b>It\'s with me now. You\'ll hear back within one working day with my thoughts and a fixed price.';
+        sent.innerHTML = '<b>Thank you, ' + data.name.replace(/[<>&"']/g, '') + '.</b>It\'s with me now. You\'ll hear back within one working day with my thoughts and a fixed price.';
         if (motion) gsap.from(sent, { y: 16, opacity: 0, duration: 0.6, ease: 'power3.out' });
         btn.textContent = 'Sent';
         return;

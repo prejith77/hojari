@@ -2245,7 +2245,6 @@ html:not(.js) .hj-room { display: none; }
 
 /* ===== Motion pass, 15 Nov ===== */
 /* 1. How it works beside the film on laptops; the step the film is on lights up */
-.hj-three-steps li { transition: opacity .4s var(--ease-out); }
 .hj-three-steps li::before { transition: color .4s var(--ease-out); }
 .hj-three-steps li > b, .hj-three-steps li > p { transition: opacity .4s var(--ease-out); }
 .hj-three-steps.is-playing li:not(.is-now) > b, .hj-three-steps.is-playing li:not(.is-now) > p { opacity: .4; }
