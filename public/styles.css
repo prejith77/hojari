@@ -2343,3 +2343,22 @@ html:not(.has-tear) .hero-note span { display: none; }
 @media (max-width: 359px) { .hero .hero-pic .hero-poster, .hero .hero-poster { width: 96px; height: 96px; right: 0; } }
 @media (max-width: 899px) { .ct-row { grid-template-columns: minmax(0, 1fr) 76px 44px; } html { scroll-padding-bottom: 88px; } }
 @media (max-width: 899px) { .hj-plans > .hj-plan { min-width: 0; } .hj-plan .button { white-space: normal; text-align: center; } }
+
+/* ===== 15 Nov, later: descenders and spacing ===== */
+/* Safari draws each GPU-layered letter only inside its own box, cutting italic tails and descenders: the hero letters are plain text unless they move */
+.hero-title .hc { will-change: auto; }
+/* Links inside a sentence stay in the line, so the lines keep an even rhythm (inline links are exempt from the 44px target rule) */
+@media (max-width: 899px), (pointer: coarse) {
+  .hj-side .text-link, .hj-fixline .text-link, .hj-lede .text-link, .care-line .text-link, .bx-lede .text-link { display: inline; min-height: 0; }
+}
+.hj-head p .text-link, .pricing p .text-link { margin-left: 0; }
+/* Phone hero: the caption gets room above and below */
+@media (max-width: 899px) { .hero-note { margin: 16px 0 24px; } }
+/* One left edge under pricing on phones */
+@media (max-width: 599px) {
+  .hj-after-plans { justify-items: start; text-align: left; }
+  .hj-after-plans p { justify-items: start; }
+}
+/* Same section padding everywhere */
+.bx { padding-top: 152px; padding-bottom: 152px; }
+@media (max-width: 899px) { .hj-fix, .bx { padding-top: 96px; padding-bottom: 96px; } }
