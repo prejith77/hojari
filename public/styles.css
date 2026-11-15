@@ -2362,3 +2362,15 @@ html:not(.has-tear) .hero-note span { display: none; }
 /* Same section padding everywhere */
 .bx { padding-top: 152px; padding-bottom: 152px; }
 @media (max-width: 899px) { .hj-fix, .bx { padding-top: 96px; padding-bottom: 96px; } }
+
+/* ===== Distil, 15 Nov ===== */
+.hj-next { margin-top: 56px; }
+.hj-flow { max-width: 62ch; color: var(--muted); font-size: var(--step-body); line-height: 1.6; }
+.hj-flow b { color: var(--paper); font-weight: 500; }
+/* Phones: the bakery shows the note for the stage you're on, not all five at once */
+@media (max-width: 899px) {
+  .bx.is-live .bx-notes { display: grid; }
+  .bx.is-live .bx-notes li { grid-area: 1 / 1; transition: opacity .3s var(--ease-out); }
+  .bx.is-live .bx-notes li:not(.is-now) { opacity: 0; visibility: hidden; }
+}
+.foot-grid > div p + p { margin-top: 12px; }

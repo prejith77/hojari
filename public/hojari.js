@@ -362,7 +362,9 @@
     const show = () => mbar.classList.toggle('is-on', pastHero && !atForm);
     new IntersectionObserver(([en]) => { pastHero = !en.isIntersecting; show(); }, { rootMargin: '-40% 0px 0px 0px' }).observe(hero);
     /* from the form down to the footer, the bar stays out of the way */
-    if (contactSec) { const check = () => { const at = contactSec.getBoundingClientRect().top < innerHeight * 0.85; if (at !== atForm) { atForm = at; show(); } }; addEventListener('scroll', () => requestAnimationFrame(check), { passive: true }); check(); }
+    /* from the form down to the footer, and while the bakery is pinned, the bar stays out of the way */
+    const bakery = $('#before-after');
+    if (contactSec) { const check = () => { const br = bakery && bakery.getBoundingClientRect(); const at = contactSec.getBoundingClientRect().top < innerHeight * 0.85 || (br && br.top < innerHeight * 0.5 && br.bottom > innerHeight * 0.5); if (at !== atForm) { atForm = at; show(); } }; addEventListener('scroll', () => requestAnimationFrame(check), { passive: true }); check(); }
   }
   /* The cursor ring steps aside over form fields */
   const ring = $('.ring');
