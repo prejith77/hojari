@@ -892,7 +892,7 @@
     usps.forEach((c, i) => c.style.setProperty('--i', i));
     if (usps.length) document.documentElement.classList.add('m-stack');
     /* Big headings drift a touch as they pass */
-    const drifts = $$('main h2').filter((h) => !h.closest('.bx, .grades, .contact'));
+    const drifts = []; /* the heading drift is gone: it pulled headings off the left edge */
     let tk = false;
     const frame = () => {
       tk = false;

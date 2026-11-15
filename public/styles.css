@@ -1582,7 +1582,7 @@ section[id] { scroll-margin-top: 0; }
 .hj-plans { display: grid; gap: 16px; }
 @media (min-width: 1000px) { .hj-plans { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .hj-plan { display: flex; flex-direction: column; gap: 12px; padding: 30px 26px; border-radius: 28px; background: var(--night); border: 1px solid var(--line); }
-.hj-plan.is-pick { border-color: var(--honey); box-shadow: 0 0 0 1px var(--honey), 0 40px 90px -50px rgba(227,173,92,.45); }
+.hj-plan.is-pick { border-color: var(--honey); box-shadow: 0 0 0 1px var(--honey); }
 .hj-grade { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; font: 400 2rem/1 var(--serif); color: var(--honey); }
 .hj-grade span { padding: 6px 10px; border-radius: 999px; background: var(--honey); color: var(--ink); font: 600 12px/1 var(--sans); }
 .hj-plan h3 { font: 500 var(--step-body)/1.35 var(--sans); letter-spacing: 0; color: var(--paper); }
@@ -1895,7 +1895,7 @@ section[id] { scroll-margin-top: 0; }
 .nav .button-small, .nav .button-small:is(*) { min-height: 44px; }
 .ct-hours input[type="range"] { height: 44px; }
 /* Small phones (under 360px): nothing clipped */
-@media (max-width: 359px) {
+@media (max-width: 399px) {
   .nav .button-small { padding: 0 12px; }
   .nav { gap: 10px; padding-left: 16px; padding-right: 12px; }
   .nav .wordmark svg { height: 30px; }
@@ -2232,7 +2232,8 @@ html:not(.has-tear) .hero-note span { display: none; }
 .hj-tabs button, .hj-cur button { transition: transform .12s var(--ease-out), background-color .2s, color .2s; }
 .hj-tabs button:active, .hj-cur button:active { transform: scale(.97); }
 /* without JavaScript the demos can't run, so they step aside rather than show an empty diary */
-html:not(.js) .hj-room { display: none; }
+html:not(.js) .hj-tabs, html:not(.js) .hj-phone { display: none; }
+html:not(.js) .hj-side-note { display: block !important; }
 /* anchor links land below the nav */
 [id] { scroll-margin-top: 84px; }
 @media (min-width: 1000px) { .hj-plan h3 { min-height: 2.8em; } }
@@ -2271,6 +2272,49 @@ html:not(.js) .hj-room { display: none; }
 /* 5. A thin line of light marks each new section */
 main > section.has-seam { position: relative; }
 main > section.has-seam::before { content: ""; position: absolute; top: 0; left: max(var(--margin, 20px), calc((100% - 1240px) / 2)); right: max(var(--margin, 20px), calc((100% - 1240px) / 2));
-  height: 1px; background: linear-gradient(90deg, transparent, rgba(227, 173, 92, .45) 50%, transparent); transform: scaleX(0); transform-origin: 50% 50%; transition: transform 1.1s var(--ease-out); pointer-events: none; }
+  height: 1px; background: linear-gradient(90deg, transparent, rgba(227, 173, 92, .45) 50%, transparent); transform: scaleX(0); transform-origin: 50% 50%; transition: transform .6s var(--ease-out); pointer-events: none; }
 main > section.has-seam.seam-on::before { transform: scaleX(1); }
 @media (prefers-reduced-motion: reduce) { main > section.has-seam::before { transition: none; } }
+
+/* ===== Check-and-fix pass, 15 Nov ===== */
+/* 4. small print keeps to the column; one left edge everywhere */
+.hj-pricing > .hj-small { max-width: 1240px; }
+.hj-after-plans, .hj-after-plans p { justify-items: start; text-align: left; }
+/* 5. the nav's wordmark and button sit on the column edges */
+@media (min-width: 900px) { .nav, .nav.scrolled { width: min(calc(100% - 2 * var(--margin) + 48px), 1288px); } }
+/* 6. plan names break as a whole line; buttons fit on one line where space is tight */
+.hj-grade small { flex-basis: 100%; }
+@media (min-width: 1000px) and (max-width: 1199px), (max-width: 380px) { .hj-plan .button { font-size: 15px; padding-inline: 12px; } }
+/* 7. the footer shares the page edge, and the copyright stays on one line */
+@media (max-width: 899px) { footer.foot { padding-left: 20px; padding-right: 20px; } }
+.foot-last { flex-wrap: wrap; gap: 8px 24px; }
+.foot-last p:first-child { white-space: nowrap; }
+/* 8. contact follows the section rhythm */
+.contact { padding-top: 120px; padding-bottom: 120px; }
+.contact .contact-lede { margin-top: 30px; }
+@media (max-width: 899px) { .contact { padding-top: 72px; padding-bottom: 72px; } .contact .contact-lede { margin-top: 24px; font-size: var(--step-lead); color: var(--muted); } }
+/* 9. demos: two equal columns on laptops; on phones the note reads from the left */
+@media (min-width: 900px) { .hj-room-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 64px; } }
+@media (max-width: 899px) { .hj-side-note { text-align: left; margin: 0; } }
+.hj-tabs { margin-left: 0; margin-right: 0; }
+/* 10. About: one gap */
+.hj-about-text { gap: 24px; }
+.hj-voice { margin: 0; }
+@media (min-width: 900px) { .hj-about-text h2 { margin-bottom: 6px; } }
+/* 11. work cards on the 4px grid; the founding line keeps a readable length */
+.hj-case { gap: 0; }
+.hj-shots { margin-bottom: 24px; }
+.hj-case h3 + .hj-tag { margin: 8px 0 16px; }
+@media (min-width: 900px) { .hj-work .hj-founding { padding-right: calc(50% + 32px); } }
+/* 12. equal things equal: padding and radius */
+.hj-plan, .hj-pricing > .hj-care-box { padding: 28px 24px; }
+@media (max-width: 899px) { .hj-plan, .hj-pricing > .hj-care-box { padding: 24px 20px; } }
+.hj-plan, .hj-pricing > .hj-care-box, .hj-voice, .hj-shots, .hj-film video { border-radius: 28px; }
+/* 13. the film lines up with the first step */
+@media (min-width: 1100px) { .hj-three-grid { align-items: start; } }
+/* 14. hover states on the controls that had none */
+@media (hover: hover) and (pointer: fine) {
+  .hj-tabs button[aria-selected="false"], .hj-cur button[aria-pressed="false"], .hj-qs summary, .care-more summary { transition: color .15s ease; }
+  .hj-tabs button[aria-selected="false"]:hover, .hj-cur button[aria-pressed="false"]:hover { color: var(--paper); }
+  .hj-qs summary:hover::after, .care-more summary:hover { color: var(--honey); }
+}
