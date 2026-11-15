@@ -2330,3 +2330,4 @@ h3 { text-wrap: balance; }
   .m-bar.is-on { transition: transform .28s var(--ease-out), opacity .28s, visibility 0s; }
 }
 @media (prefers-reduced-motion: reduce) { .m-bar, .m-bar.is-on { transition: opacity .2s, visibility 0s; transform: none; } }
+.ct-how { margin-top: 18px; font-size: var(--step-small); line-height: 1.55; color: var(--muted); }

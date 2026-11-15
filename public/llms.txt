@@ -15,8 +15,8 @@ Hojari is named after the top grade of Omani frankincense. It is not a frankince
 
 - Free to try for 7 days before paying.
 - A reply within 24 hours.
-- Live within 7 days of receiving words and photos.
-- 30 days after launch, costs and admin hours are measured again; if nothing has improved, the build fee is refunded.
+- Live within 7 days of receiving words and photos, or 14 days for bigger tools.
+- 30 days after launch, software costs, admin hours and how long customers wait for a reply are measured again; if none has improved, the build fee is refunded.
 - The domain, words, photos and customer data are in the client's name, and the code is theirs once the build is paid.
 
 ## Pages
@@ -28,7 +28,8 @@ Hojari is named after the top grade of Omani frankincense. It is not a frankince
 - [Tess Pereira's website](https://hojari.co.uk/work/tess-pereira/): a live client site for an international psychologist and coach in Dubai, and what was built.
 - [Book a 15-minute call](https://hojari.co.uk/call/): pick a day and time of day; the exact time is confirmed within 24 hours.
 - [Free website X-ray](https://hojari.co.uk/xray/): a free report within 48 hours on speed, Google presence and the one thing to fix first.
-- [Try it free](https://hojari.co.uk/start/): seven questions to shape a plan and price.
+- [Get a free working version](https://hojari.co.uk/start/): seven questions to shape a plan and price.
+- [What your apps and admin cost you a year](https://hojari.co.uk/count/): a calculator that adds up software fees and admin time for a whole year.
 - [Client portal demo](https://hojari.co.uk/portal/)
 - [Build an app in 60 seconds](https://hojari.co.uk/build/)
 - [Terms](https://hojari.co.uk/terms/)
