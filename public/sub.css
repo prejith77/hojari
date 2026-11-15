@@ -85,3 +85,5 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .top-cta:active { transform: scale(.97); }
 @media (hover: hover) and (pointer: fine) { .top-nav a:hover { color: var(--paper); } .top-cta:hover { background: var(--honey); } }
 @media (max-width: 899px) { .top-nav a:not(.top-keep) { display: none; } }
+.top-cta { white-space: nowrap; }
+@media (max-width: 359px) { .top-keep { display: none; } .top-cta { padding: 0 14px; } }

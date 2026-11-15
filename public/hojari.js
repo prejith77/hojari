@@ -65,7 +65,7 @@
     plans.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true });
     /* open on my pick, with the cheaper plan peeking in from the left */
     const pk = $('.is-pick', plans);
-    if (pk && plans.scrollWidth > plans.clientWidth + 4) plans.scrollLeft = pk.offsetLeft - plans.offsetLeft - (plans.clientWidth - pk.offsetWidth) / 2;
+    if (pk && plans.scrollWidth > plans.clientWidth + 4) plans.scrollLeft = pk.offsetLeft - plans.offsetLeft - Math.max(0, (plans.clientWidth - pk.offsetWidth) / 2);
     mark();
   }
   /* Links elsewhere on the page that open a particular demo */
@@ -203,7 +203,7 @@
     r.bars.forEach((v) => { const i = document.createElement('i'); i.style.transform = 'scaleY(0.04)'; chart.appendChild(i); requestAnimationFrame(() => requestAnimationFrame(() => { i.style.transform = 'scaleY(' + (v / max).toFixed(3) + ')'; })); });
     chart.style.setProperty('--n', r.bars.length);
     $('.ds-range').textContent = r.range;
-    Object.keys(r.k).forEach((k) => { $('[data-k="' + k + '"]').textContent = k === 'sales' ? money(Math.round(conv(r.k[k], 'GBP', cur) / 10) * 10) : r.k[k]; $('[data-d="' + k + '"]').textContent = r.d[k] + ' vs last ' + range; });
+    Object.keys(r.k).forEach((k) => { $('[data-k="' + k + '"]').textContent = k === 'sales' ? money(Math.round(conv(r.k[k], 'GBP', cur) / 10) * 10) : r.k[k]; $('[data-d="' + k + '"]').textContent = /^[+-]/.test(r.d[k]) ? r.d[k] + ' vs last ' + range : r.d[k]; });
   }
   document.addEventListener('hj:currency', () => { if (chart) drawChart(); });
   $$('.ds-toggle button').forEach((b) => b.addEventListener('click', () => {
@@ -276,7 +276,7 @@
   }
   function row(name, cost) {
     const d = document.createElement('div'); d.className = 'ct-row';
-    d.innerHTML = '<input type="text" aria-label="App name" maxlength="40"><input class="ct-cost" type="number" inputmode="decimal" min="0" step="1" aria-label="Cost per month"><button type="button" aria-label="Remove">×</button>';
+    d.innerHTML = '<input type="text" aria-label="App name" maxlength="60"><input class="ct-cost" type="number" inputmode="decimal" min="0" step="1" aria-label="Cost per month"><button type="button" aria-label="Remove">×</button>';
     d.children[0].value = name; d.children[0].placeholder = 'App name';
     d.children[1].value = cost; d.children[1].placeholder = '0';
     apps.appendChild(d);
@@ -293,7 +293,7 @@
     $('.ct-soft').textContent = money(soft);
     $('.ct-time').textContent = money(time);
     $('.ct-total').textContent = money(soft + time);
-    return { soft, time, apps: $$('.ct-row', apps).map((d) => d.children[0].value.trim() + ' ' + money(+d.children[1].value || 0)).filter((x) => x.trim()), hours: h.value, rate: money(+r.value) };
+    return { soft, time, apps: $$('.ct-row', apps).filter((d) => d.children[0].value.trim() || +d.children[1].value > 0).map((d) => (d.children[0].value.trim() || 'Unnamed app') + ' ' + money(Math.max(0, +d.children[1].value || 0))), hours: h.value, rate: money(+r.value) };
   }
   if (apps) {
     START.forEach(([n, c]) => row(n, conv(c, 'GBP', cur)));
@@ -361,6 +361,10 @@
     let pastHero = false, atForm = false;
     const show = () => mbar.classList.toggle('is-on', pastHero && !atForm);
     new IntersectionObserver(([en]) => { pastHero = !en.isIntersecting; show(); }, { rootMargin: '-40% 0px 0px 0px' }).observe(hero);
-    if (contactSec) new IntersectionObserver(([en]) => { atForm = en.isIntersecting; show(); }).observe(contactSec);
+    /* from the form down to the footer, the bar stays out of the way */
+    if (contactSec) { const check = () => { const at = contactSec.getBoundingClientRect().top < innerHeight * 0.85; if (at !== atForm) { atForm = at; show(); } }; addEventListener('scroll', () => requestAnimationFrame(check), { passive: true }); check(); }
   }
+  /* The cursor ring steps aside over form fields */
+  const ring = $('.ring');
+  if (ring) $$('input, textarea, select').forEach((f) => { f.addEventListener('mouseenter', () => ring.classList.add('is-hidden')); f.addEventListener('mouseleave', () => ring.classList.remove('is-hidden')); });
 })();

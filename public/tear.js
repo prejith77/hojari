@@ -210,7 +210,7 @@
     canvas.classList.add('is-pinned');
     const place = () => {
       const hr = heroBox.getBoundingClientRect(), pr = heroPoster.getBoundingClientRect();
-      const padTop = pr.height * 0.75, padBottom = pr.height * 0.08;
+      const padTop = pr.height * 0.75, padBottom = pr.height * 0.6;
       const left = 0, width = hr.width;
       const top = pr.top - hr.top - padTop, height = pr.height + padTop + padBottom;
       Object.assign(canvas.style, { left: left + 'px', top: top + 'px', width: width + 'px', height: height + 'px' });

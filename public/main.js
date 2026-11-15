@@ -481,12 +481,8 @@
     document.addEventListener('pointerleave', () => ring.classList.remove('is-on'));
   }
 
-  /* Footer: the letters rise into place, then bounce when you poke them */
+  /* Footer: the letters rise into place */
   const blocks = $$('.blk');
-  blocks.forEach((b) => {
-    b.addEventListener('click', () => { b.classList.remove('is-boing'); void b.offsetWidth; b.classList.add('is-boing'); });
-    b.addEventListener('animationend', () => b.classList.remove('is-boing'));
-  });
   if (motion && $('.blocks').getBoundingClientRect().top > innerHeight) { gsap.set(blocks, { y: 36, opacity: 0 }); whenSeen($('.blocks'), () => gsap.to(blocks, { y: 0, opacity: 1, duration: 1, ease: 'power4.out', stagger: 0.06, clearProps: 'transform,opacity' })); }
 
   /* BUILD: a homepage that puts itself together as you choose */

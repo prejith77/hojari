@@ -2295,9 +2295,8 @@ ul.hj-creds { list-style: none; padding: 0; display: grid; gap: 2px; }
 .blk { transition: transform .25s var(--ease-out); }
 
 /* Quieter motion */
-body:has(input:hover, textarea:hover, select:hover, .field:hover) .ring { opacity: 0; }
-.bx.is-live { height: 190vh; }
-@media (max-width: 899px) { .bx.is-live { height: 210vh; } }
+.bx.is-live { height: 190svh; }
+@media (max-width: 899px) { .bx.is-live { height: 210svh; } }
 
 /* Details */
 li, .hj-lede, .bx-notes li, .hj-fixline, .care-line { text-wrap: pretty; }
@@ -2331,3 +2330,16 @@ h3 { text-wrap: balance; }
 }
 @media (prefers-reduced-motion: reduce) { .m-bar, .m-bar.is-on { transition: opacity .2s, visibility 0s; transform: none; } }
 .ct-how { margin-top: 18px; font-size: var(--step-small); line-height: 1.55; color: var(--muted); }
+
+/* Checks, 15 Nov: small phones, mid-size laptops, and the tear's caption when the still picture shows */
+@media (max-width: 380px) {
+  .m-bar a { min-width: 0; padding: 0 12px; font-size: .8125rem; }
+  .m-bar-go { flex: 1 1 0 !important; }
+}
+@media (min-width: 900px) and (max-width: 1279px), (min-width: 900px) and (max-height: 820px) {
+  .hero-note { position: static; text-align: left; margin-top: 20px; max-width: 46ch; }
+}
+html:not(.has-tear) .hero-note span { display: none; }
+@media (max-width: 359px) { .hero .hero-pic .hero-poster, .hero .hero-poster { width: 96px; height: 96px; right: 0; } }
+@media (max-width: 899px) { .ct-row { grid-template-columns: minmax(0, 1fr) 76px 44px; } html { scroll-padding-bottom: 88px; } }
+@media (max-width: 899px) { .hj-plans > .hj-plan { min-width: 0; } .hj-plan .button { white-space: normal; text-align: center; } }
