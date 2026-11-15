@@ -70,6 +70,8 @@
   }
   /* Links elsewhere on the page that open a particular demo */
   $$('[data-demo]').forEach((a) => a.addEventListener('click', () => { const t = $('#' + a.dataset.demo); if (t) pick(t); }));
+  /* On phones each plan's list folds behind "What's included", so the three prices fit on fewer screens */
+  if (matchMedia('(max-width: 899px)').matches) $$('.plan-more').forEach((d) => { d.open = false; });
   /* On phones the calculator's app list starts folded, with the total and the time sliders in view */
   const ctMore = $('.ct-more');
   if (ctMore && matchMedia('(max-width: 899px)').matches) ctMore.open = false;

@@ -2408,3 +2408,15 @@ html:not(.has-tear) .hero-note span { display: none; }
 .hj-three-steps li { align-content: start; }
 .hj-three-steps li::before { display: block; height: 2.5rem; }
 .hj-three-steps b { display: block; }
+
+/* Plans: the feature list is always open on laptops, a tap away on phones */
+.plan-more > summary { display: none; }
+@media (max-width: 899px) {
+  .plan-more > summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; border-top: 1px solid var(--line); cursor: pointer; list-style: none; color: var(--paper); font-weight: 500; font-size: 15px; }
+  .plan-more > summary::-webkit-details-marker { display: none; }
+  .plan-more > summary i { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .2s var(--ease-out); }
+  .plan-more[open] > summary i { transform: translateY(2px) rotate(-135deg); }
+  .plan-more[open] > summary { margin-bottom: 10px; }
+  /* The promises repeat How it works, which sits right below the hero */
+  .hero .promises { display: none; }
+}
