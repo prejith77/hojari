@@ -62,7 +62,11 @@
   if (plans && dots.length) {
     const cards = $$('.hj-plan', plans);
     const mark = () => { const mid = plans.scrollLeft + plans.clientWidth / 2; let best = 0, dist = 1e9; cards.forEach((c, n) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < dist) { dist = d; best = n; } }); dots.forEach((d, n) => d.classList.toggle('on', n === best)); };
-    plans.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true }); mark();
+    plans.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true });
+    /* open on my pick, with the cheaper plan peeking in from the left */
+    const pk = $('.is-pick', plans);
+    if (pk && plans.scrollWidth > plans.clientWidth + 4) plans.scrollLeft = pk.offsetLeft - plans.offsetLeft - (plans.clientWidth - pk.offsetWidth) / 2;
+    mark();
   }
   /* Links elsewhere on the page that open a particular demo */
   $$('[data-demo]').forEach((a) => a.addEventListener('click', () => { const t = $('#' + a.dataset.demo); if (t) pick(t); }));
@@ -129,6 +133,8 @@
     go.addEventListener('click', () => {
       const d = state.day._date;
       $('.bk-summary', done).textContent = state.svc.dataset.svc + ', ' + DAY[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()] + ' at ' + state.time + '.';
+      /* hold the panel's height so the page doesn't jump when the shorter confirmation replaces the form */
+      const pnl = bk.closest('.hj-panel'); if (pnl) pnl.style.minHeight = pnl.offsetHeight + 'px';
       bk.hidden = true; done.hidden = false;
       $('.bk-again', done).focus({ preventScroll: true });
     });
@@ -197,7 +203,7 @@
     r.bars.forEach((v) => { const i = document.createElement('i'); i.style.transform = 'scaleY(0.04)'; chart.appendChild(i); requestAnimationFrame(() => requestAnimationFrame(() => { i.style.transform = 'scaleY(' + (v / max).toFixed(3) + ')'; })); });
     chart.style.setProperty('--n', r.bars.length);
     $('.ds-range').textContent = r.range;
-    Object.keys(r.k).forEach((k) => { $('[data-k="' + k + '"]').textContent = k === 'sales' ? money(Math.round(conv(r.k[k], 'GBP', cur) / 10) * 10) : r.k[k]; $('[data-d="' + k + '"]').textContent = r.d[k]; });
+    Object.keys(r.k).forEach((k) => { $('[data-k="' + k + '"]').textContent = k === 'sales' ? money(Math.round(conv(r.k[k], 'GBP', cur) / 10) * 10) : r.k[k]; $('[data-d="' + k + '"]').textContent = r.d[k] + ' vs last ' + range; });
   }
   document.addEventListener('hj:currency', () => { if (chart) drawChart(); });
   $$('.ds-toggle button').forEach((b) => b.addEventListener('click', () => {
@@ -348,4 +354,13 @@
   }
 
   setCur(cur, false);
+
+  /* Phones: a bar with the two main actions follows your thumb once the hero has gone, and steps aside at the form */
+  const mbar = $('.m-bar'), hero = $('#top'), contactSec = $('#contact');
+  if (mbar && hero && window.IntersectionObserver) {
+    let pastHero = false, atForm = false;
+    const show = () => mbar.classList.toggle('is-on', pastHero && !atForm);
+    new IntersectionObserver(([en]) => { pastHero = !en.isIntersecting; show(); }, { rootMargin: '-40% 0px 0px 0px' }).observe(hero);
+    if (contactSec) new IntersectionObserver(([en]) => { atForm = en.isIntersecting; show(); }).observe(contactSec);
+  }
 })();

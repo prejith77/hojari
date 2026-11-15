@@ -7,7 +7,7 @@ css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
 css = re.sub(r'\s*\n\s*', '\n', css).strip()
 assert '</style' not in css
 # the homepage, and the grade page, which shares the homepage stylesheet (it uses <base href="/">)
-for page in ('public/index.html', 'public/grade/index.html'):
+for page in ('public/index.html', 'public/grade/index.html', 'public/count/index.html'):
     html = open(page).read()
     assert tag in html, page
     open(page, 'w').write(html.replace(tag, '<style>' + css + '</style>', 1))
