@@ -422,4 +422,33 @@
     const so = new IntersectionObserver((ens) => ens.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('seam-on'); so.unobserve(en.target); } }), { rootMargin: '0px 0px -30% 0px' });
     seams.forEach((s) => so.observe(s));
   } else seams.forEach((s) => s.classList.add('has-seam', 'seam-on'));
+  /* ---------- Orders demo ---------- */
+  const od = $('.od'), odDone = $('.od-done');
+  if (od && odDone) {
+    const rows = $$('.od-row', od), sum = $('.od-sum', od), go = $('.od-go', od);
+    const fmt = (n) => '£' + n.toFixed(2);
+    const total = () => {
+      let s = 0, items = 0;
+      rows.forEach((r) => { const q = +$('output', r).value; s += q * +r.dataset.price; items += q; });
+      sum.textContent = fmt(s); go.disabled = !items;
+      go.textContent = items ? 'Send order on WhatsApp, ' + fmt(s) : 'Add something to order';
+    };
+    rows.forEach((r) => {
+      const out = $('output', r);
+      $('.od-plus', r).addEventListener('click', () => { out.value = Math.min(9, +out.value + 1); total(); });
+      $('.od-minus', r).addEventListener('click', () => { out.value = Math.max(0, +out.value - 1); total(); });
+    });
+    $$('.od-times .chip', od).forEach((c) => c.addEventListener('click', () => $$('.od-times .chip', od).forEach((x) => x.classList.toggle('is-on', x === c))));
+    go.addEventListener('click', () => {
+      const pnl = od.closest('.hj-panel'); if (pnl) pnl.style.minHeight = pnl.offsetHeight + 'px';
+      const list = rows.filter((r) => +$('output', r).value).map((r) => $('output', r).value + ' × ' + r.firstElementChild.textContent);
+      $('.od-summary', odDone).textContent = list.join(', ') + '. Collect at ' + $('.od-times .is-on', od).textContent + '. ' + sum.textContent + '.';
+      od.hidden = true; odDone.hidden = false; $('.od-again', odDone).focus({ preventScroll: true });
+    });
+    $('.od-again', odDone).addEventListener('click', () => { rows.forEach((r) => { $('output', r).value = 0; }); total(); odDone.hidden = true; od.hidden = false; });
+    total();
+  }
+  /* Quotes demo: a job that needs seeing first */
+  const qv = $('.qt-visit');
+  if (qv) qv.addEventListener('click', () => { const p = $('.qt-visited'); if (p) p.hidden = false; qv.hidden = true; });
 })();
