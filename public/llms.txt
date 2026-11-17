@@ -56,4 +56,28 @@ Hojari is named after the top grade of Omani frankincense. It is not a frankince
 - [What card machines and payments really cost](https://hojari.co.uk/guides/uk/card-payment-fees/): SumUp, Square, Zettle, Stripe, Teya and Dojo: readers, card fees and payouts.
 - [Making Tax Digital, and what accounting software costs](https://hojari.co.uk/guides/uk/accounting-software/): Who Making Tax Digital for Income Tax applies to and when (from gov.uk), and Xero, FreeAgent and Zoho Books prices.
 
+## Guides: other countries (figures from each company's own page or official sources, read 17 November 2026)
+
+- [United States: What booking apps charge a salon](https://hojari.co.uk/guides/us/booking-app-fees/): Vagaro, Booksy, StyleSeat, Fresha, GlossGenius, Mindbody and Square.
+- [United States: What DoorDash, Uber Eats and marketplaces take](https://hojari.co.uk/guides/us/selling-app-fees/): DoorDash, Uber Eats, Grubhub, Etsy and Amazon, against your own site.
+- [United States: What Angi, Thumbtack and lead sites charge](https://hojari.co.uk/guides/us/lead-sites/): Angi Leads, Thumbtack, Yelp Ads, Nextdoor and Porch.
+- [United States: What card readers and payments cost](https://hojari.co.uk/guides/us/card-payment-fees/): PayPal, Stripe, Square, SumUp, Clover and Shopify, with a worked example.
+- [United States: What websites and job apps cost](https://hojari.co.uk/guides/us/website-and-job-apps/): Wix, Squarespace, Shopify, GoDaddy, Jobber, Housecall Pro and QuickBooks.
+- [UAE and Oman: What booking apps charge a salon](https://hojari.co.uk/guides/gulf/booking-app-fees/): Fresha, Salonist, Zenoti and others: what’s published, and in which currency.
+- [UAE and Oman: What Talabat, Deliveroo and marketplaces take](https://hojari.co.uk/guides/gulf/delivery-app-fees/): Why the delivery apps don’t publish commission, and Amazon.ae and Noon fees.
+- [UAE and Oman: What card payments and payment links cost](https://hojari.co.uk/guides/gulf/card-payment-fees/): Ziina, Tap, Stripe, Telr and others, with a worked example.
+- [UAE and Oman: VAT, corporate tax and e-invoicing](https://hojari.co.uk/guides/gulf/tax-and-invoicing/): UAE and Oman rules from official sources, and Zoho Books and Xero prices.
+- [Australia and New Zealand: What booking apps charge a salon](https://hojari.co.uk/guides/australia-nz/booking-app-fees/): Square Appointments, Kitomba, Shortcuts, and the surcharge ban.
+- [Australia and New Zealand: What Uber Eats, DoorDash and marketplaces take](https://hojari.co.uk/guides/australia-nz/delivery-app-fees/): Commissions in both countries, and what happened to Menulog.
+- [Australia and New Zealand: What card payments and EFTPOS cost](https://hojari.co.uk/guides/australia-nz/card-payment-fees/): Zeller, Tyro, Square and Stripe, with a worked example.
+- [Australia and New Zealand: What hipages, Airtasker and lead sites charge](https://hojari.co.uk/guides/australia-nz/lead-sites/): Airtasker tiers, NoCowboys, Builderscrack, and Xero and MYOB.
+- [Canada: What booking apps charge a salon or clinic](https://hojari.co.uk/guides/canada/booking-app-fees/): Square Appointments and Jane: plans, card and Interac fees.
+- [Canada: What delivery apps and marketplaces take](https://hojari.co.uk/guides/canada/delivery-app-fees/): Uber Eats, DoorDash, SkipTheDishes, Etsy and Amazon.ca.
+- [Canada: What card payments and Interac cost](https://hojari.co.uk/guides/canada/card-payment-fees/): Square, Stripe and Helcim: credit, debit, online and readers.
+- [Canada: What HomeStars, job apps and accounting cost](https://hojari.co.uk/guides/canada/lead-sites-and-job-apps/): HomeStars lead fees, Jobber, Housecall Pro and QuickBooks.
+- [India: What Swiggy, Zomato and marketplaces take](https://hojari.co.uk/guides/india/delivery-app-fees/): Reported commissions, ONDC, and Amazon.in and Flipkart fees.
+- [India: What UPI, cards and payment gateways cost](https://hojari.co.uk/guides/india/payment-fees/): The UPI MDR position, and Razorpay, PayU, Cashfree, Paytm and PhonePe.
+- [India: What IndiaMART, Justdial and listings cost](https://hojari.co.uk/guides/india/lead-sites/): IndiaMART plans, Sulekha, Justdial and Urban Company.
+- [India: GST, e-invoicing and billing software](https://hojari.co.uk/guides/india/gst-and-billing/): Thresholds from official sources, and Zoho Books, myBillBook and Vyapar.
+
 Last updated: 17 November 2026.
