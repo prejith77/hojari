@@ -450,7 +450,7 @@
     go.addEventListener('click', () => {
       const pnl = od.closest('.hj-panel'); if (pnl) pnl.style.minHeight = pnl.offsetHeight + 'px';
       const list = rows.filter((r) => +$('output', r).value).map((r) => $('output', r).value + ' × ' + r.firstElementChild.textContent);
-      $('.od-summary', odDone).textContent = list.join(', ') + '. Collect at ' + $('.od-times .is-on', od).textContent + '. ' + sum.textContent + '.';
+      $('.od-summary', odDone).textContent = list.join(', ') + '. Collect on Saturday at ' + $('.od-times .is-on', od).textContent + '. ' + sum.textContent + '.';
       od.hidden = true; odDone.hidden = false; $('.od-again', odDone).focus({ preventScroll: true });
     });
     $('.od-again', odDone).addEventListener('click', () => { rows.forEach((r) => { $('output', r).value = 0; }); total(); odDone.hidden = true; od.hidden = false; });
