@@ -155,3 +155,5 @@
 .gd-panel ul span { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
 .gd-panel .gd-svc { margin-top: 18px; }
 .gd-all-title { margin-top: clamp(72px, 10vh, 120px); }
+.gd-pick .pg-h2-sm { margin-bottom: 24px; }
+.gd-pick + .pg-sec .gd-all-title { margin-top: 0; }
