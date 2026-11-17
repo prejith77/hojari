@@ -167,3 +167,27 @@
 .pg-sec .cur button[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
 .pg-payback { margin-top: 24px; padding: 18px 20px; border-left: 2px solid var(--honey); background: rgba(227, 173, 92, .06); border-radius: 0 14px 14px 0; color: var(--paper); line-height: 1.6; max-width: 66ch; font-size: 16.5px; }
 .pg-offer-f { color: var(--honey); font-size: 15px; }
+/* the short answer at the top of each guide */
+.gh { display: grid; gap: 14px; padding: clamp(22px, 4vw, 40px); border-radius: 28px; background: var(--night-2); border: 1px solid rgba(227, 173, 92, .4); }
+.gh-big { font: 400 clamp(3.6rem, 2rem + 8vw, 7rem)/.95 var(--serif); color: var(--honey); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.gh-line { font-size: clamp(1.15rem, 1rem + .6vw, 1.45rem); line-height: 1.4; color: var(--paper); max-width: 34ch; }
+.gh-calc { display: grid; gap: 14px; margin-top: 10px; padding-top: 20px; border-top: 1px solid var(--line); }
+.gh-q { color: var(--honey); font-size: var(--step-small); font-weight: 600; }
+.gh-fields { display: grid; gap: 12px; }
+@media (min-width: 620px) { .gh-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.gh-fields label { display: grid; gap: 6px; }
+.gh-fields label > span:first-child { color: var(--muted); font-size: 14.5px; line-height: 1.35; }
+.gh-fields input { width: 100%; min-height: 50px; padding: 0 14px; border-radius: 14px; border: 1px solid var(--line); background: var(--night); color: var(--paper); font: 500 18px/1 var(--sans); font-variant-numeric: tabular-nums; }
+.gh-fields input:focus-visible { outline: 2px solid var(--honey); outline-offset: 2px; }
+.gh-in { position: relative; display: block; }
+.gh-in i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-style: normal; color: var(--muted); font-size: 16px; pointer-events: none; }
+.gh-in input { padding-left: calc(14px + var(--pre, 1.2em)); }
+.gh-out { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.gh-out output { font: 400 clamp(2.4rem, 1.6rem + 3.4vw, 3.6rem)/1 var(--serif); color: var(--paper); font-variant-numeric: tabular-nums; }
+.gh-out span { color: var(--muted); font-size: 16px; line-height: 1.4; }
+.gh-take { list-style: none; padding: 0; margin-top: 6px; display: grid; gap: 10px; }
+.gh-take li { position: relative; padding-left: 22px; color: var(--paper); line-height: 1.5; font-size: 16.5px; }
+.gh-take li::before { content: ""; position: absolute; left: 0; top: .62em; width: 8px; height: 8px; border-radius: 50%; background: var(--honey); }
+.gh-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 8px; }
+.gh-foot span { color: var(--muted); font-size: 14px; }
+@media (max-width: 619px) { .gh { border-radius: 22px; } .gh-foot .button { width: 100%; justify-content: center; } }
