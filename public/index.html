@@ -63,7 +63,7 @@
     <p class="hero-sub">I build websites for small businesses, with booking, quotes or invoicing built in. They start at <b class="hero-price" data-gbp="750" data-usd="975" data-aed="3500">£750</b>, and you use a working version in your business for 7&nbsp;days before you pay anything.</p>
     <div class="hero-actions">
       <a class="button button-light magnetic" href="start/">Get a free working version</a>
-      <a class="text-link hero-work" href="#demos">Play with the demos</a>
+      <a class="text-link hero-work" href="count/">See what your apps cost you a year</a>
     </div>
     <ul class="promises" aria-label="My promises">
       <li><b>Free</b><span>to try for 7&nbsp;days before you pay</span></li>
@@ -79,14 +79,15 @@
 <section class="hj-jobs" id="what" aria-labelledby="jobs-title">
   <h2 id="jobs-title" class="hj-jobs-title">What I build for small businesses</h2>
   <ul class="hj-jobcards">
-    <li><a href="booking/"><b>Take bookings</b><span>Customers book and pay a deposit online, and get a reminder. For salons, clinics, coaches, classes, anyone with appointments.</span></a></li>
-    <li><a href="#demos" data-demo="t-order"><b>Take orders</b><span>Orders come in on your own site or WhatsApp, with no commission to an app. For restaurants, bakeries, shops, anyone who sells.</span></a></li>
-    <li><a href="quotes-invoices/"><b>Send quotes</b><span>Customers price the job, accept it and pay a deposit online. For trades, cleaners, gardeners, anyone who quotes.</span></a></li>
-    <li><a href="solutions/"><b>A website that wins work</b><span>Fast, clear, easy to find on Google, and yours. For any small business.</span></a></li>
+    <li><a href="booking/"><b>Stop taking bookings by phone</b><span>Customers book and pay a deposit online, and get a reminder. For salons, clinics, coaches, classes, anyone with appointments.</span></a></li>
+    <li><a href="#demos" data-demo="t-order"><b>Stop paying a cut to delivery apps</b><span>Orders come in on your own site or WhatsApp, with no commission to an app. For restaurants, bakeries, shops, anyone who sells.</span></a></li>
+    <li><a href="quotes-invoices/"><b>Stop writing quotes at midnight</b><span>Customers price the job, accept it and pay a deposit online. For trades, cleaners, gardeners, anyone who quotes.</span></a></li>
+    <li><a href="solutions/"><b>Stop losing customers to an old website</b><span>Fast, clear, easy to find on Google, and yours. For any small business.</span></a></li>
   </ul>
   <div class="hj-who">
     <img src="assets/prejith-face-112.webp" alt="Prejith, who runs Hojari" width="56" height="56" loading="lazy">
     <p><b>Hojari is me, Prejith.</b> I studied in Coventry and lived in Birmingham. I now live in Muscat, a few hours ahead of the UK. Your domain and your data are in your name from day one. <a class="text-link" href="#about">More about me</a></p>
+    <button type="button" class="hj-who-play" hidden><i aria-hidden="true"></i><span>Hear me say hello</span></button>
   </div>
 </section>
 
@@ -227,6 +228,12 @@
     </a>
   </div>
   <p class="hj-story"><a class="text-link" href="work/tess-pereira/">What I built for Tess Pereira</a></p>
+  <div class="hj-proof" hidden>
+    <!-- Switch each slot on by deleting its hidden attribute, once the real thing exists. Never fill with made-up words or numbers. -->
+    <blockquote class="hj-quote" hidden><p>QUOTE FROM TESS, IN HER OWN WORDS</p><footer>Tess Pereira, psychologist and coach, Dubai</footer></blockquote>
+    <div class="hj-results" hidden><p class="hj-results-t">Thirty days after launch</p><ul><li><b>BEFORE</b><span>AFTER</span></li></ul></div>
+    <div class="hj-clips" hidden><!-- client films go here --></div>
+  </div>
   <p class="hj-founding"><b>Founding clients</b> get 30% off the build, in return for a short case study and permission to quote what they say. I take three new clients a month.</p>
 </section>
 
@@ -317,6 +324,31 @@
     </div>
     </details>
   </div>
+  <div class="hj-own-row">
+    <div class="hj-own">
+      <h3>What’s <em>yours</em></h3>
+      <ul>
+        <li><b>From day one</b><span>Your domain, words, photos and customer data, all in your name.</span></li>
+        <li><b>Once the build is paid</b><span>The code I write for you.</span></li>
+        <li><b>After three months</b><span>Care runs month to month. Stop whenever you like.</span></li>
+        <li><b>If you leave</b><span>I hand everything over and help you move it.</span></li>
+      </ul>
+    </div>
+    <figure class="hj-note">
+      <figcaption><span class="hj-note-tag">An example</span> The note you get each month on care</figcaption>
+      <div class="hj-note-paper">
+        <p class="hj-note-head"><b>Your month, November</b><span>From Prejith</span></p>
+        <p class="hj-note-t">Looked after</p>
+        <p>Backups ran every day. Security updates went on, and your certificate renews next month without you doing anything.</p>
+        <p class="hj-note-t">Made better</p>
+        <p>Customers can now pick a collection time when they order, so fewer people ring to ask.</p>
+        <p class="hj-note-t">Your numbers</p>
+        <p>Enquiries, bookings and how fast they were answered, set against last month.</p>
+        <p class="hj-note-t">Next month</p>
+        <p>I’ll add your Christmas opening hours. Reply if you’d rather I worked on something else.</p>
+      </div>
+    </figure>
+  </div>
   <p class="hj-small">Paying for apps nobody uses? <a class="text-link" href="count/">Add up what they cost you</a>.</p>
   <p class="hj-small">If nothing measurable improves within 30&nbsp;days of launch, you get your build fee back (<a class="text-link" href="terms/">see the terms</a>). Spread the build over three monthly payments at no extra cost.</p>
   <div class="hj-after-plans"><p>Not sure which plan? <a class="text-link" href="start/">I’ll suggest one</a></p><p>Want a second opinion on your current site? <a class="text-link" href="xray/">Free X-ray in 48 hours</a></p></div>
@@ -383,7 +415,7 @@
   </div>
   <p class="poke" id="poke" aria-live="polite"></p>
   <div class="foot-grid">
-    <nav aria-label="Footer"><a href="solutions/">What I build</a><a href="booking/">Online booking</a><a href="quotes-invoices/">Quotes and invoices</a><a href="#demos">Demos</a><a href="#pricing">Prices</a><a href="call/">Book a call</a><a href="xray/">Free X-ray</a><a href="grade/">Grade your website</a><a href="count/">What it costs you</a><a href="terms/">Terms</a><a href="privacy/">Privacy</a></nav>
+    <nav aria-label="Footer"><a href="solutions/">What I build</a><a href="booking/">Online booking</a><a href="quotes-invoices/">Quotes and invoices</a><a href="#demos">Demos</a><a href="#pricing">Prices</a><a href="call/">Book a call</a><a href="xray/">Free X-ray</a><a href="grade/">Grade your website</a><a href="count/">What it costs you</a><a href="partners/">For accountants and partners</a><a href="malayali/">For Malayali businesses</a><a href="terms/">Terms</a><a href="privacy/">Privacy</a></nav>
     <div><p>Hojari is a one-person web and software studio run by Prejith Ponnachan, for small businesses in the UK and the Gulf.</p><p>Also mine: <a class="plain-mail" href="https://doomsday-dossier.github.io/doomsday-dossier/" target="_blank" rel="noopener">Doomsday Dossier</a>, an unofficial Avengers fan archive built as Doctor Doom’s computer.</p><p><a class="plain-mail" href="mailto:hello@hojari.co.uk">hello@hojari.co.uk</a><br><a class="plain-mail" href="https://www.linkedin.com/company/hojari/" target="_blank" rel="noopener">Hojari on LinkedIn</a><br><a class="plain-mail" href="https://uk.trustpilot.com/evaluate/hojari.co.uk" target="_blank" rel="noopener">Worked with me? Review Hojari on Trustpilot</a></p></div>
   </div>
   <div class="foot-last"><p>© 2026 Hojari</p><p>Made in Muscat, for businesses anywhere.</p></div>

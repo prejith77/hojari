@@ -2350,3 +2350,33 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .qt-visit { margin-top: 8px; }
 .qt-visited { margin-top: 10px; font-size: 14px; color: var(--ink-muted, #5b5144); line-height: 1.5; }
 @media (max-width: 699px) { .hj-jobcards a { padding: 18px 20px; gap: 6px; } .hj-jobcards b { font-size: 1.35rem; } .hj-jobcards span { font-size: 14.5px; line-height: 1.5; } }
+
+/* ===== What's yours, care note, hello button: 17 Nov ===== */
+.hj-who { flex-wrap: wrap; align-items: center; }
+.hj-who p { flex: 1 1 320px; }
+.hj-who-play { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px 0 14px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--paper); font: 500 15px/1 var(--sans); cursor: pointer; transition: border-color .2s, transform .16s var(--ease-out); }
+.hj-who-play i { width: 0; height: 0; border-left: 9px solid var(--honey, #e3ad5c); border-top: 6px solid transparent; border-bottom: 6px solid transparent; }
+.hj-who-play.is-playing i { width: 9px; height: 12px; border: 0; border-left: 3px solid var(--honey, #e3ad5c); border-right: 3px solid var(--honey, #e3ad5c); }
+.hj-who-play:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .hj-who-play:hover { border-color: rgba(227, 173, 92, .45); } }
+.hj-own-row { display: grid; gap: 16px; margin-top: 16px; }
+@media (min-width: 900px) { .hj-own-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.hj-own { padding: 32px 28px; border-radius: 26px; background: var(--night); border: 1px solid var(--line); }
+.hj-own h3 { font: 400 clamp(1.6rem, 1.3rem + 1vw, 2.1rem)/1.1 var(--serif); margin-bottom: 22px; }
+.hj-own ul { list-style: none; padding: 0; display: grid; gap: 18px; }
+.hj-own li { display: grid; gap: 4px; padding-top: 16px; border-top: 1px solid var(--line); }
+.hj-own li:first-child { padding-top: 0; border-top: 0; }
+.hj-own li b { color: var(--honey, #e3ad5c); font-weight: 500; font-size: 15px; }
+.hj-own li span { color: var(--paper); font-size: 16.5px; line-height: 1.5; }
+.hj-note { margin: 0; display: grid; gap: 12px; align-content: start; }
+.hj-note figcaption { color: var(--muted); font-size: 15px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.hj-note-tag { display: inline-block; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(227, 173, 92, .45); color: var(--honey, #e3ad5c); font-size: 13px; }
+.hj-note-paper { padding: 28px 26px; border-radius: 22px; background: #f4ede2; color: var(--ink, #17120c); box-shadow: 0 24px 60px -30px rgba(0, 0, 0, .6); transform: rotate(-0.6deg); }
+.hj-note-paper p { font-size: 15.5px; line-height: 1.55; color: #3d342a; }
+.hj-note-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-bottom: 14px; margin-bottom: 4px; border-bottom: 1px solid rgba(23, 18, 12, .14); }
+.hj-note-head b { font: 400 1.45rem/1.1 var(--serif); color: var(--ink, #17120c); }
+.hj-note-head span { color: #6b5f50; font-size: 14px; align-self: end; }
+.hj-note-t { margin-top: 14px; color: #8a5a1c !important; font-weight: 500; font-size: 13.5px !important; }
+@media (prefers-reduced-motion: reduce) { .hj-note-paper { transform: none; } }
+@media (max-width: 899px) { .hj-own { padding: 26px 22px; } .hj-note-paper { padding: 24px 20px; transform: none; } }
+.hj-jobcards a { align-content: start; }

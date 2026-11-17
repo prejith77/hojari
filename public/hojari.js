@@ -55,7 +55,7 @@
     if (id === 'p-chat' && !chatStarted) startChat();
   }
   /* Links from other pages, such as /#demo-booking, open that demo */
-  const fromHash = { '#demo-booking': 't-book', '#demo-quote': 't-quote', '#demo-dashboard': 't-dash', '#demo-enquiries': 't-chat' }[location.hash];
+  const fromHash = { '#demo-booking': 't-book', '#demo-quote': 't-quote', '#demo-dashboard': 't-dash', '#demo-enquiries': 't-chat', '#demo-orders': 't-order' }[location.hash];
   if (fromHash && $('#' + fromHash)) { pick($('#' + fromHash)); addEventListener('load', () => setTimeout(() => { const d = $('#demos'); if (d) scrollTo(0, d.getBoundingClientRect().top + scrollY - 20); }, 60)); }
   /* Plans swipe on phones: the dots follow the card in view */
   const plans = $('.hj-plans'), dots = $$('.hj-dots i');
@@ -355,6 +355,14 @@
     au.addEventListener('loadedmetadata', () => { time.textContent = where + ' · ' + mins(au.duration); });
     au.addEventListener('timeupdate', () => { if (au.duration) { time.textContent = mins(au.currentTime) + ' / ' + mins(au.duration); btn.style.setProperty('--p', (au.currentTime / au.duration).toFixed(3)); } });
     au.addEventListener('ended', () => { btn.style.setProperty('--p', 0); time.textContent = where + ' · ' + mins(au.duration); });
+    /* The same note, played from the strip near the top */
+    const wp = $('.hj-who-play');
+    if (wp && voice.dataset.ready === 'yes') {
+      const lbl = $('span', wp); wp.hidden = false;
+      wp.addEventListener('click', () => btn.click());
+      au.addEventListener('play', () => { wp.classList.add('is-playing'); lbl.textContent = 'Pause'; });
+      au.addEventListener('pause', () => { wp.classList.remove('is-playing'); lbl.textContent = 'Hear me say hello'; });
+    }
   }
 
   setCur(cur, false);
