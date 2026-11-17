@@ -459,4 +459,32 @@
   /* Quotes demo: a job that needs seeing first */
   const qv = $('.qt-visit');
   if (qv) qv.addEventListener('click', () => { const p = $('.qt-visited'); if (p) p.hidden = false; qv.hidden = true; });
+  /* ---------- Pick your business: tabs with a live panel ---------- */
+  const bizPick = $('.hj-pick');
+  if (bizPick) {
+    const ptabs = $$('[role="tab"]', bizPick), ppanels = $$('.pk-panel', bizPick);
+    bizPick.classList.add('is-js');
+    const show = (n, focus) => {
+      ptabs.forEach((b, k) => { b.setAttribute('aria-selected', k === n ? 'true' : 'false'); b.tabIndex = k === n ? 0 : -1; });
+      ppanels.forEach((p, k) => { p.classList.toggle('is-on', k === n); p.classList.remove('is-play'); });
+      requestAnimationFrame(() => requestAnimationFrame(() => ppanels[n].classList.add('is-play')));
+      if (focus) ptabs[n].focus();
+      const tb = ptabs[n], row = tb.parentElement;
+      if (row.scrollWidth > row.clientWidth) row.scrollTo({ left: tb.offsetLeft - (row.clientWidth - tb.offsetWidth) / 2, behavior: 'smooth' });
+    };
+    ptabs.forEach((b, n) => {
+      b.addEventListener('click', () => show(n, false));
+      b.addEventListener('keydown', (e) => {
+        const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+        if (k) { e.preventDefault(); show((n + k + ptabs.length) % ptabs.length, true); }
+        if (e.key === 'Home') { e.preventDefault(); show(0, true); }
+        if (e.key === 'End') { e.preventDefault(); show(ptabs.length - 1, true); }
+      });
+    });
+    /* the first preview plays when the section comes into view */
+    if (window.IntersectionObserver) {
+      const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { ppanels.forEach((p) => p.classList.contains('is-on') && p.classList.add('is-play')); io.disconnect(); } }, { threshold: 0.3 });
+      io.observe(bizPick);
+    } else ppanels[0].classList.add('is-play');
+  }
 })();

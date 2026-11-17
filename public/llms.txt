@@ -2,14 +2,14 @@
 
 > Hojari is a one-person web and software studio run by Prejith Ponnachan, for small businesses in the UK (including Birmingham and Coventry) and in Muscat and the Gulf. It builds websites and the tools behind them: online booking, quotes and invoices, online ordering, client portals and owner dashboards. Fixed prices, and clients try a working version on their own business for 7 days before paying anything.
 
-Hojari is named after the top grade of Omani frankincense. It is not a frankincense seller. All work happens online, by video call, WhatsApp and email. Contact: hello@hojari.co.uk, or the form at https://hojari.co.uk/#contact. LinkedIn: https://www.linkedin.com/company/hojari/ Trustpilot: https://uk.trustpilot.com/review/hojari.co.uk
+Hojari is named after the top grade of Omani frankincense. It is not a frankincense seller. All work happens online, by video call, WhatsApp and email. Contact: hello@hojari.co.uk, or the form at https://hojari.co.uk/#contact. About Prejith: https://hojari.co.uk/about/ LinkedIn: https://www.linkedin.com/company/hojari/ Instagram: https://www.instagram.com/hojari.uk/ Trustpilot: https://uk.trustpilot.com/review/hojari.co.uk
 
 ## Plans (fixed prices, in pounds; dollars and dirhams on the site)
 
-- [Website (Silver)](https://hojari.co.uk/#pricing): from £750, then £49 a month for care. A website of up to 8 pages plus one tool, such as booking, quotes, ordering or instant WhatsApp replies. A working version within 7 days of receiving words and photos.
-- [Website + tools (Royal Green)](https://hojari.co.uk/#pricing): from £1,950, then £99 a month for care. Everything in Silver, plus up to three tools sharing one set of customer records, and an owner's dashboard.
-- [Custom app (Signature)](https://hojari.co.uk/#pricing): from £3,950, then £149 a month for care. A custom app, client portal or platform, with a website to match.
-- [The one-week fix](https://hojari.co.uk/#pricing): from £450, then £29 a month for care. One tool that takes a job off the owner's hands, working within 7 days on the website they already have.
+- [Website (Silver)](https://hojari.co.uk/prices/): from £750, then £49 a month for care. A website of up to 8 pages plus one tool, such as booking, quotes, ordering or instant WhatsApp replies. A working version within 7 days of receiving words and photos.
+- [Website + tools (Royal Green)](https://hojari.co.uk/prices/): from £1,950, then £99 a month for care. Everything in Silver, plus up to three tools sharing one set of customer records, and an owner's dashboard.
+- [Custom app (Signature)](https://hojari.co.uk/prices/): from £3,950, then £149 a month for care. A custom app, client portal or platform, with a website to match.
+- [The one-week fix](https://hojari.co.uk/prices/): from £450, then £29 a month for care. One tool that takes a job off the owner's hands, working within 7 days on the website they already have.
 
 ## Promises
 
@@ -22,6 +22,14 @@ Hojari is named after the top grade of Omani frankincense. It is not a frankince
 ## Pages
 
 - [Home](https://hojari.co.uk/): what Hojari builds, live demos, prices and how it works.
+- [Prices](https://hojari.co.uk/prices/): every plan, what care covers, what the client owns, and the guarantee.
+- [About Prejith Ponnachan](https://hojari.co.uk/about/): who runs Hojari, background and qualifications (MSc International Marketing Management, Coventry University; CMI Level 7; Six Sigma Yellow Belt).
+- [For salons, barbers and clinics](https://hojari.co.uk/beauty/): online booking and deposits with no commission on new clients, from £750.
+- [For trades and home services](https://hojari.co.uk/trades/): quotes customers accept and pay a deposit on, turned into invoices, from £750.
+- [For coaches, tutors and therapists](https://hojari.co.uk/coaches/): booking and payment up front, client areas and courses, from £750.
+- [For shops, florists and makers](https://hojari.co.uk/shops/): online orders and click and collect with no commission, from £750.
+- [For Malayali businesses in the UK](https://hojari.co.uk/malayali/)
+- [For accountants, bookkeepers and suppliers](https://hojari.co.uk/partners/): how to introduce clients.
 - [What I build](https://hojari.co.uk/solutions/): booking, quotes to payment, ordering, client portals and more, by type of business.
 - [Online booking](https://hojari.co.uk/booking/): booking at any hour, deposits up front and reminders, from £750 with a new website or £450 on an existing one.
 - [Quotes and invoices](https://hojari.co.uk/quotes-invoices/): instant quotes, deposits, one-tap invoices and late payments chased, same prices.
@@ -35,3 +43,11 @@ Hojari is named after the top grade of Omani frankincense. It is not a frankince
 - [Terms](https://hojari.co.uk/terms/)
 - [Privacy](https://hojari.co.uk/privacy/)
 - Founding clients get 30% off the build in return for a short case study. Three new clients a month.
+
+## Guides (figures from each company's own UK page, read 17 November 2026)
+
+- [What booking apps charge a UK salon](https://hojari.co.uk/guides/booking-app-fees/): Fresha, Treatwell, Booksy, Square Appointments and Timely compared.
+- [What delivery apps and marketplaces take](https://hojari.co.uk/guides/selling-app-fees/): Just Eat, Uber Eats, Deliveroo, Etsy and Amazon UK against card fees on your own site.
+- [What a small business website costs in the UK](https://hojari.co.uk/guides/website-cost-uk/): website builders, domains and Hojari's own prices.
+
+Last updated: 17 November 2026.
