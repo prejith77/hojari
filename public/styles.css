@@ -2428,3 +2428,5 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .pk-panel, .pk-text, .pk-visual { min-width: 0; }
 .bz-mini > span { flex-wrap: wrap; }
 @media (max-width: 759px) { .pk-panel { grid-template-columns: minmax(0, 1fr); } .pk-text .button { white-space: normal; text-align: left; } }
+.hj-guides-line { margin-top: 18px; color: var(--muted); font-size: 16.5px; }
+.hj-guides-line .text-link { display: inline; min-height: 0; color: var(--paper); }

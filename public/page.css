@@ -128,3 +128,30 @@
   .pg-table td { padding: 8px 0; border: 0; border-top: 1px solid var(--line); }
   .pg-table td::before { content: attr(data-label); display: block; color: var(--honey); font-size: 13px; margin-bottom: 2px; }
 }
+/* guides: what I build instead, the honest bit, the hub picker */
+.pg-offer { display: grid; gap: 12px; margin-top: clamp(64px, 9vh, 104px); padding: clamp(26px, 4vw, 44px); border-radius: 28px; background: var(--night-2); border: 1px solid rgba(227, 173, 92, .35); }
+.pg-offer-k { color: var(--honey); font-size: var(--step-small); font-weight: 600; }
+.pg-offer-t { font: 400 clamp(1.7rem, 1.3rem + 1.4vw, 2.4rem)/1.1 var(--serif); max-width: 26ch; }
+.pg-offer-p { color: var(--muted); line-height: 1.65; max-width: 60ch; font-size: 17px; }
+.pg-honest { margin-top: 26px; max-width: 66ch; padding: 18px 20px; border-left: 2px solid var(--honey); background: rgba(227, 173, 92, .06); border-radius: 0 14px 14px 0; color: var(--paper); line-height: 1.65; font-size: 16.5px; }
+.pg-honest b { color: var(--honey); font-weight: 600; }
+.pg-checked { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); font-size: 14px; justify-self: start; }
+.pg-checked::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #5fae7a; }
+.gd-pick { margin-top: 48px; }
+.gd-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.gd-tabs button { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--muted); font: 500 15px/1 var(--sans); cursor: pointer; transition: background-color .2s, color .2s, border-color .2s; }
+.gd-tabs button[aria-selected="true"] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+@media (hover: hover) and (pointer: fine) { .gd-tabs button:hover:not([aria-selected="true"]) { color: var(--paper); border-color: rgba(227, 173, 92, .45); } }
+@media (max-width: 699px) { .gd-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin: 0 calc(-1 * var(--margin)) 16px; padding: 0 var(--margin); } .gd-tabs::-webkit-scrollbar { display: none; } .gd-tabs button { flex: none; } }
+.gd-panel { padding: clamp(22px, 3.5vw, 40px); border-radius: 28px; background: var(--night-2); border: 1px solid var(--line); }
+.gd-panel[hidden] { display: none; }
+.gd-panel h3 { font: 400 clamp(1.6rem, 1.3rem + 1vw, 2.2rem)/1.1 var(--serif); }
+.gd-panel > p { margin-top: 10px; color: var(--muted); line-height: 1.6; max-width: 60ch; }
+.gd-panel ul { list-style: none; padding: 0; margin-top: 22px; display: grid; gap: 10px; }
+@media (min-width: 900px) { .gd-panel ul { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.gd-panel ul a { display: grid; gap: 6px; height: 100%; padding: 18px; border-radius: 18px; border: 1px solid var(--line); text-decoration: none; color: var(--paper); transition: border-color .2s; }
+.gd-panel ul a:hover { border-color: rgba(227, 173, 92, .45); }
+.gd-panel ul b { font: 400 1.3rem/1.15 var(--serif); }
+.gd-panel ul span { color: var(--muted); font-size: 14.5px; line-height: 1.5; }
+.gd-panel .gd-svc { margin-top: 18px; }
+.gd-all-title { margin-top: clamp(72px, 10vh, 120px); }
