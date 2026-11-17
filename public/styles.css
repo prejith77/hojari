@@ -2430,3 +2430,7 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 @media (max-width: 759px) { .pk-panel { grid-template-columns: minmax(0, 1fr); } .pk-text .button { white-space: normal; text-align: left; } }
 .hj-guides-line { margin-top: 18px; color: var(--muted); font-size: 16.5px; }
 .hj-guides-line .text-link { display: inline; min-height: 0; color: var(--paper); }
+.hj-plan .hj-found { margin-top: 12px; color: var(--honey, #e3ad5c); font-size: 14.5px; line-height: 1.45; }
+.hj-plan .hj-yr { margin-top: 2px; color: var(--muted); font-size: 14px; line-height: 1.45; }
+.hj-plan .hj-found b { color: var(--honey, #e3ad5c); font-weight: 600; font-size: inherit; }
+.hj-plan .hj-yr b { color: var(--paper); font-weight: 500; font-size: inherit; }

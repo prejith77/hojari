@@ -160,3 +160,10 @@
 .gd-panel ul i { font-style: normal; color: var(--honey); font-size: 13px; }
 .gd-region { margin-top: 40px; font: 400 1.6rem/1.15 var(--serif); }
 .gd-region:first-of-type { margin-top: 28px; }
+.pg-found { margin-top: 18px; color: var(--honey); font-size: 15.5px; line-height: 1.5; max-width: 66ch; }
+.pg-plan .pg-found { margin-top: 2px; font-size: 14.5px; }
+.pg-sec .cur { display: inline-flex; gap: 4px; padding: 5px; margin-top: 20px; border-radius: 999px; background: var(--night-2); border: 1px solid var(--line); flex-wrap: wrap; }
+.pg-sec .cur button { min-height: 38px; padding: 0 14px; border-radius: 999px; border: 0; background: none; color: var(--muted); font: 500 14px/1 var(--sans); cursor: pointer; }
+.pg-sec .cur button[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
+.pg-payback { margin-top: 24px; padding: 18px 20px; border-left: 2px solid var(--honey); background: rgba(227, 173, 92, .06); border-radius: 0 14px 14px 0; color: var(--paper); line-height: 1.6; max-width: 66ch; font-size: 16.5px; }
+.pg-offer-f { color: var(--honey); font-size: 15px; }

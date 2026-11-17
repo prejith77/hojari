@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="../sub.css">
 <link rel="stylesheet" href="../page.css">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "OfferCatalog", "name": "Hojari prices", "url": "https://hojari.co.uk/prices/", "itemListElement": [{"@type": "Offer", "name": "Website", "description": "A website of up to 8 pages plus one tool, such as booking, quotes or ordering.", "seller": {"@type": "OnlineBusiness", "@id": "https://hojari.co.uk/#org", "name": "Hojari", "url": "https://hojari.co.uk/"}, "priceSpecification": {"@type": "PriceSpecification", "minPrice": 750, "priceCurrency": "GBP"}}, {"@type": "Offer", "name": "Website + tools", "description": "Up to three tools sharing one set of customer records, and an owner’s dashboard.", "seller": {"@type": "OnlineBusiness", "@id": "https://hojari.co.uk/#org", "name": "Hojari", "url": "https://hojari.co.uk/"}, "priceSpecification": {"@type": "PriceSpecification", "minPrice": 1950, "priceCurrency": "GBP"}}, {"@type": "Offer", "name": "Custom app", "description": "Your own app, client portal or platform, built from scratch, with a website to match.", "seller": {"@type": "OnlineBusiness", "@id": "https://hojari.co.uk/#org", "name": "Hojari", "url": "https://hojari.co.uk/"}, "priceSpecification": {"@type": "PriceSpecification", "minPrice": 3950, "priceCurrency": "GBP"}}, {"@type": "Offer", "name": "The one-week fix", "description": "One tool fitted to the website you already have.", "seller": {"@type": "OnlineBusiness", "@id": "https://hojari.co.uk/#org", "name": "Hojari", "url": "https://hojari.co.uk/"}, "priceSpecification": {"@type": "PriceSpecification", "minPrice": 450, "priceCurrency": "GBP"}}]}, {"@type": "WebPage", "url": "https://hojari.co.uk/prices/", "name": "Hojari prices", "dateModified": "2026-11-17", "author": {"@type": "Person", "@id": "https://hojari.co.uk/#prejith", "name": "Prejith Ponnachan", "url": "https://hojari.co.uk/about/"}}]}</script>
+<script defer src="../sub.js"></script>
 </head>
 <body>
 <header class="top">
@@ -41,30 +42,35 @@
 
   <section class="pg-sec" aria-labelledby="plans-title">
     <h2 id="plans-title">The <em>plans</em></h2>
-    <p class="pg-sub">Prices in pounds. The homepage shows them in dollars and dirhams too.</p>
+    <p class="pg-sub">Shown in your currency. Fixed in writing before I start.</p>
+    <div class="cur" role="group" aria-label="Currency"><button type="button" data-cur="GBP" aria-label="Pounds">£</button><button type="button" data-cur="USD" aria-label="US dollars">$</button><button type="button" data-cur="EUR" aria-label="Euros">€</button><button type="button" data-cur="AUD" aria-label="Australian dollars">A$</button><button type="button" data-cur="CAD" aria-label="Canadian dollars">C$</button><button type="button" data-cur="AED" aria-label="UAE dirhams">AED</button></div>
     <div class="pg-price">
       <div class="pg-plan">
         <h3>Website</h3>
-        <p class="pg-amt"><small>from</small>£750</p>
-        <p>Then £49 a month for care, for at least 3 months. A website of up to 8 pages, written and designed for your customers, plus one tool such as booking, quotes, ordering or instant replies on WhatsApp. Google Business Profile set up properly. Working version within 7 days of your words and photos.</p>
+        <p class="pg-amt"><small>from</small><span data-gbp="750" data-usd="975" data-eur="900" data-aud="1475" data-cad="1425" data-aed="3500">£750</span></p>
+        <p>Then <span data-gbp="49" data-usd="65" data-eur="59" data-aud="99" data-cad="95" data-aed="235">£49</span> a month for care, for at least 3 months. A website of up to 8 pages, written and designed for your customers, plus one tool such as booking, quotes, ordering or instant replies on WhatsApp. Google Business Profile set up properly. Working version within 7 days of your words and photos.</p>
+        <p class="pg-found">Founding clients: <span data-gbp="525" data-usd="685" data-eur="630" data-aud="1035" data-cad="995" data-aed="2450">£525</span> build, 5 places, until 31 March 2027. First year, care included: <span data-gbp="1338" data-usd="1755" data-eur="1608" data-aud="2663" data-cad="2565" data-aed="6320">£1,338</span>, or <span data-gbp="1113" data-usd="1465" data-eur="1338" data-aud="2223" data-cad="2135" data-aed="5270">£1,113</span> as a founding client.</p>
         <a class="button button-light arrow" href="../start/?plan=silver">Get a free working version</a>
       </div>
       <div class="pg-plan">
         <h3>Website + tools</h3>
-        <p class="pg-amt"><small>from</small>£1,950</p>
-        <p>Then £99 a month for care, for at least 3 months. Everything in Website, plus up to three tools working together on one set of customer records, and an owner’s dashboard with your numbers on your phone. The one I suggest for most businesses.</p>
+        <p class="pg-amt"><small>from</small><span data-gbp="1950" data-usd="2500" data-eur="2350" data-aud="3850" data-cad="3700" data-aed="9250">£1,950</span></p>
+        <p>Then <span data-gbp="99" data-usd="129" data-eur="119" data-aud="195" data-cad="189" data-aed="465">£99</span> a month for care, for at least 3 months. Everything in Website, plus up to three tools working together on one set of customer records, and an owner’s dashboard with your numbers on your phone. The one I suggest for most businesses.</p>
+        <p class="pg-found">Founding clients: <span data-gbp="1365" data-usd="1750" data-eur="1645" data-aud="2695" data-cad="2590" data-aed="6475">£1,365</span> build, 5 places, until 31 March 2027. First year, care included: <span data-gbp="3138" data-usd="4048" data-eur="3778" data-aud="6190" data-cad="5968" data-aed="14830">£3,138</span>, or <span data-gbp="2553" data-usd="3298" data-eur="3073" data-aud="5035" data-cad="4858" data-aed="12055">£2,553</span> as a founding client.</p>
         <a class="button button-light arrow" href="../start/?plan=royal-green">Get a free working version</a>
       </div>
       <div class="pg-plan">
         <h3>Custom app</h3>
-        <p class="pg-amt"><small>from</small>£3,950</p>
-        <p>Then £149 a month for care, for at least 3 months. Your own app, client portal or platform, designed around how you work, with a website to match. Works on any phone and saves to the home screen. Built in stages you see and use as we go.</p>
+        <p class="pg-amt"><small>from</small><span data-gbp="3950" data-usd="5100" data-eur="4750" data-aud="7750" data-cad="7450" data-aed="18750">£3,950</span></p>
+        <p>Then <span data-gbp="149" data-usd="195" data-eur="179" data-aud="295" data-cad="285" data-aed="700">£149</span> a month for care, for at least 3 months. Your own app, client portal or platform, designed around how you work, with a website to match. Works on any phone and saves to the home screen. Built in stages you see and use as we go.</p>
+        <p class="pg-found">Founding clients: <span data-gbp="2765" data-usd="3570" data-eur="3325" data-aud="5425" data-cad="5215" data-aed="13125">£2,765</span> build, 5 places, until 31 March 2027. First year, care included: <span data-gbp="5738" data-usd="7440" data-eur="6898" data-aud="11290" data-cad="10870" data-aed="27150">£5,738</span>, or <span data-gbp="4553" data-usd="5910" data-eur="5473" data-aud="8965" data-cad="8635" data-aed="21525">£4,553</span> as a founding client.</p>
         <a class="button button-light arrow" href="../start/?plan=signature">Get a free working version</a>
       </div>
       <div class="pg-plan">
         <h3>The one-week fix</h3>
-        <p class="pg-amt"><small>from</small>£450</p>
-        <p>Then £29 a month for care, for at least 3 months. One tool that takes a job off your hands, such as booking, quotes or chasing payments, working within 7 days on the website you already have.</p>
+        <p class="pg-amt"><small>from</small><span data-gbp="450" data-usd="585" data-eur="540" data-aud="890" data-cad="850" data-aed="2100">£450</span></p>
+        <p>Then <span data-gbp="29" data-usd="39" data-eur="35" data-aud="59" data-cad="55" data-aed="139">£29</span> a month for care, for at least 3 months. One tool that takes a job off your hands, such as booking, quotes or chasing payments, working within 7 days on the website you already have.</p>
+        <p class="pg-found">Founding clients: <span data-gbp="315" data-usd="410" data-eur="380" data-aud="625" data-cad="595" data-aed="1470">£315</span> build, 5 places, until 31 March 2027. First year, care included: <span data-gbp="798" data-usd="1053" data-eur="960" data-aud="1598" data-cad="1510" data-aed="3768">£798</span>, or <span data-gbp="663" data-usd="878" data-eur="800" data-aud="1333" data-cad="1255" data-aed="3138">£663</span> as a founding client.</p>
         <a class="button button-light arrow" href="../start/?plan=fix">Get a free working version</a>
       </div>
     </div>
@@ -111,9 +117,12 @@
   <section class="pg-sec" aria-labelledby="q-title">
     <h2 id="q-title">Fair <em>questions</em></h2>
     <div class="pg-qs">
+      <details><summary>What happens if I stop paying for care?</summary><p>Your website stays yours. After the first three months you can stop any time: I hand over everything, help you move it to a host of your choice, and you pay that host directly from then on.</p></details>
+      <details><summary>What does “one tool” mean?</summary><p>One thing your website does for you, built in and working: online booking with deposits and reminders, quotes customers accept and pay a deposit on, online orders for collection or delivery, or instant replies on WhatsApp.</p></details>
+      <details><summary>Who owns it?</summary><p>You do. Your domain, words, photos and customer data are in your name from day one, and the code is yours once the build is paid.</p></details>
       <details><summary>Is the price fixed?</summary><p>Yes. After our first conversation you get a fixed price in writing. It only changes if you ask for something new, and you’ll know the cost before I start on it.</p></details>
       <details><summary>Why is there a monthly fee?</summary><p>Care pays for hosting, security, backups, fixes and one improvement every month, so the site keeps working and keeps getting better without surprise bills.</p></details>
-      <details><summary>Is there a discount?</summary><p>Founding clients get 30% off the build in return for a short case study and permission to quote what they say. If you recommend a business and they go ahead, they get 10% off and you get a month of care free.</p></details>
+      <details><summary>Is there a discount?</summary><p>Founding clients get 30% off the build: 5 places, until 31 March 2027, in return for a short case study and permission to quote what they say. Their care price stays the same for their first 12 months. If you recommend a business and they go ahead, they get 10% off and you get a month of care free.</p></details>
       <details><summary>How do the prices compare?</summary><p>See <a class="pg-link" href="../guides/uk/website-cost-uk/">what a small business website costs in the UK</a>, with the builders’ own prices beside mine.</p></details>
     </div>
   </section>
