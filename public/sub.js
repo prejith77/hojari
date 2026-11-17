@@ -3,8 +3,8 @@
   const PRICES = {
     fix: { name: 'The one-week fix', build: { GBP: 450, USD: 585, EUR: 540, AUD: 890, CAD: 850, AED: 2100 }, care: { GBP: 29, USD: 39, EUR: 35, AUD: 59, CAD: 55, AED: 139 } },
     silver: { name: 'Website (Silver)', build: { GBP: 750, USD: 975, EUR: 900, AUD: 1475, CAD: 1425, AED: 3500 }, care: { GBP: 49, USD: 65, EUR: 59, AUD: 99, CAD: 95, AED: 235 } },
-    'royal-green': { name: 'Website + tools (Royal Green)', build: { GBP: 1950, USD: 2500, EUR: 2350, AUD: 3850, CAD: 3700, AED: 9250 }, care: { GBP: 99, USD: 129, EUR: 119, AUD: 195, CAD: 189, AED: 465 } },
-    signature: { name: 'Custom app (Signature)', build: { GBP: 3950, USD: 5100, EUR: 4750, AUD: 7750, CAD: 7450, AED: 18750 }, care: { GBP: 149, USD: 195, EUR: 179, AUD: 295, CAD: 285, AED: 700 } },
+    'royal-green': { name: 'Website Plus (Royal Green)', build: { GBP: 1950, USD: 2500, EUR: 2350, AUD: 3850, CAD: 3700, AED: 9250 }, care: { GBP: 99, USD: 129, EUR: 119, AUD: 195, CAD: 189, AED: 465 } },
+    signature: { name: 'Your own app (Signature)', build: { GBP: 3950, USD: 5100, EUR: 4750, AUD: 7750, CAD: 7450, AED: 18750 }, care: { GBP: 149, USD: 195, EUR: 179, AUD: 295, CAD: 285, AED: 700 } },
   };
   const FMT = { GBP: (n) => '£' + n.toLocaleString('en-GB'), USD: (n) => '$' + n.toLocaleString('en-US'), EUR: (n) => '€' + n.toLocaleString('en-GB'), AUD: (n) => 'A$' + n.toLocaleString('en-AU'), CAD: (n) => 'C$' + n.toLocaleString('en-CA'), AED: (n) => 'AED ' + n.toLocaleString('en-GB') };
   const guess = () => {
