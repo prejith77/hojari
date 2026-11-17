@@ -3,7 +3,7 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const signin = $('.pt-signin'), appEl = $('.pt-app'), cta = $('.pt-cta');
-  const RATE = { GBP: 1, USD: 1.3, AED: 4.75 };
+  const RATE = { GBP: 1, USD: 1.3, EUR: 1.2, AUD: 1.96, CAD: 1.88, AED: 4.75 };
   const amt = (n) => HJ.money(Math.round(n * RATE[HJ.cur] / 10) * 10);
   const toastEl = $('.pt-toast');
   let toastT;

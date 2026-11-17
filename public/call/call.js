@@ -25,7 +25,7 @@
     need.forEach(([k, m]) => { const i = form.elements[k]; const em = i.parentElement.querySelector('em'); const ok = k === 'email' ? /.+@.+\..+/.test(i.value.trim()) : i.value.trim(); i.setAttribute('aria-invalid', ok ? 'false' : 'true'); em.textContent = ok ? '' : m; if (!ok && !bad) bad = i; });
     if (!f.get('day') || !f.get('time')) { err.textContent = 'Please pick a day and a time of day.'; if (!bad) { (form.querySelector('[name=day]') || form).focus(); return; } } else err.textContent = '';
     if (bad) { bad.focus(); return; }
-    const fields = { Day: f.get('day'), Time: f.get('time'), How: f.get('how'), Name: f.get('name'), Email: f.get('email'), Business: f.get('business') || '', Phone: f.get('phone') || '', Note: f.get('note') || '', _replyto: f.get('email') };
+    const fields = { Day: f.get('day'), Time: f.get('time') + (() => { try { return ', ' + Intl.DateTimeFormat().resolvedOptions().timeZone; } catch (e) { return ''; } })(), How: f.get('how'), Name: f.get('name'), Email: f.get('email'), Business: f.get('business') || '', Phone: f.get('phone') || '', Note: f.get('note') || '', _replyto: f.get('email') };
     const btn = form.querySelector('button[type=submit]'); btn.disabled = true;
     const ok = await window.HJ.send(fields, 'Call request: ' + f.get('name'));
     if (ok) { form.hidden = true; done.hidden = false; done.focus(); } else btn.disabled = false;

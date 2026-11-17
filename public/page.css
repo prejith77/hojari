@@ -157,3 +157,6 @@
 .gd-all-title { margin-top: clamp(72px, 10vh, 120px); }
 .gd-pick .pg-h2-sm { margin-bottom: 24px; }
 .gd-pick + .pg-sec .gd-all-title { margin-top: 0; }
+.gd-panel ul i { font-style: normal; color: var(--honey); font-size: 13px; }
+.gd-region { margin-top: 40px; font: 400 1.6rem/1.15 var(--serif); }
+.gd-region:first-of-type { margin-top: 28px; }

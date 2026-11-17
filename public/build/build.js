@@ -36,14 +36,14 @@
   const app = $('.dv-app'), tabs = $('.dv-tabs'), dv = $('.dv');
 
   /* Prices follow the visitor's currency, at friendly round numbers */
-  const RATE = { GBP: 1, USD: 1.3, AED: 4.75 };
+  const RATE = { GBP: 1, USD: 1.3, EUR: 1.2, AUD: 1.96, CAD: 1.88, AED: 4.75 };
   /* Pounds stay exact; dollars and dirhams round to friendly numbers */
   const conv = (n) => { const v = n * RATE[HJ.cur]; return HJ.cur === 'GBP' ? Math.round(v * 100) / 100 : v < 20 ? Math.round(v * 2) / 2 : Math.round(v / 5) * 5; };
   const price = (n, done) => {
     if (!n) return 'Free';
     const r = done ? n : conv(n);
     const s = r % 1 ? r.toFixed(2) : r.toLocaleString('en-GB');
-    return HJ.cur === 'GBP' ? '£' + s : HJ.cur === 'USD' ? '$' + s : 'AED ' + s;
+    return ({ GBP: '£', USD: '$', EUR: '€', AUD: 'A$', CAD: 'C$', AED: 'AED ' })[HJ.cur] + s;
   };
 
   /* ---------- Controls ---------- */
