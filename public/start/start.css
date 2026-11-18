@@ -103,3 +103,13 @@
 .r-next li::before { content: counter(step); position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--ink); color: var(--paper); font-size: 12px; font-weight: 600; }
 .r-next b { color: var(--ink); }
 @media (prefers-reduced-motion: reduce) { .r-item { animation: none; } }
+/* One rhythm with the other pages: 18 Nov. Back and Next share the row equally; on its own, Next fills it on a phone */
+.q-form { padding-top: var(--space-top); }
+.q-nav { gap: var(--space-pair); margin-top: var(--space-actions); }
+.q-sentlinks { gap: var(--space-pair); }
+.q-send .q-submit { margin-top: calc(var(--space-actions) - 16px); }
+@media (max-width: 599px) {
+  .q-nav .button { flex: 1 1 0; }
+  .q-nav .q-next { max-width: none; }
+  .q-sentlinks { display: grid; grid-template-columns: minmax(0, 1fr); }
+}

@@ -375,3 +375,12 @@
   /* for testing the reader on its own */
   window.hjCheck = { parseFiles, measure, unzip };
 })();
+
+/* The shared page motion: reveals on scroll, loaded once */
+(() => {
+  const me = document.currentScript;
+  if (window.hjMotion || !me || document.querySelector('script[data-hj-motion]')) return;
+  const s = document.createElement('script');
+  s.src = new URL('../motion.js', me.src).href; s.defer = true; s.dataset.hjMotion = '';
+  document.head.appendChild(s);
+})();

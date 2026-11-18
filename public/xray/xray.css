@@ -35,3 +35,7 @@
 .xr-tick::after { content: ""; position: absolute; left: 21px; top: 14px; width: 14px; height: 25px; border: solid var(--paper); border-width: 0 3px 3px 0; transform: rotate(45deg); }
 .xr-links { display: grid; gap: 10px; width: 100%; }
 @media (max-width: 959px) { .xr-form { order: -1; } .xr-what { margin-top: 12px; } }
+/* One rhythm with the other pages: 18 Nov */
+.xr { padding-top: var(--space-top); }
+.xr-links { gap: var(--space-pair); }
+.xr-fields > .xr-go { margin-top: calc(var(--space-actions) - 14px); }

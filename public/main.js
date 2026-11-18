@@ -127,9 +127,12 @@
   /* Blocks of content fade up, once */
   if (motion) {
     const sel = '.hx-step, .hx-q, .hx-promise p, .hx-about-text > p, .hx-about-text > figure, .hx-me, .hj-three-steps li, .hj-plan, .hj-case, .hj-qs details, .grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
-    const items = $$(sel).filter((el) => el.getBoundingClientRect().top > innerHeight && !(!desktop && el.matches('.usp-card')));
-    gsap.set(items, { y: soft ? 24 : 32, opacity: 0 });
-    const show = (els) => gsap.to(els, { y: 0, opacity: 1, duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: { amount: 0.24, ease: 'power2.out' }, overwrite: true, clearProps: 'filter' });
+    /* the same blocks as the inner pages: section intros, the lines under the plans and the work, the promise list */
+    const more = '.hj-head .hj-lede, .hj-head-side > .hx-compare, .hj-story, .hj-fixline, .hj-more-prices, .hj-foundline, .hx-bargain, .hx-promises li, .contact-alt';
+    const items = $$(sel + ', ' + more).filter((el, i, all) => el.getBoundingClientRect().top > innerHeight && !(!desktop && el.matches('.usp-card')) && !all.some((o) => o !== el && o.contains(el)));
+    /* rise and sharpen once: laptops add a light blur, phones move only */
+    gsap.set(items, soft ? { y: 24, opacity: 0 } : { y: 28, opacity: 0, filter: 'blur(8px)' });
+    const show = (els) => gsap.to(els, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: soft ? 0.6 : 0.8, ease: 'power4.out', stagger: { each: 0.07, from: 'start' }, overwrite: true, clearProps: 'filter' });
     let queue = [], timer = 0;
     items.forEach((el) => whenSeen(el, () => { queue.push(el); clearTimeout(timer); timer = setTimeout(() => { show(queue); queue = []; }, 30); }));
   }

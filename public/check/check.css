@@ -78,3 +78,7 @@
   .ck-cta .button { flex: 1 1 100%; }
 }
 @media (max-width: 420px) { .ck-facts { grid-template-columns: minmax(0, 1fr); } }
+/* One rhythm with the other pages: 18 Nov */
+.ck-cta { margin-top: var(--space-actions); gap: var(--space-pair); }
+.ck-form > .button { margin-top: calc(var(--space-actions) - 20px); }
+@media (max-width: 599px) { .ck-form > .button, .ck-drop .button { width: 100%; } }

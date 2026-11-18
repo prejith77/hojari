@@ -87,3 +87,72 @@ button, input, textarea, select { font: inherit; color: inherit; }
 @media (max-width: 899px) { .top-nav a:not(.top-keep) { display: none; } }
 .top-cta { white-space: nowrap; }
 @media (max-width: 359px) { .top-keep { display: none; } .top-cta { padding: 0 14px; } }
+
+/* ===== Motion and rhythm, 18 Nov: one set of spacing tokens for every button group, one way of moving ===== */
+:root {
+  --space-section: clamp(72px, 3.5rem + 4vw, 112px);
+  --space-head: clamp(32px, 1.5rem + 2.2vw, 56px);
+  --space-title: clamp(16px, .75rem + 1vw, 24px);
+  --space-block: clamp(24px, 1rem + 1.5vw, 40px);
+  --space-stack: 12px;
+  --card-pad: clamp(20px, 1rem + 1vw, 28px);
+  --card-gap: 16px;
+  /* from the top bar to the first line of a page */
+  --space-top: clamp(64px, 2.5rem + 4vw, 112px);
+  /* from the last line of text to the buttons under it */
+  --space-actions: clamp(24px, 1rem + 1vw, 32px);
+  /* between two buttons, or a button and a text link, side by side or stacked */
+  --space-pair: 12px;
+  --button-h: 52px;
+  --ease-reveal: cubic-bezier(.22, 1, .36, 1);
+  --dur-reveal: .8s;
+  --dur-ui: .2s;
+}
+@media (min-width: 900px) { :root { --space-pair: 16px; } }
+@media (max-width: 899px) { :root { --dur-reveal: .6s; } }
+
+/* Buttons: one height, one press, labels that fit a phone */
+.button { min-height: var(--button-h); text-align: center; line-height: 1.15; padding-block: 8px; transition: transform var(--dur-ui) var(--ease-out), background-color var(--dur-ui), color var(--dur-ui), border-color var(--dur-ui), opacity var(--dur-ui); }
+.button-small { min-height: 40px; padding-block: 0; }
+.button:active:not(:disabled) { transform: scale(.97); }
+@media (max-width: 599px) { .button:not(.button-small) { padding-inline: 22px; font-size: 1.0625rem; } }
+@media (max-width: 359px) { .button:not(.button-small) { padding-inline: 16px; font-size: 1rem; } .button.arrow::after { display: none; } }
+@media (max-width: 899px) { .top-cta { min-height: 44px; } }
+
+/* Cross-page transitions: the bar and the wordmark hold still while the page under them changes */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  .top { view-transition-name: hj-top; }
+  .top-mark { view-transition-name: hj-mark; }
+  .top-cta { view-transition-name: hj-cta; }
+  ::view-transition-group(*) { animation-duration: .34s; animation-timing-function: var(--ease-reveal); }
+  ::view-transition-old(root) { animation: hj-vt-out .22s cubic-bezier(.4, 0, 1, 1) both; }
+  ::view-transition-new(root) { animation: hj-vt-in .36s var(--ease-reveal) both; }
+  @keyframes hj-vt-out { to { opacity: 0; } }
+  @keyframes hj-vt-in { from { opacity: 0; transform: translateY(10px); } }
+
+  /* The first screen settles in once on load: nothing waits for a script */
+  :is(.pg-intro, .xr-intro, .sl-intro, .bd-head, .si-copy) > *, .legal > :is(h1, .lede), .lost > :is(h1, p) { animation: hj-rise var(--dur-reveal) var(--ease-reveal) both; }
+  :is(.pg-intro, .xr-intro, .sl-intro, .bd-head, .si-copy) > :nth-child(2), .legal > .lede, .lost > p { animation-delay: 60ms; }
+  :is(.pg-intro, .xr-intro, .sl-intro, .bd-head, .si-copy) > :nth-child(3) { animation-delay: 120ms; }
+  :is(.pg-intro, .xr-intro, .sl-intro, .bd-head, .si-copy) > :nth-child(n+4) { animation-delay: 180ms; }
+  @keyframes hj-rise { from { opacity: 0; transform: translateY(16px); } }
+}
+
+/* Reveals on scroll (motion.js): only what starts below the screen is held back, and only once motion.js has run */
+.js .rv { transition: opacity var(--dur-reveal) var(--ease-reveal) var(--rv-d, 0ms), transform var(--dur-reveal) var(--ease-reveal) var(--rv-d, 0ms), filter var(--dur-reveal) var(--ease-reveal) var(--rv-d, 0ms); }
+.js .rv:not(.rv-on) { opacity: 0; transform: translateY(28px); }
+@media (min-width: 900px) and (hover: hover) { .js .rv:not(.rv-on) { filter: blur(8px); } }
+/* Headings lift out of a mask; the mask leaves room for italic tails and descenders */
+.js .rv-h { clip-path: inset(-.15em -100vmax -.45em -100vmax); }
+.js .rv-h > .rv-hi { display: block; transition: transform calc(var(--dur-reveal) + .15s) var(--ease-reveal) var(--rv-d, 0ms), opacity var(--dur-reveal) var(--ease-reveal) var(--rv-d, 0ms); }
+.js .rv-h:not(.rv-on) > .rv-hi { transform: translateY(130%); opacity: 0; }
+
+/* Links and buttons answer in the same time */
+.pg-link { transition: text-decoration-color var(--dur-ui), opacity var(--dur-ui); }
+.pg-link:active { opacity: .7; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .rv, .js .rv-h > .rv-hi { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .js .rv-h { clip-path: none; }
+}

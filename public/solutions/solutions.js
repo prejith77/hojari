@@ -17,3 +17,12 @@
   const start = location.hash.slice(1);
   show(NAMES[start] ? start : 'all', false);
 })();
+
+/* The shared page motion: reveals on scroll, loaded once */
+(() => {
+  const me = document.currentScript;
+  if (window.hjMotion || !me || document.querySelector('script[data-hj-motion]')) return;
+  const s = document.createElement('script');
+  s.src = new URL('../motion.js', me.src).href; s.defer = true; s.dataset.hjMotion = '';
+  document.head.appendChild(s);
+})();

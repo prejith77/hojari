@@ -16,14 +16,14 @@ Hojari is named after the top grade of Omani frankincense. It is not a frankince
 - Free to try for 7 days before paying.
 - A reply within one working day.
 - A working version within 7 days of receiving words and photos, or 14 days for bigger tools. The client tries it for 7 days, then pays and it goes live.
-- Before the build, up to three numbers are agreed in writing (such as software and commission costs, admin hours, reply time, or online bookings and orders). They are measured again 30 days after launch; if none has improved, the build fee is refunded.
+- Before the build, up to three numbers are agreed in writing (such as software and commission costs, admin hours, reply time, or online bookings and orders). They are measured again 30 days after launch and both sets are shown to the client. Anything not working as agreed is fixed free for 30 days after launch. There is no refund tied to results.
 - The free 7-day trial is one per business, and the working version stays on a private link until the client pays.
 - The domain, words, photos and customer data are in the client's name, and the code is theirs once the build is paid.
 
 ## Pages
 
 - [Home](https://hojari.co.uk/): what Hojari builds, live demos, prices and how it works.
-- [Prices](https://hojari.co.uk/prices/): every plan, what care covers, what the client owns, and the guarantee.
+- [Prices](https://hojari.co.uk/prices/): every plan, what care covers, what the client owns, and what Hojari promises.
 - [About Prejith Ponnachan](https://hojari.co.uk/about/): who runs Hojari, background and qualifications (MSc International Marketing Management, Coventry University; CMI Level 7; Six Sigma Yellow Belt).
 - [For salons, barbers and clinics](https://hojari.co.uk/beauty/): online booking and deposits with no commission on new clients, from £750.
 - [For trades and home services](https://hojari.co.uk/trades/): quotes customers accept and pay a deposit on, turned into invoices, from £750.

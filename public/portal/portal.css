@@ -132,3 +132,5 @@
 .pt-toast { position: fixed; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); z-index: 50; max-width: calc(100% - 32px); padding: 12px 18px; border-radius: 99px; background: var(--paper); color: var(--ink); font-size: 14px; font-weight: 500; box-shadow: 0 20px 40px -20px rgba(0,0,0,.7); transform: translate(-50%, 140%); transition: transform .3s var(--ease-out); pointer-events: none; }
 .pt-toast.on { transform: translate(-50%, 0); }
 @media (prefers-reduced-motion: reduce) { .pt-app, .pt-view, .pt-m, .pt-sheet[open], .pt-feed li.new { animation: none; } }
+/* One rhythm with the other pages: 18 Nov */
+.pt { padding-top: var(--space-top); }
