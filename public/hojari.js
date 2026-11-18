@@ -368,30 +368,33 @@
     }
   }
 
-  /* ---------- The big number: what the apps take where you are, from the guide it links to. It counts up once, when it comes into view ---------- */
-  const bigN = $('.hj-big-num');
-  if (bigN) {
-    const tzNow = (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
-    const figs = [
-    [new RegExp('^(America/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Detroit|Boise|Indiana/.*|Kentucky/.*|North_Dakota/.*|Juneau|Sitka|Nome|Adak|Menominee)|Pacific/Honolulu)$'), 30, '', '%', 'of every delivery order on DoorDash Premier or Uber Eats Premium, in the United States.', 'guides/us/selling-app-fees/'],
-    [new RegExp('^America/(Toronto|Montreal|Vancouver|Edmonton|Calgary|Winnipeg|Regina|Halifax|St_Johns|Moncton|Whitehorse|Yellowknife|Iqaluit|Glace_Bay|Goose_Bay|Swift_Current|Dawson_Creek|Fort_Nelson|Thunder_Bay|Rankin_Inlet|Resolute|Cambridge_Bay|Inuvik|Atikokan|Creston|Blanc-Sablon|Dawson)$'), 30, '', '%', 'of delivery orders on Uber Eats Premium in Canada, and 29% on DoorDash Premier.', 'guides/canada/delivery-app-fees/'],
-    [new RegExp('^(Australia/.*|Pacific/(Auckland|Chatham))$'), 30, '', '%', 'of an order that Uber Eats or DoorDash delivers for you, in Australia and New Zealand.', 'guides/australia-nz/delivery-app-fees/'],
-    [new RegExp('^Asia/(Dubai|Muscat|Riyadh|Qatar|Bahrain|Kuwait)$'), 20, '', '%', 'of a new client’s first appointment. That’s Fresha’s marketplace fee, with a $6 minimum.', 'guides/gulf/booking-app-fees/'],
-    [new RegExp('^Asia/(Kolkata|Calcutta)$'), 28, '', '%', 'of every order, at the top of the 8% to 28% range a Bengaluru restaurant association gave for Swiggy and Zomato in July 2026.', 'guides/india/delivery-app-fees/']
-    ];
-    const f = figs.find((r) => r[0].test(tzNow));
-    if (f) { bigN.dataset.n = f[1]; bigN.dataset.pre = f[2]; bigN.dataset.post = f[3]; bigN.textContent = f[2] + f[1] + f[3]; $('.hj-big-line').textContent = f[4]; $('.hj-big-own a').href = f[5]; }
-    const n = +bigN.dataset.n, pre = bigN.dataset.pre, post = bigN.dataset.post, show = (v) => { bigN.textContent = pre + Math.round(v).toLocaleString('en-GB') + post; };
+  /* ---------- Right now, where you are: the visitor's own time, large, and what their website could be doing at that hour ---------- */
+  const clk = $('.hj-clock');
+  if (clk) {
+    const h12 = /h1[12]/.test(new Intl.DateTimeFormat(undefined, { hour: 'numeric' }).resolvedOptions().hourCycle || '');
+    const ampm = $('.hj-ampm'), line = $('.hj-now .hj-big-line');
+    const say = (h) => h >= 23 || h < 5 ? 'You’re asleep. Your website can still take a booking, an order or a payment.'
+      : h < 9 ? 'You haven’t opened yet. Your website can already take a booking, an order or a payment.'
+      : h < 18 ? 'You’re busy with a customer. Your website can take the next booking, order or quote without you.'
+      : 'You’ve closed for the day. Your customers haven’t. Your website keeps taking bookings, orders and payments.';
+    const paint = (mins) => {
+      const h = Math.floor(mins / 60) % 24, m = mins % 60, mm = String(m).padStart(2, '0');
+      if (h12) { clk.textContent = ((h % 12) || 12) + ':' + mm; ampm.textContent = h < 12 ? 'am' : 'pm'; }
+      else { clk.textContent = String(h).padStart(2, '0') + ':' + mm; ampm.textContent = ''; }
+    };
+    const nowMins = () => { const d = new Date(); return d.getHours() * 60 + d.getMinutes(); };
+    const settle = () => { paint(nowMins()); line.textContent = say(new Date().getHours()); };
+    const live = () => { settle(); setInterval(settle, 15000); };
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches && window.IntersectionObserver) {
-      show(0);
+      paint(0);
       const io = new IntersectionObserver(([en]) => {
         if (!en.isIntersecting) return; io.disconnect();
-        const t0 = performance.now(), dur = 1400;
-        const step = (now) => { const k = Math.min(1, (now - t0) / dur); show(n * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
+        const end = nowMins(), t0 = performance.now(), dur = 1600;
+        const step = (tm) => { const k = Math.min(1, (tm - t0) / dur); paint(Math.round(end * (1 - Math.pow(1 - k, 3)))); if (k < 1) requestAnimationFrame(step); else live(); };
         requestAnimationFrame(step);
       }, { threshold: 0.6 });
-      io.observe(bigN);
-    }
+      io.observe(clk);
+    } else live();
   }
 
   setCur(cur, false);
