@@ -84,13 +84,44 @@
   </div>
 </section>
 
-<section class="hj-big" id="cost" aria-labelledby="big-title">
-  <h2 id="big-title" class="hj-big-kick">What the apps take</h2>
-  <div class="hj-big-row">
-    <p class="hj-big-num" data-n="1050" data-pre="£" data-post="">£1,050</p>
-    <div class="hj-big-side">
-      <p class="hj-big-line">a year, plus VAT, that a UK salon pays Treatwell in new-client commission, if five new clients a month book through it at £50 each.</p>
-      <p class="hj-big-own">On your own website, you pay the card fee and nothing else. <a class="text-link" href="guides/uk/booking-app-fees/">Every fee, from each company’s own page</a></p>
+<section class="hj-yours" id="yours" aria-labelledby="yours-title">
+  <div class="yr-text">
+    <p class="yr-kick">See yours in five seconds</p>
+    <h2 id="yours-title" class="yr-title">Type your <em>business name.</em></h2>
+    <label class="yr-field"><span class="sr-only">Your business name</span><input id="yr-name" type="text" maxlength="40" autocomplete="organization" placeholder="Your business name"></label>
+    <div class="yr-jobs" role="radiogroup" aria-label="What should it do?">
+      <button type="button" role="radio" aria-checked="true" data-job="book">Take bookings</button><button type="button" role="radio" aria-checked="false" data-job="order">Take orders</button><button type="button" role="radio" aria-checked="false" data-job="quote">Send quotes</button>
+    </div>
+    <p class="yr-note">A quick sketch. The real one gets your words, photos and prices, and you use it free for 7 days before you pay anything.</p>
+    <div class="yr-actions"><a class="button button-light arrow yr-go" href="start/">Build mine for real</a><a class="text-link" href="guides/">What do my apps take?</a></div>
+  </div>
+  <div class="yr-stage" aria-hidden="true">
+    <div class="yr-laptop">
+      <div class="yr-bar"><i></i><i></i><i></i><span class="yr-url">yourbusiness.com</span></div>
+      <div class="yr-site">
+        <p class="yr-nav"><b class="yr-n">Your business</b><span>About</span><span>Contact</span><em class="yr-btn">Book now</em></p>
+        <p class="yr-h"><span class="yr-n">Your business</span></p>
+        <p class="yr-sub">Book online, any time.</p>
+        <p class="yr-cta"><em class="yr-btn">Book now</em><span>Open today until 6pm</span></p>
+      </div>
+    </div>
+    <div class="yr-phone">
+      <p class="yr-ptop"><b class="yr-n">Your business</b><span class="yr-pl">Book a time</span></p>
+      <div class="yr-pbody" data-job="book">
+        <p class="yr-plabel">Tomorrow</p>
+        <p class="yr-slots"><i>09:00</i><i class="on">10:30</i><i>12:00</i><i>14:00</i><i>15:30</i><i>17:00</i></p>
+        <p class="yr-pbtn">Book 10:30</p>
+      </div>
+      <div class="yr-pbody" data-job="order" hidden>
+        <p class="yr-plabel">Popular</p>
+        <p class="yr-row">Best seller<i>+</i></p><p class="yr-row">New this week<i>+</i></p><p class="yr-row">Gift card<i>+</i></p>
+        <p class="yr-pbtn">Send my order</p>
+      </div>
+      <div class="yr-pbody" data-job="quote" hidden>
+        <p class="yr-plabel">What do you need?</p>
+        <p class="yr-row on">A small job<i>✓</i></p><p class="yr-row">A bigger job<i></i></p><p class="yr-row">Not sure yet<i></i></p>
+        <p class="yr-pbtn">See my price</p>
+      </div>
     </div>
   </div>
 </section>

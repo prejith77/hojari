@@ -368,29 +368,47 @@
     }
   }
 
-  /* ---------- The big number: what the apps take where you are, from the guide it links to. It counts up once, when it comes into view ---------- */
-  const bigN = $('.hj-big-num');
-  if (bigN) {
-    const tzNow = (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
-    const figs = [
-    [new RegExp('^(America/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Detroit|Boise|Indiana/.*|Kentucky/.*|North_Dakota/.*|Juneau|Sitka|Nome|Adak|Menominee)|Pacific/Honolulu)$'), 30, '', '%', 'of every delivery order on DoorDash Premier or Uber Eats Premium, in the United States.', 'guides/us/selling-app-fees/'],
-    [new RegExp('^America/(Toronto|Montreal|Vancouver|Edmonton|Calgary|Winnipeg|Regina|Halifax|St_Johns|Moncton|Whitehorse|Yellowknife|Iqaluit|Glace_Bay|Goose_Bay|Swift_Current|Dawson_Creek|Fort_Nelson|Thunder_Bay|Rankin_Inlet|Resolute|Cambridge_Bay|Inuvik|Atikokan|Creston|Blanc-Sablon|Dawson)$'), 30, '', '%', 'of delivery orders on Uber Eats Premium in Canada, and 29% on DoorDash Premier.', 'guides/canada/delivery-app-fees/'],
-    [new RegExp('^(Australia/.*|Pacific/(Auckland|Chatham))$'), 30, '', '%', 'of an order that Uber Eats or DoorDash delivers for you, in Australia and New Zealand.', 'guides/australia-nz/delivery-app-fees/'],
-    [new RegExp('^Asia/(Dubai|Muscat|Riyadh|Qatar|Bahrain|Kuwait)$'), 20, '', '%', 'of a new client’s first appointment. That’s Fresha’s marketplace fee, with a $6 minimum.', 'guides/gulf/booking-app-fees/'],
-    [new RegExp('^Asia/(Kolkata|Calcutta)$'), 28, '', '%', 'of every order, at the top of the 8% to 28% range a Bengaluru restaurant association gave for Swiggy and Zomato in July 2026.', 'guides/india/delivery-app-fees/']
-    ];
-    const f = figs.find((r) => r[0].test(tzNow));
-    if (f) { bigN.dataset.n = f[1]; bigN.dataset.pre = f[2]; bigN.dataset.post = f[3]; bigN.textContent = f[2] + f[1] + f[3]; $('.hj-big-line').textContent = f[4]; $('.hj-big-own a').href = f[5]; }
-    const n = +bigN.dataset.n, pre = bigN.dataset.pre, post = bigN.dataset.post, show = (v) => { bigN.textContent = pre + Math.round(v).toLocaleString('en-GB') + post; };
+  /* ---------- Type your business name: their own site and app, sketched as they type ---------- */
+  const yr = $('.hj-yours');
+  if (yr) {
+    const inp = $('#yr-name', yr), go = $('.yr-go', yr), url = $('.yr-url', yr), names = $$('.yr-n', yr), btns = $$('.yr-btn', yr);
+    const JOB = { book: ['Book online, any time.', 'Book now', 'Book a time'], order: ['Order online, for collection or delivery.', 'Order now', 'Order online'], quote: ['Get a price in a minute.', 'Get a price', 'Get a price'] };
+    let job = 'book';
+    const slug = (s) => (s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '') || 'yourbusiness').slice(0, 28);
+    const paint = (name) => {
+      const n = name.trim() || 'Your business';
+      names.forEach((el) => { el.textContent = n; });
+      url.textContent = slug(n === 'Your business' ? '' : n) + '.com';
+      $('.yr-sub', yr).textContent = JOB[job][0];
+      btns.forEach((el) => { el.textContent = JOB[job][1]; });
+      $('.yr-pl', yr).textContent = JOB[job][2];
+      $$('.yr-pbody', yr).forEach((el) => { el.hidden = el.dataset.job !== job; });
+      go.href = 'start/' + (name.trim() ? '?name=' + encodeURIComponent(name.trim()) : '');
+    };
+    const pick = (j) => { job = j; $$('.yr-jobs button', yr).forEach((b) => b.setAttribute('aria-checked', String(b.dataset.job === j))); paint(inp.value || shown); };
+    $$('.yr-jobs button', yr).forEach((b) => b.addEventListener('click', () => { stop(); pick(b.dataset.job); }));
+    /* Until someone types, it shows a few kinds of business, typed out one letter at a time */
+    const demo = [['Rafi’s Barbers', 'book'], ['Coastline Plumbing', 'quote'], ['Little Oak Café', 'order'], ['Studio Mira Yoga', 'book'], ['Bloom & Stem Flowers', 'order']];
+    let shown = '', timer = 0, live = true;
+    const stop = () => { if (!live) return; live = false; clearTimeout(timer); if (!inp.value) { shown = ''; paint(''); } };
+    const typeOne = (k) => {
+      if (!live) return;
+      const [name, j] = demo[k % demo.length]; pick(j);
+      let i = 0;
+      const tick = () => {
+        if (!live) return;
+        i++; shown = name.slice(0, i); inp.placeholder = shown; paint(shown);
+        if (i < name.length) timer = setTimeout(tick, 70 + Math.random() * 60);
+        else timer = setTimeout(() => typeOne(k + 1), 2200);
+      };
+      tick();
+    };
+    inp.addEventListener('focus', () => { stop(); inp.placeholder = 'Your business name'; });
+    inp.addEventListener('input', () => { stop(); paint(inp.value); });
+    paint('');
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches && window.IntersectionObserver) {
-      show(0);
-      const io = new IntersectionObserver(([en]) => {
-        if (!en.isIntersecting) return; io.disconnect();
-        const t0 = performance.now(), dur = 1400;
-        const step = (now) => { const k = Math.min(1, (now - t0) / dur); show(n * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
-        requestAnimationFrame(step);
-      }, { threshold: 0.6 });
-      io.observe(bigN);
+      const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { io.disconnect(); typeOne(0); } }, { threshold: .4 });
+      io.observe(yr);
     }
   }
 
