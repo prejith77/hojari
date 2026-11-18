@@ -1,9 +1,9 @@
 /* Homepage hero: one tear of Hojari frankincense. Milky, pale resin with a dusty bloom, a slow ember
    breathing in its core and a thin wisp of smoke from the tip. As the visitor scrolls, fine grains lift off
-   its lower half and drift away. Desktop only (1000px and wider); reduced motion gets one still frame. */
+   its lower half and drift away. On phones it sits beside the headline in a smaller canvas; reduced motion gets one still frame. */
 (function () {
   const canvas = document.querySelector('.hx-tear');
-  if (!canvas || !matchMedia('(min-width: 1000px)').matches) return;
+  if (!canvas || (navigator.connection && navigator.connection.saveData)) return;
   const s = document.createElement('script');
   s.src = 'vendor/three.min.js';
   s.onload = () => run(canvas);

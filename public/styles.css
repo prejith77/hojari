@@ -2816,11 +2816,20 @@ main > section.hx-hero.has-seam::before { display: none; }
 .hx-bargain span { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(227, 173, 92, .45); color: var(--paper); font-size: 14.5px; }
 @media (max-width: 599px) { .hx-hero .hx-actions { grid-template-columns: minmax(0, 1fr); gap: 10px; } .hx-hero .hx-actions .button { width: 100%; justify-content: center; } }
 
-/* Hero tear: sits in the gap between the headline and the phone, desktop only */
-.hx-tear { display: none; }
-@media (min-width: 1000px) {
-  .hx-copy { position: relative; z-index: 1; }
-  .hx-stage { position: relative; --hx-pw: clamp(280px, calc((100svh - 170px) / 2.08), 372px); }
-  .hx-stage .hx-phone { z-index: 1; }
-  .hx-tear { display: block; position: absolute; z-index: 0; width: 300px; height: 540px; top: 50%; left: calc(50% - var(--hx-pw) / 2 - 110px); transform: translate(-50%, -44%); pointer-events: none; }
+/* Hero tear: a direct child of the hero so the phone's mask can't clip it.
+   Phones and tablets: beside the headline. Desktop: in the gap between the headline and the phone. */
+.hx-tear { position: absolute; z-index: 0; pointer-events: none; }
+.hx-copy, .hx-stage { position: relative; z-index: 1; }
+@media (max-width: 899px) {
+  .hx-tear { top: 40px; right: 0; width: min(40vw, 220px); height: 200px; }
+}
+@media (min-width: 900px) {
+  .hx-hero { --pad: max(var(--margin), calc((100% - 1240px) / 2)); --g: clamp(32px, 4vw, 72px); --hx-pw: clamp(280px, calc((100svh - 170px) / 2.08), 372px); }
+  .hx-tear { width: 300px; height: 540px; top: calc(50% + 28px);
+    left: calc(var(--pad) + (100% - 2 * var(--pad) - var(--g)) * .77 + var(--g) - var(--hx-pw) / 2 - 110px);
+    transform: translate(-50%, -44%); }
+}
+@media (min-width: 900px) and (max-width: 1199px) {
+  .hx-tear { width: 200px; height: 260px; top: 90px; transform: none;
+    left: calc(var(--pad) + (100% - 2 * var(--pad) - var(--g)) * .54 - 130px); }
 }
