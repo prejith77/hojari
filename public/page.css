@@ -199,3 +199,9 @@
 .pg-price + .pg-payback { margin-top: 40px; }
 .pg-payback + .pg-found { margin-top: 28px; }
 .pg-found + .pg-note, .pg-payback + .pg-note { margin-top: 24px; }
+
+/* About: how it works, with the film */
+.pg-film { margin-top: 32px; }
+.pg-film video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 22px; border: 1px solid var(--line); background: #000; }
+@media (max-width: 899px) { .pg-film video { aspect-ratio: 1; } }
+.pg-film figcaption { margin-top: 12px; color: var(--muted); font-size: var(--step-small); }

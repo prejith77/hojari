@@ -368,6 +368,32 @@
     }
   }
 
+  /* ---------- The big number: what the apps take where you are, from the guide it links to. It counts up once, when it comes into view ---------- */
+  const bigN = $('.hj-big-num');
+  if (bigN) {
+    const tzNow = (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+    const figs = [
+    [new RegExp('^(America/(New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Detroit|Boise|Indiana/.*|Kentucky/.*|North_Dakota/.*|Juneau|Sitka|Nome|Adak|Menominee)|Pacific/Honolulu)$'), 30, '', '%', 'of every delivery order on DoorDash Premier or Uber Eats Premium, in the United States.', 'guides/us/selling-app-fees/'],
+    [new RegExp('^America/(Toronto|Montreal|Vancouver|Edmonton|Calgary|Winnipeg|Regina|Halifax|St_Johns|Moncton|Whitehorse|Yellowknife|Iqaluit|Glace_Bay|Goose_Bay|Swift_Current|Dawson_Creek|Fort_Nelson|Thunder_Bay|Rankin_Inlet|Resolute|Cambridge_Bay|Inuvik|Atikokan|Creston|Blanc-Sablon|Dawson)$'), 30, '', '%', 'of delivery orders on Uber Eats Premium in Canada, and 29% on DoorDash Premier.', 'guides/canada/delivery-app-fees/'],
+    [new RegExp('^(Australia/.*|Pacific/(Auckland|Chatham))$'), 30, '', '%', 'of an order that Uber Eats or DoorDash delivers for you, in Australia and New Zealand.', 'guides/australia-nz/delivery-app-fees/'],
+    [new RegExp('^Asia/(Dubai|Muscat|Riyadh|Qatar|Bahrain|Kuwait)$'), 20, '', '%', 'of a new client’s first appointment. That’s Fresha’s marketplace fee, with a $6 minimum.', 'guides/gulf/booking-app-fees/'],
+    [new RegExp('^Asia/(Kolkata|Calcutta)$'), 28, '', '%', 'of every order, at the top of the 8% to 28% range a Bengaluru restaurant association gave for Swiggy and Zomato in July 2026.', 'guides/india/delivery-app-fees/']
+    ];
+    const f = figs.find((r) => r[0].test(tzNow));
+    if (f) { bigN.dataset.n = f[1]; bigN.dataset.pre = f[2]; bigN.dataset.post = f[3]; bigN.textContent = f[2] + f[1] + f[3]; $('.hj-big-line').textContent = f[4]; $('.hj-big-own a').href = f[5]; }
+    const n = +bigN.dataset.n, pre = bigN.dataset.pre, post = bigN.dataset.post, show = (v) => { bigN.textContent = pre + Math.round(v).toLocaleString('en-GB') + post; };
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches && window.IntersectionObserver) {
+      show(0);
+      const io = new IntersectionObserver(([en]) => {
+        if (!en.isIntersecting) return; io.disconnect();
+        const t0 = performance.now(), dur = 1400;
+        const step = (now) => { const k = Math.min(1, (now - t0) / dur); show(n * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(step); };
+        requestAnimationFrame(step);
+      }, { threshold: 0.6 });
+      io.observe(bigN);
+    }
+  }
+
   setCur(cur, false);
 
   /* Phones: a bar with the two main actions follows your thumb once the hero has gone, and steps aside at the form */

@@ -2480,3 +2480,23 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
   .promises b { white-space: nowrap; }
 }
 @media (max-width: 899px) { .promises { margin-top: 16px; } }
+
+/* ===== Homepage: the big number, a shorter page: 18 Nov ===== */
+.hj-big { padding: 72px var(--margin) 80px; }
+.hj-big-kick { font: 500 var(--step-small)/1.2 var(--sans); letter-spacing: .02em; color: var(--muted); }
+.hj-big-row { display: grid; gap: 18px; margin-top: 14px; align-items: end; }
+.hj-big-num { font: 400 clamp(5.5rem, 3rem + 13vw, 15rem)/.86 var(--serif); letter-spacing: -0.03em; color: var(--honey); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.hj-big-line { font-size: var(--step-lead); line-height: 1.35; color: var(--paper); max-width: 30ch; text-wrap: pretty; }
+.hj-big-own { margin-top: 18px; color: var(--muted); max-width: 46ch; line-height: 1.55; }
+@media (min-width: 900px) {
+  .hj-big { padding-top: 96px; padding-bottom: 96px; }
+  .hj-big-row { grid-template-columns: auto minmax(0, 1fr); gap: 56px; }
+  .hj-big-side { padding-bottom: 14px; }
+}
+.hj-who { flex-direction: column; gap: 18px; max-width: 640px; }
+.hj-who .hj-voice { margin: 0; }
+.hj-who .hj-voice-text p { margin-top: 8px; font-size: 15px; line-height: 1.65; color: var(--resin); }
+@media (min-width: 900px) { .hj-demos { padding-top: 40px; } }
+.hj-big > * { max-width: 1240px; margin-left: auto; margin-right: auto; }
+.hj-who { max-width: 1240px; margin-left: auto; margin-right: auto; align-items: flex-start; }
+.hj-who p { flex: none; max-width: 62ch; }
