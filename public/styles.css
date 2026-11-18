@@ -2804,3 +2804,13 @@ main > section.hx-hero.has-seam::before { display: none; }
 .hx-plans .hj-plan.is-pick h3 { font-family: var(--serif); font-weight: 400; font-size: 1.625rem; line-height: 1.1; letter-spacing: -0.01em; }
 .hx-plans .hj-plan.is-pick h3 em { font-style: italic; color: var(--honey); }
 .hx-stage.is-night:not(.is-play) .hx-badge { opacity: 0; }
+
+/* Offers: what's included, the comparison, the bargain line */
+.hx-incl { list-style: none; margin: 4px 0 6px; padding: 0; display: grid; gap: 8px; }
+.hx-incl li { position: relative; padding-left: 22px; color: var(--paper); font-size: 15.5px; line-height: 1.45; }
+.hx-incl li::before { content: ""; position: absolute; left: 0; top: .5em; width: 8px; height: 8px; border-radius: 50%; background: var(--honey); }
+.hx-incl li.all { color: var(--muted); }
+.hx-compare { margin-top: 12px; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+.hx-compare a { color: var(--paper); }
+.hx-bargain { display: flex; flex-wrap: wrap; gap: 10px; margin-top: var(--space-block); }
+.hx-bargain span { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(227, 173, 92, .45); color: var(--paper); font-size: 14.5px; }
