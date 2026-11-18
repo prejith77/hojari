@@ -1,14 +1,14 @@
 # Hojari
 
-> Hojari builds websites and apps that work while you don’t. It is a one-person studio run by Prejith Ponnachan, for small businesses anywhere in the world, from Muscat, Oman. It builds websites and the tools behind them: online booking, quotes and invoices, online ordering, client portals and owner dashboards. Fixed prices, and clients try a working version on their own business for 7 days before paying anything.
+> Wake up to bookings, not messages. Hojari builds websites and apps that answer, book and quote for your customers, day and night. It is a one-person studio run by Prejith Ponnachan, for small businesses anywhere in the world, from Muscat, Oman. Fixed prices, and clients try a working version on their own business for 7 days before paying anything.
 
 Hojari is named after the top grade of Omani frankincense. It is not a frankincense seller. All work happens online, by video call, WhatsApp and email. Contact: hello@hojari.co.uk, or the form at https://hojari.co.uk/#contact. About Prejith: https://hojari.co.uk/about/ LinkedIn: https://www.linkedin.com/company/hojari/ Instagram: https://www.instagram.com/hojari.uk/ Trustpilot: https://uk.trustpilot.com/review/hojari.co.uk
 
 ## Plans (fixed prices, shown in pounds; the site also shows US dollars, euros, Australian and Canadian dollars and UAE dirhams)
 
-- [Website (Silver)](https://hojari.co.uk/prices/): from £750, then £49 a month for care. A website of up to 8 pages plus one tool, such as booking, quotes, ordering or instant WhatsApp replies. A working version within 7 days of receiving words and photos.
-- [Website Plus (Royal Green)](https://hojari.co.uk/prices/): from £1,950, then £99 a month for care. Everything in Silver, plus up to three tools sharing one set of customer records, and an owner's dashboard.
-- [Your own app (Signature)](https://hojari.co.uk/prices/): from £3,950, then £149 a month for care. A custom app, client portal or platform, with a website to match.
+- [Front Door](https://hojari.co.uk/prices/): your website, where every customer chat starts. From £750, then £49 a month for care. A website of up to 8 pages plus one tool, such as booking, quotes, ordering or instant WhatsApp replies. A working version within 7 days of receiving words and photos.
+- [Night Shift](https://hojari.co.uk/prices/): answers, books, quotes and follows up while you sleep. From £1,950, then £99 a month for care. Everything in Front Door, plus up to three tools sharing one set of customer records, and an owner's dashboard.
+- [Head Office](https://hojari.co.uk/prices/): your own app, run around how you work. From £3,950, then £149 a month for care. A custom app, client portal or platform, with a website to match.
 - [The one-week fix](https://hojari.co.uk/prices/): from £450, then £29 a month for care. One tool that takes a job off the owner's hands, working within 7 days on the website they already have.
 
 ## Promises

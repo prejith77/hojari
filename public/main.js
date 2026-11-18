@@ -114,7 +114,7 @@
         if (el === heroTitle) { el.style.visibility = ''; gsap.from(s.lines, { ...anim, filter: 'blur(10px)', clearProps: 'filter', delay: 0.15 }); }
         else if (el.getBoundingClientRect().top > innerHeight * 0.9) { gsap.set(s.lines, { yPercent: 110 }); whenSeen(el, () => gsap.to(s.lines, { yPercent: 0, duration: soft ? 0.8 : 0.95, ease: 'power4.out', stagger: soft ? 0.08 : 0.09 })); }
       });
-      const heroBits = $$('.hero-actions, .promises li');
+      const heroBits = $$('.hx-sub, .hero-actions, .hx-fine, .promises li');
       if (heroBits.length) gsap.from(heroBits, { y: 18, opacity: 0, duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: soft ? 0.06 : 0.08, delay: soft ? 0.15 : 0.3 });
       ScrollTrigger.refresh();
     };
@@ -126,7 +126,7 @@
   const rest = () => {
   /* Blocks of content fade up, once */
   if (motion) {
-    const sel = '.hj-three-steps li, .hj-plan, .hj-case, .hj-qs details, .grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
+    const sel = '.hx-step, .hx-q, .hx-promise p, .hx-about-text > p, .hx-about-text > figure, .hx-me, .hj-three-steps li, .hj-plan, .hj-case, .hj-qs details, .grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
     const items = $$(sel).filter((el) => el.getBoundingClientRect().top > innerHeight && !(!desktop && el.matches('.usp-card')));
     gsap.set(items, { y: soft ? 24 : 32, opacity: 0 });
     const show = (els) => gsap.to(els, { y: 0, opacity: 1, duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: { amount: 0.24, ease: 'power2.out' }, overwrite: true, clearProps: 'filter' });
@@ -756,7 +756,7 @@
   }
 
   /* THE TEAR: the still image shows straight away; the live one wakes up the moment someone touches, scrolls or moves */
-  if (!reduce) {
+  if (!reduce && $(".tear-canvas")) {
     let tearLoading = false;
     const load = (src) => new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.body.appendChild(s); });
     const evs = ['pointermove', 'pointerdown', 'touchstart', 'scroll', 'click', 'keydown'];
@@ -856,7 +856,7 @@
     }
   }
 
-  /* Pricing: Royal Green, the one most people pick, lights up as it arrives */
+  /* Pricing: the plan most people pick lights up as it arrives */
   const best = $('.plan-best');
   if (best) onceInView(best, () => best.classList.add('is-lit'), 0.4);
 

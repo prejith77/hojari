@@ -1,4 +1,4 @@
-/* Hojari: the Demo Room, The Count and prices in your currency. Plain JS, no dependencies. */
+/* Hojari: the homepage's night-to-morning phone, The Count and prices in your currency. Plain JS, no dependencies. */
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -23,20 +23,26 @@
     } catch (e) {}
     return 'USD';
   };
+  /* The homepage shows two currencies only: dirhams in the Gulf, pounds everywhere else */
+  const pairEl = $('.hj-cur[data-pair]');
+  const pair = pairEl ? pairEl.dataset.pair.split(' ') : null;
+  const GULF = /^Asia\/(Dubai|Muscat|Qatar|Bahrain|Kuwait|Riyadh)$/;
+  const guessPair = () => { try { return GULF.test(Intl.DateTimeFormat().resolvedOptions().timeZone || '') ? 'AED' : 'GBP'; } catch (e) { return 'GBP'; } };
   let cur = 'GBP';
   try { cur = localStorage.getItem('hj-cur') || guess(); } catch (e) { cur = guess(); }
   if (!CUR[cur]) cur = 'GBP';
+  if (pair && !pair.includes(cur)) cur = guessPair();
   const money = (n) => CUR[cur].fmt(Math.round(n));
   /* Rough exchange rates, so a typed price keeps its meaning when the currency changes */
   const RATE = { GBP: 1, USD: 1.3, EUR: 1.2, AUD: 1.96, CAD: 1.88, AED: 4.75 };
   const RANGE = { GBP: [8, 80], USD: [10, 105], EUR: [10, 95], AUD: [16, 160], CAD: [15, 150], AED: [40, 380] };
   const conv = (n, from, to) => Math.round(n * RATE[to] / RATE[from]);
   function setCur(c, save) {
-    if (!CUR[c]) return;
+    if (!CUR[c] || (pair && !pair.includes(c))) return;
     if (c !== cur) recount(cur, c);
     cur = c;
     if (save) { try { localStorage.setItem('hj-cur', c); } catch (e) {} }
-    $$('[data-gbp]').forEach((el) => { el.textContent = money(+el.dataset[CUR[c].key]); });
+    $$('[data-gbp]').forEach((el) => { const v = +el.dataset[CUR[c].key]; if (v) el.textContent = money(v); });
     $$('.hj-cur button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.cur === c));
     $$('.hj-cur-sym').forEach((el) => { el.textContent = CUR[c].sym; });
     count();
@@ -44,220 +50,6 @@
   }
   window.hjCurrency = { get: () => cur, money: (n) => money(n), set: (c) => setCur(c, true) };
   $$('.hj-cur button').forEach((b) => b.addEventListener('click', () => setCur(b.dataset.cur, true)));
-
-  /* ---------- The Demo Room tabs ---------- */
-  const tabs = $$('.hj-tabs [role="tab"]');
-  function pick(tab, focus) {
-    tabs.forEach((t) => {
-      const on = t === tab;
-      t.setAttribute('aria-selected', on);
-      t.tabIndex = on ? 0 : -1;
-      $('#' + t.getAttribute('aria-controls')).hidden = !on;
-    });
-    $$('.hj-side-note').forEach((n) => { n.hidden = n.dataset.for !== tab.getAttribute('aria-controls'); });
-    if (focus) tab.focus();
-    const id = tab.getAttribute('aria-controls');
-    if (id === 'p-dash') drawChart();
-    if (id === 'p-chat' && !chatStarted) startChat();
-  }
-  /* Links from other pages, such as /#demo-booking, open that demo */
-  const fromHash = { '#demo-booking': 't-book', '#demo-quote': 't-quote', '#demo-dashboard': 't-dash', '#demo-enquiries': 't-chat', '#demo-orders': 't-order' }[location.hash];
-  if (fromHash && $('#' + fromHash)) { pick($('#' + fromHash)); addEventListener('load', () => setTimeout(() => { const d = $('#demos'); if (d) scrollTo(0, d.getBoundingClientRect().top + scrollY - 20); }, 60)); }
-  /* Plans swipe on phones: the dots follow the card in view */
-  const plans = $('.hj-plans'), dots = $$('.hj-dots i');
-  if (plans && dots.length) {
-    const cards = $$('.hj-plan', plans);
-    const mark = () => { const mid = plans.scrollLeft + plans.clientWidth / 2; let best = 0, dist = 1e9; cards.forEach((c, n) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < dist) { dist = d; best = n; } }); dots.forEach((d, n) => d.classList.toggle('on', n === best)); };
-    plans.addEventListener('scroll', () => requestAnimationFrame(mark), { passive: true });
-    /* open on my pick, with the cheaper plan peeking in from the left */
-    const pk = $('.is-pick', plans);
-    if (pk && plans.scrollWidth > plans.clientWidth + 4) plans.scrollLeft = pk.offsetLeft - plans.offsetLeft - Math.max(0, (plans.clientWidth - pk.offsetWidth) / 2);
-    mark();
-  }
-  /* Links elsewhere on the page that open a particular demo */
-  $$('[data-demo]').forEach((a) => a.addEventListener('click', () => { const t = $('#' + a.dataset.demo); if (t) pick(t); }));
-  /* Each plan's list stays folded behind "What's included" on every screen, so the three prices read at a glance */
-  /* On phones the calculator's app list starts folded, with the total and the time sliders in view */
-  const ctMore = $('.ct-more');
-  if (ctMore && matchMedia('(max-width: 899px)').matches) ctMore.open = false;
-  tabs.forEach((t, i) => {
-    t.addEventListener('click', () => pick(t));
-    t.addEventListener('keydown', (e) => {
-      let j = null;
-      if (e.key === 'ArrowRight') j = (i + 1) % tabs.length;
-      else if (e.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
-      else if (e.key === 'Home') j = 0;
-      else if (e.key === 'End') j = tabs.length - 1;
-      if (j !== null) { e.preventDefault(); pick(tabs[j], true); }
-    });
-  });
-
-  /* ---------- Booking ---------- */
-  const bk = $('.bk');
-  if (bk) {
-    const days = $('.bk-days', bk), times = $('.bk-times', bk), go = $('.bk-go', bk), done = $('.bk-done');
-    const DAY = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const SLOTS = ['09:00', '10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00', '20:00'];
-    const state = { svc: $('.bk-services .is-on', bk), day: null, time: null };
-    const start = new Date(); start.setHours(12, 0, 0, 0);
-    for (let i = 1; i <= 5; i++) {
-      const d = new Date(start); d.setDate(start.getDate() + i);
-      const b = document.createElement('button');
-      b.type = 'button'; b.dataset.i = i;
-      b.innerHTML = DAY[d.getDay()] + ' <b>' + d.getDate() + '</b><span class="sr"> ' + MON[d.getMonth()] + '</span>';
-      b._date = d;
-      days.appendChild(b);
-    }
-    function fillTimes() {
-      times.innerHTML = '';
-      const seed = (+state.day.dataset.i * 7 + state.svc.dataset.mins.length * 3);
-      SLOTS.forEach((s, k) => {
-        const b = document.createElement('button');
-        b.type = 'button'; b.textContent = s;
-        if ((k * 5 + seed) % 4 === 0) { b.disabled = true; b.setAttribute('aria-label', s + ', taken'); }
-        times.appendChild(b);
-      });
-      state.time = null; ready();
-    }
-    function ready() {
-      go.disabled = !state.time;
-      go.textContent = state.time ? 'Book ' + state.time + ' on ' + DAY[state.day._date.getDay()] : 'Choose a time';
-    }
-    function on(group, btn) { $$('button', group).forEach((b) => b.classList.toggle('is-on', b === btn)); }
-    $('.bk-services', bk).addEventListener('click', (e) => {
-      const b = e.target.closest('.chip'); if (!b) return;
-      state.svc = b; on(b.parentNode, b); fillTimes();
-    });
-    days.addEventListener('click', (e) => {
-      const b = e.target.closest('button'); if (!b) return;
-      state.day = b; on(days, b); fillTimes();
-    });
-    times.addEventListener('click', (e) => {
-      const b = e.target.closest('button'); if (!b || b.disabled) return;
-      state.time = b.textContent; on(times, b); ready();
-    });
-    go.addEventListener('click', () => {
-      const d = state.day._date;
-      $('.bk-summary', done).textContent = state.svc.dataset.svc + ', ' + DAY[d.getDay()] + ' ' + d.getDate() + ' ' + MON[d.getMonth()] + ' at ' + state.time + '.';
-      /* hold the panel's height so the page doesn't jump when the shorter confirmation replaces the form */
-      const pnl = bk.closest('.hj-panel'); if (pnl) pnl.style.minHeight = pnl.offsetHeight + 'px';
-      bk.hidden = true; done.hidden = false;
-      $('.bk-again', done).focus({ preventScroll: true });
-    });
-    $('.bk-again', done).addEventListener('click', () => { done.hidden = true; bk.hidden = false; fillTimes(); });
-    state.day = days.firstElementChild; on(days, state.day); fillTimes();
-  }
-
-  /* ---------- Quotes ---------- */
-  const qt = $('.qt');
-  if (qt) {
-    const rows = $$('.qt-row input', qt), m2 = $('#qt-m2'), m2out = $('.qt-slider output', qt), slider = $('.qt-slider', qt);
-    const doc = $('.qt-doc');
-    const lines = () => rows.filter((r) => r.checked).map((r) => {
-      const name = r.parentNode.querySelector('span').textContent;
-      if (r.dataset.qty) { const q = +m2.value; return [name + ', ' + q + ' m²', (+r.dataset.price) * q / 10]; }
-      return [name, +r.dataset.price];
-    });
-    const gbp = (n) => money(conv(n, 'GBP', cur));
-    function total() {
-      rows.forEach((r) => { const b = r.parentNode.querySelector('b'); b.textContent = gbp(+r.dataset.price) + (r.dataset.qty ? ' / 10 m²' : ''); });
-      const turf = rows.find((r) => r.dataset.qty);
-      slider.classList.toggle('is-off', !turf.checked);
-      m2.disabled = !turf.checked;
-      m2out.textContent = m2.value + ' m²';
-      const sum = lines().reduce((a, l) => a + l[1], 0);
-      $('.qt-sum', qt).textContent = gbp(sum);
-      $('.qt-go', qt).disabled = sum === 0;
-      return sum;
-    }
-    rows.forEach((r) => r.addEventListener('change', total));
-    m2.addEventListener('input', total);
-    function fillDoc() {
-      const ul = $('.doc-lines', doc); ul.innerHTML = '';
-      lines().forEach(([n, p]) => { const li = document.createElement('li'); li.innerHTML = '<span></span><b></b>'; li.firstChild.textContent = n; li.lastChild.textContent = gbp(p); ul.appendChild(li); });
-      $('.qt-sum2', doc).textContent = gbp(total());
-    }
-    document.addEventListener('hj:currency', () => { total(); if (!doc.hidden) fillDoc(); });
-    $('.qt-go', qt).addEventListener('click', () => {
-      fillDoc();
-      $('.qt-date', doc).textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-      $('.qt-paid', doc).hidden = true; $('.qt-accept', doc).hidden = false;
-      qt.hidden = true; doc.hidden = false;
-      $('#p-quote').scrollTop = 0;
-    });
-    $('.qt-accept', doc).addEventListener('click', (e) => {
-      e.currentTarget.hidden = true;
-      const paid = $('.qt-paid', doc); paid.hidden = false;
-      const panel = $('#p-quote');
-      panel.scrollTo({ top: panel.scrollHeight, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-    });
-    $('.qt-back', doc).addEventListener('click', () => { doc.hidden = true; qt.hidden = false; });
-    total();
-  }
-
-  /* ---------- Dashboard ---------- */
-  const DS = {
-    week: { range: 'This week', bars: [5, 7, 4, 8, 9, 6, 3], k: { bookings: '42', sales: 3860, new: '17', rating: '4.9' }, d: { bookings: '+12%', sales: '+8%', new: '+21%', rating: '31 reviews' } },
-    month: { range: 'This month', bars: [22, 28, 25, 31, 27, 34, 30, 36, 33, 38, 35, 41], k: { bookings: '186', sales: 16240, new: '64', rating: '4.9' }, d: { bookings: '+9%', sales: '+14%', new: '+18%', rating: '118 reviews' } },
-  };
-  let range = 'week';
-  const chart = $('.ds-chart');
-  function drawChart() {
-    if (!chart) return;
-    const r = DS[range], max = Math.max(...r.bars);
-    chart.innerHTML = '';
-    r.bars.forEach((v) => { const i = document.createElement('i'); i.style.transform = 'scaleY(0.04)'; chart.appendChild(i); requestAnimationFrame(() => requestAnimationFrame(() => { i.style.transform = 'scaleY(' + (v / max).toFixed(3) + ')'; })); });
-    chart.style.setProperty('--n', r.bars.length);
-    $('.ds-range').textContent = r.range;
-    Object.keys(r.k).forEach((k) => { $('[data-k="' + k + '"]').textContent = k === 'sales' ? money(Math.round(conv(r.k[k], 'GBP', cur) / 10) * 10) : r.k[k]; $('[data-d="' + k + '"]').textContent = /^[+-]/.test(r.d[k]) ? r.d[k] + ' vs last ' + range : r.d[k]; });
-  }
-  document.addEventListener('hj:currency', () => { if (chart) drawChart(); });
-  $$('.ds-toggle button').forEach((b) => b.addEventListener('click', () => {
-    range = b.dataset.r;
-    $$('.ds-toggle button').forEach((x) => x.classList.toggle('is-on', x === b));
-    drawChart();
-  }));
-
-  /* ---------- Enquiries chat (scripted, so it never says anything wrong) ---------- */
-  const log = $('.ch-log'), quick = $('.ch-quick');
-  let chatStarted = false;
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const SCRIPT = {
-    start: { say: ["Hello, this is Harbour Dental. I can answer questions, give you prices or book you in. What can I help with?"], opts: ['price', 'book', 'hours', 'human'] },
-    price: { me: 'How much is a check-up?', say: [() => 'A check-up with a scale and polish is ' + money(Math.round(conv(65, 'GBP', cur) / 5) * 5) + ', and it takes about 40 minutes.', 'New patients get their first X-rays free. Shall I find you a time?'], opts: ['book', 'hours', 'human'] },
-    book: { me: 'Can I book an appointment?', say: ['Of course. The next free check-ups are tomorrow at 9:30 and Thursday at 16:15.', 'Tap one and I’ll hold it for you.'], opts: ['slot1', 'slot2', 'human'] },
-    slot1: { me: 'Tomorrow at 9:30, please.', say: ['Done. You’re booked in for tomorrow at 9:30. I’ve sent a confirmation, and I’ll remind you the evening before.'], opts: ['hours', 'restart'] },
-    slot2: { me: 'Thursday at 16:15 works.', say: ['Done. You’re booked in for Thursday at 16:15. I’ve sent a confirmation, and I’ll remind you the evening before.'], opts: ['hours', 'restart'] },
-    hours: { me: 'When are you open?', say: ['Monday to Friday, 8am to 7pm, and Saturday mornings until 1pm. You can book here at any hour.'], opts: ['price', 'book', 'human'] },
-    human: { me: 'Can I speak to a person?', say: ['Sure. I’ve passed your message to the front desk with everything you’ve said so far. Sarah will message you back within the hour, so you won’t have to repeat yourself.'], opts: ['restart'] },
-    restart: { me: 'Start again', reset: true },
-  };
-  const LABEL = { price: 'How much is a check-up?', book: 'Book an appointment', hours: 'Opening hours', human: 'Talk to a person', slot1: 'Tomorrow 9:30', slot2: 'Thursday 16:15', restart: 'Start again' };
-  function bubble(text, who) {
-    const p = document.createElement('p'); p.className = 'ch-msg ' + who; p.textContent = text; log.appendChild(p);
-    const panel = $('#p-chat'); panel.scrollTo({ top: panel.scrollHeight, behavior: reduce ? 'auto' : 'smooth' });
-    return p;
-  }
-  function options(list) {
-    quick.innerHTML = '';
-    list.forEach((k) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = LABEL[k]; b.dataset.k = k; quick.appendChild(b); });
-  }
-  async function run(key) {
-    const s = SCRIPT[key];
-    if (s.reset) { log.innerHTML = ''; return run('start'); }
-    quick.innerHTML = '';
-    if (s.me) bubble(s.me, 'me');
-    for (const said of s.say) {
-      const line = typeof said === 'function' ? said() : said;
-      const t = bubble('Typing…', 'bot typing');
-      await new Promise((r) => setTimeout(r, reduce ? 150 : 550 + Math.min(900, line.length * 9)));
-      t.classList.remove('typing'); t.textContent = line;
-    }
-    options(s.opts);
-  }
-  function startChat() { if (!log) return; chatStarted = true; run('start'); }
-  quick && quick.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) run(b.dataset.k); });
 
   /* ---------- The Count ---------- */
   const apps = $('.ct-apps'), chips = $('.ct-chips');
@@ -322,28 +114,6 @@
     });
   }
 
-  /* ---------- The Hojari Standard: pick a promise to read it in full ---------- */
-  const std = $('[data-std]');
-  if (std) {
-    const wideStd = matchMedia('(min-width: 900px)');
-    std.addEventListener('click', (e) => {
-      const b = e.target.closest('.std-pick'); if (!b) return;
-      const item = b.parentNode, open = item.classList.contains('is-on');
-      /* On a laptop one promise is always showing; on a phone you can close the one you opened */
-      if (open && wideStd.matches) return;
-      $$('.std-item', std).forEach((it) => { const on = it === item && !open; it.classList.toggle('is-on', on); it.firstElementChild.setAttribute('aria-expanded', on); });
-    });
-  }
-
-  /* ---------- Recommend a business: share a short message ---------- */
-  const share = $('.refer-share');
-  if (share) share.addEventListener('click', async () => {
-    const text = 'Have a look at Hojari. Prejith builds websites and booking, quotes and payment tools for small businesses, and you try it for 7 days before you pay. Mention my name and you get 10% off.';
-    const url = 'https://hojari.co.uk/';
-    if (navigator.share) { try { await navigator.share({ title: 'Hojari', text, url }); return; } catch (err) { if (err && err.name === 'AbortError') return; } }
-    window.open('https://wa.me/?text=' + encodeURIComponent(text + ' ' + url), '_blank', 'noopener');
-  });
-
   /* ---------- A voice note from Prejith: hidden until the recording is added ---------- */
   const voice = $('.hj-voice');
   if (voice) {
@@ -368,64 +138,57 @@
     }
   }
 
-  /* ---------- Type your business name: their own site and app, sketched as they type ---------- */
-  const yr = $('.hj-yours');
-  if (yr) {
-    const inp = $('#yr-name', yr), go = $('.yr-go', yr), url = $('.yr-url', yr), names = $$('.yr-n', yr), btns = $$('.yr-btn', yr);
-    const JOB = { book: ['Book online, any time.', 'Book now', 'Book a time'], order: ['Order online, for collection or delivery.', 'Order now', 'Order online'], quote: ['Get a price in a minute.', 'Get a price', 'Get a price'] };
-    let job = 'book';
-    const slug = (s) => (s.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '') || 'yourbusiness').slice(0, 28);
-    const paint = (name) => {
-      const n = name.trim() || 'Your business';
-      names.forEach((el) => { el.textContent = n; });
-      url.textContent = slug(n === 'Your business' ? '' : n) + '.com';
-      $('.yr-sub', yr).textContent = JOB[job][0];
-      btns.forEach((el) => { el.textContent = JOB[job][1]; });
-      $('.yr-pl', yr).textContent = JOB[job][2];
-      $$('.yr-pbody', yr).forEach((el) => { el.hidden = el.dataset.job !== job; });
-      go.href = 'start/' + (name.trim() ? '?name=' + encodeURIComponent(name.trim()) : '');
+  /* ---------- Homepage hero: a night of messages, then one calm morning ----------
+     Without JavaScript, or with reduced motion, the phone simply shows 7:00 am and the Night Shift card.
+     With motion it plays once, in about five seconds: at 11:47 pm messages pile up and the badge counts to 37,
+     then the clock turns to 7:00 am and they fold into one card. Only transform and opacity move. */
+  const stage = $('.hx-stage');
+  if (stage && stage.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const phone = $('.hx-phone', stage), notes = $$('.hx-note', stage).reverse(), countEl = $('.hx-count', stage);
+    const out = 'cubic-bezier(.23, 1, .32, 1)', inOut = 'cubic-bezier(.77, 0, .175, 1)';
+    const pitch = () => (notes[0].offsetHeight || 64) + 8;
+    const slotOf = (slot) => {
+      /* newest on top; older ones step down, and past the fourth they tuck in behind */
+      const tucked = slot > 3;
+      return { transform: `translateY(${Math.min(slot, 3) * pitch() + (tucked ? 8 : 0)}px) scale(${tucked ? 0.94 : 1})`, opacity: tucked ? 0 : 1 };
     };
-    const stage = $('.yr-stage', yr);
-    const pick = (j) => {
-      const changed = j !== job; job = j;
-      $$('.yr-jobs button', yr).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.job === j)));
-      stage.dataset.job = j;
-      paint(inp.value || shown);
-      if (changed) { stage.classList.remove('is-swap'); void stage.offsetWidth; stage.classList.add('is-swap'); }
+    stage.classList.add('is-night');
+    countEl.textContent = '0';
+    const T = [300, 720, 1080, 1380, 1640, 1860, 2060];
+    const timers = [];
+    const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+    notes.forEach((n, i) => at(T[i], () => {
+      n.animate([{ transform: 'translateY(-16px) scale(.96)', opacity: 0 }, { transform: 'translateY(0) scale(1)', opacity: 1 }], { duration: 380, easing: out, fill: 'forwards' });
+      for (let k = 0; k < i; k++) notes[k].animate([slotOf(i - k)], { duration: 380, easing: out, fill: 'forwards' });
+      /* every other arrival, the phone gives a small buzz */
+      if (i % 2 === 0) phone.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-3px)' }, { transform: 'translateX(3px)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(0)' }], { duration: 220, easing: 'linear' });
+    }));
+    /* the badge climbs to 37 while the messages land */
+    const c0 = performance.now() + T[0], cDur = T[T.length - 1] + 500 - T[0];
+    const tick = (now) => {
+      const p = Math.min(1, Math.max(0, (now - c0) / cDur));
+      countEl.textContent = String(Math.round(37 * (1 - Math.pow(1 - p, 2))));
+      if (p < 1 && !stage.classList.contains('is-dawn')) requestAnimationFrame(tick); else countEl.textContent = '37';
     };
-    $$('.yr-jobs button', yr).forEach((b) => b.addEventListener('click', () => { stop(true); pick(b.dataset.job); }));
-    /* Until someone types, it shows a few kinds of business, typed out one letter at a time */
-    const demo = [['Rafi’s Barbers', 'book'], ['Coastline Plumbing', 'quote'], ['Little Oak Café', 'order'], ['Studio Mira Yoga', 'book'], ['Bloom & Stem Flowers', 'order']];
-    let shown = '', timer = 0, live = true;
-    const stop = (keep) => { if (!live) return; live = false; clearTimeout(timer); inp.placeholder = 'Your business name'; if (!inp.value) { if (!keep) shown = ''; paint(shown); } };
-    let seen = false;
-    const typeOne = (k) => {
-      if (!live) return;
-      const [name, j] = demo[k]; pick(j);
-      let i = 0;
-      const tick = () => {
-        if (!live) return;
-        if (!seen) { timer = setTimeout(tick, 400); return; }
-        i++; shown = name.slice(0, i); inp.placeholder = shown; paint(shown);
-        if (i < name.length) timer = setTimeout(tick, 70 + Math.random() * 60);
-        else if (k + 1 < demo.length) timer = setTimeout(() => typeOne(k + 1), 2000);
-        else live = false;
-      };
-      tick();
-    };
-    inp.addEventListener('focus', () => { stop(); inp.placeholder = 'Your business name'; });
-    inp.addEventListener('input', () => { stop(); paint(inp.value); });
-    paint('');
-    if (!matchMedia('(prefers-reduced-motion: reduce)').matches && window.IntersectionObserver) {
-      let started = false;
-      const io = new IntersectionObserver(([en]) => { seen = en.isIntersecting; if (seen && !started) { started = true; typeOne(0); } }, { threshold: .3 });
-      io.observe(yr);
-    }
+    requestAnimationFrame(tick);
+    /* 7:00 am: the clock turns over, the messages fold away and the card arrives */
+    at(3000, () => stage.classList.add('is-dawn'));
+    at(3250, () => notes.slice().reverse().forEach((n, k) => {
+      const from = getComputedStyle(n).transform;
+      n.animate([{ transform: from === 'none' ? 'none' : from, opacity: +getComputedStyle(n).opacity }, { transform: `translateY(${pitch()}px) scale(.88)`, opacity: 0 }], { duration: 460, delay: k * 40, easing: inOut, fill: 'forwards' });
+    }));
+    at(3800, () => stage.classList.add('is-morning'));
+    /* a tap on the phone skips straight to the morning */
+    stage.addEventListener('pointerdown', () => { timers.forEach(clearTimeout); stage.classList.add('is-dawn', 'is-morning'); }, { once: true });
   }
 
-  /* The strip of screens rests while it is off screen */
-  const reel = $('.hj-reel');
-  if (reel && window.IntersectionObserver) new IntersectionObserver(([en]) => reel.classList.toggle('is-off', !en.isIntersecting)).observe(reel);
+  /* ---------- How it works: on laptops the steps light up one by one as you read down ---------- */
+  const stepList = $('.hx-steps');
+  if (stepList && window.IntersectionObserver && matchMedia('(min-width: 900px)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    stepList.classList.add('is-scroll');
+    const so = new IntersectionObserver((ens) => ens.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-lit'); so.unobserve(en.target); } }), { rootMargin: '0px 0px -38% 0px' });
+    $$('.hx-step', stepList).forEach((li) => so.observe(li));
+  }
 
   setCur(cur, false);
 
@@ -436,37 +199,14 @@
     const show = () => mbar.classList.toggle('is-on', pastHero && !atForm);
     new IntersectionObserver(([en]) => { pastHero = !en.isIntersecting; show(); }, { rootMargin: '-40% 0px 0px 0px' }).observe(hero);
     /* from the form down to the footer, the bar stays out of the way */
-    /* from the form down to the footer, the bar stays out of the way */
     if (contactSec) { const check = () => { const at = contactSec.getBoundingClientRect().top < innerHeight * 0.85; if (at !== atForm) { atForm = at; show(); } }; addEventListener('scroll', () => requestAnimationFrame(check), { passive: true }); check(); }
   }
   /* The cursor ring steps aside over form fields */
   const ring = $('.ring');
   if (ring) $$('input, textarea, select').forEach((f) => { f.addEventListener('mouseenter', () => ring.classList.add('is-hidden')); f.addEventListener('mouseleave', () => ring.classList.remove('is-hidden')); });
-  /* The build film plays once, muted, when it comes into view. With reduced motion it waits for a tap */
-  const film = $('.hj-film video');
-  if (film) {
-    film.poster = matchMedia('(max-width: 899px)').matches ? 'assets/video/process-square-end.webp' : 'assets/video/process-wide-end.webp';
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !window.IntersectionObserver) { /* waits for a tap */ }
-    else {
-      const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) film.play().then(() => io.disconnect()).catch(() => {}); }, { threshold: 0.5 });
-      io.observe(film);
-    }
-  }
   /* ---------- Motion pass: one job each ---------- */
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  /* How it works: as the film plays, the step it is showing lights up. Scene starts in seconds: Day 1 at 5s, Day 3 at 20s, Day 7 at 29s */
-  const filmV = $('.hj-film video'), steps = $$('.hj-three-steps li');
-  if (filmV && steps.length === 3) {
-    const at = (s) => (s >= 29 ? 2 : s >= 20 ? 1 : s >= 5 ? 0 : -1);
-    const light = () => {
-      const k = filmV.paused || filmV.ended ? -1 : at(filmV.currentTime);
-      $('.hj-three-steps').classList.toggle('is-playing', k >= 0);
-      steps.forEach((li, n) => li.classList.toggle('is-now', n === k));
-    };
-    ['timeupdate', 'play', 'pause', 'ended', 'seeked'].forEach((ev) => filmV.addEventListener(ev, light));
-  }
 
   /* Work: on a laptop the long screenshot pans down the page on hover. The distance is the image's height less the frame's */
   const travel = () => $$('.hj-shots').forEach((s) => { const im = $('img.long', s); if (im && im.offsetHeight) s.style.setProperty('--travel', Math.min(0, s.clientHeight - im.offsetHeight) + 'px'); });
@@ -479,67 +219,10 @@
   }));
 
   /* Between sections: a thin line of light draws across as each section arrives */
-  const seams = $$('main > section:not(.hero)');
+  const seams = $$('main > section:not(.hero):not(.hx-hero)');
   if (window.IntersectionObserver && !calm) {
     seams.forEach((s) => s.classList.add('has-seam'));
     const so = new IntersectionObserver((ens) => ens.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('seam-on'); so.unobserve(en.target); } }), { rootMargin: '0px 0px -30% 0px' });
     seams.forEach((s) => so.observe(s));
   } else seams.forEach((s) => s.classList.add('has-seam', 'seam-on'));
-  /* ---------- Orders demo ---------- */
-  const od = $('.od'), odDone = $('.od-done');
-  if (od && odDone) {
-    const rows = $$('.od-row', od), sum = $('.od-sum', od), go = $('.od-go', od);
-    const fmt = (n) => '£' + n.toFixed(2);
-    const total = () => {
-      let s = 0, items = 0;
-      rows.forEach((r) => { const q = +$('output', r).value; s += q * +r.dataset.price; items += q; });
-      sum.textContent = fmt(s); go.disabled = !items;
-      go.textContent = items ? 'Send order on WhatsApp, ' + fmt(s) : 'Add something to order';
-    };
-    rows.forEach((r) => {
-      const out = $('output', r);
-      $('.od-plus', r).addEventListener('click', () => { out.value = Math.min(9, +out.value + 1); total(); });
-      $('.od-minus', r).addEventListener('click', () => { out.value = Math.max(0, +out.value - 1); total(); });
-    });
-    $$('.od-times .chip', od).forEach((c) => c.addEventListener('click', () => $$('.od-times .chip', od).forEach((x) => x.classList.toggle('is-on', x === c))));
-    go.addEventListener('click', () => {
-      const pnl = od.closest('.hj-panel'); if (pnl) pnl.style.minHeight = pnl.offsetHeight + 'px';
-      const list = rows.filter((r) => +$('output', r).value).map((r) => $('output', r).value + ' × ' + r.firstElementChild.textContent);
-      $('.od-summary', odDone).textContent = list.join(', ') + '. Collect on Saturday at ' + $('.od-times .is-on', od).textContent + '. ' + sum.textContent + '.';
-      od.hidden = true; odDone.hidden = false; $('.od-again', odDone).focus({ preventScroll: true });
-    });
-    $('.od-again', odDone).addEventListener('click', () => { rows.forEach((r) => { $('output', r).value = 0; }); total(); odDone.hidden = true; od.hidden = false; });
-    total();
-  }
-  /* Quotes demo: a job that needs seeing first */
-  const qv = $('.qt-visit');
-  if (qv) qv.addEventListener('click', () => { const p = $('.qt-visited'); if (p) p.hidden = false; qv.hidden = true; });
-  /* ---------- Pick your business: tabs with a live panel ---------- */
-  const bizPick = $('.hj-pick');
-  if (bizPick) {
-    const ptabs = $$('[role="tab"]', bizPick), ppanels = $$('.pk-panel', bizPick);
-    bizPick.classList.add('is-js');
-    const show = (n, focus) => {
-      ptabs.forEach((b, k) => { b.setAttribute('aria-selected', k === n ? 'true' : 'false'); b.tabIndex = k === n ? 0 : -1; });
-      ppanels.forEach((p, k) => { p.classList.toggle('is-on', k === n); p.classList.remove('is-play'); });
-      requestAnimationFrame(() => requestAnimationFrame(() => ppanels[n].classList.add('is-play')));
-      if (focus) ptabs[n].focus();
-      const tb = ptabs[n], row = tb.parentElement;
-      if (row.scrollWidth > row.clientWidth) row.scrollTo({ left: tb.offsetLeft - (row.clientWidth - tb.offsetWidth) / 2, behavior: 'smooth' });
-    };
-    ptabs.forEach((b, n) => {
-      b.addEventListener('click', () => show(n, false));
-      b.addEventListener('keydown', (e) => {
-        const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-        if (k) { e.preventDefault(); show((n + k + ptabs.length) % ptabs.length, true); }
-        if (e.key === 'Home') { e.preventDefault(); show(0, true); }
-        if (e.key === 'End') { e.preventDefault(); show(ptabs.length - 1, true); }
-      });
-    });
-    /* the first preview plays when the section comes into view */
-    if (window.IntersectionObserver) {
-      const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { ppanels.forEach((p) => p.classList.contains('is-on') && p.classList.add('is-play')); io.disconnect(); } }, { threshold: 0.3 });
-      io.observe(bizPick);
-    } else ppanels[0].classList.add('is-play');
-  }
 })();

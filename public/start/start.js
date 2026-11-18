@@ -175,7 +175,7 @@
     /* One sentence that says what they're getting */
     const sum = $('.r-summary');
     if (p === 'signature') { sum.textContent = 'Your own app, made around how you work, with a website to match.'; $('.r-what').textContent = 'An app made for your business'; }
-    else if (p === 'royal-green') { sum.textContent = 'Your website, plus ' + NUM[t.length] + ', all in one place: ' + joinAnd(names) + '. That’s Website Plus, the one I’d pick for most businesses.'; $('.r-what').textContent = 'Your website, and up to three jobs done for you'; }
+    else if (p === 'royal-green') { sum.textContent = 'Your website, plus ' + NUM[t.length] + ', all in one place: ' + joinAnd(names) + '. That’s the Night Shift, the one I’d pick for most businesses.'; $('.r-what').textContent = 'Your website, and up to three jobs done for you'; }
     else if (p === 'fix') { sum.textContent = 'You keep the website you have, and I add ' + names[0] + ' to it, working within 7 days. That’s the one-week fix.'; $('.r-what').textContent = 'One job done for you, added to your website'; }
     else if (t.length) { sum.textContent = 'Your website, plus ' + names[0] + '. The simplest way to stop doing this by hand.'; $('.r-what').textContent = 'Your website, and one job done for you'; }
     else { sum.textContent = 'A website that wins you customers, ready to take on a job for you whenever you want.'; $('.r-what').textContent = 'Your website'; }
@@ -188,8 +188,8 @@
       const r = reasons[k] && reasons[k].length ? 'You said: ' + reasons[k].slice(0, 2).map((x) => '“' + x + '”').join(' and ') : 'You added this';
       ol.appendChild(item(n++, TOOLS[k][0], TOOLS[k][1], r));
     });
-    if (p === 'fix') ol.appendChild(item(n++, 'Fitted to the website you have', 'It works inside your current website, so nothing else has to change. Want a new website as well? Add a second job under “Change the tools” and it becomes Website Plus.', null));
-    if (p === 'royal-green' && !t.includes('dashboard')) ol.appendChild(item(n++, 'Your numbers on your phone', 'Bookings, sales and reviews on your phone as they happen. Included in Website Plus.', null));
+    if (p === 'fix') ol.appendChild(item(n++, 'Fitted to the website you have', 'It works inside your current website, so nothing else has to change. Want a new website as well? Add a second job under “Change the tools” and it becomes the Night Shift.', null));
+    if (p === 'royal-green' && !t.includes('dashboard')) ol.appendChild(item(n++, 'Your numbers on your phone', 'Bookings, sales and reviews on your phone as they happen. Included in the Night Shift.', null));
 
     /* What else they asked for that the three tools don't cover */
     const covered = new Set(t), later = [];

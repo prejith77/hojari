@@ -1,7 +1,7 @@
 {
  "name": "Hojari",
  "short_name": "Hojari",
- "description": "Websites and apps that work while you don’t.",
+ "description": "Websites and apps that answer, book and quote for your customers, day and night.",
  "start_url": "/",
  "display": "standalone",
  "background_color": "#120D09",
