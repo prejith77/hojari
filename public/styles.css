@@ -2471,3 +2471,12 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .hj-foundline b { color: var(--honey, #e3ad5c); font-weight: 600; }
 /* less empty space between sections on laptops */
 @media (min-width: 900px) { .hj-three, .hj-demos, .hj-pricing, .hj-about, .hj-faq { padding-top: 84px; padding-bottom: 84px; } .hj-work.is-light { padding-top: 96px; padding-bottom: 96px; } .contact { padding-top: 88px; } }
+
+/* ===== Hero promises: more room above and between the four columns: 18 Nov ===== */
+@media (min-width: 900px) {
+  .promises { margin-top: 24px; max-width: 880px; }
+  .promises { grid-template-columns: .8fr 1.2fr 1fr 1fr; }
+  .promises li { padding: 0 24px; }
+  .promises b { white-space: nowrap; }
+}
+@media (max-width: 899px) { .promises { margin-top: 16px; } }

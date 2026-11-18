@@ -191,3 +191,11 @@
 .gh-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 8px; }
 .gh-foot span { color: var(--muted); font-size: 14px; }
 @media (max-width: 619px) { .gh { border-radius: 22px; } .gh-foot .button { width: 100%; justify-content: center; } }
+
+/* Plan cards: buttons line up along the bottom; even gaps under the cards: 18 Nov */
+.pg-plan { display: flex; flex-direction: column; align-items: flex-start; }
+.pg-plan .button { margin-top: auto; }
+.pg-plan > p:nth-last-of-type(1) { margin-bottom: 14px; }
+.pg-price + .pg-payback { margin-top: 40px; }
+.pg-payback + .pg-found { margin-top: 28px; }
+.pg-found + .pg-note, .pg-payback + .pg-note { margin-top: 24px; }
