@@ -2434,3 +2434,4 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .hj-plan .hj-yr { margin-top: 2px; color: var(--muted); font-size: 14px; line-height: 1.45; }
 .hj-plan .hj-found b { color: var(--honey, #e3ad5c); font-weight: 600; font-size: inherit; }
 .hj-plan .hj-yr b { color: var(--paper); font-weight: 500; font-size: inherit; }
+@media (max-width: 699px) { .hj-more-prices .button { white-space: normal; text-align: center; height: auto; min-height: 52px; padding-top: 12px; padding-bottom: 12px; line-height: 1.35; max-width: 100%; } }
