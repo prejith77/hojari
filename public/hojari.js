@@ -385,21 +385,31 @@
       $$('.yr-pbody', yr).forEach((el) => { el.hidden = el.dataset.job !== job; });
       go.href = 'start/' + (name.trim() ? '?name=' + encodeURIComponent(name.trim()) : '');
     };
-    const pick = (j) => { job = j; $$('.yr-jobs button', yr).forEach((b) => b.setAttribute('aria-checked', String(b.dataset.job === j))); paint(inp.value || shown); };
-    $$('.yr-jobs button', yr).forEach((b) => b.addEventListener('click', () => { stop(); pick(b.dataset.job); }));
+    const stage = $('.yr-stage', yr);
+    const pick = (j) => {
+      const changed = j !== job; job = j;
+      $$('.yr-jobs button', yr).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.job === j)));
+      stage.dataset.job = j;
+      paint(inp.value || shown);
+      if (changed) { stage.classList.remove('is-swap'); void stage.offsetWidth; stage.classList.add('is-swap'); }
+    };
+    $$('.yr-jobs button', yr).forEach((b) => b.addEventListener('click', () => { stop(true); pick(b.dataset.job); }));
     /* Until someone types, it shows a few kinds of business, typed out one letter at a time */
     const demo = [['Rafi’s Barbers', 'book'], ['Coastline Plumbing', 'quote'], ['Little Oak Café', 'order'], ['Studio Mira Yoga', 'book'], ['Bloom & Stem Flowers', 'order']];
     let shown = '', timer = 0, live = true;
-    const stop = () => { if (!live) return; live = false; clearTimeout(timer); if (!inp.value) { shown = ''; paint(''); } };
+    const stop = (keep) => { if (!live) return; live = false; clearTimeout(timer); inp.placeholder = 'Your business name'; if (!inp.value) { if (!keep) shown = ''; paint(shown); } };
+    let seen = false;
     const typeOne = (k) => {
       if (!live) return;
-      const [name, j] = demo[k % demo.length]; pick(j);
+      const [name, j] = demo[k]; pick(j);
       let i = 0;
       const tick = () => {
         if (!live) return;
+        if (!seen) { timer = setTimeout(tick, 400); return; }
         i++; shown = name.slice(0, i); inp.placeholder = shown; paint(shown);
         if (i < name.length) timer = setTimeout(tick, 70 + Math.random() * 60);
-        else timer = setTimeout(() => typeOne(k + 1), 2200);
+        else if (k + 1 < demo.length) timer = setTimeout(() => typeOne(k + 1), 2000);
+        else live = false;
       };
       tick();
     };
@@ -407,10 +417,15 @@
     inp.addEventListener('input', () => { stop(); paint(inp.value); });
     paint('');
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches && window.IntersectionObserver) {
-      const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { io.disconnect(); typeOne(0); } }, { threshold: .4 });
+      let started = false;
+      const io = new IntersectionObserver(([en]) => { seen = en.isIntersecting; if (seen && !started) { started = true; typeOne(0); } }, { threshold: .3 });
       io.observe(yr);
     }
   }
+
+  /* The strip of screens rests while it is off screen */
+  const reel = $('.hj-reel');
+  if (reel && window.IntersectionObserver) new IntersectionObserver(([en]) => reel.classList.toggle('is-off', !en.isIntersecting)).observe(reel);
 
   setCur(cur, false);
 
@@ -453,17 +468,10 @@
     ['timeupdate', 'play', 'pause', 'ended', 'seeked'].forEach((ev) => filmV.addEventListener(ev, light));
   }
 
-  /* Work: on a laptop the project cards lean a few degrees towards the cursor */
-  if (finePointer && !calm) $$('.hj-case').forEach((c) => {
-    const shots = $('.hj-shots', c); if (!shots) return;
-    let raf = 0;
-    c.addEventListener('pointermove', (e) => {
-      const r = shots.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => { shots.style.transform = `perspective(1100px) rotateY(${(x * 5).toFixed(2)}deg) rotateX(${(-y * 4).toFixed(2)}deg)`; shots.style.setProperty('--px', (x * 10).toFixed(1) + 'px'); shots.style.setProperty('--py', (y * 8).toFixed(1) + 'px'); });
-    });
-    c.addEventListener('pointerleave', () => { cancelAnimationFrame(raf); shots.style.transform = ''; shots.style.setProperty('--px', '0px'); shots.style.setProperty('--py', '0px'); });
-  });
+  /* Work: on a laptop the long screenshot pans down the page on hover. The distance is the image's height less the frame's */
+  const travel = () => $$('.hj-shots').forEach((s) => { const im = $('img.long', s); if (im && im.offsetHeight) s.style.setProperty('--travel', Math.min(0, s.clientHeight - im.offsetHeight) + 'px'); });
+  $$('.hj-shots img.long').forEach((im) => { if (im.complete) travel(); else im.addEventListener('load', travel); });
+  addEventListener('resize', travel, { passive: true });
 
   /* Prices: a soft light follows the cursor across the plan cards */
   if (finePointer) $$('.hj-plan').forEach((p) => p.addEventListener('pointermove', (e) => {

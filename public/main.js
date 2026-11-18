@@ -470,7 +470,7 @@
   /* Laptop: a soft ring trails the mouse and opens over anything clickable */
   const ring = $('.ring');
   if (ring && motion && desktop) {
-    const rx = gsap.quickTo(ring, 'x', { duration: 0.35, ease: 'power3.out' }), ry = gsap.quickTo(ring, 'y', { duration: 0.35, ease: 'power3.out' });
+    const rx = gsap.quickTo(ring, 'x', { duration: 0.15, ease: 'power3.out' }), ry = gsap.quickTo(ring, 'y', { duration: 0.15, ease: 'power3.out' });
     addEventListener('pointermove', (e) => {
       if (e.pointerType !== 'mouse') return;
       ring.classList.add('is-on'); rx(e.clientX); ry(e.clientY);

@@ -205,3 +205,30 @@
 .pg-film video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 22px; border: 1px solid var(--line); background: #000; }
 @media (max-width: 899px) { .pg-film video { aspect-ratio: 1; } }
 .pg-film figcaption { margin-top: 12px; color: var(--muted); font-size: var(--step-small); }
+
+/* ===== One spacing scale for the whole site: 18 Nov ===== */
+:root {
+  --space-section: clamp(72px, 3.5rem + 4vw, 112px);
+  --space-head: clamp(32px, 1.5rem + 2.2vw, 56px);
+  --space-title: clamp(16px, .75rem + 1vw, 24px);
+  --space-block: clamp(24px, 1rem + 1.5vw, 40px);
+  --space-stack: 12px;
+  --card-pad: clamp(20px, 1rem + 1vw, 28px);
+  --card-gap: 16px;
+  --overlap: 44px;
+  --amber-ink: #9a5418;
+}
+@media (max-width: 899px) { :root { --margin: 20px; --overlap: 30px; } }
+
+/* Inner pages: the same scale as the homepage */
+.pg-sec { padding-top: var(--space-section); }
+.pg-end { margin-top: var(--space-section); }
+.pg-sec > .pg-sub { margin-top: var(--space-title); }
+.pg-intro { gap: var(--space-title); }
+.pg-list, .pg-steps, .pg-price, .pg-qs, .pg-guides, .pg-links { margin-top: var(--space-head); }
+.pg-price, .pg-guides, .pg-links { gap: var(--card-gap); }
+.pg-plan { padding: var(--card-pad); gap: var(--space-stack); }
+.pg-prose p, .pg-payback, .pg-found { max-width: 66ch; }
+.pg-end .pg-link::after { color: var(--amber-ink); }
+/* The logo and the footer line up with the content column on wide screens */
+@media (min-width: 900px) { .top, .foot { padding-left: max(var(--margin), calc((100% - 1240px) / 2 + var(--margin))); padding-right: max(var(--margin), calc((100% - 1240px) / 2 + var(--margin))); } }
