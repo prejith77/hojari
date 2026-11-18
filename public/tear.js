@@ -91,6 +91,23 @@ function run(canvas) {
     if (p.y > tip.y) tip.copy(p);
   }
   geo.computeVertexNormals();
+  /* The sphere has a seam (and poles) where vertices are duplicated. Average the normals of vertices that
+     share a position, otherwise a bright line flashes along the seam as the tear turns. */
+  {
+    const N = geo.attributes.normal, groups = new Map();
+    for (let i = 0; i < P.count; i++) {
+      const k = Math.round(P.getX(i) * 1e4) + ',' + Math.round(P.getY(i) * 1e4) + ',' + Math.round(P.getZ(i) * 1e4);
+      let g = groups.get(k); if (!g) groups.set(k, (g = []));
+      g.push(i);
+    }
+    for (const g of groups.values()) {
+      if (g.length < 2) continue;
+      let x = 0, y = 0, z = 0, b = 0;
+      for (const i of g) { x += N.getX(i); y += N.getY(i); z += N.getZ(i); b += bloom[i]; }
+      const l = Math.hypot(x, y, z) || 1;
+      for (const i of g) { N.setXYZ(i, x / l, y / l, z / l); bloom[i] = b / g.length; }
+    }
+  }
   geo.setAttribute('aBloom', new THREE.BufferAttribute(bloom, 1));
 
   const NOISE_GLSL = `

@@ -140,7 +140,7 @@
 
   /* ---------- Homepage hero: a night of messages, then one calm morning ----------
      Without JavaScript, or with reduced motion, the phone simply shows 7:00 am and the Night Shift card.
-     With motion it plays once, in about five seconds: at 11:47 pm messages pile up and the badge counts to 37,
+     With motion it plays once, in about nine seconds, slow enough to read each message: at 11:47 pm messages pile up and the badge counts to 37,
      then the clock turns to 7:00 am and they fold into one card. Only transform and opacity move. */
   const stage = $('.hx-stage');
   if (stage && stage.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -154,14 +154,14 @@
     };
     stage.classList.add('is-night');
     countEl.textContent = '0';
-    const T = [300, 720, 1080, 1380, 1640, 1860, 2060];
+    const T = [600, 1500, 2300, 3000, 3600, 4150, 4650];
     const timers = [];
     const at = (ms, fn) => timers.push(setTimeout(fn, ms));
     const play = () => {
       stage.classList.add('is-play');
       notes.forEach((n, i) => at(T[i], () => {
-        n.animate([{ transform: 'translateY(-16px) scale(.96)', opacity: 0 }, { transform: 'translateY(0) scale(1)', opacity: 1 }], { duration: 380, easing: out, fill: 'forwards' });
-        for (let k = 0; k < i; k++) notes[k].animate([slotOf(i - k)], { duration: 380, easing: out, fill: 'forwards' });
+        n.animate([{ transform: 'translateY(-16px) scale(.96)', opacity: 0 }, { transform: 'translateY(0) scale(1)', opacity: 1 }], { duration: 650, easing: out, fill: 'forwards' });
+        for (let k = 0; k < i; k++) notes[k].animate([slotOf(i - k)], { duration: 650, easing: out, fill: 'forwards' });
         /* every other arrival, the phone gives a small buzz */
         if (i % 2 === 0) phone.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-3px)' }, { transform: 'translateX(3px)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(0)' }], { duration: 220, easing: 'linear' });
       }));
@@ -174,12 +174,12 @@
       };
       requestAnimationFrame(tick);
       /* 7:00 am: the clock turns over, the messages fold away and the card arrives */
-      at(3000, () => stage.classList.add('is-dawn'));
-      at(3250, () => notes.slice().reverse().forEach((n, k) => {
+      at(6900, () => stage.classList.add('is-dawn'));
+      at(7300, () => notes.slice().reverse().forEach((n, k) => {
         const from = getComputedStyle(n).transform;
-        n.animate([{ transform: from === 'none' ? 'none' : from, opacity: +getComputedStyle(n).opacity }, { transform: `translateY(${pitch()}px) scale(.88)`, opacity: 0 }], { duration: 460, delay: k * 40, easing: inOut, fill: 'forwards' });
+        n.animate([{ transform: from === 'none' ? 'none' : from, opacity: +getComputedStyle(n).opacity }, { transform: `translateY(${pitch()}px) scale(.88)`, opacity: 0 }], { duration: 750, delay: k * 70, easing: inOut, fill: 'forwards' });
       }));
-      at(3800, () => stage.classList.add('is-morning'));
+      at(8300, () => stage.classList.add('is-morning'));
     };
     /* laptops: the phone sits beside the headline, so it plays straight away; phones: it waits until the phone is in view */
     if (matchMedia('(min-width: 900px)').matches || !window.IntersectionObserver) play();
