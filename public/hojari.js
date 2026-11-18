@@ -76,10 +76,7 @@
   }
   /* Links elsewhere on the page that open a particular demo */
   $$('[data-demo]').forEach((a) => a.addEventListener('click', () => { const t = $('#' + a.dataset.demo); if (t) pick(t); }));
-  /* On phones each plan's list folds behind "What's included", so the three prices fit on fewer screens */
-  const mqP = matchMedia('(max-width: 899px)');
-  const foldPlans = () => $$('.plan-incl').forEach((d) => { d.open = !mqP.matches; });
-  foldPlans(); if (mqP.addEventListener) mqP.addEventListener('change', foldPlans); else mqP.addListener(foldPlans);
+  /* Each plan's list stays folded behind "What's included" on every screen, so the three prices read at a glance */
   /* On phones the calculator's app list starts folded, with the total and the time sliders in view */
   const ctMore = $('.ct-more');
   if (ctMore && matchMedia('(max-width: 899px)').matches) ctMore.open = false;
@@ -389,7 +386,7 @@
   /* The build film plays once, muted, when it comes into view. With reduced motion it waits for a tap */
   const film = $('.hj-film video');
   if (film) {
-    film.poster = matchMedia('(max-width: 899px)').matches ? 'assets/video/process-square.webp' : 'assets/video/process-wide.webp';
+    film.poster = matchMedia('(max-width: 899px)').matches ? 'assets/video/process-square-end.webp' : 'assets/video/process-wide-end.webp';
     if (matchMedia('(prefers-reduced-motion: reduce)').matches || !window.IntersectionObserver) { /* waits for a tap */ }
     else {
       const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) film.play().then(() => io.disconnect()).catch(() => {}); }, { threshold: 0.5 });
