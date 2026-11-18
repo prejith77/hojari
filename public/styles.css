@@ -2814,3 +2814,4 @@ main > section.hx-hero.has-seam::before { display: none; }
 .hx-compare a { color: var(--paper); }
 .hx-bargain { display: flex; flex-wrap: wrap; gap: 10px; margin-top: var(--space-block); }
 .hx-bargain span { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(227, 173, 92, .45); color: var(--paper); font-size: 14.5px; }
+@media (max-width: 599px) { .hx-hero .hx-actions { grid-template-columns: minmax(0, 1fr); gap: 10px; } .hx-hero .hx-actions .button { width: 100%; justify-content: center; } }
