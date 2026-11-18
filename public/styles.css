@@ -2803,3 +2803,4 @@ main > section.hx-hero.has-seam::before { display: none; }
 .hj-plan .hx-what { margin-top: -4px; color: var(--muted); font-size: var(--step-small); line-height: 1.5; }
 .hx-plans .hj-plan.is-pick h3 { font-family: var(--serif); font-weight: 400; font-size: 1.625rem; line-height: 1.1; letter-spacing: -0.01em; }
 .hx-plans .hj-plan.is-pick h3 em { font-style: italic; color: var(--honey); }
+.hx-stage.is-night:not(.is-play) .hx-badge { opacity: 0; }

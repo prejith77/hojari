@@ -157,27 +157,33 @@
     const T = [300, 720, 1080, 1380, 1640, 1860, 2060];
     const timers = [];
     const at = (ms, fn) => timers.push(setTimeout(fn, ms));
-    notes.forEach((n, i) => at(T[i], () => {
-      n.animate([{ transform: 'translateY(-16px) scale(.96)', opacity: 0 }, { transform: 'translateY(0) scale(1)', opacity: 1 }], { duration: 380, easing: out, fill: 'forwards' });
-      for (let k = 0; k < i; k++) notes[k].animate([slotOf(i - k)], { duration: 380, easing: out, fill: 'forwards' });
-      /* every other arrival, the phone gives a small buzz */
-      if (i % 2 === 0) phone.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-3px)' }, { transform: 'translateX(3px)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(0)' }], { duration: 220, easing: 'linear' });
-    }));
-    /* the badge climbs to 37 while the messages land */
-    const c0 = performance.now() + T[0], cDur = T[T.length - 1] + 500 - T[0];
-    const tick = (now) => {
-      const p = Math.min(1, Math.max(0, (now - c0) / cDur));
-      countEl.textContent = String(Math.round(37 * (1 - Math.pow(1 - p, 2))));
-      if (p < 1 && !stage.classList.contains('is-dawn')) requestAnimationFrame(tick); else countEl.textContent = '37';
+    const play = () => {
+      stage.classList.add('is-play');
+      notes.forEach((n, i) => at(T[i], () => {
+        n.animate([{ transform: 'translateY(-16px) scale(.96)', opacity: 0 }, { transform: 'translateY(0) scale(1)', opacity: 1 }], { duration: 380, easing: out, fill: 'forwards' });
+        for (let k = 0; k < i; k++) notes[k].animate([slotOf(i - k)], { duration: 380, easing: out, fill: 'forwards' });
+        /* every other arrival, the phone gives a small buzz */
+        if (i % 2 === 0) phone.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-3px)' }, { transform: 'translateX(3px)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(0)' }], { duration: 220, easing: 'linear' });
+      }));
+      /* the badge climbs to 37 while the messages land */
+      const c0 = performance.now() + T[0], cDur = T[T.length - 1] + 500 - T[0];
+      const tick = (now) => {
+        const p = Math.min(1, Math.max(0, (now - c0) / cDur));
+        countEl.textContent = String(Math.round(37 * (1 - Math.pow(1 - p, 2))));
+        if (p < 1 && !stage.classList.contains('is-dawn')) requestAnimationFrame(tick); else countEl.textContent = '37';
+      };
+      requestAnimationFrame(tick);
+      /* 7:00 am: the clock turns over, the messages fold away and the card arrives */
+      at(3000, () => stage.classList.add('is-dawn'));
+      at(3250, () => notes.slice().reverse().forEach((n, k) => {
+        const from = getComputedStyle(n).transform;
+        n.animate([{ transform: from === 'none' ? 'none' : from, opacity: +getComputedStyle(n).opacity }, { transform: `translateY(${pitch()}px) scale(.88)`, opacity: 0 }], { duration: 460, delay: k * 40, easing: inOut, fill: 'forwards' });
+      }));
+      at(3800, () => stage.classList.add('is-morning'));
     };
-    requestAnimationFrame(tick);
-    /* 7:00 am: the clock turns over, the messages fold away and the card arrives */
-    at(3000, () => stage.classList.add('is-dawn'));
-    at(3250, () => notes.slice().reverse().forEach((n, k) => {
-      const from = getComputedStyle(n).transform;
-      n.animate([{ transform: from === 'none' ? 'none' : from, opacity: +getComputedStyle(n).opacity }, { transform: `translateY(${pitch()}px) scale(.88)`, opacity: 0 }], { duration: 460, delay: k * 40, easing: inOut, fill: 'forwards' });
-    }));
-    at(3800, () => stage.classList.add('is-morning'));
+    /* laptops: the phone sits beside the headline, so it plays straight away; phones: it waits until the phone is in view */
+    if (matchMedia('(min-width: 900px)').matches || !window.IntersectionObserver) play();
+    else { const po = new IntersectionObserver(([en]) => { if (en.isIntersecting) { po.disconnect(); play(); } }, { threshold: 0.45 }); po.observe(stage); }
     /* a tap on the phone skips straight to the morning */
     stage.addEventListener('pointerdown', () => { timers.forEach(clearTimeout); stage.classList.add('is-dawn', 'is-morning'); }, { once: true });
   }

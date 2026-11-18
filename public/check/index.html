@@ -43,10 +43,10 @@
   <div class="ck-grid">
     <div class="ck-in">
       <form class="ck-form" id="ck-form" novalidate>
-        <label class="field"><span>Messages a day, counting every channel</span><input id="ck-day" name="day" type="number" inputmode="numeric" min="1" max="2000" step="1" placeholder="For example, 25" required aria-describedby="ck-err"></label>
-        <label class="field"><span>Share that arrive after 9pm or before 8am (%)</span><input id="ck-late" name="late" type="number" inputmode="numeric" min="0" max="100" step="1" placeholder="For example, 30" required aria-describedby="ck-err"></label>
-        <label class="field"><span>Typical wait for your reply during the day (minutes)</span><input id="ck-wait" name="wait" type="number" inputmode="numeric" min="0" max="10080" step="1" placeholder="For example, 45" required aria-describedby="ck-err"></label>
-        <label class="field"><span>Minutes you spend on each reply</span><input id="ck-per" name="per" type="number" inputmode="decimal" min="0.25" max="60" step="0.25" value="1" required aria-describedby="ck-err"></label>
+        <label class="field"><span>Messages a day, counting every channel</span><input id="ck-day" name="day" type="number" inputmode="numeric" min="1" max="2000" step="1" placeholder="For example, 25…" autocomplete="off" required aria-describedby="ck-err"></label>
+        <label class="field"><span>Share that arrive after 9pm or before 8am (%)</span><input id="ck-late" name="late" type="number" inputmode="numeric" min="0" max="100" step="1" placeholder="For example, 30…" autocomplete="off" required aria-describedby="ck-err"></label>
+        <label class="field"><span>Typical wait for your reply during the day (minutes)</span><input id="ck-wait" name="wait" type="number" inputmode="numeric" min="0" max="10080" step="1" placeholder="For example, 45…" autocomplete="off" required aria-describedby="ck-err"></label>
+        <label class="field"><span>Minutes you spend on each reply</span><input id="ck-per" name="per" type="number" inputmode="decimal" min="0.25" max="60" step="0.25" value="1" autocomplete="off" required aria-describedby="ck-err"></label>
         <p class="ck-err" id="ck-err" aria-live="polite"></p>
         <button class="button button-light arrow" type="submit" data-tool="button">Find out in 30 seconds</button>
       </form>
