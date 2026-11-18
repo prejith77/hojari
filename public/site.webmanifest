@@ -1,24 +1,24 @@
 {
  "name": "Hojari",
  "short_name": "Hojari",
- "description": "Websites and apps that answer, book and quote for your customers, day and night.",
+ "description": "Wake up to bookings, not messages. Websites and apps that answer, book and quote for your customers, day and night.",
  "start_url": "/",
  "display": "standalone",
  "background_color": "#120D09",
  "theme_color": "#120D09",
  "icons": [
   {
-   "src": "icon-192.png",
+   "src": "icon-192.png?v=5",
    "sizes": "192x192",
    "type": "image/png"
   },
   {
-   "src": "icon-512.png",
+   "src": "icon-512.png?v=5",
    "sizes": "512x512",
    "type": "image/png"
   },
   {
-   "src": "icon-512.png",
+   "src": "icon-512.png?v=5",
    "sizes": "512x512",
    "type": "image/png",
    "purpose": "maskable"
