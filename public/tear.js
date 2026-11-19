@@ -278,13 +278,13 @@ function run(canvas) {
       const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(col).multiplyScalar(k), side: THREE.DoubleSide }));
       m.position.set(...pos); m.lookAt(0, 0, 0); env.add(m);
     };
-    box(6, 4, '#fff1dc', 5.0, [-6, 5, 6]);
-    box(2, 9, '#ffd8a0', 4.0, [-8, 1, -5]);
-    box(2, 9, '#f2c27c', 3.2, [8, 1, -4]);
+    box(8, 6, '#fff1dc', 2.8, [-6, 5, 6]);
+    box(7, 9, '#ffd8a0', 1.25, [-8, 1, -5]);   /* wide and soft: a narrow strip reflected as a thin white line on the turning resin */
+    box(7, 9, '#f2c27c', 1.0, [8, 1, -4]);
     box(10, 3, '#e3ad5c', 1.2, [0, 6.8, 0]);
     box(12, 4, '#3a2412', 1.0, [0, -6.5, 2]);
     const pm = new THREE.PMREMGenerator(renderer);
-    const rt = pm.fromScene(env, 0.035);
+    const rt = pm.fromScene(env, 0.09);
     pm.dispose();
     return rt.texture;
   }
