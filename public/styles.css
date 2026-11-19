@@ -3102,7 +3102,7 @@ html:not(.js) .hx-invite { display: none; }
   .hj-cases.hx-cases { position: relative; display: flex; gap: 14px; margin-inline: -20px; padding: 4px 20px 8px; overflow-x: auto; overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory; scroll-padding-inline: 20px; scrollbar-width: none; }
   .hj-cases.hx-cases::-webkit-scrollbar { display: none; }
-  .hx-cases > .hj-case { flex: 0 0 86%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
+  .hx-cases > .hj-case { flex: 0 0 86%; min-width: 0; align-content: start; scroll-snap-align: start; scroll-snap-stop: always; }
   .hx-cases .hj-shots { transform: scale(calc(1 - var(--d, 0) * .05)); transform-origin: 50% 70%; }
   .hj-pager { display: flex; justify-content: center; gap: .3em; margin: 18px auto 0; font: 500 14px/1 var(--sans); font-variant-numeric: tabular-nums; color: var(--ink-muted); }
   .hj-pager b { font-weight: 600; color: var(--ink); }
