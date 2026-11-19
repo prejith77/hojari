@@ -47,7 +47,7 @@
           if (/^\s+$/.test(b)) { frag.appendChild(document.createTextNode(b)); return; }
           const w = document.createElement('span');
           w.className = 'rv-w'; w.setAttribute('aria-hidden', 'true'); w.textContent = b;
-          w.style.setProperty('--rv-wd', Math.min(n++, 12) * 45 + 'ms');
+          w.style.setProperty('--rv-wd', Math.min(n++, 12) * 60 + 'ms');
           frag.appendChild(w);
         });
         t.replaceWith(frag);
@@ -76,10 +76,10 @@
       els.forEach((el, i) => {
         if (!waiting.delete(el)) return;
         io.unobserve(el);
-        const d = Math.min(i, 5) * 45;
+        const d = Math.min(i, 5) * 70;
         if (d) el.style.setProperty('--rv-d', d + 'ms');
         el.classList.add('rv-on');
-        setTimeout(() => settle(el), d + 1150 + Math.min(+(el.dataset.rvWords || 0), 12) * 45);
+        setTimeout(() => settle(el), d + 1150 + Math.min(+(el.dataset.rvWords || 0), 12) * 60);
       });
     };
     const io = new IntersectionObserver((entries) => {

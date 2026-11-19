@@ -10,8 +10,9 @@
   if (embedded) root.classList.add('embedded');
   const motion = hasGsap && !reduce && !embedded;
   const soft = !desktop; /* phones: no blur filters, they are costly to draw */
-  /* One way of moving for every reveal on the page: the same ease, about a second, a short rise, a small stagger */
-  const EASE = 'power3.out', DUR = 1, RISE = 20, STAG = 0.045;
+  /* One way of moving for every reveal on the page: the same ease, about a second, a short rise, a small stagger.
+     Blocks move without blur; only heading words sharpen, and only on laptops */
+  const EASE = 'power3.out', DUR = 1, STAG = 0.07;
   if (hasGsap) gsap.registerPlugin(ScrollTrigger);
   if (hasGsap && typeof SplitText !== 'undefined') gsap.registerPlugin(SplitText);
   const $ = (s, el = document) => el.querySelector(s);
@@ -106,45 +107,50 @@
           }
           const tl = gsap.timeline({ delay: 0.05, onComplete: () => settle([...lead, ...smoke]) });
           /* rise up: word by word */
-          tl.fromTo(lead, { y: RISE, opacity: 0, filter: soft ? 'none' : 'blur(6px)' },
-            { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: DUR, ease: EASE, stagger: STAG }, 0);
+          tl.fromTo(lead, { y: fs * 0.25, opacity: 0, filter: soft ? 'none' : 'blur(4px)' },
+            { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: 1.1, ease: EASE, stagger: 0.07 }, 0);
           /* smoke in: each letter drifts up out of a blur while the spacing draws in towards the middle */
           if (smoke.length) {
-            tl.fromTo(smoke, { opacity: 0 }, { opacity: 1, duration: DUR * 0.8, ease: EASE, stagger: 0.035 }, 0.26)
-              .fromTo(smoke, { y: Math.min(RISE, fs * 0.2), x: (i) => (i - mid) * fs * 0.05, scale: 1.06, filter: soft ? 'none' : 'blur(12px)' },
-                { y: 0, x: 0, scale: 1, filter: soft ? 'none' : 'blur(0px)', duration: DUR, ease: EASE, stagger: 0.035 }, 0.26);
+            tl.fromTo(smoke, { opacity: 0 }, { opacity: 1, duration: 0.9, ease: 'power2.out', stagger: 0.032 }, 0.26)
+              .fromTo(smoke, { y: fs * 0.2, x: (i) => (i - mid) * fs * 0.03, scale: 1.03, filter: soft ? 'none' : 'blur(6px)' },
+                { y: 0, x: 0, scale: 1, filter: soft ? 'none' : 'blur(0px)', duration: 1.1, ease: 'power2.out', stagger: 0.032 }, 0.26);
           }
           heroShown();
         } else if (el.getBoundingClientRect().top > innerHeight * 0.9) {
           /* blur in and rise up: word by word, the gold words included */
           const s = SplitText.create(el, { type: 'words', wordsClass: 'hw' });
           const fs = parseFloat(getComputedStyle(el).fontSize) || 40;
-          gsap.set(s.words, { y: RISE, opacity: 0, filter: soft ? 'none' : 'blur(6px)' });
-          whenSeen(el, () => gsap.to(s.words, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: DUR, ease: EASE, stagger: STAG, overwrite: true, onComplete: () => settle(s.words) }));
+          gsap.set(s.words, { y: fs * 0.25, opacity: 0, filter: soft ? 'none' : 'blur(4px)' });
+          whenSeen(el, () => gsap.to(s.words, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: DUR, ease: EASE, stagger: 0.06, overwrite: true, onComplete: () => settle(s.words) }));
         }
       });
-      /* the lines under the headline, and on laptops the phone beside it, each rise once */
+      /* the lines under the headline, and on laptops the phone beside it, each rise once. CSS holds them hidden
+         (like the headline) until this runs, so they never show, vanish and come back */
       const heroBits = $$('.hx-sub, .hero-actions, .hx-fine, .promises li' + (wide ? ', .hx-try-stage' : ''));
-      if (heroBits.length) gsap.from(heroBits, { y: RISE, opacity: 0, duration: DUR, ease: EASE, stagger: STAG, delay: 0.35, clearProps: 'transform,opacity' });
+      if (heroBits.length) {
+        gsap.set(heroBits, { y: 12, opacity: 0 });
+        heroBits.forEach((b) => b.classList.add('is-in'));
+        gsap.to(heroBits, { y: 0, opacity: 1, duration: DUR, ease: EASE, stagger: STAG, delay: 0.6, clearProps: 'transform,opacity' });
+      }
       ScrollTrigger.refresh();
     };
     /* wait for the new type so the letters split on the right shapes, but never for long */
     Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise((r) => setTimeout(r, 700))]).then(() => introDone).then(go);
-  } else heroShown();
+  } else { heroShown(); $$('.hx-sub, .hero-actions, .hx-fine, .hx-try-stage').forEach((b) => b.classList.add('is-in')); }
 
   /* Everything below the first screen sets itself up once the phone has a spare moment */
   const rest = () => {
   /* Blocks of content fade up, once */
   if (motion) {
-    const sel = '.hx-step, .hx-q, .hx-promise p, .hx-about-text > p, .hx-about-text > figure, .hx-me, .hj-three-steps li, .hj-plan, .hj-case, .hj-qs details, .grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
+    const sel = '.hx-q, .hx-promise p, .hx-about-text > p, .hx-about-text > figure, .hx-me, .hj-three-steps li, .hj-plan, .hj-case, .hj-qs details, .grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
     /* the same blocks as the inner pages: section intros, the lines under the plans and the work, the promise list */
     const more = '.hj-head .hj-lede, .hj-head-side > .hx-compare, .hj-story, .hj-fixline, .hj-more-prices, .hj-foundline, .hx-promises li, .contact-alt';
     const items = $$(sel + ', ' + more).filter((el, i, all) => el.getBoundingClientRect().top > innerHeight && !(!desktop && el.matches('.usp-card')) && !all.some((o) => o !== el && o.contains(el)));
     /* rise and sharpen once: laptops add a light blur, phones move only */
-    gsap.set(items, soft ? { y: RISE, opacity: 0 } : { y: RISE, opacity: 0, filter: 'blur(6px)' });
-    const show = (els) => gsap.to(els, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: DUR, ease: EASE, stagger: { each: STAG, from: 'start' }, overwrite: true, clearProps: 'transform,opacity,filter' });
+    gsap.set(items, { y: soft ? 16 : 20, opacity: 0 });
+    const show = (els) => gsap.to(els, { y: 0, opacity: 1, duration: soft ? 0.8 : DUR, ease: EASE, stagger: { each: STAG, from: 'start' }, overwrite: true, clearProps: 'transform,opacity' });
     let queue = [], timer = 0;
-    items.forEach((el) => whenSeen(el, () => { queue.push(el); clearTimeout(timer); timer = setTimeout(() => { show(queue); queue = []; }, 30); }));
+    items.forEach((el) => whenSeen(el, () => { queue.push(el); clearTimeout(timer); timer = setTimeout(() => { show(queue.sort((a, b) => (a.compareDocumentPosition(b) & 4 ? -1 : 1))); queue = []; }, 30); }));
   }
 
   /* GRADES: the held scene. Scroll moves the tear down the grades, Shaabi to Hojari */
@@ -498,7 +504,7 @@
 
   /* Footer: the letters rise into place */
   const blocks = $$('.blk');
-  if (motion && $('.blocks') && $('.blocks').getBoundingClientRect().top > innerHeight) { gsap.set(blocks, { y: 16, opacity: 0 }); whenSeen($('.blocks'), () => gsap.to(blocks, { y: 0, opacity: 1, duration: DUR, ease: EASE, stagger: 0.04, clearProps: 'transform,opacity' })); }
+  if (motion && $('.blocks') && $('.blocks').getBoundingClientRect().top > innerHeight) { gsap.set(blocks, { y: 16, opacity: 0 }); whenSeen($('.blocks'), () => gsap.to(blocks, { y: 0, opacity: 1, duration: DUR, ease: EASE, stagger: 0.05, clearProps: 'transform,opacity' })); }
 
   /* BUILD: a homepage that puts itself together as you choose */
   const bForm = $('#build-form');

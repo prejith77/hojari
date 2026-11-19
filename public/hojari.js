@@ -284,8 +284,8 @@
           n.animate([{ transform: 'translateY(-16px) scale(.96)', opacity: 0 }, { transform: 'translateY(0) scale(1)', opacity: 1 }], { duration: 650, easing: out, fill: 'forwards' });
           for (let k = 0; k < i; k++) { notes[k].animate([slotOf(i - k)], { duration: 650, easing: out, fill: 'forwards' }); if (i - k >= room()) hits[k].hidden = true; }
           hits[i].hidden = false;
-          /* every other arrival, the phone gives a small buzz */
-          if (i % 2 === 0) phone.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(2px)' }, { transform: 'translateX(0)' }], { duration: 240, easing: 'ease-in-out' });
+          /* the first and last arrivals give the phone a small buzz */
+          if (i === PRE || i === notes.length - 1) phone.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(2px)' }, { transform: 'translateX(0)' }], { duration: 240, easing: 'cubic-bezier(.36, 0, .66, 1)' });
         }));
         /* the badge climbs from 21 to 37 while the messages land */
         const c0 = performance.now() + T[PRE], cDur = T[T.length - 1] + 500 - T[PRE];
@@ -633,4 +633,19 @@
     const so = new IntersectionObserver((ens) => ens.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('seam-on'); so.unobserve(en.target); } }), { rootMargin: '0px 0px -30% 0px' });
     seams.forEach((s) => so.observe(s));
   } else seams.forEach((s) => s.classList.add('has-seam', 'seam-on'));
+})();
+
+/* A booking, start to finish: each clip plays once when it comes into view, pauses when it leaves, and a tap replays it */
+(() => {
+  const clips = document.querySelectorAll('.hx-clip video');
+  if (!clips.length) return;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  clips.forEach((v) => v.addEventListener('click', () => { v.currentTime = 0; v.play().catch(() => {}); }));
+  if (still || !window.IntersectionObserver) { clips.forEach((v) => { v.controls = true; }); return; }
+  const io = new IntersectionObserver((ens) => ens.forEach((en) => {
+    const v = en.target;
+    if (en.isIntersecting) { if (!v.dataset.played || !v.ended) { v.dataset.played = '1'; v.play().catch(() => { v.controls = true; }); } }
+    else if (!v.paused) v.pause();
+  }), { threshold: 0.35 });
+  clips.forEach((v) => io.observe(v));
 })();

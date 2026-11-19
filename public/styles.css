@@ -1577,7 +1577,7 @@ section[id] { scroll-margin-top: 0; }
 .hj-grade span { padding: 6px 10px; border-radius: 999px; background: var(--honey); color: var(--ink); font: 600 12px/1 var(--sans); }
 .hj-plan h3 { font: 500 var(--step-body)/1.35 var(--sans); letter-spacing: 0; color: var(--paper); }
 .hj-price { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; }
-.hj-price span { color: var(--muted); font-size: var(--step-small); }
+.hj-price > span { color: var(--muted); font-size: var(--step-small); }
 .hj-price b { font: 450 clamp(3rem, 2.4rem + 2vw, 3.75rem)/1 var(--serif); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .hj-care { color: var(--muted); font-size: var(--step-small); }
 .hj-care b { color: var(--paper); font-weight: 600; }
@@ -2725,9 +2725,9 @@ main > section.hx-hero.has-seam::before { display: none; }
 .hx-step-n { font: 450 56px/1 var(--serif); color: var(--honey); font-variant-numeric: tabular-nums; }
 .hx-step h3 { margin-top: 8px; font: 500 clamp(1.25rem, 1.1rem + .4vw, 1.5rem)/1.25 var(--sans); letter-spacing: -0.01em; }
 .hx-step p { max-width: 38ch; color: var(--muted); line-height: 1.6; }
-.hx-steps.is-scroll .hx-step::before { transform: scaleX(0); transition: transform .9s var(--ease-out); }
-.hx-steps.is-scroll .hx-step-n { color: rgba(243, 239, 230, .28); transition: color .6s var(--ease-out); }
-.hx-steps.is-scroll .hx-step h3 { color: rgba(243, 239, 230, .6); transition: color .6s var(--ease-out); }
+.hx-steps.is-scroll .hx-step::before { transform: scaleX(0); transition: transform 1s var(--ease-reveal); }
+.hx-steps.is-scroll .hx-step-n { color: rgba(243, 239, 230, .28); transition: color .8s var(--ease-out); }
+.hx-steps.is-scroll .hx-step h3 { color: rgba(243, 239, 230, .6); transition: color .8s var(--ease-out); }
 .hx-steps.is-scroll .hx-step.is-lit::before { transform: scaleX(1); }
 .hx-steps.is-scroll .hx-step.is-lit .hx-step-n { color: var(--honey); }
 .hx-steps.is-scroll .hx-step.is-lit h3 { color: var(--paper); }
@@ -2839,7 +2839,7 @@ main > section.hx-hero.has-seam::before { display: none; }
   .wordmark { view-transition-name: hj-mark; }
   .nav > .button-small { view-transition-name: hj-cta; }
   ::view-transition-group(*) { animation-duration: .34s; animation-timing-function: var(--ease-reveal); }
-  ::view-transition-old(root) { animation: hj-vt-out .22s cubic-bezier(.4, 0, 1, 1) both; }
+  ::view-transition-old(root) { animation: hj-vt-out .18s cubic-bezier(.4, 0, 1, 1) both; }
   ::view-transition-new(root) { animation: hj-vt-in .36s var(--ease-reveal) both; }
   @keyframes hj-vt-out { to { opacity: 0; } }
   @keyframes hj-vt-in { from { opacity: 0; transform: translateY(10px); } }
@@ -3034,11 +3034,12 @@ html:not(.js) .hx-invite { display: none; }
   .menu-btn[aria-expanded="true"] i:last-of-type { transform: translateY(-3.5px) rotate(-45deg); }
   .nav > .button { transition: transform var(--dur-ui) var(--ease-out), opacity .15s; }
   .menu-on .nav > .button, .menu-on .m-bar { opacity: 0; pointer-events: none; }
-  .menu-lock, .menu-lock body { overflow: hidden; }
+  /* only the root is locked: hiding overflow on body would make it the scroll box, and the sticky bar would scroll away with the page */
+  html.menu-lock { overflow: hidden; }
 
   .menu-on .links.mnav { display: flex; flex-direction: column; align-items: stretch; gap: 0; position: fixed; inset: 0; z-index: -1; height: 100vh; height: 100dvh;
     padding: calc(var(--bar-h, 64px) + clamp(12px, 3vh, 32px)) var(--margin) max(20px, env(safe-area-inset-bottom));
-    background: var(--night); overflow-y: auto; overscroll-behavior: contain; opacity: 0; transition: opacity .2s var(--ease-out); }
+    background: var(--night); overflow-y: auto; overscroll-behavior: contain; opacity: 0; transition: opacity .16s var(--ease-out); }
   .menu-in .links.mnav { opacity: 1; }
   .menu-on .links.mnav > a:not([hidden]) { display: flex; align-items: center; min-height: 52px; padding: 2px 0; font: 450 clamp(2.125rem, 1.5rem + 3vw, 3.25rem)/1.1 var(--serif); letter-spacing: -0.015em; color: var(--paper); }
   .menu-on .links.mnav > .mnav-foot { display: grid; gap: 6px; margin-top: auto; padding-top: 28px; }
@@ -3047,9 +3048,9 @@ html:not(.js) .hx-invite { display: none; }
   .menu-on .mnav-contact a:not([hidden]) { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--step-small); color: var(--muted); }
   .menu-on .mnav-contact a:active { color: var(--paper); }
 
-  /* the lines rise into place one after another, 35ms apart; on the way out the whole screen just fades */
-  .menu-on .links.mnav > * { opacity: 0; transform: translateY(14px); }
-  .menu-in .links.mnav > * { opacity: 1; transform: none; transition: opacity .26s var(--ease-out), transform .3s var(--ease-out); transition-delay: calc(var(--i, 0) * 35ms); }
+  /* the screen covers the page first, then the lines rise into place 35ms apart; on the way out the whole screen just fades */
+  .menu-on .links.mnav > * { opacity: 0; transform: translateY(10px); }
+  .menu-in .links.mnav > * { opacity: 1; transform: none; transition: opacity .3s var(--ease-out), transform .36s var(--ease-out); transition-delay: calc(80ms + var(--i, 0) * 35ms); }
   .menu-out .links.mnav > * { opacity: 1; transform: none; }
 }
 @media (max-width: 899px) and (prefers-reduced-motion: reduce) {
@@ -3089,7 +3090,7 @@ html:not(.js) .hx-invite { display: none; }
 @media (prefers-reduced-motion: reduce) { .hj-cur[data-pair]::before { transition: none; } }
 @media (max-width: 899px) {
   /* the menu screen grows out of the button's corner as it fades in */
-  .menu-on .links.mnav { transform: scale(.985); transform-origin: calc(100% - 40px) 32px; transition: opacity .2s var(--ease-out), transform .26s var(--ease-out); }
+  .menu-on .links.mnav { transform: scale(.985); transform-origin: calc(100% - 40px) 32px; transition: opacity .16s var(--ease-out), transform .26s var(--ease-out); }
   .menu-in .links.mnav, .menu-out .links.mnav { transform: none; }
 }
 @media (min-width: 600px) and (max-width: 899px) {
@@ -3110,10 +3111,8 @@ html:not(.js) .hx-invite { display: none; }
    Only the direct "from" span is muted, so the rolling digits inside the number keep the number's size and colour. */
 .hx-plans .hj-plan { container-type: inline-size; }
 .hj-price { align-items: baseline; gap: 10px; margin-top: 10px; }
-.hj-price span, .hj-price > span { color: inherit; font-size: inherit; }
-.hj-price > span:first-child { color: var(--muted); font-size: var(--step-small); }
 .hj-price b, .hx-plans .hj-price b { font: 500 clamp(2.75rem, 16cqi, 3.5rem)/1 var(--serif); font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.02em; color: var(--paper); white-space: nowrap; }
-.hj-price b span { color: inherit; font-size: inherit; }
+.hj-price b span { font: inherit; color: inherit; }
 
 /* Under the plans: one calm line for founding clients, one quiet line for the one-week fix, one link */
 .hx-plans .hj-foundline { margin-top: var(--space-block); padding: 0; border: 0; border-radius: 0; background: none; color: var(--muted); font-size: var(--step-body); line-height: 1.6; }
@@ -3132,7 +3131,6 @@ html:not(.js) .hx-invite { display: none; }
   .blocks, .foot .blocks { width: min(288px, 100%); height: 64px; min-height: 0; gap: 4px; margin-left: 0; }
   .blk, .foot .blk { padding-top: 6px; font-size: 34px; border-radius: 8px; }
 }
-@media (max-width: 899px) and (min-width: 600px) { .blocks, .foot .blocks { margin-left: 48px; } }
 .foot-grid { padding-top: 48px; }
 
 /* The phone bar: never over the last of the page, out of the way of the hero's own buttons, the form and the footer.
@@ -3145,3 +3143,50 @@ html:not(.js) .hx-invite { display: none; }
 }
 @media (max-width: 899px) and (prefers-reduced-motion: reduce) { .m-bar, .m-bar.is-on { transform: none; transition: opacity .2s, visibility 0s linear .2s; } .m-bar.is-on { transition-delay: 0s; } }
 @media (max-width: 899px) { .m-bar { background: #1c1611; } }
+
+/* Design review, 19 Nov */
+/* Hero: the lines under the headline wait hidden, like the headline, until their entrance plays; if the script never runs they show on their own */
+@media (prefers-reduced-motion: no-preference) {
+  .js .hx-hero :is(.hx-sub, .hero-actions, .hx-fine):not(.is-in) { opacity: 0; animation: hj-show 0s 3.5s forwards; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 900px) {
+  .js .hx-hero .hx-try-stage:not(.is-in) { opacity: 0; animation: hj-show 0s 3.5s forwards; }
+}
+/* Tablets: the hero on the same left edge as every other section */
+@media (min-width: 600px) and (max-width: 899px) { .hx-hero { padding-left: var(--margin); padding-right: var(--margin); } }
+/* Plans: price, care line and button stack together at the foot of each card, so the three prices line up */
+.hx-plans .hj-plan .hj-price { margin-top: auto; padding-top: var(--space-block); }
+.hx-plans .hj-plan .button { margin-top: var(--space-actions); }
+/* The pricing heading starts level with its side column */
+@media (min-width: 1100px) { .hx-plans .hj-head.hj-head-split { align-items: start; } }
+/* Under the plans: the founding and fix lines read as one quiet paragraph, the link 16px below */
+.hx-plans .hj-fixline { margin-top: 2px; }
+.hx-plans .hj-more-prices { margin-top: 16px; }
+/* Spacing on the token scale */
+.hx-promise .hx-promises { margin-top: var(--space-head); }
+.contact .reassure { margin-top: var(--space-block); }
+.contact .contact-alt { margin-top: var(--space-head); }
+@media (max-width: 899px) { .hj-pager { margin-top: var(--space-title); } .hx-work .hj-story { margin-top: var(--space-block); } }
+@media (max-width: 599px) { .hx-me { max-width: none; } }
+/* Light buttons: once the honey sweep has covered the button, the button itself turns honey, so no cream rim shows at the edge */
+@media (hover: hover) and (pointer: fine) {
+  .button-light:not(:disabled):hover { background-color: var(--honey); transition: transform var(--dur-ui) var(--ease-out), color var(--dur-ui), border-color var(--dur-ui), background-color 0s var(--btn-dur); }
+}
+
+/* A booking, start to finish: three silent example clips and four straight answers */
+.hx-clips { position: relative; padding: var(--space-section) max(var(--margin), calc((100% - 1240px) / 2)); }
+.hx-clip-row { margin-top: var(--space-head); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
+.hx-clip { margin: 0; display: grid; gap: 14px; align-content: start; }
+.hx-clip video { display: block; width: 100%; aspect-ratio: 4 / 5; border-radius: 22px; background: #120d09; border: 1px solid rgba(243, 239, 230, .1); cursor: pointer; }
+.hx-clip figcaption { color: var(--muted); font-size: 1rem; line-height: 1.55; }
+.hx-clip figcaption b { color: var(--paper); font-weight: 500; }
+.hx-doubts { margin: var(--space-head) 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-block) clamp(32px, 4vw, 64px); }
+.hx-doubts > div { padding-top: var(--space-title); border-top: 1px solid var(--line); }
+.hx-doubts dt { font: 550 clamp(1.25rem, 1.1rem + .4vw, 1.5rem)/1.2 var(--serif); color: var(--paper); }
+.hx-doubts dd { margin: 10px 0 0; color: var(--muted); line-height: 1.6; max-width: 52ch; }
+@media (max-width: 899px) {
+  .hx-clip-row { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--margin); margin-inline: calc(var(--margin) * -1); padding: 0 var(--margin) 6px; scrollbar-width: none; }
+  .hx-clip-row::-webkit-scrollbar { display: none; }
+  .hx-clip { flex: 0 0 78%; scroll-snap-align: start; }
+  .hx-doubts { grid-template-columns: minmax(0, 1fr); }
+}
