@@ -105,3 +105,18 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
   else run();
 })();
+
+/* A booking, start to finish: each clip plays once when it comes into view, pauses when it leaves, and a tap replays it */
+(() => {
+  const clips = document.querySelectorAll('.hx-clip video');
+  if (!clips.length) return;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  clips.forEach((v) => v.addEventListener('click', () => { v.currentTime = 0; v.play().catch(() => {}); }));
+  if (still || !window.IntersectionObserver) { clips.forEach((v) => { v.controls = true; }); return; }
+  const io = new IntersectionObserver((ens) => ens.forEach((en) => {
+    const v = en.target;
+    if (en.isIntersecting) { if (!v.dataset.played || !v.ended) { v.dataset.played = '1'; v.play().catch(() => { v.controls = true; }); } }
+    else if (!v.paused) v.pause();
+  }), { threshold: 0.35 });
+  clips.forEach((v) => io.observe(v));
+})();

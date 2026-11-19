@@ -18,7 +18,7 @@
   --ink-line: rgba(23, 18, 12, .12);
 
   --sans: "Switzer", system-ui, sans-serif;
-  --serif: "Boska", Georgia, serif;
+  --serif: "Sentient", Georgia, serif;
 
   --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
   --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
@@ -984,7 +984,7 @@ h2 { font-size: calc(var(--step-head) * 1.14); line-height: .98; }
 .lead-context { margin-top: 20px; padding: 14px 18px; border-radius: 16px; background: #2a1d10; color: var(--paper); font-size: var(--step-small); max-width: 60ch; }
 .sent:empty { display: none; }
 .sent { margin-top: 28px; padding: 22px 24px; border-radius: 20px; background: #1f2a20; color: var(--paper); max-width: 52ch; }
-.sent b { display: block; font-family: var(--serif); font-weight: 550; font-size: 1.75rem; color: var(--honey); margin-bottom: 4px; }
+.sent b { display: block; font-family: var(--serif); font-weight: 500; font-size: 1.75rem; color: var(--honey); margin-bottom: 4px; }
 .reassure { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 36px; color: var(--muted); font-size: var(--step-small); }
 .reassure li { display: flex; align-items: center; gap: 10px; }
 .reassure li::before { content: ""; width: 7px; height: 12px; border: solid var(--honey); border-width: 0 2px 2px 0; transform: rotate(45deg) translateY(-2px); }
@@ -1342,7 +1342,7 @@ section[id] { scroll-margin-top: 0; }
 
 /* ===== Taste pass: fewer generated-looking habits ===== */
 /* FAQ group names read as small headings, not tiny capitals */
-.qa-group { font-family: var(--serif); font-weight: 550; font-size: clamp(1.5rem, 1.2rem + .8vw, 2rem); letter-spacing: -0.01em; text-transform: none; color: var(--ink); margin: 48px 0 12px; }
+.qa-group { font-family: var(--serif); font-weight: 500; font-size: clamp(1.5rem, 1.2rem + .8vw, 2rem); letter-spacing: -0.01em; text-transform: none; color: var(--ink); margin: 48px 0 12px; }
 .qa-group:first-child { margin-top: 0; }
 @media (max-width: 899px) { .qa-group { margin: 36px 0 10px; } }
 /* The cost comparison: the figure leads, the caption follows */
@@ -1457,7 +1457,7 @@ section[id] { scroll-margin-top: 0; }
 .hj-panel:not([hidden]) { animation: hj-in .35s var(--ease-out); }
 @keyframes hj-in { from { opacity: 0; transform: translateY(8px); } }
 .app-top { display: grid; gap: 2px; padding: 6px 4px 16px; border-bottom: 1px solid var(--ink-line); margin-bottom: 14px; }
-.app-top b { font: 550 1.5rem/1.1 var(--serif); }
+.app-top b { font: 500 1.5rem/1.1 var(--serif); }
 .app-top span { font-size: 13px; color: var(--ink-muted); }
 .app-label { margin: 16px 0 8px; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--ink-muted); }
 .chip { min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--ink-line); background: #fff; color: var(--ink); font: 500 13px/1 var(--sans); cursor: pointer; transition: background-color .15s, border-color .15s, color .15s; }
@@ -1491,7 +1491,7 @@ section[id] { scroll-margin-top: 0; }
 .qt-total, .doc-total { display: flex; justify-content: space-between; align-items: baseline; margin-top: 16px; padding-top: 14px; border-top: 2px solid var(--ink); }
 .qt-total b, .doc-total b { font: 500 2rem/1 var(--serif); }
 .doc-head { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-muted); }
-.doc-head b { font: 550 1.5rem/1 var(--serif); color: var(--ink); }
+.doc-head b { font: 500 1.5rem/1 var(--serif); color: var(--ink); }
 .doc-lines li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--ink-line); font-size: 14px; }
 .doc-actions { display: grid; gap: 0; }
 .qt-paid { padding: 12px 14px; border-radius: 14px; background: #dfe8dd; color: var(--khareef); font-weight: 500; font-size: 14px; }
@@ -1506,7 +1506,7 @@ section[id] { scroll-margin-top: 0; }
 .hj-side-note { font: 500 clamp(1.5rem, 1.2rem + 1vw, 2.125rem)/1.25 var(--serif); color: var(--paper); max-width: 26ch; }
 .hj-more { display: grid; gap: 12px; }
 .hj-morecard { display: grid; gap: 6px; padding: 22px 24px; border-radius: 22px; background: var(--night-2); border: 1px solid var(--line); text-decoration: none; transition: border-color .2s, background-color .2s; }
-.hj-morecard b { font: 550 1.5rem/1.15 var(--serif); }
+.hj-morecard b { font: 500 1.5rem/1.15 var(--serif); }
 .hj-morecard b::after { content: " \2192"; color: var(--honey); }
 .hj-morecard span { color: var(--muted); font-size: var(--step-small); }
 @media (hover: hover) and (pointer: fine) { .hj-morecard:hover { border-color: var(--honey); background: var(--night-3); } }
@@ -1534,7 +1534,7 @@ section[id] { scroll-margin-top: 0; }
 .ct-split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .ct-split p { display: grid; gap: 4px; }
 .ct-split span { font-size: 13px; color: var(--muted); }
-.ct-split b { font: 550 1.5rem/1 var(--serif); font-variant-numeric: tabular-nums; }
+.ct-split b { font: 500 1.5rem/1 var(--serif); font-variant-numeric: tabular-nums; }
 .ct-note { margin: 18px 0 22px; color: var(--resin); font-size: 15px; line-height: 1.5; }
 
 /* Work */
@@ -1548,14 +1548,14 @@ section[id] { scroll-margin-top: 0; }
 .hj-shots.ph-left img.ph { right: auto; left: 3.5%; }
 @media (hover: hover) and (pointer: fine) { .hj-case:hover .hj-shots img.ph { transform: translateY(-8px); transition-duration: .4s; } }
 .hj-tag { font-size: var(--step-small); color: var(--honey); font-weight: 500; }
-.hj-case h3 { font: 500 clamp(2rem, 1.5rem + 1.5vw, 2.75rem)/1 var(--serif); letter-spacing: -0.015em; }
+.hj-case h3 { font: 450 clamp(2rem, 1.5rem + 1.5vw, 2.75rem)/1 var(--serif); letter-spacing: -0.015em; }
 .hj-case h3::after { content: " \2197"; font-family: var(--sans); font-size: .5em; color: var(--muted); vertical-align: .4em; }
 .hj-case p:last-child { color: var(--muted); }
 
 /* The Hojari Standard */
 .hj-promises { display: grid; gap: 0; border-top: 1px solid var(--line); }
 .hj-promises li { display: grid; gap: 10px; padding: 30px 0; border-bottom: 1px solid var(--line); }
-.hj-promises h3 { display: flex; align-items: center; gap: 14px; font: 550 clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem)/1.05 var(--serif); letter-spacing: -0.015em; }
+.hj-promises h3 { display: flex; align-items: center; gap: 14px; font: 500 clamp(1.75rem, 1.3rem + 1.5vw, 2.5rem)/1.05 var(--serif); letter-spacing: -0.015em; }
 .hj-promises h3::before { content: ""; flex: none; width: 14px; height: 18px; background: linear-gradient(180deg, #f3d394, var(--honey) 45%, var(--amber)); clip-path: url(#tear); }
 .hj-promises p { color: var(--muted); max-width: 64ch; padding-left: 28px; }
 @media (min-width: 900px) { .hj-promises li { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px; align-items: baseline; padding: 36px 0; } .hj-promises p { padding-left: 0; } }
@@ -1604,12 +1604,12 @@ section[id] { scroll-margin-top: 0; }
 .hj-about-text h2 em { color: var(--honey); }
 .hj-about-lead { font: 500 clamp(1.5rem, 1.2rem + 1vw, 2.125rem)/1.3 var(--serif); color: var(--paper); max-width: 30ch; }
 .hj-about-text p:not(.hj-about-lead):not(.hj-sign) { color: var(--resin); line-height: 1.65; }
-.hj-sign { padding-top: 18px; border-top: 1px solid var(--line); font: italic 550 1.5rem/1.3 var(--serif); color: var(--honey); }
+.hj-sign { padding-top: 18px; border-top: 1px solid var(--line); font: italic 500 1.5rem/1.3 var(--serif); color: var(--honey); }
 
 /* Questions */
 .hj-qs { border-top: 1px solid var(--line); }
 .hj-qs details { border-bottom: 1px solid var(--line); }
-.hj-qs summary { list-style: none; display: flex; justify-content: space-between; gap: 16px; padding: 22px 0; cursor: pointer; font: 550 clamp(1.25rem, 1.05rem + .6vw, 1.625rem)/1.25 var(--serif); }
+.hj-qs summary { list-style: none; display: flex; justify-content: space-between; gap: 16px; padding: 22px 0; cursor: pointer; font: 500 clamp(1.25rem, 1.05rem + .6vw, 1.625rem)/1.25 var(--serif); }
 .hj-qs summary::-webkit-details-marker { display: none; }
 .hj-qs summary::after { content: "+"; flex: none; font: 300 1.5rem/1 var(--sans); color: var(--honey); transition: transform .25s var(--ease-out); }
 .hj-qs details[open] summary::after { transform: rotate(45deg); }
@@ -1741,7 +1741,7 @@ section[id] { scroll-margin-top: 0; }
 /* The Hojari Standard: a list you open on a phone, a list and a signed card on a laptop */
 .std-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .std-item { border-bottom: 1px solid var(--line); }
-.std-pick { display: flex; align-items: center; gap: 16px; width: 100%; min-height: 76px; padding: 18px 0; border: 0; background: none; color: var(--paper); text-align: left; font: 550 clamp(1.625rem, 1.25rem + 1.2vw, 2.25rem)/1.1 var(--serif); letter-spacing: -0.01em; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.std-pick { display: flex; align-items: center; gap: 16px; width: 100%; min-height: 76px; padding: 18px 0; border: 0; background: none; color: var(--paper); text-align: left; font: 500 clamp(1.625rem, 1.25rem + 1.2vw, 2.25rem)/1.1 var(--serif); letter-spacing: -0.01em; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .std-pick i { flex: none; width: 26px; font: 600 12px/1 var(--sans); font-style: normal; letter-spacing: .08em; color: var(--honey); }
 .std-pick span { flex: 1; }
 .std-pick::after { content: ""; flex: none; width: 10px; height: 10px; margin-right: 6px; border-right: 1.5px solid var(--muted); border-bottom: 1.5px solid var(--muted); transform: translateY(-3px) rotate(45deg); transition: transform .25s var(--ease-out); }
@@ -1763,7 +1763,7 @@ section[id] { scroll-margin-top: 0; }
   .std-item.is-on .std-pick::after { transform: scaleX(1); }
   .std-card { grid-column: 2; grid-row: 1 / span 5; align-self: start; padding: 40px 40px 36px; border-radius: 28px; background: linear-gradient(160deg, rgba(227,173,92,.10), rgba(227,173,92,0) 45%), var(--night); border: 1px solid rgba(227,173,92,.28); }
   .std-kicker { display: block; font: 600 12px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-  .std-card h3 { display: block; margin: 14px 0 28px; font: 500 clamp(2.25rem, 1.6rem + 1.6vw, 3.25rem)/1.02 var(--serif); letter-spacing: -0.015em; color: var(--paper); }
+  .std-card h3 { display: block; margin: 14px 0 28px; font: 450 clamp(2.25rem, 1.6rem + 1.6vw, 3.25rem)/1.02 var(--serif); letter-spacing: -0.015em; color: var(--paper); }
   .std-card dl { gap: 0; border-top: 1px solid var(--line); }
   .std-card dl > dt { padding-top: 18px; }
   .std-card dd { margin: 6px 0 0; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
@@ -2154,7 +2154,7 @@ html:not(.has-tear) .hero-note span { display: none; }
 .hj-three-steps { list-style: none; padding: 0; display: grid; gap: 0; counter-reset: s; border-top: 1px solid var(--line); }
 .hj-three-steps li { counter-increment: s; display: grid; gap: 10px; padding: 28px 0; border-bottom: 1px solid var(--line); }
 .hj-three-steps li::before { content: counter(s); font: 500 2.5rem/1 var(--serif); color: var(--honey); }
-.hj-three-steps b { font: 550 1.75rem/1.15 var(--serif); color: var(--paper); }
+.hj-three-steps b { font: 500 1.75rem/1.15 var(--serif); color: var(--paper); }
 .hj-three-steps p { color: var(--muted); max-width: 44ch; line-height: 1.6; }
 @media (min-width: 900px) {
   .hj-three-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; border-top: 0; }
@@ -2312,12 +2312,12 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 /* ===== Jobs, who, orders: 16 Nov ===== */
 .hj-jobs { position: relative; padding: 96px var(--margin) 24px; }
 .hj-jobs > * { max-width: 1240px; margin-left: auto; margin-right: auto; }
-.hj-jobs-title { font: 550 clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem)/1.1 var(--serif); letter-spacing: -0.01em; margin-bottom: 28px; }
+.hj-jobs-title { font: 500 clamp(1.75rem, 1.3rem + 1.4vw, 2.5rem)/1.1 var(--serif); letter-spacing: -0.01em; margin-bottom: 28px; }
 .hj-jobcards { list-style: none; padding: 0; display: grid; gap: 12px; }
 @media (min-width: 700px) { .hj-jobcards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1100px) { .hj-jobcards { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .hj-jobcards a { display: grid; gap: 10px; height: 100%; padding: 24px; border-radius: 28px; background: var(--night-2, #1d1610); border: 1px solid var(--line); text-decoration: none; color: var(--paper); transition: border-color .2s, transform .16s var(--ease-out); }
-.hj-jobcards b { font: 550 1.6rem/1.1 var(--serif); }
+.hj-jobcards b { font: 500 1.6rem/1.1 var(--serif); }
 .hj-jobcards b::after { content: " \2192"; font-family: var(--sans); font-size: .6em; color: var(--muted); }
 .hj-jobcards span { color: var(--muted); font-size: 15.5px; line-height: 1.55; }
 .hj-jobcards a:active { transform: scale(.98); }
@@ -2352,7 +2352,7 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .hj-own-row { display: grid; gap: 16px; margin-top: 16px; }
 @media (min-width: 900px) { .hj-own-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 .hj-own { padding: 32px 28px; border-radius: 26px; background: var(--night); border: 1px solid var(--line); }
-.hj-own h3 { font: 550 clamp(1.6rem, 1.3rem + 1vw, 2.1rem)/1.1 var(--serif); margin-bottom: 22px; }
+.hj-own h3 { font: 500 clamp(1.6rem, 1.3rem + 1vw, 2.1rem)/1.1 var(--serif); margin-bottom: 22px; }
 .hj-own ul { list-style: none; padding: 0; display: grid; gap: 18px; }
 .hj-own li { display: grid; gap: 4px; padding-top: 16px; border-top: 1px solid var(--line); }
 .hj-own li:first-child { padding-top: 0; border-top: 0; }
@@ -2364,7 +2364,7 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .hj-note-paper { padding: 28px 26px; border-radius: 22px; background: #f4ede2; color: var(--ink, #17120c); box-shadow: 0 24px 60px -30px rgba(0, 0, 0, .6); transform: rotate(-0.6deg); }
 .hj-note-paper p { font-size: 15.5px; line-height: 1.55; color: #3d342a; }
 .hj-note-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-bottom: 14px; margin-bottom: 4px; border-bottom: 1px solid rgba(23, 18, 12, .14); }
-.hj-note-head b { font: 600 1.45rem/1.1 var(--serif); color: var(--ink, #17120c); }
+.hj-note-head b { font: 500 1.45rem/1.1 var(--serif); color: var(--ink, #17120c); }
 .hj-note-head span { color: #6b5f50; font-size: 14px; align-self: end; }
 .hj-note-t { margin-top: 14px; color: #8a5a1c !important; font-weight: 500; font-size: 13.5px !important; }
 @media (prefers-reduced-motion: reduce) { .hj-note-paper { transform: none; } }
@@ -2389,7 +2389,7 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .hj-pick.is-js .pk-panel:not(.is-on) { opacity: 0; visibility: hidden; }
 .hj-pick.is-js .pk-panel.is-on { transition: opacity .3s var(--ease-out), visibility 0s; }
 .pk-text { display: grid; gap: 14px; align-content: center; }
-.pk-text h3 { font: 500 clamp(2rem, 1.4rem + 2vw, 3.1rem)/1.05 var(--serif); letter-spacing: -0.01em; }
+.pk-text h3 { font: 450 clamp(2rem, 1.4rem + 2vw, 3.1rem)/1.05 var(--serif); letter-spacing: -0.01em; }
 .pk-text p:not(.bz-kind) { color: var(--muted); font-size: 17px; line-height: 1.6; max-width: 42ch; }
 .pk-text .button { justify-self: start; margin-top: 8px; }
 .bz-kind { color: var(--honey, #e3ad5c); font-size: 15px; }
@@ -2492,7 +2492,7 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .hj-yours { display: grid; gap: 48px; padding: 72px var(--margin) 88px; max-width: 1240px; margin: 0 auto; box-sizing: content-box; }
 @media (min-width: 900px) { .hj-yours { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: 64px; padding-top: 96px; padding-bottom: 104px; } }
 .yr-kick { font: 500 var(--step-small)/1.2 var(--sans); color: var(--honey); letter-spacing: .02em; }
-.yr-title { margin-top: 14px; font: 500 clamp(2.6rem, 1.6rem + 3.4vw, 4.4rem)/1 var(--serif); letter-spacing: -0.01em; color: var(--paper); }
+.yr-title { margin-top: 14px; font: 450 clamp(2.6rem, 1.6rem + 3.4vw, 4.4rem)/1 var(--serif); letter-spacing: -0.01em; color: var(--paper); }
 .yr-title em { color: var(--honey); }
 .yr-field { display: block; margin-top: 28px; }
 .yr-field input { width: 100%; box-sizing: border-box; min-height: 68px; padding: 0 24px; border-radius: 20px; border: 1px solid rgba(227, 173, 92, .45); background: var(--night-2); color: var(--paper); font: 400 clamp(1.25rem, 1.1rem + .6vw, 1.6rem) var(--sans); outline: none; transition: border-color .2s, box-shadow .2s; }
@@ -2509,16 +2509,16 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .yr-url { margin-left: 10px; flex: 1; padding: 4px 12px; border-radius: 8px; background: #f2f0eb; color: #5b5144; font: 500 12.5px var(--sans); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .yr-site { padding: 18px 26px 34px; color: #17120c; min-height: 250px; background: radial-gradient(120% 90% at 100% 0%, rgba(227, 173, 92, .28), transparent 60%), #f2f0eb; }
 .yr-nav { display: flex; align-items: center; gap: 16px; font: 500 12px var(--sans); color: #5b5144; }
-.yr-nav b { margin-right: auto; font: 600 17px var(--serif); color: #17120c; max-width: 45%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.yr-nav b { margin-right: auto; font: 500 17px var(--serif); color: #17120c; max-width: 45%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .yr-btn { font-style: normal; padding: 6px 12px; border-radius: 999px; background: #17120c; color: #f2f0eb; font: 500 12px var(--sans); }
-.yr-h { margin-top: 34px; font: 500 clamp(2rem, 1.2rem + 2.8vw, 3.4rem)/1 var(--serif); letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.yr-h { margin-top: 34px; font: 450 clamp(2rem, 1.2rem + 2.8vw, 3.4rem)/1 var(--serif); letter-spacing: -0.01em; overflow-wrap: anywhere; }
 .yr-sub { margin-top: 10px; font: 400 16px var(--sans); color: #5b5144; }
 .yr-cta { display: flex; align-items: center; gap: 14px; margin-top: 18px; font: 500 12px var(--sans); color: #5b5144; }
 .yr-cta .yr-btn { padding: 9px 16px; font-size: 13px; }
 .yr-phone { position: absolute; right: -6px; bottom: 0; width: 38%; max-width: 210px; padding: 12px; border-radius: 30px; background: #0b0806; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .8), 0 0 0 1px rgba(243, 239, 230, .14); }
 .yr-ptop, .yr-pbody { background: #f2f0eb; color: #17120c; }
 .yr-ptop { padding: 14px 14px 10px; border-radius: 20px 20px 0 0; border-bottom: 1px solid rgba(23, 18, 12, .1); }
-.yr-ptop b { display: block; font: 600 16px/1.1 var(--serif); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.yr-ptop b { display: block; font: 500 16px/1.1 var(--serif); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .yr-ptop span { font: 500 10.5px var(--sans); color: #5b5144; }
 .yr-pbody { padding: 10px 14px 14px; border-radius: 0 0 20px 20px; }
 .yr-plabel { font: 600 10px var(--sans); color: #5b5144; margin-bottom: 8px; }
@@ -2655,8 +2655,9 @@ main > section.hx-hero.has-seam::before { display: none; }
   column-gap: clamp(40px, 4.5vw, 80px); row-gap: 48px; padding: 104px max(var(--margin), calc((100% - 1240px) / 2)) 48px; }
 .hx-copy { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
 .hx-hero .hx-title { margin: 0; max-width: none; font-size: clamp(3rem, 1rem + 5vw, 6rem); line-height: .98; letter-spacing: -0.02em; }
-.hx-hero .hx-title .hx-l { display: block; white-space: nowrap; }
-.hx-hero .hx-title em { display: block; width: fit-content; color: var(--honey); white-space: nowrap; }
+.hx-hero .hx-title .hx-l { display: block; width: fit-content; white-space: nowrap; }
+.hx-hero .hx-title em { display: block; width: fit-content; color: var(--honey); }
+.hx-hero .hx-title .hx-e { display: inline-block; white-space: nowrap; }
 .hx-sub { margin-top: var(--space-title); max-width: 32ch; font-size: var(--step-lead); line-height: 1.5; color: #ddd6c8; }
 .hx-hero .hx-actions { margin-top: var(--space-actions); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-pair); }
 .hx-hero .hx-actions .button { width: auto; }
@@ -2699,7 +2700,7 @@ main > section.hx-hero.has-seam::before { display: none; }
 .hx-card-t { margin-top: 6px; font: 500 32px/1 var(--serif); letter-spacing: -0.01em; }
 .hx-card ul { margin-top: 14px; display: grid; gap: 8px; }
 .hx-card li { display: flex; align-items: baseline; gap: 8px; padding-top: 8px; border-top: 1px solid rgba(23, 18, 12, .14); font: 500 15px/1.3 var(--sans); }
-.hx-card li b { min-width: 2ch; font: 550 24px/1 var(--serif); font-variant-numeric: tabular-nums; }
+.hx-card li b { min-width: 2ch; font: 500 24px/1 var(--serif); font-variant-numeric: tabular-nums; }
 .hx-dock { position: absolute; left: 13%; right: 13%; bottom: 5.5%; display: flex; justify-content: space-between; }
 .hx-dock i { width: 46px; height: 46px; border-radius: 50%; background: rgba(243, 239, 230, .12); }
 
@@ -2790,7 +2791,7 @@ main > section.hx-hero.has-seam::before { display: none; }
 @media (min-width: 600px) and (max-width: 899px) { .hx-hero .hx-actions { width: auto; grid-template-columns: auto auto; } .hx-hero .hx-actions .button { padding: 0 26px; } }
 @media (prefers-reduced-motion: reduce) { .hx-dawn, .hx-day > span, .hx-clock > span, .hx-badge, .hx-notes, .hx-card, .hx-step::before, .hx-q summary::after { transition: none; } }
 .hj-plan .hx-what { margin-top: -4px; color: var(--muted); font-size: var(--step-small); line-height: 1.5; }
-.hx-plans .hj-plan.is-pick h3 { font-family: var(--serif); font-weight: 550; font-size: 1.625rem; line-height: 1.1; letter-spacing: -0.01em; }
+.hx-plans .hj-plan.is-pick h3 { font-family: var(--serif); font-weight: 500; font-size: 1.625rem; line-height: 1.1; letter-spacing: -0.01em; }
 .hx-plans .hj-plan.is-pick h3 em { font-style: italic; color: var(--honey); }
 
 /* Offers: what's included, the comparison, the bargain line */
@@ -2806,7 +2807,7 @@ main > section.hx-hero.has-seam::before { display: none; }
 /* What I promise: four short promises on the green panel */
 .hx-promises { list-style: none; margin: var(--space-block) 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); max-width: 1240px; }
 .hx-promises li { display: grid; gap: 8px; align-content: start; padding: var(--card-pad); border: 1px solid rgba(242, 240, 235, .22); border-radius: 22px; }
-.hx-promises b { font: 550 clamp(1.5rem, 1.1rem + 1vw, 2rem)/1.1 var(--serif); color: var(--paper); }
+.hx-promises b { font: 500 clamp(1.5rem, 1.1rem + 1vw, 2rem)/1.1 var(--serif); color: var(--paper); }
 .hx-promises span { font-size: 1.0625rem; line-height: 1.5; color: #e9efe9; }
 .hx-promise .hx-promises + p { margin-top: var(--space-block); }
 @media (min-width: 1100px) { .hx-promises { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
@@ -2850,11 +2851,11 @@ main > section.hx-hero.has-seam::before { display: none; }
   .hx-hero .hx-actions .button { width: 100%; }
 }
 
-/* ===== Type, 19 Nov: Boska for headings and numbers, Switzer for everything you read =====
-   Boska is about a fifth wider than the old serif, with finer hairlines. The big lines come down a step,
-   tighten a little and sit at 450; anything under about 32px is set heavier (500 to 600) so it holds up on small screens. */
+/* ===== Type, 19 Nov: Sentient for headings and numbers, Switzer for everything you read =====
+   Sentient is a soft serif with a true italic. The big lines sit at 450 and tighten a little; anything under about 28px
+   is set at 500 so it holds up on small screens. */
 h1, h2, .contact-title { word-spacing: 0; }
-h2 { font-size: clamp(2.375rem, 1.65rem + 4vw, 5.25rem); line-height: 1; letter-spacing: -0.018em; }
+h2 { font-size: clamp(2.375rem, 1.65rem + 4vw, 5.25rem); line-height: 1; letter-spacing: -0.015em; }
 .contact-title { font-size: clamp(3rem, 1.4rem + 5.6vw, 6.5rem); line-height: .96; letter-spacing: -0.02em; }
 @media (max-width: 599px) { .contact-title { font-size: clamp(2.75rem, 12.5vw, 3.75rem); } }
 @media (min-width: 600px) and (max-width: 899px) { .contact-title { font-size: clamp(3.75rem, 10vw, 5rem); } }
@@ -2866,11 +2867,8 @@ body { font-weight: 400; }
 .hx-sub, .hx-promise p, .hx-about-text > p:first-of-type { line-height: 1.5; }
 .hx-step-n { font-weight: 500; }
 
-/* Text motion. The hero headline waits, hidden, only while its entrance is about to play;
-   if the script never arrives it shows on its own. Reduced motion and no script: it is simply there. */
-@media (prefers-reduced-motion: no-preference) {
-  .js .hx-title:not(.is-in) { opacity: 0; animation: hj-show 0s 3.5s forwards; }
-}
+/* Text motion. The homepage hero's entrance is in CSS ("Hero entrance", near the end of this file), so it plays from the
+   first paint and never waits for a script. Reduced motion and no script: it is simply there. */
 @keyframes hj-show { to { opacity: 1; } }
 .split .hw, .split .hc { display: inline-block; }
 
@@ -2919,7 +2917,7 @@ html:not(.js) .hx-invite { display: none; }
 .hx-head { flex: none; display: flex; align-items: center; gap: 8px; padding: 0 14px 10px 4px; border-bottom: 1px solid rgba(243, 239, 230, .08); }
 .hx-back { flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--honey); cursor: pointer; }
 .hx-back svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.hx-av { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--honey); color: var(--ink); font: 550 20px/1 var(--serif); }
+.hx-av { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--honey); color: var(--ink); font: 500 20px/1 var(--serif); }
 .hx-who { display: grid; gap: 2px; min-width: 0; }
 .hx-who b { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 15px/1.2 var(--sans); }
 .hx-who span { display: flex; align-items: center; gap: 6px; font: 400 12.5px/1.2 var(--sans); color: rgba(243, 239, 230, .7); white-space: nowrap; }
@@ -2956,7 +2954,7 @@ html:not(.js) .hx-invite { display: none; }
 .hx-conf-k { display: flex; align-items: center; gap: 6px; font: 600 12.5px/1.2 var(--sans); color: #3b4d33; }
 .hx-conf-k svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 .hx-conf-k i { margin-left: auto; font: 600 10.5px/1 var(--sans); font-style: normal; color: var(--ink-muted); padding: 3px 6px; border: 1px solid rgba(23, 18, 12, .25); border-radius: 99px; }
-.hx-conf-t { margin-top: 8px; font: 550 22px/1.1 var(--serif); letter-spacing: -0.01em; }
+.hx-conf-t { margin-top: 8px; font: 500 22px/1.1 var(--serif); letter-spacing: -0.01em; }
 .hx-conf p + p { margin-top: 3px; }
 .hx-conf-m { color: var(--ink-muted); }
 
@@ -3023,7 +3021,7 @@ html:not(.js) .hx-invite { display: none; }
   .button-light:not(.button-small):hover::after { transform: translateX(3px); }
 }
 
-/* The menu: the button turns into a close cross and the links fill the screen, large, in Boska.
+/* The menu: the button turns into a close cross and the links fill the screen, large, in Sentient.
    ui.js adds .menu-on (shown), .menu-in (settled) and .menu-lock (the page holds still). The inner pages have the same in sub.css. */
 @media (max-width: 899px) {
   .nav { gap: 10px; }
@@ -3107,7 +3105,7 @@ html:not(.js) .hx-invite { display: none; }
 .hx-phone { width: clamp(260px, calc((100svh - 250px) / 2.08), 352px); }
 @media (max-width: 899px) { .hx-phone { width: min(340px, 86vw); } }
 
-/* PRICES: the number is the hero of each card. Boska 500 in cream; "from" small and muted on the same baseline.
+/* PRICES: the number is the hero of each card. Sentient 500 in cream; "from" small and muted on the same baseline.
    Only the direct "from" span is muted, so the rolling digits inside the number keep the number's size and colour. */
 .hx-plans .hj-plan { container-type: inline-size; }
 .hj-price { align-items: baseline; gap: 10px; margin-top: 10px; }
@@ -3145,13 +3143,6 @@ html:not(.js) .hx-invite { display: none; }
 @media (max-width: 899px) { .m-bar { background: #1c1611; } }
 
 /* Design review, 19 Nov */
-/* Hero: the lines under the headline wait hidden, like the headline, until their entrance plays; if the script never runs they show on their own */
-@media (prefers-reduced-motion: no-preference) {
-  .js .hx-hero :is(.hx-sub, .hero-actions, .hx-fine):not(.is-in) { opacity: 0; animation: hj-show 0s 3.5s forwards; }
-}
-@media (prefers-reduced-motion: no-preference) and (min-width: 900px) {
-  .js .hx-hero .hx-try-stage:not(.is-in) { opacity: 0; animation: hj-show 0s 3.5s forwards; }
-}
 /* Tablets: the hero on the same left edge as every other section */
 @media (min-width: 600px) and (max-width: 899px) { .hx-hero { padding-left: var(--margin); padding-right: var(--margin); } }
 /* Plans: price, care line and button stack together at the foot of each card, so the three prices line up */
@@ -3173,20 +3164,80 @@ html:not(.js) .hx-invite { display: none; }
   .button-light:not(:disabled):hover { background-color: var(--honey); transition: transform var(--dur-ui) var(--ease-out), color var(--dur-ui), border-color var(--dur-ui), background-color 0s var(--btn-dur); }
 }
 
-/* A booking, start to finish: three silent example clips and four straight answers */
-.hx-clips { position: relative; padding: var(--space-section) max(var(--margin), calc((100% - 1240px) / 2)); }
-.hx-clip-row { margin-top: var(--space-head); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); }
-.hx-clip { margin: 0; display: grid; gap: 14px; align-content: start; }
-.hx-clip video { display: block; width: 100%; aspect-ratio: 4 / 5; border-radius: 22px; background: #120d09; border: 1px solid rgba(243, 239, 230, .1); cursor: pointer; }
-.hx-clip figcaption { color: var(--muted); font-size: 1rem; line-height: 1.55; }
-.hx-clip figcaption b { color: var(--paper); font-weight: 500; }
-.hx-doubts { margin: var(--space-head) 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-block) clamp(32px, 4vw, 64px); }
-.hx-doubts > div { padding-top: var(--space-title); border-top: 1px solid var(--line); }
-.hx-doubts dt { font: 550 clamp(1.25rem, 1.1rem + .4vw, 1.5rem)/1.2 var(--serif); color: var(--paper); }
-.hx-doubts dd { margin: 10px 0 0; color: var(--muted); line-height: 1.6; max-width: 52ch; }
-@media (max-width: 899px) {
-  .hx-clip-row { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--margin); margin-inline: calc(var(--margin) * -1); padding: 0 var(--margin) 6px; scrollbar-width: none; }
-  .hx-clip-row::-webkit-scrollbar { display: none; }
-  .hx-clip { flex: 0 0 78%; scroll-snap-align: start; }
-  .hx-doubts { grid-template-columns: minmax(0, 1fr); }
+/* ===== Homepage, 19 Nov: "Hire a website that never clocks off" ===== */
+/* Large headings in Sentient: 450, tracked in a little */
+.contact-title, .hj-count-page h1, .hx-hero .hx-title, .hx-hero .hx-title em { letter-spacing: -0.015em; }
+
+/* The headline: "Hire a website" on one line, the honey italic line under it. The italic line stays whole on laptops;
+   on phones it breaks after "never", so nothing ever runs off the side. Sizes are set so the longest line fits the column. */
+.hx-hero .hx-title { font-weight: 440; line-height: 1; font-size: clamp(3rem, .9rem + 4.1vw, 5.25rem); }
+@media (max-width: 899px) { .hx-hero .hx-title { font-size: min(calc((100vw - 40px) / 6.9), 4.5rem); line-height: 1.02; } }
+@media (min-width: 600px) and (max-width: 899px) { .hx-hero .hx-title { font-size: min(calc((100vw - 2 * var(--margin)) / 9.8), 5.5rem); } }
+.hx-hero .hx-title em { padding-right: .06em; }
+
+/* The sub-line's rotating word: honey, Switzer 500, in a slot as wide as the widest word, so the line never reflows.
+   Without script, or with reduced motion, the line reads "orders, bookings and quotes" and nothing turns. */
+.hx-rot-all, .hx-rot-w { color: var(--honey); font-weight: 500; }
+.hx-rot-box { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .hx-rot-all { display: none; }
+  .js .hx-rot-box { display: inline-grid; justify-items: start; clip-path: inset(0 -.3em); }
+  .js .hx-rot-w { grid-area: 1 / 1; white-space: nowrap; opacity: 0; }
+  .js .hx-rot-w.is-on { opacity: 1; }
 }
+
+/* Hero entrance: plays from the first paint, in CSS, so the headline never waits for a script and is readable within
+   about a second. The plain line rises first and the honey line lands last; on laptops each line also comes out of a
+   soft blur. The sub-line and buttons fade up just after. Each piece starts hidden only while html.js is set and motion is
+   allowed, and the animation itself shows it, so nothing can stay hidden. Fades start at 1% rather than 0, which looks the
+   same but lets the browser count the headline as painted from the first frame (Largest Contentful Paint ignores opacity 0). */
+@keyframes hx-line { from { opacity: .01; transform: translateY(.28em); } to { opacity: 1; transform: none; } }
+@keyframes hx-smoke { from { opacity: .01; transform: translateY(.2em); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes hx-rise { from { opacity: .01; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .js .hx-hero .hx-title .hx-l, .js .hx-hero .hx-title .hx-e { animation: hx-line .95s var(--ease-reveal) both; }
+  .js .hx-hero .hx-title .hx-e { animation-delay: .12s; }
+  .js .hx-hero .hx-title .hx-e + .hx-e { animation-delay: .22s; }
+  .js .hx-hero .hx-sub { animation: hx-rise .8s var(--ease-reveal) .42s both; }
+  .js .hx-hero .hx-actions { animation: hx-rise .8s var(--ease-reveal) .5s both; }
+  .js .hx-hero .hx-fine { animation: hx-rise .8s var(--ease-reveal) .58s both; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 900px) {
+  .js .hx-hero .hx-try-stage { animation: hx-rise 1s var(--ease-reveal) .45s both; }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 900px) and (pointer: fine) {
+  .js .hx-hero .hx-title .hx-l, .js .hx-hero .hx-title .hx-e { animation-name: hx-smoke; }
+}
+
+/* The phone's night: an Example label, then one notification per word of the headline, the newest on top and two
+   tucked in behind (hojari.js places them). The pill to message the salon is there from the start. */
+.hx-ex { position: absolute; left: 50%; top: 38%; translate: -50% 0; margin: 0; padding: 5px 11px; border-radius: 99px; border: 1px solid rgba(227, 173, 92, .55);
+  font: 600 11.5px/1.2 var(--sans); color: var(--honey); opacity: 0; transition: opacity .5s var(--ease-out); }
+.hx-stage.is-night .hx-ex { opacity: 1; }
+.hx-stage.is-night.is-dawn .hx-ex { opacity: 0; }
+.hx-notes { top: calc(38% + 38px); }
+.hx-note { align-items: start; transform-origin: 50% 100%; }
+.hx-note .hx-ico { margin-top: 1px; }
+.hx-nt span { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.hx-note.is-order .hx-ico { background: var(--honey); color: var(--ink); }
+.hx-note.is-book .hx-ico { background: var(--khareef); }
+.hx-note.is-pay .hx-ico { background: #5a4630; }
+.hx-note time { color: rgba(243, 239, 230, .62); }
+.hx-notes-hit { z-index: 20; border-radius: 20px; }
+.hx-stage.is-night:not(.is-morning) .hx-pill { opacity: 1; transform: none; visibility: visible; }
+@media (prefers-reduced-motion: reduce) { .hx-ex { transition: none; } }
+/* only the newest notification is read; the ones behind are plain cards, so no text shows through */
+.hx-note { background: #2a221a; }
+.hx-note > * { transition: opacity .3s var(--ease-out); }
+.hx-note.is-back > * { opacity: 0; }
+/* every notification is the same height (two lines of text), so the stack stays neat and the cards behind only show at the bottom */
+.hx-note { min-height: 72px; align-items: center; }
+.hx-note time { align-self: start; padding-top: 2px; }
+/* Prices heading: the longer line gets the wider column on laptops, so it reads in two lines, not four */
+@media (min-width: 1100px) {
+  .hx-plans .hj-head.hj-head-split { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+  #pricing-title { font-size: clamp(2.375rem, .6rem + 3.6vw, 4.75rem); }
+}
+/* The contact heading and the Night Shift line: the honey half always starts its own line, so it never dangles */
+.contact-title em, .hx-plans .hj-plan.is-pick h3 em { display: block; }
+.hx-plans .hj-plan.is-pick h3 { text-wrap: wrap; }

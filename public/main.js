@@ -85,38 +85,18 @@
   addEventListener('scroll', seenSoon, { passive: true }); addEventListener('resize', seenSoon);
   setInterval(() => watch.length && seen(), 400);
 
-  /* Headlines. The hero's first words rise one by one, then "not messages." settles in letter by letter out of a
-     soft blur, like smoke finding its shape. Section headings rise and sharpen word by word as they arrive, once.
+  /* Headlines. The homepage hero arrives by itself, in CSS, from the first paint (styles.css, "Hero entrance"), so it never
+     waits for these scripts. Section headings rise and sharpen word by word as they arrive, once.
      Only transform, opacity and filter move, and every piece is cleared when it lands, so nothing stays blurred. */
   const heroTitle = $('.hero-title');
   const heroShown = () => heroTitle && heroTitle.classList.add('is-in');
   const settle = (els) => gsap.set(els, { clearProps: 'transform,opacity,filter' });
+  heroShown();
   if (motion && typeof SplitText !== 'undefined') {
     const go = () => {
       $$('.split').forEach((el) => {
-        if (el === heroTitle) {
-          const s = SplitText.create(el, { type: 'words,chars', wordsClass: 'hw', charsClass: 'hc' });
-          const em = $('em', el);
-          const lead = s.words.filter((w) => !em || !em.contains(w));
-          const smoke = em ? s.chars.filter((c) => em.contains(c)) : [];
-          const fs = parseFloat(getComputedStyle(el).fontSize) || 48;
-          const mid = (smoke.length - 1) / 2;
-          if (!desktop) {
-            /* Tap the tear on a phone and the headline jumps */
-            addEventListener('tearburst', () => gsap.fromTo(s.chars, { y: 0 }, { y: -18, duration: 0.22, ease: 'power2.out', yoyo: true, repeat: 1, stagger: { each: 0.025, from: 'center' }, overwrite: 'auto' }));
-          }
-          const tl = gsap.timeline({ delay: 0.05, onComplete: () => settle([...lead, ...smoke]) });
-          /* rise up: word by word */
-          tl.fromTo(lead, { y: fs * 0.25, opacity: 0, filter: soft ? 'none' : 'blur(4px)' },
-            { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: 1.1, ease: EASE, stagger: 0.07 }, 0);
-          /* smoke in: each letter drifts up out of a blur while the spacing draws in towards the middle */
-          if (smoke.length) {
-            tl.fromTo(smoke, { opacity: 0 }, { opacity: 1, duration: 0.9, ease: 'power2.out', stagger: 0.032 }, 0.26)
-              .fromTo(smoke, { y: fs * 0.2, x: (i) => (i - mid) * fs * 0.03, scale: 1.03, filter: soft ? 'none' : 'blur(6px)' },
-                { y: 0, x: 0, scale: 1, filter: soft ? 'none' : 'blur(0px)', duration: 1.1, ease: 'power2.out', stagger: 0.032 }, 0.26);
-          }
-          heroShown();
-        } else if (el.getBoundingClientRect().top > innerHeight * 0.9) {
+        if (el === heroTitle) return;
+        if (el.getBoundingClientRect().top > innerHeight * 0.9) {
           /* blur in and rise up: word by word, the gold words included */
           const s = SplitText.create(el, { type: 'words', wordsClass: 'hw' });
           const fs = parseFloat(getComputedStyle(el).fontSize) || 40;
@@ -124,9 +104,8 @@
           whenSeen(el, () => gsap.to(s.words, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: DUR, ease: EASE, stagger: 0.06, overwrite: true, onComplete: () => settle(s.words) }));
         }
       });
-      /* the lines under the headline, and on laptops the phone beside it, each rise once. CSS holds them hidden
-         (like the headline) until this runs, so they never show, vanish and come back */
-      const heroBits = $$('.hx-sub, .hero-actions, .hx-fine, .promises li' + (wide ? ', .hx-try-stage' : ''));
+      /* the lines under an older-style hero each rise once (the homepage hero has its own entrance in CSS) */
+      const heroBits = $$('.hx-sub, .hero-actions, .hx-fine, .promises li' + (wide ? ', .hx-try-stage' : '')).filter((b) => !b.closest('.hx-hero'));
       if (heroBits.length) {
         gsap.set(heroBits, { y: 12, opacity: 0 });
         heroBits.forEach((b) => b.classList.add('is-in'));
@@ -136,7 +115,7 @@
     };
     /* wait for the new type so the letters split on the right shapes, but never for long */
     Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise((r) => setTimeout(r, 700))]).then(() => introDone).then(go);
-  } else { heroShown(); $$('.hx-sub, .hero-actions, .hx-fine, .hx-try-stage').forEach((b) => b.classList.add('is-in')); }
+  } else { $$('.hx-sub, .hero-actions, .hx-fine, .hx-try-stage').forEach((b) => b.classList.add('is-in')); }
 
   /* Everything below the first screen sets itself up once the phone has a spare moment */
   const rest = () => {

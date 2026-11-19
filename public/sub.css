@@ -1,13 +1,13 @@
 /* Hojari inner pages: the questionnaire, the app builder and the client portal. Same palette and type as the homepage. */
-@font-face { font-family: 'Boska'; font-style: normal; font-weight: 200 900; font-display: swap; src: url(fonts/Boska-Variable.woff2) format('woff2'); }
-@font-face { font-family: 'Boska'; font-style: italic; font-weight: 200 900; font-display: swap; src: url(fonts/Boska-VariableItalic.woff2) format('woff2'); }
+@font-face { font-family: 'Sentient'; font-style: normal; font-weight: 200 700; font-display: swap; src: url(fonts/Sentient-Variable.woff2) format('woff2'); }
+@font-face { font-family: 'Sentient'; font-style: italic; font-weight: 200 700; font-display: swap; src: url(fonts/Sentient-VariableItalic.woff2) format('woff2'); }
 @font-face { font-family: 'Switzer'; font-style: normal; font-weight: 100 900; font-display: swap; src: url(fonts/Switzer-Variable.woff2) format('woff2'); }
 @font-face { font-family: 'Switzer'; font-style: italic; font-weight: 100 900; font-display: swap; src: url(fonts/Switzer-VariableItalic.woff2) format('woff2'); }
 :root {
   --night: #120d09; --night-2: #1c1611; --night-3: #2a221a; --line: rgba(243, 239, 230, .12);
   --paper: #f2f0eb; --muted: #b8ae9c; --resin: #d7dcc7; --honey: #e3ad5c; --amber: #b8661d; --khareef: #2b5a42;
   --sand: #e7e3db; --sand-2: #f2f0eb; --ink: #17120c; --ink-muted: #5b5144; --ink-line: rgba(23, 18, 12, .12);
-  --sans: "Switzer", system-ui, sans-serif; --serif: "Boska", Georgia, serif;
+  --sans: "Switzer", system-ui, sans-serif; --serif: "Sentient", Georgia, serif;
   --step-small: clamp(0.9375rem, 0.91rem + 0.1vw, 1rem);
   --step-body: clamp(1.125rem, 1.06rem + 0.25vw, 1.25rem);
   --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
@@ -24,9 +24,9 @@ a { color: inherit; }
 h1, h2, h3, p, figure, ul, ol { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 p { text-wrap: pretty; }
-h1, h2 { font: 450 var(--step-head)/1.02 var(--serif); letter-spacing: -0.018em; text-wrap: balance; }
+h1, h2 { font: 450 var(--step-head)/1.02 var(--serif); letter-spacing: -0.015em; text-wrap: balance; }
 h1 em, h2 em { font-style: italic; color: var(--honey); }
-h3 { font: 550 1.5rem/1.15 var(--serif); }
+h3 { font: 500 1.5rem/1.15 var(--serif); }
 button, input, textarea, select { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--honey); outline-offset: 3px; }
 ::selection { background: var(--honey); color: var(--ink); }
@@ -174,7 +174,7 @@ button, input, textarea, select { font: inherit; color: inherit; }
   .button.arrow:not(:disabled):hover::after { transform: translateX(3px); }
 }
 
-/* The menu: the button turns into a close cross and the links fill the screen, large, in Boska.
+/* The menu: the button turns into a close cross and the links fill the screen, large, in Sentient.
    ui.js adds .menu-on (shown), .menu-in (settled) and .menu-lock (the page holds still). The homepage has the same in styles.css. */
 .menu-btn, .m-only { display: none; }
 @media (max-width: 899px) {

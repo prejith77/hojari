@@ -196,12 +196,48 @@
   window.hjRoll = roll;
   window.hjRollStop = rollStop;
 
-  /* ---------- Try the Night Shift: a night of messages, then one calm morning, then a phone you can use ----------
+  /* ---------- The hero's rotating word: orders, bookings, quotes, payments ----------
+     The one loop on the page, on purpose. Every 1.6 seconds the word slides up and out and the next drops into the same slot,
+     which is as wide as the widest word, so the line never moves. Only transform and opacity move, plus a slight blur on laptops.
+     It waits until the headline has landed, and it holds still while the hero is off screen or the tab is hidden.
+     Screen readers hear the whole list once, from a hidden copy; with reduced motion or no script the line reads
+     "orders, bookings and quotes" and nothing turns. Each change is announced to the phone (hj:word) so it can follow. */
+  const rot = $('.hx-rot-box');
+  if (rot && rot.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const words = $$('.hx-rot-w', rot), hero = $('.hx-hero') || rot;
+    const blur = matchMedia('(min-width: 900px) and (pointer: fine)').matches;
+    const fx = (b) => (blur ? `blur(${b}px)` : 'none');
+    const EVERY = 1600, FIRST = 2200;
+    let at = 0, timer = 0, onScreen = true, ready = false;
+    const step = () => {
+      const was = words[at];
+      at = (at + 1) % words.length;
+      const now = words[at];
+      was.classList.remove('is-on'); now.classList.add('is-on');
+      was.animate([{ transform: 'translateY(0)', opacity: 1, filter: fx(0) }, { transform: 'translateY(-.85em)', opacity: 0, filter: fx(3) }],
+        { duration: 360, easing: 'cubic-bezier(.55, 0, .7, .2)', fill: 'forwards' });
+      now.animate([{ transform: 'translateY(.95em)', opacity: 0, filter: fx(4) }, { transform: 'translateY(0)', opacity: 1, filter: fx(0) }],
+        { duration: 640, delay: 90, easing: 'cubic-bezier(.3, 1.3, .5, 1)', fill: 'both' });
+      document.dispatchEvent(new CustomEvent('hj:word', { detail: { i: at, word: now.textContent } }));
+    };
+    /* one timer at a time; it only runs while the hero is on screen and the tab is in front */
+    const run = (wait = EVERY) => {
+      clearTimeout(timer);
+      if (!ready || !onScreen || document.hidden) return;
+      timer = setTimeout(() => { step(); run(); }, wait);
+    };
+    setTimeout(() => { ready = true; run(0); }, FIRST);
+    document.addEventListener('visibilitychange', () => run());
+    if (window.IntersectionObserver) new IntersectionObserver(([en]) => { const was = onScreen; onScreen = en.isIntersecting; if (was !== onScreen) run(); }).observe(hero);
+    window.hjWord = () => at;
+  }
+
+  /* ---------- The phone in the hero: it follows the rotating word, then becomes a phone you can use ----------
      Without JavaScript, or with reduced motion, the phone simply shows 7:00 am and the Night Shift card.
-     With motion the phone opens on a busy night: four messages are already waiting and the badge reads 21. The story plays once,
-     in about six seconds: on laptops as soon as the hero has loaded, on phones when the phone scrolls into view. Three more messages
-     land and the badge climbs to 37, then the clock turns to 7:00 am and they fold into one card. Only transform and opacity move.
-     Then it is the visitor's turn: tap a message or the card and they are the customer, chatting with an example salon. */
+     With motion it is 11:47 pm and one example notification arrives for each word of the headline: a café order, a salon booking,
+     a builder's quote accepted, a course deposit paid. The newest sits on top and the two before it tuck in behind, so it never piles up.
+     A tap anywhere on the lock screen turns it to 7:00 am and the Night Shift card; the card, or "Message Saffron Salon",
+     opens the chat, where the visitor is the customer. Only transform and opacity move. */
   const stage = $('.hx-stage');
   if (stage && $('.hx-app', stage)) {
     const motion = !!stage.animate && !matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -214,20 +250,12 @@
     /* It stops being a picture: real buttons, read out properly */
     stage.removeAttribute('role');
     stage.setAttribute('role', 'group');
-    stage.setAttribute('aria-label', 'Example phone. Tap a message or the Night Shift card to chat as a customer of Saffron Salon, a made-up salon.');
+    stage.setAttribute('aria-label', 'Example phone. Tap the phone to see the morning, then tap the Night Shift card or Message Saffron Salon to chat as a customer of a made-up salon.');
     phone.removeAttribute('aria-hidden');
-    $$('.hx-lock, .hx-badge, .hx-dock, .hx-dawn, .hx-island', stage).forEach((el) => el.setAttribute('aria-hidden', 'true'));
+    $$('.hx-lock, .hx-ex, .hx-dock, .hx-dawn, .hx-island', stage).forEach((el) => el.setAttribute('aria-hidden', 'true'));
+    /* the notifications are a moving picture: screen readers skip them, and the stage's label says what to do */
+    notesDom.forEach((li) => li.setAttribute('aria-hidden', 'true'));
     const hit = (label) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'hx-hit'; b.setAttribute('aria-label', label); return b; };
-    const asks = notesDom.map((li) => {
-      const who = $('.hx-nt b', li).textContent, said = $('.hx-nt span', li).textContent;
-      $$('.hx-ico, .hx-nt, time', li).forEach((el) => el.setAttribute('aria-hidden', 'true'));
-      let ask = said, label = 'Reply as ' + who + ': ' + said;
-      if (li.classList.contains('is-call')) { ask = null; label = 'Open the chat as ' + said.split(',')[0] + ', who rang twice'; }
-      if (li.classList.contains('is-form')) { ask = 'Can I book for 6 people on Friday?'; label = 'Reply to the website enquiry: party of 6, Friday'; }
-      const b = hit(label); b.hidden = true; li.append(b);
-      b.addEventListener('click', () => openApp(ask ? { text: ask } : { missed: true }, b));
-      return b;
-    });
     const cardHit = hit('Open the chat with Saffron Salon, as a customer');
     card.append(cardHit);
     cardHit.addEventListener('click', () => openApp(null, cardHit));
@@ -246,76 +274,56 @@
     const toMorning = () => {
       if (morning) return;
       morning = true;
-      asks.forEach((b) => { b.hidden = true; });
       noteList.setAttribute('aria-hidden', 'true'); noteList.inert = true;
       cardHit.hidden = false;
       if (!open) rollCard();
     };
 
-    /* ----- the night: plays once, when the phone comes into view ----- */
+    /* ----- the night: one notification for each word of the headline ----- */
     if (motion) {
-      const notes = notesDom.slice().reverse(), hits = asks.slice().reverse(), countEl = $('.hx-count', stage);
-      const out = 'cubic-bezier(.23, 1, .32, 1)', inOut = 'cubic-bezier(.77, 0, .175, 1)';
-      const pitch = () => (notes[0].offsetHeight || 64) + 8;
-      /* how many fit between the badge and the two round buttons at the bottom: four on a tall phone, three on a short one */
-      const dock = $('.hx-dock', stage);
-      const room = () => Math.max(2, Math.min(4, Math.floor((dock.offsetTop - noteList.offsetTop + 8) / pitch()) || 4));
-      const slotOf = (slot) => {
-        /* newest on top; older ones step down, and past the last that fits they tuck in behind */
-        const last = room() - 1, tucked = slot > last;
-        return { transform: `translateY(${Math.min(slot, last) * pitch() + (tucked ? 8 : 0)}px) scale(${tucked ? 0.94 : 1})`, opacity: tucked ? 0 : 1 };
+      const out = 'cubic-bezier(.23, 1, .32, 1)';
+      const GAP = 9;
+      let stack = [];
+      /* newest on top; the two before it peek out underneath, a step smaller and fainter; the oldest leaves */
+      const slot = (n, k, h0) => {
+        if (k === 0) return { transform: 'translateY(0) scale(1)', opacity: 1 };
+        const y = h0 - n.offsetHeight + GAP * Math.min(k, 3);
+        return { transform: `translateY(${y}px) scale(${1 - 0.05 * Math.min(k, 3)})`, opacity: k === 1 ? 0.6 : k === 2 ? 0.3 : 0 };
+      };
+      const push = (i, quiet) => {
+        if (morning) return;
+        const n = notesDom[i % notesDom.length];
+        if (!n) return;
+        stack = [n, ...stack.filter((x) => x !== n)].slice(0, 4);
+        const h0 = n.offsetHeight;
+        noteList.style.height = h0 + GAP * 2 + 'px';
+        stack.forEach((x, k) => {
+          x.style.zIndex = String(10 - k);
+          x.classList.toggle('is-back', k > 0);
+          const to = slot(x, k, h0);
+          if (quiet) { x.style.transform = to.transform; x.style.opacity = to.opacity; return; }
+          if (x === n) x.animate([{ transform: 'translateY(-14px) scale(.97)', opacity: 0 }, to], { duration: 560, easing: out, fill: 'forwards' });
+          else x.animate([to], { duration: 560, easing: out, fill: 'forwards' });
+        });
       };
       stage.classList.add('is-night');
       cardHit.hidden = true;
-      /* the first four are already there when the phone appears, newest on top, so the screen looks busy at a glance */
-      const PRE = 4, START = 21;
-      countEl.textContent = String(START);
-      notes.slice(0, PRE).forEach((n, j) => { const at = slotOf(PRE - 1 - j); n.style.transform = at.transform; n.style.opacity = at.opacity; hits[j].hidden = at.opacity === 0; });
-      const T = [0, 0, 0, 0, 500, 1250, 1950];
-      const timers = [];
-      const at = (ms, fn) => timers.push(setTimeout(fn, ms));
-      let started = false;
-      const dawn = () => { timers.forEach(clearTimeout); stage.classList.add('is-dawn', 'is-morning'); toMorning(); };
-      const play = () => {
-        if (started || morning) return;
-        started = true;
-        stage.classList.add('is-play');
-        notes.forEach((n, i) => i >= PRE && at(T[i], () => {
-          n.animate([{ transform: 'translateY(-16px) scale(.96)', opacity: 0 }, { transform: 'translateY(0) scale(1)', opacity: 1 }], { duration: 650, easing: out, fill: 'forwards' });
-          for (let k = 0; k < i; k++) { notes[k].animate([slotOf(i - k)], { duration: 650, easing: out, fill: 'forwards' }); if (i - k >= room()) hits[k].hidden = true; }
-          hits[i].hidden = false;
-          /* the first and last arrivals give the phone a small buzz */
-          if (i === PRE || i === notes.length - 1) phone.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(2px)' }, { transform: 'translateX(0)' }], { duration: 240, easing: 'cubic-bezier(.36, 0, .66, 1)' });
-        }));
-        /* the badge climbs from 21 to 37 while the messages land */
-        const c0 = performance.now() + T[PRE], cDur = T[T.length - 1] + 500 - T[PRE];
-        const tick = (now) => {
-          const p = Math.min(1, Math.max(0, (now - c0) / cDur));
-          countEl.textContent = String(Math.round(START + (37 - START) * (1 - Math.pow(1 - p, 2))));
-          if (p < 1 && !stage.classList.contains('is-dawn')) requestAnimationFrame(tick); else countEl.textContent = '37';
-        };
-        requestAnimationFrame(tick);
-        /* 7:00 am: the clock turns over, the messages fold away and the card arrives */
-        at(4300, () => { stage.classList.add('is-dawn'); asks.forEach((b) => { b.hidden = true; }); });
-        at(4700, () => notes.slice().reverse().forEach((n, k) => {
-          const from = getComputedStyle(n).transform;
-          n.animate([{ transform: from === 'none' ? 'none' : from, opacity: +getComputedStyle(n).opacity }, { transform: `translateY(${pitch()}px) scale(.88)`, opacity: 0 }], { duration: 750, delay: k * 70, easing: inOut, fill: 'forwards' });
-        }));
-        at(5700, () => { stage.classList.add('is-morning'); toMorning(); });
+      /* the notifications are one button: a tap (or Enter) on them shows the morning */
+      const notesHit = hit('Show the morning: the Night Shift card'); notesHit.classList.add('hx-notes-hit');
+      noteList.append(notesHit);
+      push(window.hjWord ? window.hjWord() : 0, true);
+      const follow = (e) => push(e.detail.i);
+      document.addEventListener('hj:word', follow);
+      const dawn = () => {
+        if (morning) return;
+        document.removeEventListener('hj:word', follow);
+        stage.classList.add('is-dawn', 'is-morning');
+        notesHit.hidden = true;
+        toMorning();
       };
-      /* laptops: the phone sits beside the headline, so the night starts once the hero has loaded (and the phone is on screen).
-         Phones: the phone is under the buttons, so it starts when it scrolls into view */
-      const laptop = matchMedia('(min-width: 900px)').matches;
-      let loaded = !laptop, seen = false;
-      const tryPlay = () => { if (loaded && seen) play(); };
-      if (laptop) {
-        const ready = () => setTimeout(() => { loaded = true; tryPlay(); }, 900);
-        if (document.readyState === 'complete') ready(); else addEventListener('load', ready, { once: true });
-      }
-      if (window.IntersectionObserver) { const po = new IntersectionObserver(([en]) => { if (en.isIntersecting) { po.disconnect(); seen = true; tryPlay(); } }, { threshold: laptop ? 0.25 : 0.4 }); po.observe(stage); }
-      else { seen = true; tryPlay(); }
-      /* a tap on the lock screen skips straight to the morning (a tap on a message also opens the chat) */
-      lockview.addEventListener('pointerdown', (e) => { if (!morning && !e.target.closest('.hx-hit')) dawn(); });
+      notesHit.addEventListener('click', () => { dawn(); cardHit.focus({ preventScroll: true }); });
+      /* a tap anywhere else on the lock screen turns it to morning too (the pill opens the chat straight away) */
+      lockview.addEventListener('pointerdown', (e) => { if (!morning && !e.target.closest('.hx-hit, .hx-pill')) dawn(); });
       stage.hjDawn = dawn;
     } else toMorning();
 
@@ -633,19 +641,4 @@
     const so = new IntersectionObserver((ens) => ens.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('seam-on'); so.unobserve(en.target); } }), { rootMargin: '0px 0px -30% 0px' });
     seams.forEach((s) => so.observe(s));
   } else seams.forEach((s) => s.classList.add('has-seam', 'seam-on'));
-})();
-
-/* A booking, start to finish: each clip plays once when it comes into view, pauses when it leaves, and a tap replays it */
-(() => {
-  const clips = document.querySelectorAll('.hx-clip video');
-  if (!clips.length) return;
-  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  clips.forEach((v) => v.addEventListener('click', () => { v.currentTime = 0; v.play().catch(() => {}); }));
-  if (still || !window.IntersectionObserver) { clips.forEach((v) => { v.controls = true; }); return; }
-  const io = new IntersectionObserver((ens) => ens.forEach((en) => {
-    const v = en.target;
-    if (en.isIntersecting) { if (!v.dataset.played || !v.ended) { v.dataset.played = '1'; v.play().catch(() => { v.controls = true; }); } }
-    else if (!v.paused) v.pause();
-  }), { threshold: 0.35 });
-  clips.forEach((v) => io.observe(v));
 })();
