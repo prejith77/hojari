@@ -10,6 +10,8 @@
   if (embedded) root.classList.add('embedded');
   const motion = hasGsap && !reduce && !embedded;
   const soft = !desktop; /* phones: no blur filters, they are costly to draw */
+  /* One way of moving for every reveal on the page: the same ease, about a second, a short rise, a small stagger */
+  const EASE = 'power3.out', DUR = 1, RISE = 20, STAG = 0.045;
   if (hasGsap) gsap.registerPlugin(ScrollTrigger);
   if (hasGsap && typeof SplitText !== 'undefined') gsap.registerPlugin(SplitText);
   const $ = (s, el = document) => el.querySelector(s);
@@ -42,7 +44,7 @@
   /* Smooth scrolling on desktop */
   let lenis = null;
   if (motion && desktop && typeof Lenis !== 'undefined') {
-    lenis = new Lenis({ lerp: 0.12 });
+    lenis = new Lenis({ lerp: 0.1 });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((t) => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -104,25 +106,26 @@
           }
           const tl = gsap.timeline({ delay: 0.05, onComplete: () => settle([...lead, ...smoke]) });
           /* rise up: word by word */
-          tl.fromTo(lead, { y: fs * 0.42, opacity: 0, filter: soft ? 'none' : 'blur(6px)' },
-            { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: 0.8, ease: 'power4.out', stagger: 0.05 }, 0);
+          tl.fromTo(lead, { y: RISE, opacity: 0, filter: soft ? 'none' : 'blur(6px)' },
+            { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: DUR, ease: EASE, stagger: STAG }, 0);
           /* smoke in: each letter drifts up out of a blur while the spacing draws in towards the middle */
           if (smoke.length) {
-            tl.fromTo(smoke, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power1.out', stagger: 0.032 }, 0.26)
-              .fromTo(smoke, { y: fs * 0.2, x: (i) => (i - mid) * fs * 0.05, scale: 1.06, filter: `blur(${soft ? 5 : 12}px)` },
-                { y: 0, x: 0, scale: 1, filter: 'blur(0px)', duration: 0.88, ease: 'power3.out', stagger: 0.032 }, 0.26);
+            tl.fromTo(smoke, { opacity: 0 }, { opacity: 1, duration: DUR * 0.8, ease: EASE, stagger: 0.035 }, 0.26)
+              .fromTo(smoke, { y: Math.min(RISE, fs * 0.2), x: (i) => (i - mid) * fs * 0.05, scale: 1.06, filter: soft ? 'none' : 'blur(12px)' },
+                { y: 0, x: 0, scale: 1, filter: soft ? 'none' : 'blur(0px)', duration: DUR, ease: EASE, stagger: 0.035 }, 0.26);
           }
           heroShown();
         } else if (el.getBoundingClientRect().top > innerHeight * 0.9) {
           /* blur in and rise up: word by word, the gold words included */
           const s = SplitText.create(el, { type: 'words', wordsClass: 'hw' });
           const fs = parseFloat(getComputedStyle(el).fontSize) || 40;
-          gsap.set(s.words, { y: fs * 0.4, opacity: 0, filter: soft ? 'none' : 'blur(8px)' });
-          whenSeen(el, () => gsap.to(s.words, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: soft ? 0.7 : 0.9, ease: 'power4.out', stagger: 0.05, overwrite: true, onComplete: () => settle(s.words) }));
+          gsap.set(s.words, { y: RISE, opacity: 0, filter: soft ? 'none' : 'blur(6px)' });
+          whenSeen(el, () => gsap.to(s.words, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: DUR, ease: EASE, stagger: STAG, overwrite: true, onComplete: () => settle(s.words) }));
         }
       });
-      const heroBits = $$('.hx-sub, .hero-actions, .hx-fine, .promises li');
-      if (heroBits.length) gsap.from(heroBits, { y: 18, opacity: 0, duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: soft ? 0.06 : 0.08, delay: soft ? 0.3 : 0.45 });
+      /* the lines under the headline, and on laptops the phone beside it, each rise once */
+      const heroBits = $$('.hx-sub, .hero-actions, .hx-fine, .promises li' + (wide ? ', .hx-try-stage' : ''));
+      if (heroBits.length) gsap.from(heroBits, { y: RISE, opacity: 0, duration: DUR, ease: EASE, stagger: STAG, delay: 0.35, clearProps: 'transform,opacity' });
       ScrollTrigger.refresh();
     };
     /* wait for the new type so the letters split on the right shapes, but never for long */
@@ -135,11 +138,11 @@
   if (motion) {
     const sel = '.hx-step, .hx-q, .hx-promise p, .hx-about-text > p, .hx-about-text > figure, .hx-me, .hj-three-steps li, .hj-plan, .hj-case, .hj-qs details, .grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
     /* the same blocks as the inner pages: section intros, the lines under the plans and the work, the promise list */
-    const more = '.hx-try-text > p:not(.hx-kicker), .hj-head .hj-lede, .hj-head-side > .hx-compare, .hj-story, .hj-fixline, .hj-more-prices, .hj-foundline, .hx-bargain, .hx-promises li, .contact-alt';
+    const more = '.hj-head .hj-lede, .hj-head-side > .hx-compare, .hj-story, .hj-fixline, .hj-more-prices, .hj-foundline, .hx-promises li, .contact-alt';
     const items = $$(sel + ', ' + more).filter((el, i, all) => el.getBoundingClientRect().top > innerHeight && !(!desktop && el.matches('.usp-card')) && !all.some((o) => o !== el && o.contains(el)));
     /* rise and sharpen once: laptops add a light blur, phones move only */
-    gsap.set(items, soft ? { y: 24, opacity: 0 } : { y: 28, opacity: 0, filter: 'blur(8px)' });
-    const show = (els) => gsap.to(els, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: soft ? 0.6 : 0.8, ease: 'power4.out', stagger: { each: 0.07, from: 'start' }, overwrite: true, clearProps: 'filter' });
+    gsap.set(items, soft ? { y: RISE, opacity: 0 } : { y: RISE, opacity: 0, filter: 'blur(6px)' });
+    const show = (els) => gsap.to(els, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: DUR, ease: EASE, stagger: { each: STAG, from: 'start' }, overwrite: true, clearProps: 'transform,opacity,filter' });
     let queue = [], timer = 0;
     items.forEach((el) => whenSeen(el, () => { queue.push(el); clearTimeout(timer); timer = setTimeout(() => { show(queue); queue = []; }, 30); }));
   }
@@ -324,7 +327,7 @@
       if (!time) return;
       btn.classList.add('is-done'); btn.textContent = 'Booked';
       out.textContent = `Booked for ${full[day]} at ${time}. Your customers could do that in their pyjamas.`;
-      if (motion) gsap.fromTo(btn, { scale: 0.94 }, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.45)' });
+      if (motion) gsap.fromTo(btn, { scale: 0.94 }, { scale: 1, duration: 0.6, ease: EASE });
     });
   }
 
@@ -378,7 +381,7 @@
     appBtn.addEventListener('click', () => {
       if (n >= 8) { n = 0; paint(); reward.classList.remove('is-on'); appBtn.textContent = 'Add a stamp'; return; }
       n++; paint();
-      if (motion) gsap.fromTo(stamps[n - 1], { scale: 0.4 }, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.45)' });
+      if (motion) gsap.fromTo(stamps[n - 1], { scale: 0.4 }, { scale: 1, duration: 0.6, ease: EASE });
       if (n === 8) { reward.classList.add('is-on'); appBtn.textContent = 'Start a new card'; confetti(); }
     });
   }
@@ -495,7 +498,7 @@
 
   /* Footer: the letters rise into place */
   const blocks = $$('.blk');
-  if (motion && $('.blocks').getBoundingClientRect().top > innerHeight) { gsap.set(blocks, { y: 36, opacity: 0 }); whenSeen($('.blocks'), () => gsap.to(blocks, { y: 0, opacity: 1, duration: 1, ease: 'power4.out', stagger: 0.06, clearProps: 'transform,opacity' })); }
+  if (motion && $('.blocks') && $('.blocks').getBoundingClientRect().top > innerHeight) { gsap.set(blocks, { y: 16, opacity: 0 }); whenSeen($('.blocks'), () => gsap.to(blocks, { y: 0, opacity: 1, duration: DUR, ease: EASE, stagger: 0.04, clearProps: 'transform,opacity' })); }
 
   /* BUILD: a homepage that puts itself together as you choose */
   const bForm = $('#build-form');
@@ -546,7 +549,7 @@
       $$('[data-f]', page).forEach((el) => {
         const on = feats.has(el.dataset.f), was = !el.hidden;
         el.hidden = !on;
-        if (on && !was && animate && motion) gsap.fromTo(el, { opacity: 0, y: 12, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.6)', clearProps: 'transform' });
+        if (on && !was && animate && motion) gsap.fromTo(el, { opacity: 0, y: 12, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: EASE, clearProps: 'transform' });
         if (on && !was && animate && el.dataset.f !== 'whatsapp' && page.scrollHeight > page.clientHeight) page.scrollTo({ top: el.getBoundingClientRect().top - page.getBoundingClientRect().top + page.scrollTop - 20, behavior: reduce ? 'auto' : 'smooth' });
       });
       featBtns.forEach((x) => { const on = feats.has(x.dataset.f); x.classList.toggle('is-on', on); x.setAttribute('aria-pressed', on); });
@@ -564,7 +567,7 @@
       const shapes = $$('.m-art i', page);
       if (animate && motion) {
         gsap.fromTo($$('.m-hero-text > *, .m-tiles > div, .m-quote', page), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', stagger: 0.05, overwrite: true });
-        shapes.forEach((sh, i) => gsap.to(sh, { left: art[i][0] + '%', top: art[i][1] + '%', bottom: 'auto', right: 'auto', rotation: gsap.utils.random(-14, 14), duration: 0.9, ease: 'elastic.out(1, 0.6)' }));
+        shapes.forEach((sh, i) => gsap.to(sh, { left: art[i][0] + '%', top: art[i][1] + '%', bottom: 'auto', right: 'auto', rotation: gsap.utils.random(-14, 14), duration: 0.9, ease: EASE }));
       } else shapes.forEach((sh, i) => { sh.style.left = art[i][0] + '%'; sh.style.top = art[i][1] + '%'; sh.style.right = 'auto'; sh.style.bottom = 'auto'; });
     };
     const setView = (v) => {

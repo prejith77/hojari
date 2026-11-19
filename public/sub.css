@@ -104,13 +104,13 @@ button, input, textarea, select { font: inherit; color: inherit; }
   /* between two buttons, or a button and a text link, side by side or stacked */
   --space-pair: 12px;
   --button-h: 52px;
-  --ease-reveal: cubic-bezier(.22, 1, .36, 1);
-  --dur-reveal: .8s;
-  --dur-head: .9s;
+  --ease-reveal: cubic-bezier(.25, 1, .5, 1);
+  --dur-reveal: 1s;
+  --dur-head: 1s;
   --dur-ui: .2s;
 }
 @media (min-width: 900px) { :root { --space-pair: 16px; } }
-@media (max-width: 899px) { :root { --dur-reveal: .6s; --dur-head: .7s; } }
+@media (max-width: 899px) { :root { --dur-reveal: .9s; --dur-head: .9s; } }
 
 /* Buttons: one height, one press, labels that fit a phone */
 .button { min-height: var(--button-h); text-align: center; line-height: 1.15; padding-block: 8px; transition: transform var(--dur-ui) var(--ease-out), background-color var(--dur-ui), color var(--dur-ui), border-color var(--dur-ui), opacity var(--dur-ui); }
@@ -142,12 +142,12 @@ button, input, textarea, select { font: inherit; color: inherit; }
 
 /* Reveals on scroll (motion.js): only what starts below the screen is held back, and only once motion.js has run */
 .js .rv { transition: opacity var(--dur-reveal) var(--ease-reveal) var(--rv-d, 0ms), transform var(--dur-reveal) var(--ease-reveal) var(--rv-d, 0ms), filter var(--dur-reveal) var(--ease-reveal) var(--rv-d, 0ms); }
-.js .rv:not(.rv-on) { opacity: 0; transform: translateY(28px); }
-@media (min-width: 900px) and (hover: hover) { .js .rv:not(.rv-on) { filter: blur(8px); } }
-/* Headings rise and sharpen word by word, 50ms apart, the same as the homepage; phones skip the blur */
+.js .rv:not(.rv-on) { opacity: 0; transform: translateY(20px); }
+@media (min-width: 900px) and (hover: hover) { .js .rv:not(.rv-on) { filter: blur(6px); } }
+/* Headings rise and sharpen word by word, 45ms apart, the same as the homepage; phones skip the blur */
 .js .rv-h .rv-w { display: inline-block; transition: transform var(--dur-head) var(--ease-reveal) calc(var(--rv-d, 0ms) + var(--rv-wd, 0ms)), opacity var(--dur-head) var(--ease-reveal) calc(var(--rv-d, 0ms) + var(--rv-wd, 0ms)), filter var(--dur-head) var(--ease-reveal) calc(var(--rv-d, 0ms) + var(--rv-wd, 0ms)); }
-.js .rv-h:not(.rv-on) .rv-w { opacity: 0; transform: translateY(.4em); }
-@media (min-width: 900px) and (hover: hover) { .js .rv-h:not(.rv-on) .rv-w { filter: blur(8px); } }
+.js .rv-h:not(.rv-on) .rv-w { opacity: 0; transform: translateY(20px); }
+@media (min-width: 900px) and (hover: hover) { .js .rv-h:not(.rv-on) .rv-w { filter: blur(6px); } }
 
 /* Links and buttons answer in the same time */
 .pg-link { transition: text-decoration-color var(--dur-ui), opacity var(--dur-ui); }

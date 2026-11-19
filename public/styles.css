@@ -2649,21 +2649,18 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .hx-faq { background: var(--night-2); }
 main > section.hx-hero.has-seam::before { display: none; }
 
-/* HERO: one poster. The headline is the mass; the tear sits in front of it, tucked behind the gold words.
-   --fs is the headline size; the tear and its canvas are placed in multiples of it, so they stay together at any width. */
-.hx-hero { position: relative; isolation: isolate; overflow: clip; min-height: 100svh; display: flex; flex-direction: column;
-  padding: 112px max(var(--margin), calc((100% - 1240px) / 2)) 48px;
-  --fs: clamp(4.5rem, min(11.6vw, (100svh - 340px) / 2.7), 12rem); --lh: .9; }
-.hx-copy { position: relative; flex: 1; display: flex; flex-direction: column; }
-.hx-hero .hx-title { position: static; z-index: auto; margin: 0; max-width: none; font-size: var(--fs); line-height: var(--lh); letter-spacing: -0.03em; }
+/* HERO: the words on the left and the phone you can use beside them; on phones the phone sits under the buttons.
+   The two columns sit close together as one centred block, and the block is centred in the first screen. */
+.hx-hero { position: relative; isolation: isolate; min-height: 100svh; display: grid; grid-template-columns: minmax(0, 38rem) auto; justify-content: center; align-items: center;
+  column-gap: clamp(40px, 4.5vw, 80px); row-gap: 48px; padding: 104px max(var(--margin), calc((100% - 1240px) / 2)) 48px; }
+.hx-copy { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.hx-hero .hx-title { margin: 0; max-width: none; font-size: clamp(3rem, 1rem + 5vw, 6rem); line-height: .98; letter-spacing: -0.02em; }
 .hx-hero .hx-title .hx-l { display: block; white-space: nowrap; }
-.hx-hero .hx-title em { position: relative; z-index: 2; display: block; width: fit-content; color: var(--honey); white-space: nowrap; }
-.hx-foot { position: relative; z-index: 3; margin-top: auto; padding-top: clamp(32px, 5vh, 64px); display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 24px 48px; }
-.hx-sub { margin-top: 0; max-width: 34ch; font-size: var(--step-lead); line-height: 1.45; color: #ddd6c8; }
-.hx-act { display: grid; justify-items: start; }
-.hx-hero .hx-actions { margin-top: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.hx-hero .hx-title em { display: block; width: fit-content; color: var(--honey); white-space: nowrap; }
+.hx-sub { margin-top: var(--space-title); max-width: 32ch; font-size: var(--step-lead); line-height: 1.5; color: #ddd6c8; }
+.hx-hero .hx-actions { margin-top: var(--space-actions); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-pair); }
 .hx-hero .hx-actions .button { width: auto; }
-.hx-fine { margin-top: 18px; max-width: 40ch; font-size: var(--step-small); line-height: 1.5; color: var(--muted); }
+.hx-fine { margin-top: 18px; max-width: 44ch; font-size: var(--step-small); line-height: 1.5; color: var(--muted); }
 
 /* The phone: built in HTML, crisp at any size */
 .hx-stage { margin: 0; display: grid; justify-items: center; align-items: center; }
@@ -2778,11 +2775,10 @@ main > section.hx-hero.has-seam::before { display: none; }
 
 /* Phones and tablets */
 @media (max-width: 899px) {
-  .hx-hero { min-height: 0; padding: 112px 20px 56px; --fs: min(calc((100vw - 40px) / 5.9), 5rem); --lh: .94; }
-  .hx-foot { display: block; margin-top: 0; padding-top: 24px; }
-  .hx-sub { font-size: 1.1875rem; }
-  .hx-act { display: block; }
-  .hx-hero .hx-actions { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+  .hx-hero { min-height: 0; grid-template-columns: minmax(0, 1fr); justify-content: stretch; row-gap: 56px; padding: 112px 20px 72px; }
+  .hx-hero .hx-title { font-size: min(calc((100vw - 40px) / 5.9), 5rem); line-height: .96; }
+  .hx-sub { font-size: 1.25rem; max-width: 34ch; }
+  .hx-hero .hx-actions { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
   .hx-hero .hx-actions .button { width: 100%; padding: 0 12px; }
   .hx-phone { width: min(340px, 86vw); }
   .hx-steps { grid-template-columns: minmax(0, 1fr); gap: 36px; }
@@ -2796,7 +2792,6 @@ main > section.hx-hero.has-seam::before { display: none; }
 .hj-plan .hx-what { margin-top: -4px; color: var(--muted); font-size: var(--step-small); line-height: 1.5; }
 .hx-plans .hj-plan.is-pick h3 { font-family: var(--serif); font-weight: 550; font-size: 1.625rem; line-height: 1.1; letter-spacing: -0.01em; }
 .hx-plans .hj-plan.is-pick h3 em { font-style: italic; color: var(--honey); }
-.hx-stage.is-night:not(.is-play) .hx-badge { opacity: 0; }
 
 /* Offers: what's included, the comparison, the bargain line */
 .hx-incl { list-style: none; margin: 4px 0 6px; padding: 0; display: grid; gap: 8px; }
@@ -2805,22 +2800,8 @@ main > section.hx-hero.has-seam::before { display: none; }
 .hx-incl li.all { color: var(--muted); }
 .hx-compare { margin-top: 12px; color: var(--muted); font-size: 14.5px; line-height: 1.55; }
 .hx-compare a { color: var(--paper); }
-.hx-bargain { display: flex; flex-wrap: wrap; gap: 10px; margin-top: var(--space-block); }
-.hx-bargain span { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(227, 173, 92, .45); color: var(--paper); font-size: 14.5px; }
 @media (max-width: 599px) { .hx-hero .hx-actions { grid-template-columns: minmax(0, 1fr); gap: 10px; } .hx-hero .hx-actions .button { width: 100%; justify-content: center; } }
 
-/* Hero tear: in the same box as the headline. It paints over the white words and under the gold ones (the em sits above it),
-   so the tear tucks in behind "messages." and its smoke rises past "bookings,". tear.js frames the drop from --tear-size/-x/-y.
-   --th: the tear's height; --cx, --cy: its middle, measured from the headline's top left corner. */
-.hx-tear { position: absolute; z-index: 1; pointer-events: none;
-  --tear-size: .36; --tear-x: .5; --tear-y: .7; --ar: .56;
-  --th: calc(var(--fs) * 2); --cx: calc(var(--fs) * 5.62); --cy: calc(var(--fs) * (2 * var(--lh) + .2));
-  height: calc(var(--th) / var(--tear-size)); width: calc(var(--th) / var(--tear-size) * var(--ar));
-  left: calc(var(--cx) - var(--th) / var(--tear-size) * var(--ar) / 2); top: calc(var(--cy) - var(--th) / var(--tear-size) * var(--tear-y)); }
-@media (max-width: 899px) {
-  /* phones and tablets: beside "Wake up", clear of every word, so the whole line stays readable */
-  .hx-tear { --th: calc(var(--fs) * 1.25); --cx: calc(100% - var(--fs) * .5); --cy: calc(var(--fs) * var(--lh) * .72); }
-}
 
 /* What I promise: four short promises on the green panel */
 .hx-promises { list-style: none; margin: var(--space-block) 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); max-width: 1240px; }
@@ -2894,46 +2875,25 @@ body { font-weight: 400; }
 .split .hw, .split .hc { display: inline-block; }
 
 /* ===== Homepage, 19 Nov: the tear in front of the headline, and a phone you can use ===== */
-/* Hero, laptops: the sub-line on the left, the buttons and the price on the right, under the headline */
-@media (min-width: 900px) {
-  .hx-hero .hx-actions { margin-top: 0; }
-  .hx-act { justify-items: end; text-align: right; }
-  .hx-fine { max-width: 44ch; }
-}
-@media (min-width: 900px) and (max-width: 1199px) {
-  .hx-act { justify-items: start; text-align: left; }
-}
 /* Tablets: a bigger headline and the usual side margins */
 @media (min-width: 600px) and (max-width: 899px) {
-  .hx-hero { padding: 132px 48px 64px; --fs: min(calc((100vw - 96px) / 6), 7rem); }
-  .hx-foot { padding-top: 36px; }
+  .hx-hero { padding: 128px 48px 80px; }
+  .hx-hero .hx-title { font-size: min(calc((100vw - 96px) / 6), 7rem); }
   .hx-sub { max-width: 36ch; }
 }
-/* the gold words sit over the tear: a soft dark edge keeps every letter clear of the pale resin behind */
-.hx-hero .hx-title em { text-shadow: 0 0 .06em rgba(18, 13, 9, .55), 0 .02em .18em rgba(18, 13, 9, .45); }
 
-/* TRY THE NIGHT SHIFT: the words on the left, the phone on the right; stacked on phones */
-.hx-try { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(40px, 6vw, 96px);
-  padding: var(--space-section) max(var(--margin), calc((100% - 1240px) / 2));
-  background: radial-gradient(42% 48% at 74% 52%, rgba(227, 173, 92, .09), rgba(227, 173, 92, 0) 70%), var(--night); }
-.hx-try-text { display: grid; gap: var(--space-title); justify-items: start; max-width: 36rem; }
-.hx-kicker { font: 500 16px/1.3 var(--sans); color: var(--honey); }
-.hx-try h2 em { color: var(--honey); }
-.hx-invite { margin-top: 4px; font-size: var(--step-lead); line-height: 1.45; color: #ddd6c8; max-width: 30ch; }
-.hx-try-note { color: var(--muted); font-size: 1rem; line-height: 1.6; max-width: 42ch; }
+/* The phone column: the phone, one line inviting you to use it, and after a booking the line that answers it */
+.hx-try-stage { position: relative; display: grid; justify-items: center; gap: 20px; min-width: 0; }
+.hx-try-stage::before { content: ""; position: absolute; z-index: -1; inset: -12% -30%; pointer-events: none;
+  background: radial-gradient(50% 46% at 50% 50%, rgba(227, 173, 92, .09), rgba(227, 173, 92, 0) 70%); }
+.hx-invite { max-width: 32ch; text-align: center; font-size: var(--step-small); line-height: 1.5; color: var(--muted); }
 html:not(.js) .hx-invite { display: none; }
-.hx-try-stage { display: grid; justify-items: center; gap: 28px; min-width: 0; }
-.hx-after { display: grid; justify-items: center; gap: 18px; max-width: 30rem; text-align: center; }
-.hx-after[hidden] { display: none; }
+.hx-after { display: grid; justify-items: center; gap: 16px; max-width: 30rem; text-align: center; }
+.hx-after[hidden], .hx-invite[hidden] { display: none; }
 .hx-after p { font: 500 1.25rem/1.4 var(--sans); color: var(--paper); text-wrap: balance; }
 .hx-after em { color: var(--honey); }
 .hx-after.is-in { animation: hx-up .5s var(--ease-reveal) both; }
 @keyframes hx-up { from { opacity: 0; transform: translateY(14px); } }
-@media (max-width: 899px) {
-  .hx-try { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 72px 20px 80px; background: radial-gradient(70% 36% at 50% 66%, rgba(227, 173, 92, .09), rgba(227, 173, 92, 0) 70%), var(--night); }
-  .hx-invite { font-size: 1.1875rem; }
-}
-@media (min-width: 600px) and (max-width: 899px) { .hx-try { padding-left: 48px; padding-right: 48px; } }
 
 /* The phone's two screens: the lock screen and the chat. Only transform and opacity move, in about 360ms */
 .hx-stage { --ios: cubic-bezier(.32, .72, 0, 1); }
@@ -3138,3 +3098,50 @@ html:not(.js) .hx-invite { display: none; }
   .mnav-contact { justify-content: flex-start; }
 }
 @media (max-width: 899px) and (prefers-reduced-motion: reduce) { .menu-on .links.mnav { transform: none; } }
+
+/* ===== Refine pass, 19 Nov: the phone in the hero, the prices, the footer and one calm way of moving ===== */
+:root { --ease-reveal: cubic-bezier(.25, 1, .5, 1); }
+.hx-hero { overflow: clip; }
+/* the phone fits the first screen beside the headline, with room for the line under it */
+.hx-phone { width: clamp(260px, calc((100svh - 250px) / 2.08), 352px); }
+@media (max-width: 899px) { .hx-phone { width: min(340px, 86vw); } }
+
+/* PRICES: the number is the hero of each card. Boska 500 in cream; "from" small and muted on the same baseline.
+   Only the direct "from" span is muted, so the rolling digits inside the number keep the number's size and colour. */
+.hx-plans .hj-plan { container-type: inline-size; }
+.hj-price { align-items: baseline; gap: 10px; margin-top: 10px; }
+.hj-price span, .hj-price > span { color: inherit; font-size: inherit; }
+.hj-price > span:first-child { color: var(--muted); font-size: var(--step-small); }
+.hj-price b, .hx-plans .hj-price b { font: 500 clamp(2.75rem, 16cqi, 3.5rem)/1 var(--serif); font-variant-numeric: tabular-nums lining-nums; letter-spacing: -0.02em; color: var(--paper); white-space: nowrap; }
+.hj-price b span { color: inherit; font-size: inherit; }
+
+/* Under the plans: one calm line for founding clients, one quiet line for the one-week fix, one link */
+.hx-plans .hj-foundline { margin-top: var(--space-block); padding: 0; border: 0; border-radius: 0; background: none; color: var(--muted); font-size: var(--step-body); line-height: 1.6; }
+.hx-plans .hj-foundline b { color: var(--honey); font-weight: 500; }
+.hx-plans .hj-fixline { margin-top: 6px; padding-top: 0; border-top: 0; color: var(--muted); font-size: var(--step-small); line-height: 1.6; }
+.hx-plans .hj-fixline .text-link { display: inline; min-height: 0; }
+.hx-plans .hj-more-prices { margin-top: var(--space-title); }
+
+/* FOOTER: the poke-the-letters sign-off, small and quiet, about a quarter of its old size */
+.foot-line { padding-bottom: 14px; font-size: var(--step-small); color: var(--muted); }
+.blocks, .foot .blocks { width: min(360px, calc(100% - 2 * var(--margin))); height: 84px; min-height: 0; gap: 5px; padding: 0; margin-left: max(var(--margin), calc((100% - 1240px) / 2)); }
+.blk, .foot .blk { padding-top: 8px; font-size: 44px; border-radius: 10px; }
+.poke { padding-top: 10px; font-size: var(--step-small); }
+@media (max-width: 899px) {
+  .foot-line { font-size: var(--step-small); line-height: 1.5; padding-bottom: 12px; }
+  .blocks, .foot .blocks { width: min(288px, 100%); height: 64px; min-height: 0; gap: 4px; margin-left: 0; }
+  .blk, .foot .blk { padding-top: 6px; font-size: 34px; border-radius: 8px; }
+}
+@media (max-width: 899px) and (min-width: 600px) { .blocks, .foot .blocks { margin-left: 48px; } }
+.foot-grid { padding-top: 48px; }
+
+/* The phone bar: never over the last of the page, out of the way of the hero's own buttons, the form and the footer.
+   It fades and slides in and out in 250ms, transform and opacity only. */
+@media (max-width: 899px) {
+  body:has(.m-bar) .foot { padding-bottom: calc(32px + 72px + env(safe-area-inset-bottom, 0px)); }
+  .m-bar, .m-bar.is-on { transition: transform .25s var(--ease-out), opacity .25s var(--ease-out), visibility 0s linear .25s; }
+  .m-bar { transform: translateY(24px); opacity: 0; visibility: hidden; }
+  .m-bar.is-on { transform: none; opacity: 1; visibility: visible; transition-delay: 0s; }
+}
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) { .m-bar, .m-bar.is-on { transform: none; transition: opacity .2s, visibility 0s linear .2s; } .m-bar.is-on { transition-delay: 0s; } }
+@media (max-width: 899px) { .m-bar { background: #1c1611; } }

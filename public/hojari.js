@@ -198,8 +198,9 @@
 
   /* ---------- Try the Night Shift: a night of messages, then one calm morning, then a phone you can use ----------
      Without JavaScript, or with reduced motion, the phone simply shows 7:00 am and the Night Shift card.
-     With motion the story plays once when the phone comes into view, in about nine seconds: at 11:47 pm messages pile up
-     and the badge counts to 37, then the clock turns to 7:00 am and they fold into one card. Only transform and opacity move.
+     With motion the phone opens on a busy night: four messages are already waiting and the badge reads 21. The story plays once,
+     in about six seconds: on laptops as soon as the hero has loaded, on phones when the phone scrolls into view. Three more messages
+     land and the badge climbs to 37, then the clock turns to 7:00 am and they fold into one card. Only transform and opacity move.
      Then it is the visitor's turn: tap a message or the card and they are the customer, chatting with an example salon. */
   const stage = $('.hx-stage');
   if (stage && $('.hx-app', stage)) {
@@ -207,7 +208,7 @@
     const phone = $('.hx-phone', stage), screen = $('.hx-screen', stage), lockview = $('.hx-lockview', stage), app = $('.hx-app', stage);
     const card = $('.hx-card', stage), cardNums = $$('.hx-card li b', stage), noteList = $('.hx-notes', stage);
     const notesDom = $$('.hx-note', stage);
-    const after = $('.hx-after'), say = $('#hx-say');
+    const after = $('.hx-after'), say = $('#hx-say'), invite = $('.hx-invite');
     let morning = false, cardRolled = false, open = false, booked = false, seven = false, opener = null;
 
     /* It stops being a picture: real buttons, read out properly */
@@ -263,8 +264,11 @@
       };
       stage.classList.add('is-night');
       cardHit.hidden = true;
-      countEl.textContent = '0';
-      const T = [600, 1500, 2300, 3000, 3600, 4150, 4650];
+      /* the first four are already there when the phone appears, newest on top, so the screen looks busy at a glance */
+      const PRE = 4, START = 21;
+      countEl.textContent = String(START);
+      notes.slice(0, PRE).forEach((n, j) => { const at = slotOf(PRE - 1 - j); n.style.transform = at.transform; n.style.opacity = at.opacity; hits[j].hidden = false; });
+      const T = [0, 0, 0, 0, 500, 1250, 1950];
       const timers = [];
       const at = (ms, fn) => timers.push(setTimeout(fn, ms));
       let started = false;
@@ -273,31 +277,40 @@
         if (started || morning) return;
         started = true;
         stage.classList.add('is-play');
-        notes.forEach((n, i) => at(T[i], () => {
+        notes.forEach((n, i) => i >= PRE && at(T[i], () => {
           n.animate([{ transform: 'translateY(-16px) scale(.96)', opacity: 0 }, { transform: 'translateY(0) scale(1)', opacity: 1 }], { duration: 650, easing: out, fill: 'forwards' });
           for (let k = 0; k < i; k++) { notes[k].animate([slotOf(i - k)], { duration: 650, easing: out, fill: 'forwards' }); if (i - k > 3) hits[k].hidden = true; }
           hits[i].hidden = false;
           /* every other arrival, the phone gives a small buzz */
-          if (i % 2 === 0) phone.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-3px)' }, { transform: 'translateX(3px)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(0)' }], { duration: 220, easing: 'linear' });
+          if (i % 2 === 0) phone.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(2px)' }, { transform: 'translateX(0)' }], { duration: 240, easing: 'ease-in-out' });
         }));
-        /* the badge climbs to 37 while the messages land */
-        const c0 = performance.now() + T[0], cDur = T[T.length - 1] + 500 - T[0];
+        /* the badge climbs from 21 to 37 while the messages land */
+        const c0 = performance.now() + T[PRE], cDur = T[T.length - 1] + 500 - T[PRE];
         const tick = (now) => {
           const p = Math.min(1, Math.max(0, (now - c0) / cDur));
-          countEl.textContent = String(Math.round(37 * (1 - Math.pow(1 - p, 2))));
+          countEl.textContent = String(Math.round(START + (37 - START) * (1 - Math.pow(1 - p, 2))));
           if (p < 1 && !stage.classList.contains('is-dawn')) requestAnimationFrame(tick); else countEl.textContent = '37';
         };
         requestAnimationFrame(tick);
         /* 7:00 am: the clock turns over, the messages fold away and the card arrives */
-        at(6900, () => { stage.classList.add('is-dawn'); asks.forEach((b) => { b.hidden = true; }); });
-        at(7300, () => notes.slice().reverse().forEach((n, k) => {
+        at(4300, () => { stage.classList.add('is-dawn'); asks.forEach((b) => { b.hidden = true; }); });
+        at(4700, () => notes.slice().reverse().forEach((n, k) => {
           const from = getComputedStyle(n).transform;
           n.animate([{ transform: from === 'none' ? 'none' : from, opacity: +getComputedStyle(n).opacity }, { transform: `translateY(${pitch()}px) scale(.88)`, opacity: 0 }], { duration: 750, delay: k * 70, easing: inOut, fill: 'forwards' });
         }));
-        at(8300, () => { stage.classList.add('is-morning'); toMorning(); });
+        at(5700, () => { stage.classList.add('is-morning'); toMorning(); });
       };
-      if (window.IntersectionObserver) { const po = new IntersectionObserver(([en]) => { if (en.isIntersecting) { po.disconnect(); play(); } }, { threshold: 0.4 }); po.observe(stage); }
-      else play();
+      /* laptops: the phone sits beside the headline, so the night starts once the hero has loaded (and the phone is on screen).
+         Phones: the phone is under the buttons, so it starts when it scrolls into view */
+      const laptop = matchMedia('(min-width: 900px)').matches;
+      let loaded = !laptop, seen = false;
+      const tryPlay = () => { if (loaded && seen) play(); };
+      if (laptop) {
+        const ready = () => setTimeout(() => { loaded = true; tryPlay(); }, 900);
+        if (document.readyState === 'complete') ready(); else addEventListener('load', ready, { once: true });
+      }
+      if (window.IntersectionObserver) { const po = new IntersectionObserver(([en]) => { if (en.isIntersecting) { po.disconnect(); seen = true; tryPlay(); } }, { threshold: laptop ? 0.25 : 0.4 }); po.observe(stage); }
+      else { seen = true; tryPlay(); }
       /* a tap on the lock screen skips straight to the morning (a tap on a message also opens the chat) */
       lockview.addEventListener('pointerdown', (e) => { if (!morning && !e.target.closest('.hx-hit')) dawn(); });
       stage.hjDawn = dawn;
@@ -485,6 +498,7 @@
         const finish = () => {
           if (!after) return;
           after.hidden = false; after.classList.add('is-in');
+          if (invite) invite.hidden = true;
           if (say) say.textContent = 'Booked. The Night Shift card now says 7 bookings made. ' + $('p', after).textContent;
         };
         setTimeout(() => roll(six, { to: '7', from: '6', dur: 700, done: () => setTimeout(finish, motion ? 450 : 0) }), motion ? 420 : 0);
@@ -537,17 +551,22 @@
     planPrices.forEach((el) => { near.observe(el); seen.observe(el); });
   }
 
-  /* Phones: a bar with the two main actions follows your thumb once the hero has gone, and steps aside at the form */
-  const mbar = $('.m-bar'), hero = $('#top'), contactSec = $('#contact');
-  if (mbar && hero && window.IntersectionObserver) {
-    let pastHero = false, atForm = false, atTry = false;
-    const show = () => mbar.classList.toggle('is-on', pastHero && !atForm && !atTry);
-    /* the phone demo has its own text box and home bar at the bottom, so the bar keeps out of its way */
+  /* Phones: a bar with the two main actions follows your thumb. It steps aside while the hero's own buttons are on screen,
+     while the phone is (it has its own text box and home bar at the bottom), and from the contact form down to the footer */
+  const mbar = $('.m-bar'), heroBtns = $('.hx-hero .hx-actions') || $('#top'), endZone = $('#contact-form') || $('#contact');
+  if (mbar && heroBtns && window.IntersectionObserver) {
+    let atHero = true, atTry = false, atEnd = false;
+    const show = () => mbar.classList.toggle('is-on', !atHero && !atTry && !atEnd);
+    new IntersectionObserver(([en]) => { atHero = en.isIntersecting || en.boundingClientRect.top > 0; show(); }).observe(heroBtns);
     const tryPhone = $('.hx-stage');
     if (tryPhone) new IntersectionObserver(([en]) => { atTry = en.isIntersecting; show(); }, { rootMargin: '-15% 0px -15% 0px' }).observe(tryPhone);
-    new IntersectionObserver(([en]) => { pastHero = !en.isIntersecting; show(); }, { rootMargin: '-40% 0px 0px 0px' }).observe(hero);
-    /* from the form down to the footer, the bar stays out of the way */
-    if (contactSec) { const check = () => { const at = contactSec.getBoundingClientRect().top < innerHeight * 0.85; if (at !== atForm) { atForm = at; show(); } }; addEventListener('scroll', () => requestAnimationFrame(check), { passive: true }); check(); }
+    if (endZone) {
+      let queued = false;
+      const check = () => { queued = false; const at = endZone.getBoundingClientRect().top < innerHeight - 24; if (at !== atEnd) { atEnd = at; show(); } };
+      addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(check); } }, { passive: true });
+      addEventListener('resize', check, { passive: true });
+      check();
+    }
   }
   /* The cursor ring steps aside over form fields */
   const ring = $('.ring');
