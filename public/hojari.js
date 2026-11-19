@@ -6,36 +6,20 @@
   /* ---------- Currency: picked from where the visitor is, never shown in OMR ---------- */
   const CUR = {
     GBP: { key: 'gbp', sym: '£', fmt: (n) => '£' + n.toLocaleString('en-GB') },
-    USD: { key: 'usd', sym: '$', fmt: (n) => '$' + n.toLocaleString('en-US') },
-    EUR: { key: 'eur', sym: '€', fmt: (n) => '€' + n.toLocaleString('en-GB') },
-    AUD: { key: 'aud', sym: 'A$', fmt: (n) => 'A$' + n.toLocaleString('en-AU') },
-    CAD: { key: 'cad', sym: 'C$', fmt: (n) => 'C$' + n.toLocaleString('en-CA') },
     AED: { key: 'aed', sym: 'AED ', fmt: (n) => 'AED ' + n.toLocaleString('en-GB') },
   };
-  const guess = () => {
-    try {
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-      if (tz === 'Europe/London' || tz === 'Europe/Belfast') return 'GBP';
-      if (tz === 'Asia/Dubai') return 'AED';
-      if (tz.startsWith('Australia/')) return 'AUD';
-      if (/^America\/(Toronto|Montreal|Vancouver|Edmonton|Calgary|Winnipeg|Regina|Halifax|St_Johns|Moncton|Whitehorse|Yellowknife|Iqaluit|Glace_Bay|Goose_Bay|Swift_Current|Dawson_Creek|Fort_Nelson|Nipigon|Thunder_Bay|Rankin_Inlet|Resolute|Cambridge_Bay|Inuvik|Atikokan|Creston|Blanc-Sablon|Dawson)$/.test(tz)) return 'CAD';
-      if (tz.startsWith('Europe/')) return 'EUR';
-    } catch (e) {}
-    return 'USD';
-  };
-  /* The homepage shows two currencies only: dirhams in the Gulf, pounds everywhere else */
+  /* Two currencies only: dirhams in the Gulf, pounds everywhere else. A saved choice that is neither falls back to the guess */
+  const GULF = /^Asia\/(Dubai|Muscat|Qatar|Bahrain|Kuwait|Riyadh)$/;
+  const guess = () => { try { return GULF.test(Intl.DateTimeFormat().resolvedOptions().timeZone || '') ? 'AED' : 'GBP'; } catch (e) { return 'GBP'; } };
   const pairEl = $('.hj-cur[data-pair]');
   const pair = pairEl ? pairEl.dataset.pair.split(' ') : null;
-  const GULF = /^Asia\/(Dubai|Muscat|Qatar|Bahrain|Kuwait|Riyadh)$/;
-  const guessPair = () => { try { return GULF.test(Intl.DateTimeFormat().resolvedOptions().timeZone || '') ? 'AED' : 'GBP'; } catch (e) { return 'GBP'; } };
   let cur = 'GBP';
   try { cur = localStorage.getItem('hj-cur') || guess(); } catch (e) { cur = guess(); }
-  if (!CUR[cur]) cur = 'GBP';
-  if (pair && !pair.includes(cur)) cur = guessPair();
+  if (!CUR[cur] || (pair && !pair.includes(cur))) cur = guess();
   const money = (n) => CUR[cur].fmt(Math.round(n));
   /* Rough exchange rates, so a typed price keeps its meaning when the currency changes */
-  const RATE = { GBP: 1, USD: 1.3, EUR: 1.2, AUD: 1.96, CAD: 1.88, AED: 4.75 };
-  const RANGE = { GBP: [8, 80], USD: [10, 105], EUR: [10, 95], AUD: [16, 160], CAD: [15, 150], AED: [40, 380] };
+  const RATE = { GBP: 1, AED: 4.75 };
+  const RANGE = { GBP: [8, 80], AED: [40, 380] };
   const conv = (n, from, to) => Math.round(n * RATE[to] / RATE[from]);
   function setCur(c, save) {
     if (!CUR[c] || (pair && !pair.includes(c))) return;
