@@ -257,17 +257,20 @@
       const notes = notesDom.slice().reverse(), hits = asks.slice().reverse(), countEl = $('.hx-count', stage);
       const out = 'cubic-bezier(.23, 1, .32, 1)', inOut = 'cubic-bezier(.77, 0, .175, 1)';
       const pitch = () => (notes[0].offsetHeight || 64) + 8;
+      /* how many fit between the badge and the two round buttons at the bottom: four on a tall phone, three on a short one */
+      const dock = $('.hx-dock', stage);
+      const room = () => Math.max(2, Math.min(4, Math.floor((dock.offsetTop - noteList.offsetTop + 8) / pitch()) || 4));
       const slotOf = (slot) => {
-        /* newest on top; older ones step down, and past the fourth they tuck in behind */
-        const tucked = slot > 3;
-        return { transform: `translateY(${Math.min(slot, 3) * pitch() + (tucked ? 8 : 0)}px) scale(${tucked ? 0.94 : 1})`, opacity: tucked ? 0 : 1 };
+        /* newest on top; older ones step down, and past the last that fits they tuck in behind */
+        const last = room() - 1, tucked = slot > last;
+        return { transform: `translateY(${Math.min(slot, last) * pitch() + (tucked ? 8 : 0)}px) scale(${tucked ? 0.94 : 1})`, opacity: tucked ? 0 : 1 };
       };
       stage.classList.add('is-night');
       cardHit.hidden = true;
       /* the first four are already there when the phone appears, newest on top, so the screen looks busy at a glance */
       const PRE = 4, START = 21;
       countEl.textContent = String(START);
-      notes.slice(0, PRE).forEach((n, j) => { const at = slotOf(PRE - 1 - j); n.style.transform = at.transform; n.style.opacity = at.opacity; hits[j].hidden = false; });
+      notes.slice(0, PRE).forEach((n, j) => { const at = slotOf(PRE - 1 - j); n.style.transform = at.transform; n.style.opacity = at.opacity; hits[j].hidden = at.opacity === 0; });
       const T = [0, 0, 0, 0, 500, 1250, 1950];
       const timers = [];
       const at = (ms, fn) => timers.push(setTimeout(fn, ms));
@@ -279,7 +282,7 @@
         stage.classList.add('is-play');
         notes.forEach((n, i) => i >= PRE && at(T[i], () => {
           n.animate([{ transform: 'translateY(-16px) scale(.96)', opacity: 0 }, { transform: 'translateY(0) scale(1)', opacity: 1 }], { duration: 650, easing: out, fill: 'forwards' });
-          for (let k = 0; k < i; k++) { notes[k].animate([slotOf(i - k)], { duration: 650, easing: out, fill: 'forwards' }); if (i - k > 3) hits[k].hidden = true; }
+          for (let k = 0; k < i; k++) { notes[k].animate([slotOf(i - k)], { duration: 650, easing: out, fill: 'forwards' }); if (i - k >= room()) hits[k].hidden = true; }
           hits[i].hidden = false;
           /* every other arrival, the phone gives a small buzz */
           if (i % 2 === 0) phone.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(-2px)' }, { transform: 'translateX(2px)' }, { transform: 'translateX(0)' }], { duration: 240, easing: 'ease-in-out' });
