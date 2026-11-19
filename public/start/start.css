@@ -48,14 +48,14 @@
 .r-scratch b { color: var(--paper); font-size: 16px; font-weight: 600; }
 .r-card { display: grid; gap: 14px; padding: 28px 24px; border-radius: 28px; background: var(--paper); color: var(--ink); }
 .r-cardtop { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
-.r-grade { font: 400 2.25rem/1 var(--serif); }
+.r-grade { font: 500 2.25rem/1 var(--serif); }
 .r-card .cur { background: var(--sand); }
 .r-card .cur button { color: var(--ink-muted); }
 .r-card .cur button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 .r-what { font-weight: 500; }
 .r-price { display: flex; align-items: baseline; gap: 8px; }
 .r-price span { color: var(--ink-muted); font-size: var(--step-small); }
-.r-price b { font: 400 clamp(3rem, 2.4rem + 2vw, 3.75rem)/1 var(--serif); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.r-price b { font: 450 clamp(3rem, 2.4rem + 2vw, 3.75rem)/1 var(--serif); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .r-found { padding: 10px 14px; border-radius: 12px; background: #f4e3c4; font-size: 14px; line-height: 1.45; }
 .r-care { font-size: 14px; color: var(--ink-muted); line-height: 1.5; }
 .r-care b, .r-found b { color: var(--ink); }
@@ -79,8 +79,8 @@
 .r-item { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; padding: 18px; border-radius: 20px; background: var(--night-2); border: 1px solid var(--line); animation: r-in .35s var(--ease-out) backwards; }
 .r-item:nth-child(2) { animation-delay: 50ms; } .r-item:nth-child(3) { animation-delay: 100ms; } .r-item:nth-child(4) { animation-delay: 150ms; } .r-item:nth-child(5) { animation-delay: 200ms; }
 @keyframes r-in { from { opacity: 0; transform: translateY(6px); } }
-.r-num { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(227,173,92,.12); color: var(--honey); font: 400 1.25rem/1 var(--serif); }
-.r-item b { display: block; margin: 2px 0 4px; font: 400 1.5rem/1.15 var(--serif); }
+.r-num { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(227,173,92,.12); color: var(--honey); font: 600 1.25rem/1 var(--serif); }
+.r-item b { display: block; margin: 2px 0 4px; font: 550 1.5rem/1.15 var(--serif); }
 .r-item p { color: var(--muted); font-size: 16px; line-height: 1.5; }
 .r-item p.r-because { margin-top: 10px; color: var(--honey); font-size: 15px; font-weight: 500; }
 .r-later { padding: 18px; border-radius: 20px; border: 1px dashed rgba(227,173,92,.45); }

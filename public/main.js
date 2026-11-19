@@ -97,30 +97,52 @@
   addEventListener('scroll', seenSoon, { passive: true }); addEventListener('resize', seenSoon);
   setInterval(() => watch.length && seen(), 400);
 
-  /* Headlines: masked lines rise and sharpen */
+  /* Headlines. The hero's first words rise one by one, then "not messages." settles in letter by letter out of a
+     soft blur, like smoke finding its shape. Section headings rise and sharpen word by word as they arrive, once.
+     Only transform, opacity and filter move, and every piece is cleared when it lands, so nothing stays blurred. */
   const heroTitle = $('.hero-title');
+  const heroShown = () => heroTitle && heroTitle.classList.add('is-in');
+  const settle = (els) => gsap.set(els, { clearProps: 'transform,opacity,filter' });
   if (motion && typeof SplitText !== 'undefined') {
-    if (heroTitle) heroTitle.style.visibility = 'hidden';
     const go = () => {
       $$('.split').forEach((el) => {
-        const s = el === heroTitle
-          ? SplitText.create(el, { type: 'lines,words,chars', mask: 'lines', linesClass: 'line', charsClass: 'hc' })
-          : SplitText.create(el, { type: 'lines', mask: 'lines', linesClass: 'line' });
-        if (el === heroTitle && !desktop) {
-          /* Tap the tear on a phone and the headline jumps */
-          addEventListener('tearburst', () => gsap.fromTo(s.chars, { y: 0 }, { y: -18, duration: 0.22, ease: 'power2.out', yoyo: true, repeat: 1, stagger: { each: 0.025, from: 'center' }, overwrite: true }));
+        if (el === heroTitle) {
+          const s = SplitText.create(el, { type: 'words,chars', wordsClass: 'hw', charsClass: 'hc' });
+          const em = $('em', el);
+          const lead = s.words.filter((w) => !em || !em.contains(w));
+          const smoke = em ? s.chars.filter((c) => em.contains(c)) : [];
+          const fs = parseFloat(getComputedStyle(el).fontSize) || 48;
+          const mid = (smoke.length - 1) / 2;
+          if (!desktop) {
+            /* Tap the tear on a phone and the headline jumps */
+            addEventListener('tearburst', () => gsap.fromTo(s.chars, { y: 0 }, { y: -18, duration: 0.22, ease: 'power2.out', yoyo: true, repeat: 1, stagger: { each: 0.025, from: 'center' }, overwrite: 'auto' }));
+          }
+          const tl = gsap.timeline({ delay: 0.05, onComplete: () => settle([...lead, ...smoke]) });
+          /* rise up: word by word */
+          tl.fromTo(lead, { y: fs * 0.42, opacity: 0, filter: soft ? 'none' : 'blur(6px)' },
+            { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: 0.8, ease: 'power4.out', stagger: 0.05 }, 0);
+          /* smoke in: each letter drifts up out of a blur while the spacing draws in towards the middle */
+          if (smoke.length) {
+            tl.fromTo(smoke, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power1.out', stagger: 0.032 }, 0.26)
+              .fromTo(smoke, { y: fs * 0.2, x: (i) => (i - mid) * fs * 0.05, scale: 1.06, filter: `blur(${soft ? 5 : 12}px)` },
+                { y: 0, x: 0, scale: 1, filter: 'blur(0px)', duration: 0.88, ease: 'power3.out', stagger: 0.032 }, 0.26);
+          }
+          heroShown();
+        } else if (el.getBoundingClientRect().top > innerHeight * 0.9) {
+          /* blur in and rise up: word by word, the gold words included */
+          const s = SplitText.create(el, { type: 'words', wordsClass: 'hw' });
+          const fs = parseFloat(getComputedStyle(el).fontSize) || 40;
+          gsap.set(s.words, { y: fs * 0.4, opacity: 0, filter: soft ? 'none' : 'blur(8px)' });
+          whenSeen(el, () => gsap.to(s.words, { y: 0, opacity: 1, filter: soft ? 'none' : 'blur(0px)', duration: soft ? 0.7 : 0.9, ease: 'power4.out', stagger: 0.05, overwrite: true, onComplete: () => settle(s.words) }));
         }
-        const anim = soft ? { yPercent: 110, duration: 0.9, ease: 'power4.out', stagger: 0.08 } : { yPercent: 110, duration: 1, ease: 'power4.out', stagger: 0.09 };
-        if (el === heroTitle) { el.style.visibility = ''; gsap.from(s.lines, { ...anim, filter: 'blur(10px)', clearProps: 'filter', delay: 0.15 }); }
-        else if (el.getBoundingClientRect().top > innerHeight * 0.9) { gsap.set(s.lines, { yPercent: 110 }); whenSeen(el, () => gsap.to(s.lines, { yPercent: 0, duration: soft ? 0.8 : 0.95, ease: 'power4.out', stagger: soft ? 0.08 : 0.09 })); }
       });
       const heroBits = $$('.hx-sub, .hero-actions, .hx-fine, .promises li');
-      if (heroBits.length) gsap.from(heroBits, { y: 18, opacity: 0, duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: soft ? 0.06 : 0.08, delay: soft ? 0.15 : 0.3 });
+      if (heroBits.length) gsap.from(heroBits, { y: 18, opacity: 0, duration: soft ? 0.6 : 0.8, ease: 'power3.out', stagger: soft ? 0.06 : 0.08, delay: soft ? 0.3 : 0.45 });
       ScrollTrigger.refresh();
     };
-    (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => introDone).then(go);
-    setTimeout(() => { if (heroTitle) heroTitle.style.visibility = ''; }, 4500);
-  }
+    /* wait for the new type so the letters split on the right shapes, but never for long */
+    Promise.race([document.fonts ? document.fonts.ready : Promise.resolve(), new Promise((r) => setTimeout(r, 700))]).then(() => introDone).then(go);
+  } else heroShown();
 
   /* Everything below the first screen sets itself up once the phone has a spare moment */
   const rest = () => {

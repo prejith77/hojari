@@ -1,16 +1,17 @@
 /* Hojari inner pages: the questionnaire, the app builder and the client portal. Same palette and type as the homepage. */
-@font-face { font-family: 'Albert Sans'; font-style: normal; font-weight: 400 600; font-display: swap; src: url(fonts/AlbertSans.woff2) format('woff2'); }
-@font-face { font-family: 'Instrument Serif'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/InstrumentSerif.woff2) format('woff2'); }
-@font-face { font-family: 'Instrument Serif'; font-style: italic; font-weight: 400; font-display: swap; src: url(fonts/InstrumentSerif-Italic.woff2) format('woff2'); }
+@font-face { font-family: 'Boska'; font-style: normal; font-weight: 200 900; font-display: swap; src: url(fonts/Boska-Variable.woff2) format('woff2'); }
+@font-face { font-family: 'Boska'; font-style: italic; font-weight: 200 900; font-display: swap; src: url(fonts/Boska-VariableItalic.woff2) format('woff2'); }
+@font-face { font-family: 'Switzer'; font-style: normal; font-weight: 100 900; font-display: swap; src: url(fonts/Switzer-Variable.woff2) format('woff2'); }
+@font-face { font-family: 'Switzer'; font-style: italic; font-weight: 100 900; font-display: swap; src: url(fonts/Switzer-VariableItalic.woff2) format('woff2'); }
 :root {
   --night: #120d09; --night-2: #1c1611; --night-3: #2a221a; --line: rgba(243, 239, 230, .12);
   --paper: #f2f0eb; --muted: #b8ae9c; --resin: #d7dcc7; --honey: #e3ad5c; --amber: #b8661d; --khareef: #2b5a42;
   --sand: #e7e3db; --sand-2: #f2f0eb; --ink: #17120c; --ink-muted: #5b5144; --ink-line: rgba(23, 18, 12, .12);
-  --sans: "Albert Sans", system-ui, sans-serif; --serif: "Instrument Serif", Georgia, serif;
+  --sans: "Switzer", system-ui, sans-serif; --serif: "Boska", Georgia, serif;
   --step-small: clamp(0.9375rem, 0.91rem + 0.1vw, 1rem);
   --step-body: clamp(1.125rem, 1.06rem + 0.25vw, 1.25rem);
   --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
-  --step-head: clamp(2.5rem, 1.6rem + 3.6vw, 4.75rem);
+  --step-head: clamp(2.25rem, 1.5rem + 3.3vw, 4.375rem);
   --margin: clamp(20px, 3vw, 48px);
   --ease-out: cubic-bezier(.23, 1, .32, 1);
 }
@@ -23,9 +24,9 @@ a { color: inherit; }
 h1, h2, h3, p, figure, ul, ol { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
 p { text-wrap: pretty; }
-h1, h2 { font: 400 var(--step-head)/1 var(--serif); letter-spacing: -0.015em; text-wrap: balance; }
+h1, h2 { font: 450 var(--step-head)/1.02 var(--serif); letter-spacing: -0.018em; text-wrap: balance; }
 h1 em, h2 em { font-style: italic; color: var(--honey); }
-h3 { font: 400 1.5rem/1.15 var(--serif); }
+h3 { font: 550 1.5rem/1.15 var(--serif); }
 button, input, textarea, select { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--honey); outline-offset: 3px; }
 ::selection { background: var(--honey); color: var(--ink); }
@@ -106,10 +107,11 @@ button, input, textarea, select { font: inherit; color: inherit; }
   --button-h: 52px;
   --ease-reveal: cubic-bezier(.22, 1, .36, 1);
   --dur-reveal: .8s;
+  --dur-head: .9s;
   --dur-ui: .2s;
 }
 @media (min-width: 900px) { :root { --space-pair: 16px; } }
-@media (max-width: 899px) { :root { --dur-reveal: .6s; } }
+@media (max-width: 899px) { :root { --dur-reveal: .6s; --dur-head: .7s; } }
 
 /* Buttons: one height, one press, labels that fit a phone */
 .button { min-height: var(--button-h); text-align: center; line-height: 1.15; padding-block: 8px; transition: transform var(--dur-ui) var(--ease-out), background-color var(--dur-ui), color var(--dur-ui), border-color var(--dur-ui), opacity var(--dur-ui); }
@@ -143,16 +145,15 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .js .rv { transition: opacity var(--dur-reveal) var(--ease-reveal) var(--rv-d, 0ms), transform var(--dur-reveal) var(--ease-reveal) var(--rv-d, 0ms), filter var(--dur-reveal) var(--ease-reveal) var(--rv-d, 0ms); }
 .js .rv:not(.rv-on) { opacity: 0; transform: translateY(28px); }
 @media (min-width: 900px) and (hover: hover) { .js .rv:not(.rv-on) { filter: blur(8px); } }
-/* Headings lift out of a mask; the mask leaves room for italic tails and descenders */
-.js .rv-h { clip-path: inset(-.15em -100vmax -.45em -100vmax); }
-.js .rv-h > .rv-hi { display: block; transition: transform calc(var(--dur-reveal) + .15s) var(--ease-reveal) var(--rv-d, 0ms), opacity var(--dur-reveal) var(--ease-reveal) var(--rv-d, 0ms); }
-.js .rv-h:not(.rv-on) > .rv-hi { transform: translateY(130%); opacity: 0; }
+/* Headings rise and sharpen word by word, 50ms apart, the same as the homepage; phones skip the blur */
+.js .rv-h .rv-w { display: inline-block; transition: transform var(--dur-head) var(--ease-reveal) calc(var(--rv-d, 0ms) + var(--rv-wd, 0ms)), opacity var(--dur-head) var(--ease-reveal) calc(var(--rv-d, 0ms) + var(--rv-wd, 0ms)), filter var(--dur-head) var(--ease-reveal) calc(var(--rv-d, 0ms) + var(--rv-wd, 0ms)); }
+.js .rv-h:not(.rv-on) .rv-w { opacity: 0; transform: translateY(.4em); }
+@media (min-width: 900px) and (hover: hover) { .js .rv-h:not(.rv-on) .rv-w { filter: blur(8px); } }
 
 /* Links and buttons answer in the same time */
 .pg-link { transition: text-decoration-color var(--dur-ui), opacity var(--dur-ui); }
 .pg-link:active { opacity: .7; }
 
 @media (prefers-reduced-motion: reduce) {
-  .js .rv, .js .rv-h > .rv-hi { opacity: 1 !important; transform: none !important; filter: none !important; }
-  .js .rv-h { clip-path: none; }
+  .js .rv, .js .rv-h .rv-w { opacity: 1 !important; transform: none !important; filter: none !important; }
 }

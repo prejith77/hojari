@@ -1,4 +1,5 @@
-/* Inner pages: blocks rise into place once as they reach the screen, and headings lift out of a mask.
+/* Inner pages: blocks rise into place once as they reach the screen, and headings rise and sharpen word by word,
+   the same way as on the homepage.
    Only what starts below the screen is held back, so nothing on the first screen ever waits.
    Without JavaScript, or with reduced motion, everything simply shows. */
 (() => {
@@ -29,11 +30,29 @@
     const blocks = [...document.querySelectorAll(BLOCKS)].filter((el) => later(el) && !el.closest('.rv'));
     if (!heads.length && !blocks.length) return;
 
+    /* each word of a heading gets its own piece, gold words included; screen readers hear the heading whole */
+    const kept = new Map();
     heads.forEach((h) => {
-      const inner = document.createElement('span');
-      inner.className = 'rv-hi';
-      while (h.firstChild) inner.appendChild(h.firstChild);
-      h.appendChild(inner);
+      kept.set(h, { nodes: [...h.childNodes].map((n) => n.cloneNode(true)), label: h.getAttribute('aria-label') });
+      if (!h.hasAttribute('aria-label')) h.setAttribute('aria-label', h.textContent.replace(/\s+/g, ' ').trim());
+      const texts = [];
+      const walk = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
+      while (walk.nextNode()) texts.push(walk.currentNode);
+      let n = 0;
+      texts.forEach((t) => {
+        const bits = t.textContent.split(/(\s+)/);
+        const frag = document.createDocumentFragment();
+        bits.forEach((b) => {
+          if (!b) return;
+          if (/^\s+$/.test(b)) { frag.appendChild(document.createTextNode(b)); return; }
+          const w = document.createElement('span');
+          w.className = 'rv-w'; w.setAttribute('aria-hidden', 'true'); w.textContent = b;
+          w.style.setProperty('--rv-wd', Math.min(n++, 12) * 50 + 'ms');
+          frag.appendChild(w);
+        });
+        t.replaceWith(frag);
+      });
+      h.dataset.rvWords = n;
       h.classList.add('rv-h');
     });
     blocks.forEach((el) => el.classList.add('rv'));
@@ -42,6 +61,13 @@
     const waiting = new Set([...heads, ...blocks]);
     /* once shown, the element goes back to exactly how it was: no classes, no delays, nothing left blurred */
     const settle = (el) => {
+      const k = kept.get(el);
+      if (k) {
+        el.replaceChildren(...k.nodes);
+        if (k.label === null) el.removeAttribute('aria-label');
+        delete el.dataset.rvWords;
+        kept.delete(el);
+      }
       el.classList.remove('rv', 'rv-h', 'rv-on');
       el.style.removeProperty('--rv-d');
     };
@@ -53,7 +79,7 @@
         const d = Math.min(i, 5) * 70;
         if (d) el.style.setProperty('--rv-d', d + 'ms');
         el.classList.add('rv-on');
-        setTimeout(() => settle(el), d + 1100);
+        setTimeout(() => settle(el), d + 1100 + Math.min(+(el.dataset.rvWords || 0), 12) * 50);
       });
     };
     const io = new IntersectionObserver((entries) => {
