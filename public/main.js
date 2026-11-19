@@ -150,7 +150,7 @@
   if (motion) {
     const sel = '.hx-step, .hx-q, .hx-promise p, .hx-about-text > p, .hx-about-text > figure, .hx-me, .hj-three-steps li, .hj-plan, .hj-case, .hj-qs details, .grader-lede, .check, .grader-result, .proof, .usp-head p, .usp-card, .faq-head p, .qa-group, .webcheck, .stack li, .stack-total, .pricing-sub, .founding, .freebies, .build-head p, .build-grid, .case-status, .case-lede, .case-list li, .case-text .text-link, .case-shots, .work-intro p, .services-head p, .tile, .apps-lede, .apps-note, .app-demo, .bargain-head p, .compare tbody tr, .pricing-head p, .plan, .how-head > p, .how-head .button, .step, .palette-head p, .swatches, .about-lead, .about-cols > div, .qa, .contact-lede, .contact-form, .foot-line';
     /* the same blocks as the inner pages: section intros, the lines under the plans and the work, the promise list */
-    const more = '.hj-head .hj-lede, .hj-head-side > .hx-compare, .hj-story, .hj-fixline, .hj-more-prices, .hj-foundline, .hx-bargain, .hx-promises li, .contact-alt';
+    const more = '.hx-try-text > p:not(.hx-kicker), .hj-head .hj-lede, .hj-head-side > .hx-compare, .hj-story, .hj-fixline, .hj-more-prices, .hj-foundline, .hx-bargain, .hx-promises li, .contact-alt';
     const items = $$(sel + ', ' + more).filter((el, i, all) => el.getBoundingClientRect().top > innerHeight && !(!desktop && el.matches('.usp-card')) && !all.some((o) => o !== el && o.contains(el)));
     /* rise and sharpen once: laptops add a light blur, phones move only */
     gsap.set(items, soft ? { y: 24, opacity: 0 } : { y: 28, opacity: 0, filter: 'blur(8px)' });

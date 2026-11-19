@@ -1,6 +1,6 @@
 /* Homepage hero: one tear of Hojari frankincense. Milky, pale resin with a dusty bloom, a slow ember
    breathing in its core and a thin wisp of smoke from the tip. As the visitor scrolls, fine grains lift off
-   its lower half and drift away. On phones it sits beside the headline in a smaller canvas; reduced motion gets one still frame. */
+   its lower half and drift away. It sits in front of the headline, tucked behind the gold words; reduced motion gets one still frame. */
 (function () {
   const canvas = document.querySelector('.hx-tear');
   if (!canvas || (navigator.connection && navigator.connection.saveData)) return;
@@ -408,23 +408,38 @@ function run(canvas) {
   });
   grainScene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), filmMat));
 
-  /* ---------- framing ---------- */
+  /* ---------- framing ----------
+     The page decides where the tear sits in its canvas, in CSS: --tear-size is the share of the canvas height the tear
+     takes up, --tear-x and --tear-y where its middle sits (0 to 1, from the left and the top). Without them it frames as before. */
+  const PR_BUDGET = 0.8e6;   // device pixels: a large canvas draws at a lower ratio, never above the 1.5 cap
   function resize() {
     const w = canvas.clientWidth || innerWidth, h = canvas.clientHeight || innerHeight, aspect = w / h;
+    if (!RECORD) renderer.setPixelRatio(Math.max(0.75, Math.min(devicePixelRatio, 1.5, Math.sqrt(PR_BUDGET / (w * h)))));
+    grainMat.uniforms.uPR.value = renderer.getPixelRatio();
     renderer.setSize(w, h, false);
     camera.aspect = aspect;
-    const needH = aspect < 1.2 ? Math.max(7.4, 4.4 / aspect) : Math.max(5.7, 3.6 / aspect);
-    const focusY = aspect < 1.2 ? 1.25 : 0.55;
+    const cs = getComputedStyle(canvas);
+    const size = parseFloat(cs.getPropertyValue('--tear-size')), tx = parseFloat(cs.getPropertyValue('--tear-x')), ty = parseFloat(cs.getPropertyValue('--tear-y'));
+    let needH, focusY, focusX = 0;
+    if (size > 0) {
+      /* the tear is about 2.72 units tall; keep room either side for its width and the smoke */
+      needH = Math.max(2.72 / size, 3.4 / aspect);
+      focusY = -0.06 + needH * ((ty >= 0 ? ty : 0.68) - 0.5);
+      focusX = -needH * aspect * ((tx >= 0 ? tx : 0.5) - 0.5);
+    } else {
+      needH = aspect < 1.2 ? Math.max(7.4, 4.4 / aspect) : Math.max(5.7, 3.6 / aspect);
+      focusY = aspect < 1.2 ? 1.25 : 0.55;
+    }
     const dist = needH / 2 / Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-    camera.position.set(0, focusY, dist);
-    camera.lookAt(0, focusY, 0);
+    camera.position.set(focusX, focusY, dist);
+    camera.lookAt(focusX, focusY, 0);
     camera.updateProjectionMatrix();
     camera.updateMatrixWorld();
     bgMat.uniforms.uAspect.value = aspect;
     bgMat.uniforms.uRad.value = 1.75 / needH;
     grainMat.uniforms.uScale.value = Math.min(1.4, Math.max(0.8, h / 720 * 5.7 / needH));
     const s = new THREE.Vector3(0, -0.05, 0).project(camera);
-    bgMat.uniforms.uCentre.value.set(0.5, s.y * 0.5 + 0.5);
+    bgMat.uniforms.uCentre.value.set(s.x * 0.5 + 0.5, s.y * 0.5 + 0.5);
   }
 
   /* ---------- input ---------- */
@@ -470,6 +485,15 @@ function run(canvas) {
   resize();
   const STILL_T = 2.6;   // at the top of a breath, with the smoke well formed
   addEventListener('resize', () => { resize(); if (STATIC) frame(STILL_T, 0); });
+  /* the canvas can change size without the window doing so (the headline's type settling, for one) */
+  if (window.ResizeObserver) {
+    let cw = canvas.clientWidth, ch = canvas.clientHeight;
+    new ResizeObserver(() => {
+      if (canvas.clientWidth === cw && canvas.clientHeight === ch) return;
+      cw = canvas.clientWidth; ch = canvas.clientHeight;
+      resize(); if (STATIC) frame(STILL_T, 0);
+    }).observe(canvas);
+  }
   if (STATIC) { frame(STILL_T, 0); return; }
   if (RECORD) { frame(Number(params.get('t') || 0), 1 / 30); return; }
 

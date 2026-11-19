@@ -2661,16 +2661,21 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .hx-faq { background: var(--night-2); }
 main > section.hx-hero.has-seam::before { display: none; }
 
-/* HERO: words on the left, the phone on the right; stacked on phones */
-.hx-hero { position: relative; min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); align-items: center; gap: clamp(32px, 4vw, 72px);
-  padding: 112px max(var(--margin), calc((100% - 1240px) / 2)) 56px; }
-.hx-copy { display: flex; flex-direction: column; align-items: flex-start; }
-.hx-hero .hx-title { margin: 0; max-width: 11ch; font-size: clamp(3rem, 1.1rem + 4.6vw, 6rem); line-height: .98; letter-spacing: -0.02em; text-wrap: balance; }
-.hx-hero .hx-title em { display: block; color: var(--honey); white-space: normal; }
-.hx-sub { margin-top: 28px; max-width: 32ch; font-size: var(--step-lead); line-height: 1.45; color: #ddd6c8; }
-.hx-hero .hx-actions { margin-top: 36px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+/* HERO: one poster. The headline is the mass; the tear sits in front of it, tucked behind the gold words.
+   --fs is the headline size; the tear and its canvas are placed in multiples of it, so they stay together at any width. */
+.hx-hero { position: relative; isolation: isolate; overflow: clip; min-height: 100svh; display: flex; flex-direction: column;
+  padding: 112px max(var(--margin), calc((100% - 1240px) / 2)) 48px;
+  --fs: clamp(4.5rem, min(11.6vw, (100svh - 340px) / 2.7), 12rem); --lh: .9; }
+.hx-copy { position: relative; flex: 1; display: flex; flex-direction: column; }
+.hx-hero .hx-title { position: static; z-index: auto; margin: 0; max-width: none; font-size: var(--fs); line-height: var(--lh); letter-spacing: -0.03em; }
+.hx-hero .hx-title .hx-l { display: block; white-space: nowrap; }
+.hx-hero .hx-title em { position: relative; z-index: 2; display: block; width: fit-content; color: var(--honey); white-space: nowrap; }
+.hx-foot { position: relative; z-index: 3; margin-top: auto; padding-top: clamp(32px, 5vh, 64px); display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 24px 48px; }
+.hx-sub { margin-top: 0; max-width: 34ch; font-size: var(--step-lead); line-height: 1.45; color: #ddd6c8; }
+.hx-act { display: grid; justify-items: start; }
+.hx-hero .hx-actions { margin-top: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .hx-hero .hx-actions .button { width: auto; }
-.hx-fine { margin-top: 20px; max-width: 40ch; font-size: var(--step-small); line-height: 1.5; color: var(--muted); }
+.hx-fine { margin-top: 18px; max-width: 40ch; font-size: var(--step-small); line-height: 1.5; color: var(--muted); }
 
 /* The phone: built in HTML, crisp at any size */
 .hx-stage { margin: 0; display: grid; justify-items: center; align-items: center; }
@@ -2785,12 +2790,12 @@ main > section.hx-hero.has-seam::before { display: none; }
 
 /* Phones and tablets */
 @media (max-width: 899px) {
-  .hx-hero { grid-template-columns: minmax(0, 1fr); min-height: 0; gap: 40px; padding: 104px 20px 0; }
-  .hx-hero .hx-title { max-width: 12ch; font-size: clamp(2.75rem, 12vw, 4.5rem); }
-  .hx-sub { margin-top: 20px; font-size: 1.1875rem; }
+  .hx-hero { min-height: 0; padding: 112px 20px 56px; --fs: min(calc((100vw - 40px) / 5.9), 5rem); --lh: .94; }
+  .hx-foot { display: block; margin-top: 0; padding-top: 24px; }
+  .hx-sub { font-size: 1.1875rem; }
+  .hx-act { display: block; }
   .hx-hero .hx-actions { margin-top: 28px; display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
   .hx-hero .hx-actions .button { width: 100%; padding: 0 12px; }
-  .hx-stage { height: min(600px, 150vw); overflow: hidden; align-items: start; -webkit-mask-image: linear-gradient(#000 78%, transparent); mask-image: linear-gradient(#000 78%, transparent); }
   .hx-phone { width: min(340px, 86vw); }
   .hx-steps { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   .hx-step-n { font-size: 44px; }
@@ -2816,22 +2821,17 @@ main > section.hx-hero.has-seam::before { display: none; }
 .hx-bargain span { padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(227, 173, 92, .45); color: var(--paper); font-size: 14.5px; }
 @media (max-width: 599px) { .hx-hero .hx-actions { grid-template-columns: minmax(0, 1fr); gap: 10px; } .hx-hero .hx-actions .button { width: 100%; justify-content: center; } }
 
-/* Hero tear: a direct child of the hero so the phone's mask can't clip it.
-   Phones and tablets: beside the headline. Desktop: in the gap between the headline and the phone. */
-.hx-tear { position: absolute; z-index: 0; pointer-events: none; }
-.hx-copy, .hx-stage { position: relative; z-index: 1; }
+/* Hero tear: in the same box as the headline. It paints over the white words and under the gold ones (the em sits above it),
+   so the tear tucks in behind "messages." and its smoke rises past "bookings,". tear.js frames the drop from --tear-size/-x/-y.
+   --th: the tear's height; --cx, --cy: its middle, measured from the headline's top left corner. */
+.hx-tear { position: absolute; z-index: 1; pointer-events: none;
+  --tear-size: .36; --tear-x: .5; --tear-y: .7; --ar: .56;
+  --th: calc(var(--fs) * 2); --cx: calc(var(--fs) * 5.62); --cy: calc(var(--fs) * (2 * var(--lh) + .2));
+  height: calc(var(--th) / var(--tear-size)); width: calc(var(--th) / var(--tear-size) * var(--ar));
+  left: calc(var(--cx) - var(--th) / var(--tear-size) * var(--ar) / 2); top: calc(var(--cy) - var(--th) / var(--tear-size) * var(--tear-y)); }
 @media (max-width: 899px) {
-  .hx-tear { top: 40px; right: 0; width: min(40vw, 220px); height: 200px; }
-}
-@media (min-width: 900px) {
-  .hx-hero { --pad: max(var(--margin), calc((100% - 1240px) / 2)); --g: clamp(32px, 4vw, 72px); --hx-pw: clamp(280px, calc((100svh - 170px) / 2.08), 372px); }
-  .hx-tear { width: 300px; height: 540px; top: calc(50% + 28px);
-    left: calc(var(--pad) + (100% - 2 * var(--pad) - var(--g)) * .77 + var(--g) - var(--hx-pw) / 2 - 110px);
-    transform: translate(-50%, -44%); }
-}
-@media (min-width: 900px) and (max-width: 1199px) {
-  .hx-tear { width: 200px; height: 260px; top: 90px; transform: none;
-    left: calc(var(--pad) + (100% - 2 * var(--pad) - var(--g)) * .54 - 130px); }
+  /* phones and tablets: beside "Wake up", clear of every word, so the whole line stays readable */
+  .hx-tear { --th: calc(var(--fs) * 1.25); --cx: calc(100% - var(--fs) * .5); --cy: calc(var(--fs) * var(--lh) * .72); }
 }
 
 /* What I promise: four short promises on the green panel */
@@ -2890,7 +2890,7 @@ h2 { font-size: clamp(2.375rem, 1.65rem + 4vw, 5.25rem); line-height: 1; letter-
 @media (max-width: 599px) { .contact-title { font-size: clamp(2.75rem, 12.5vw, 3.75rem); } }
 @media (min-width: 600px) and (max-width: 899px) { .contact-title { font-size: clamp(3.75rem, 10vw, 5rem); } }
 .hx-promises b { font-size: clamp(1.5rem, 1.2rem + .6vw, 1.75rem); }
-.hx-hero .hx-title { letter-spacing: -0.02em; line-height: 1; }
+.hx-hero .hx-title { letter-spacing: -0.02em; }
 .hx-hero .hx-title em { letter-spacing: -0.015em; }
 /* reading text: Switzer at 400, a touch more open than the old face */
 body { font-weight: 400; }
@@ -2904,3 +2904,155 @@ body { font-weight: 400; }
 }
 @keyframes hj-show { to { opacity: 1; } }
 .split .hw, .split .hc { display: inline-block; }
+
+/* ===== Homepage, 19 Nov: the tear in front of the headline, and a phone you can use ===== */
+/* Hero, laptops: the sub-line on the left, the buttons and the price on the right, under the headline */
+@media (min-width: 900px) {
+  .hx-hero .hx-actions { margin-top: 0; }
+  .hx-act { justify-items: end; text-align: right; }
+  .hx-fine { max-width: 44ch; }
+}
+@media (min-width: 900px) and (max-width: 1199px) {
+  .hx-act { justify-items: start; text-align: left; }
+}
+/* Tablets: a bigger headline and the usual side margins */
+@media (min-width: 600px) and (max-width: 899px) {
+  .hx-hero { padding: 132px 48px 64px; --fs: min(calc((100vw - 96px) / 6), 7rem); }
+  .hx-foot { padding-top: 36px; }
+  .hx-sub { max-width: 36ch; }
+}
+/* the gold words sit over the tear: a soft dark edge keeps every letter clear of the pale resin behind */
+.hx-hero .hx-title em { text-shadow: 0 0 .06em rgba(18, 13, 9, .55), 0 .02em .18em rgba(18, 13, 9, .45); }
+
+/* TRY THE NIGHT SHIFT: the words on the left, the phone on the right; stacked on phones */
+.hx-try { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(40px, 6vw, 96px);
+  padding: var(--space-section) max(var(--margin), calc((100% - 1240px) / 2));
+  background: radial-gradient(42% 48% at 74% 52%, rgba(227, 173, 92, .09), rgba(227, 173, 92, 0) 70%), var(--night); }
+.hx-try-text { display: grid; gap: var(--space-title); justify-items: start; max-width: 36rem; }
+.hx-kicker { font: 500 16px/1.3 var(--sans); color: var(--honey); }
+.hx-try h2 em { color: var(--honey); }
+.hx-invite { margin-top: 4px; font-size: var(--step-lead); line-height: 1.45; color: #ddd6c8; max-width: 30ch; }
+.hx-try-note { color: var(--muted); font-size: 1rem; line-height: 1.6; max-width: 42ch; }
+html:not(.js) .hx-invite { display: none; }
+.hx-try-stage { display: grid; justify-items: center; gap: 28px; min-width: 0; }
+.hx-after { display: grid; justify-items: center; gap: 18px; max-width: 30rem; text-align: center; }
+.hx-after[hidden] { display: none; }
+.hx-after p { font: 500 1.25rem/1.4 var(--sans); color: var(--paper); text-wrap: balance; }
+.hx-after em { color: var(--honey); }
+.hx-after.is-in { animation: hx-up .5s var(--ease-reveal) both; }
+@keyframes hx-up { from { opacity: 0; transform: translateY(14px); } }
+@media (max-width: 899px) {
+  .hx-try { grid-template-columns: minmax(0, 1fr); gap: 40px; padding: 72px 20px 80px; background: radial-gradient(70% 36% at 50% 66%, rgba(227, 173, 92, .09), rgba(227, 173, 92, 0) 70%), var(--night); }
+  .hx-invite { font-size: 1.1875rem; }
+}
+@media (min-width: 600px) and (max-width: 899px) { .hx-try { padding-left: 48px; padding-right: 48px; } }
+
+/* The phone's two screens: the lock screen and the chat. Only transform and opacity move, in about 360ms */
+.hx-stage { --ios: cubic-bezier(.32, .72, 0, 1); }
+.hx-island { z-index: 6; }
+.hx-lockview { position: absolute; inset: 0; transform-origin: 50% 42%; transition: opacity .36s var(--ios), transform .36s var(--ios); }
+.hx-screen.is-app .hx-lockview { opacity: 0; transform: scale(1.05); pointer-events: none; }
+.hx-app { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; border-radius: inherit; outline: none;
+  background: radial-gradient(120% 50% at 50% 0%, #241b13, rgba(36, 27, 19, 0) 70%), #130e0a; color: var(--paper);
+  opacity: 0; transform: translateY(6%) scale(.94); transform-origin: 50% 60%; transition: opacity .36s var(--ios), transform .36s var(--ios); }
+.hx-app[hidden] { display: none; }
+.hx-app.is-open { opacity: 1; transform: none; }
+.hx-app.is-leaving { opacity: 0; transform: translateY(-5%) scale(.9); }
+
+/* status bar: the visitor's own time on the left, signal and battery on the right */
+.hx-sbar { flex: none; height: 49px; display: flex; align-items: center; justify-content: space-between; padding: 0 26px 0 30px; font: 600 15px/1 var(--sans); letter-spacing: .01em; font-variant-numeric: tabular-nums; }
+.hx-bars { display: flex; align-items: center; gap: 5px; }
+.hx-bars svg { width: 17px; height: 11px; fill: currentColor; }
+.hx-batt { position: relative; display: block; width: 24px; height: 12px; border: 1.2px solid rgba(243, 239, 230, .5); border-radius: 4px; padding: 1.5px; }
+.hx-batt::after { content: ""; position: absolute; right: -3.5px; top: 3.5px; width: 2px; height: 4px; border-radius: 0 1px 1px 0; background: rgba(243, 239, 230, .5); }
+.hx-batt i { display: block; width: 72%; height: 100%; border-radius: 2px; background: var(--paper); }
+
+/* header: back, a monogram, the name and the Example label */
+.hx-head { flex: none; display: flex; align-items: center; gap: 8px; padding: 0 14px 10px 4px; border-bottom: 1px solid rgba(243, 239, 230, .08); }
+.hx-back { flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--honey); cursor: pointer; }
+.hx-back svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.hx-av { flex: none; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--honey); color: var(--ink); font: 550 20px/1 var(--serif); }
+.hx-who { display: grid; gap: 2px; min-width: 0; }
+.hx-who b { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 15px/1.2 var(--sans); }
+.hx-who span { display: flex; align-items: center; gap: 6px; font: 400 12.5px/1.2 var(--sans); color: rgba(243, 239, 230, .7); white-space: nowrap; }
+.hx-who i { font: 600 10.5px/1 var(--sans); font-style: normal; color: var(--honey); padding: 3px 6px; border: 1px solid rgba(227, 173, 92, .6); border-radius: 99px; }
+
+/* the conversation */
+.hx-log { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 6px; padding: 14px 12px 10px; scrollbar-width: none; }
+.hx-log::-webkit-scrollbar { display: none; }
+.hx-sys { align-self: center; max-width: 30ch; margin: 2px 0 8px; text-align: center; font: 400 12.5px/1.45 var(--sans); color: rgba(243, 239, 230, .66); }
+.hx-msg { max-width: 82%; padding: 8px 12px 9px; border-radius: 19px; font: 400 15px/1.38 var(--sans); overflow-wrap: anywhere; }
+.hx-msg p { max-width: none; }
+.hx-msg.is-me { align-self: flex-end; background: var(--honey); color: var(--ink); border-bottom-right-radius: 6px; }
+.hx-msg.is-them { align-self: flex-start; background: #2c231a; color: var(--paper); border-bottom-left-radius: 6px; }
+.hx-msg.is-me + .hx-msg.is-them, .hx-msg.is-them + .hx-msg.is-me { margin-top: 6px; }
+.hx-log > .is-new { animation: hx-pop .3s var(--ios) both; }
+@keyframes hx-pop { from { opacity: 0; transform: translateY(10px) scale(.96); } }
+.hx-msg.is-me.is-new { transform-origin: 100% 100%; }
+.hx-msg.is-them.is-new { transform-origin: 0 100%; }
+.hx-typing { display: flex; gap: 4px; align-items: center; padding: 13px 14px; }
+.hx-typing i { width: 7px; height: 7px; border-radius: 50%; background: rgba(243, 239, 230, .6); animation: hx-dot 1s ease-in-out infinite; }
+.hx-typing i:nth-child(2) { animation-delay: .15s; }
+.hx-typing i:nth-child(3) { animation-delay: .3s; }
+@keyframes hx-dot { 0%, 60%, 100% { opacity: .35; transform: none; } 30% { opacity: 1; transform: translateY(-2px); } }
+
+/* times to pick, inside a reply */
+.hx-slots { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.hx-slots button { min-height: 44px; padding: 0 14px; border: 1px solid rgba(227, 173, 92, .7); border-radius: 99px; background: none; color: var(--paper); font: 500 14.5px/1 var(--sans); cursor: pointer; transition: background-color .2s, color .2s, opacity .2s; }
+.hx-slots button[aria-pressed="true"] { background: var(--honey); border-color: var(--honey); color: var(--ink); }
+.hx-slots button[aria-disabled="true"]:not([aria-pressed="true"]) { opacity: .4; cursor: default; }
+@media (hover: hover) and (pointer: fine) { .hx-slots button:not([aria-disabled="true"]):hover { background: rgba(227, 173, 92, .16); } }
+
+/* the confirmation card */
+.hx-conf { align-self: flex-start; width: 84%; margin-top: 2px; padding: 12px 14px 13px; border-radius: 18px; background: var(--paper); color: var(--ink); font: 400 14px/1.4 var(--sans); }
+.hx-conf-k { display: flex; align-items: center; gap: 6px; font: 600 12.5px/1.2 var(--sans); color: #3b4d33; }
+.hx-conf-k svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.hx-conf-k i { margin-left: auto; font: 600 10.5px/1 var(--sans); font-style: normal; color: var(--ink-muted); padding: 3px 6px; border: 1px solid rgba(23, 18, 12, .25); border-radius: 99px; }
+.hx-conf-t { margin-top: 8px; font: 550 22px/1.1 var(--serif); letter-spacing: -0.01em; }
+.hx-conf p + p { margin-top: 3px; }
+.hx-conf-m { color: var(--ink-muted); }
+
+/* suggested questions: one row that scrolls sideways inside the phone */
+.hx-chips { flex: none; display: flex; gap: 8px; overflow-x: auto; overscroll-behavior-x: contain; padding: 8px 12px; scrollbar-width: none; scroll-padding-inline: 12px; }
+.hx-chips::-webkit-scrollbar { display: none; }
+.hx-chips button { flex: none; min-height: 44px; padding: 0 15px; border: 1px solid rgba(243, 239, 230, .18); border-radius: 99px; background: rgba(243, 239, 230, .07); color: var(--paper); font: 500 14px/1 var(--sans); white-space: nowrap; cursor: pointer; transition: background-color .2s, transform .16s var(--ease-out); }
+.hx-chips button:active, .hx-slots button:active, .hx-send:active { transform: scale(.96); }
+@media (hover: hover) and (pointer: fine) { .hx-chips button:hover { background: rgba(243, 239, 230, .14); } }
+
+/* the text box: 16px or larger, so phones never zoom in on it */
+.hx-compose { flex: none; display: flex; align-items: center; gap: 8px; padding: 4px 12px 2px; }
+.hx-compose input { flex: 1 1 auto; min-width: 0; height: 44px; padding: 0 16px; border: 1px solid rgba(243, 239, 230, .2); border-radius: 22px; background: #1d1611; color: var(--paper); font: 400 16px/1.2 var(--sans); outline-offset: 1px; }
+.hx-compose input::placeholder { color: rgba(243, 239, 230, .58); }
+.hx-send { flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: var(--honey); color: var(--ink); cursor: pointer; transition: transform .16s var(--ease-out); }
+.hx-send svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* the home bar: tap it, or swipe up on it, to go back to the lock screen */
+.hx-home { flex: none; position: relative; display: grid; place-items: center; width: 100%; height: 44px; padding: 0; border: 0; background: none; cursor: pointer; touch-action: none; }
+.hx-home i { width: 38%; height: 5px; border-radius: 99px; background: rgba(243, 239, 230, .85); transition: transform .2s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .hx-home:hover i { transform: scaleX(1.08); } }
+.hx-app :focus-visible { outline-offset: 1px; }
+.hx-home:focus-visible { outline-offset: -4px; border-radius: 16px; }
+
+/* lock screen: notifications and the card become buttons, and a pill invites a message once it is morning */
+.hx-hit { position: absolute; inset: 0; z-index: 1; padding: 0; border: 0; border-radius: inherit; background: none; cursor: pointer; }
+.hx-hit:focus-visible { outline-offset: 2px; }
+.hx-pill { position: absolute; left: 50%; bottom: 17%; z-index: 2; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 1px solid rgba(243, 239, 230, .2); border-radius: 99px;
+  background: rgba(243, 239, 230, .12); color: var(--paper); font: 600 14px/1 var(--sans); white-space: nowrap; cursor: pointer; translate: -50% 0; transition: opacity .6s var(--ease-out) .5s, transform .6s var(--ease-out) .5s; }
+.hx-pill svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.hx-stage.is-night:not(.is-morning) .hx-pill { opacity: 0; transform: translateY(8px); visibility: hidden; transition: none; }
+.hx-card .hx-hit { border-radius: 24px; }
+@media (hover: hover) and (pointer: fine) { .hx-card:has(.hx-hit:hover) { transform: translateY(-2px); } .hx-pill:hover { background: rgba(243, 239, 230, .2); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .hx-lockview, .hx-app, .hx-pill, .hx-chips button, .hx-slots button, .hx-home i { transition: none; }
+  .hx-log > .is-new, .hx-after.is-in { animation: none; }
+  .hx-typing i { animation: none; opacity: .7; }
+}
+
+/* Rolling numbers: each digit rolls up into place once. The hidden copy of the final digit holds the width,
+   so nothing around it moves; screen readers get the final number from a separate, unseen copy. */
+.rc-d { position: relative; display: inline-block; clip-path: inset(-.08em 0); }
+.rc-ph { visibility: hidden; }
+.rc-s { position: absolute; left: 0; right: 0; top: 0; display: flex; flex-direction: column; text-align: center; }
+.rc-s > span { display: block; }
+.hx-card li b, .hj-price b { font-variant-numeric: tabular-nums lining-nums; }
