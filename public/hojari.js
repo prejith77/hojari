@@ -44,6 +44,8 @@
     if (save) { try { localStorage.setItem('hj-cur', c); } catch (e) {} }
     $$('[data-gbp]').forEach((el) => { const v = +el.dataset[CUR[c].key]; if (v) { if (window.hjRollStop) window.hjRollStop(el); el.textContent = money(v); } });
     $$('.hj-cur button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.cur === c));
+    /* the switch's pill slides under the chosen side */
+    if (pairEl) pairEl.style.setProperty('--on', Math.max(0, pair.indexOf(c)));
     $$('.hj-cur-sym').forEach((el) => { el.textContent = CUR[c].sym; });
     count();
     document.dispatchEvent(new CustomEvent('hj:currency', { detail: c }));
@@ -508,6 +510,8 @@
   }
 
   setCur(cur, false);
+  /* the pill takes its place without sliding; from now on it slides */
+  if (pairEl) requestAnimationFrame(() => requestAnimationFrame(() => pairEl.classList.add('is-ready')));
 
   /* Prices: the three plan prices roll into place once, as they come into view, ending on the exact text the currency switch set */
   const planPrices = $$('.hx-plans .hj-price b[data-gbp]');
@@ -552,10 +556,48 @@
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-  /* Work: on a laptop the long screenshot pans down the page on hover. The distance is the image's height less the frame's */
-  const travel = () => $$('.hj-shots').forEach((s) => { const im = $('img.long', s); if (im && im.offsetHeight) s.style.setProperty('--travel', Math.min(0, s.clientHeight - im.offsetHeight) + 'px'); });
-  $$('.hj-shots img.long').forEach((im) => { if (im.complete) travel(); else im.addEventListener('load', travel); });
-  addEventListener('resize', travel, { passive: true });
+  /* Work, laptops: the long screenshot follows the cursor down its frame. With the cursor at the top of the frame it shows
+     the top of the site; at the bottom, most of a screen further down, never past the end. Leaving the card brings it back (CSS). */
+  if (finePointer && !calm) $$('.hj-case').forEach((card) => {
+    const shots = $('.hj-shots', card), im = shots && $('img.long', shots);
+    if (!im) return;
+    shots.addEventListener('pointermove', (e) => {
+      const r = shots.getBoundingClientRect();
+      const reach = Math.min(Math.max(0, im.offsetHeight - shots.clientHeight), shots.clientHeight * 0.9);
+      const t = Math.min(1, Math.max(0, ((e.clientY - r.top) / r.height - 0.15) / 0.7));
+      shots.style.setProperty('--peek', (-reach * t).toFixed(1) + 'px');
+    }, { passive: true });
+    card.addEventListener('pointerleave', () => shots.style.removeProperty('--peek'));
+  });
+
+  /* Work, phones and tablets: the two cards swipe sideways (CSS scroll snap). A small "1 / 2" follows along,
+     and each screenshot grows the last few per cent as its card settles into place */
+  const cases = $('.hx-cases');
+  if (cases) {
+    const cards = $$('.hj-case', cases);
+    const pager = document.createElement('p');
+    pager.className = 'hj-pager'; pager.setAttribute('aria-hidden', 'true');
+    const now = document.createElement('b'); now.textContent = '1';
+    pager.append(now, ' / ' + cards.length);
+    cases.after(pager);
+    const narrow = matchMedia('(max-width: 899px)');
+    let ticking = false;
+    const track = () => {
+      ticking = false;
+      if (!narrow.matches) return;
+      const max = cases.scrollWidth - cases.clientWidth, x = cases.scrollLeft, pad = parseFloat(getComputedStyle(cases).scrollPaddingLeft) || 0;
+      let best = 0, bestGap = Infinity;
+      cards.forEach((c, i) => {
+        const at = Math.min(max, c.offsetLeft - pad), gap = Math.abs(x - at);
+        if (gap < bestGap) { bestGap = gap; best = i; }
+        if (!calm) c.style.setProperty('--d', Math.min(1, gap / (c.offsetWidth || 1)).toFixed(3));
+      });
+      now.textContent = best + 1;
+    };
+    cases.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(track); } }, { passive: true });
+    addEventListener('resize', track, { passive: true });
+    track();
+  }
 
   /* Prices: a soft light follows the cursor across the plan cards */
   if (finePointer) $$('.hj-plan').forEach((p) => p.addEventListener('pointermove', (e) => {

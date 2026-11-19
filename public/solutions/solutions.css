@@ -26,9 +26,9 @@
 .sl-end h2 { color: var(--ink); }
 .sl-end p { color: var(--ink-muted); max-width: 56ch; }
 .sl-end-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.sl-end .button-light { background: var(--ink); color: var(--paper); }
-.sl-end .button-line { color: var(--ink); border-color: var(--ink-line); }
-@media (hover: hover) and (pointer: fine) { .sl-end .button-light:hover { background: var(--khareef); } .sl-end .button-line:hover { border-color: var(--ink); } }
+.sl-end .button-light { background: var(--ink); color: var(--paper); --btn-fill: var(--khareef); }
+.sl-end .button-line { color: var(--ink); border-color: var(--ink-line); --btn-fill: rgba(23, 18, 12, .06); }
+@media (hover: hover) and (pointer: fine) { .sl-end .button-line:hover { border-color: var(--ink); } }
 @media (max-width: 599px) { .sl-end-actions .button { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { .sl-card.is-in { animation: none; } }
 /* One rhythm with the other pages: 18 Nov */

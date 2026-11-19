@@ -71,12 +71,10 @@ main, .foot { position: relative; z-index: 1; }
   transition: transform .16s var(--ease-out), background-color .2s, color .2s, border-color .2s;
 }
 .button:active { transform: scale(.97); }
-.button-light { background: var(--paper); color: var(--ink); }
-@media (hover: hover) and (pointer: fine) { .button-light:hover { background: var(--honey); } }
-.button-light:not(.button-small)::after { content: "\2192"; display: inline-block; transition: transform .25s var(--ease-out); }
-@media (hover: hover) and (pointer: fine) { .button-light:hover::after { transform: translateX(5px); } }
-.button-ghost { background: var(--night-3); color: var(--paper); }
-@media (hover: hover) and (pointer: fine) { .button-ghost:hover { background: #3a2f24; } }
+/* hover: a fill sweeps in from the cursor's side (see the end of this file); --btn-fill is its colour */
+.button-light { background: var(--paper); color: var(--ink); --btn-fill: var(--honey); }
+.button-light:not(.button-small)::after { content: "\2192"; display: inline-block; transition: transform .22s var(--ease-out); }
+.button-ghost { background: var(--night-3); color: var(--paper); --btn-fill: #40342a; }
 .button-small { min-height: 42px; padding: 0 18px; font-size: var(--step-small); }
 .text-link { font-weight: 500; text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1.5px; transition: text-underline-offset .2s var(--ease-out); }
 @media (hover: hover) and (pointer: fine) { .text-link:hover { text-underline-offset: 9px; } }
@@ -1237,13 +1235,8 @@ button.blk { font-family: inherit; border: 0; cursor: pointer; -webkit-appearanc
 @media (max-width: 899px) {
   .menu-btn { display: grid; place-content: center; gap: 5px; width: 44px; height: 44px; margin-right: 8px; border: 0; border-radius: 50%; background: rgba(243, 239, 230, .08); cursor: pointer; }
   .menu-btn i { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--paper); transition: transform .25s var(--ease-out); }
-  .nav.is-open .menu-btn i:first-of-type { transform: translateY(3.5px) rotate(45deg); }
-  .nav.is-open .menu-btn i:last-of-type { transform: translateY(-3.5px) rotate(-45deg); }
-  .nav.is-open .links { display: flex; flex-direction: column; gap: 0; position: absolute; top: 100%; left: 0; right: 0; height: calc(100svh - 100%); overflow-y: auto; overscroll-behavior: contain; padding: 18px 22px 40px; background: var(--night); }
-  .nav.is-open .links a, .nav.is-open .links .m-only { display: block; padding: 16px 0; border-bottom: 1px solid var(--line); font-family: var(--serif); font-weight: 500; font-size: 2.125rem; letter-spacing: -0.01em; color: var(--paper); }
-  .menu-open, .menu-open body { overflow: hidden; }
 }
-@media (min-width: 600px) and (max-width: 899px) { .nav.is-open .links { padding: 24px 48px 48px; } .nav.is-open .links a { font-size: 2.75rem; } }
+/* the open menu itself is at the end of this file, with the inner pages' copy in sub.css */
 
 section[id] { scroll-margin-top: 0; }
 .field::after { bottom: auto; top: 66px; }
@@ -1262,9 +1255,6 @@ section[id] { scroll-margin-top: 0; }
 @media (hover: hover) and (pointer: fine) { .wa-btn:hover { background: #1b7a45; } }
 .menu-btn { transition: transform .16s var(--ease-out); }
 .menu-btn:active { transform: scale(.94); }
-.nav.is-open .links { animation: menu-in .2s var(--ease-out); }
-@keyframes menu-in { from { opacity: 0; } to { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .nav.is-open .links { animation: none; } }
 
 /* ===== Phone fixes ===== */
 @media (max-width: 899px) {
@@ -2457,9 +2447,7 @@ main > section.has-seam.seam-on::before { transform: scaleX(1); }
 .hj-work.is-light .hj-shots { background: #e4ddd0; box-shadow: 0 30px 60px -34px rgba(23, 18, 12, .45); }
 .hj-work.is-light :focus-visible { outline-color: var(--ink); }
 .hj-shots img.long { height: auto; object-fit: initial; transform: translate3d(0, 0, 0); transition: transform .5s var(--ease-out); }
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .hj-case:hover .hj-shots img.long { transform: translate3d(0, var(--travel, 0px), 0); transition: transform 9s cubic-bezier(.45, 0, .55, 1); }
-}
+/* on a laptop the screenshot follows the cursor down its frame: see Stage 3 at the end of this file */
 /* plans */
 .plan-incl > summary { display: flex; align-items: center; justify-content: space-between; min-height: 44px; margin-top: 14px; border-top: 1px solid var(--line); cursor: pointer; list-style: none; color: var(--paper); font-weight: 500; font-size: 15px; }
 .plan-incl > summary::-webkit-details-marker { display: none; }
@@ -3056,3 +3044,97 @@ html:not(.js) .hx-invite { display: none; }
 .rc-s { position: absolute; left: 0; right: 0; top: 0; display: flex; flex-direction: column; text-align: center; }
 .rc-s > span { display: block; }
 .hx-card li b, .hj-price b { font-variant-numeric: tabular-nums lining-nums; }
+
+/* ===== Stage 3, 19 Nov: one button, the menu on phones, the work cards and the currency switch ===== */
+/* Buttons: on a laptop a soft fill sweeps through from the side the cursor comes in (ui.js says which side),
+   and the arrow nudges 3px. Every button presses to .97. Only transform moves; the colours never drop below 4.5:1.
+   Magnetic buttons still lean a few pixels towards the cursor; the fill sits inside them, so the two never fight. */
+:root { --btn-dur: .24s; --btn-ease: cubic-bezier(.33, 1, .68, 1); }
+.button { position: relative; isolation: isolate; overflow: hidden; }
+.button::before {
+  content: ""; position: absolute; top: -1px; bottom: -1px; left: calc(-30% - 1px); right: calc(-30% - 1px); z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--btn-fill, transparent) 18.75% 81.25%, transparent);
+  scale: var(--from, 1) 1; transform: translateX(-100%); transition: transform var(--btn-dur) var(--btn-ease);
+}
+.button:disabled::before { content: none; }
+.button-light:not(.button-small)::after { transition: transform var(--btn-dur) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .button:not(:disabled):hover::before { transform: none; }
+  .button-light:not(.button-small):hover::after { transform: translateX(3px); }
+}
+
+/* The menu: the button turns into a close cross and the links fill the screen, large, in Boska.
+   ui.js adds .menu-on (shown), .menu-in (settled) and .menu-lock (the page holds still). The inner pages have the same in sub.css. */
+@media (max-width: 899px) {
+  .nav { gap: 10px; }
+  .nav .menu-btn { margin: 0; transition: transform var(--dur-ui) var(--ease-out); }
+  .menu-btn:active { transform: scale(.94); }
+  .menu-btn i { transition: transform var(--btn-dur) var(--ease-out); }
+  .menu-btn[aria-expanded="true"] i:first-of-type { transform: translateY(3.5px) rotate(45deg); }
+  .menu-btn[aria-expanded="true"] i:last-of-type { transform: translateY(-3.5px) rotate(-45deg); }
+  .nav > .button { transition: transform var(--dur-ui) var(--ease-out), opacity .15s; }
+  .menu-on .nav > .button, .menu-on .m-bar { opacity: 0; pointer-events: none; }
+  .menu-lock, .menu-lock body { overflow: hidden; }
+
+  .menu-on .links.mnav { display: flex; flex-direction: column; align-items: stretch; gap: 0; position: fixed; inset: 0; z-index: -1; height: 100vh; height: 100dvh;
+    padding: calc(var(--bar-h, 64px) + clamp(12px, 3vh, 32px)) var(--margin) max(20px, env(safe-area-inset-bottom));
+    background: var(--night); overflow-y: auto; overscroll-behavior: contain; opacity: 0; transition: opacity .2s var(--ease-out); }
+  .menu-in .links.mnav { opacity: 1; }
+  .menu-on .links.mnav > a:not([hidden]) { display: flex; align-items: center; min-height: 52px; padding: 2px 0; font: 450 clamp(2.125rem, 1.5rem + 3vw, 3.25rem)/1.1 var(--serif); letter-spacing: -0.015em; color: var(--paper); }
+  .menu-on .links.mnav > .mnav-foot { display: grid; gap: 6px; margin-top: auto; padding-top: 28px; }
+  .menu-on .mnav-foot .button { width: 100%; min-height: var(--button-h); padding: 8px 22px; font: 500 var(--step-body)/1.15 var(--sans); color: var(--ink); white-space: normal; }
+  .mnav-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 22px; max-width: none; }
+  .menu-on .mnav-contact a:not([hidden]) { display: inline-flex; align-items: center; min-height: 44px; font-size: var(--step-small); color: var(--muted); }
+  .menu-on .mnav-contact a:active { color: var(--paper); }
+
+  /* the lines rise into place one after another, 35ms apart; on the way out the whole screen just fades */
+  .menu-on .links.mnav > * { opacity: 0; transform: translateY(14px); }
+  .menu-in .links.mnav > * { opacity: 1; transform: none; transition: opacity .26s var(--ease-out), transform .3s var(--ease-out); transition-delay: calc(var(--i, 0) * 35ms); }
+  .menu-out .links.mnav > * { opacity: 1; transform: none; }
+}
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) {
+  .menu-on .links.mnav > *, .menu-in .links.mnav > * { transform: none; transition: none; }
+}
+
+/* Recent work, phones and tablets: the two cards sit side by side and swipe, one at a time, with a small "1 / 2" under them.
+   As a card settles into place its screenshot grows the last few per cent (hojari.js sets --d, 0 in place to 1 a card away). */
+@media (max-width: 899px) {
+  .hj-cases.hx-cases { position: relative; display: flex; gap: 14px; margin-inline: -20px; padding: 4px 20px 8px; overflow-x: auto; overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory; scroll-padding-inline: 20px; scrollbar-width: none; }
+  .hj-cases.hx-cases::-webkit-scrollbar { display: none; }
+  .hx-cases > .hj-case { flex: 0 0 86%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
+  .hx-cases .hj-shots { transform: scale(calc(1 - var(--d, 0) * .05)); transform-origin: 50% 70%; }
+  .hj-pager { display: flex; justify-content: center; gap: .3em; margin: 18px auto 0; font: 500 14px/1 var(--sans); font-variant-numeric: tabular-nums; color: var(--ink-muted); }
+  .hj-pager b { font-weight: 600; color: var(--ink); }
+}
+@media (min-width: 600px) and (max-width: 899px) { .hx-cases > .hj-case { flex-basis: 68%; } }
+@media (min-width: 900px) { .hj-pager { display: none; } }
+
+/* Recent work, laptops: the long screenshot follows the cursor down its frame, most of a screen at most, and eases back when you leave.
+   hojari.js sets --peek; without it nothing moves */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .hj-shots img.long { transition: transform .9s var(--ease-reveal); }
+  .hj-case:hover .hj-shots img.long { transform: translate3d(0, var(--peek, 0px), 0); transition: transform 1.1s var(--ease-reveal); }
+}
+
+/* £ / AED: a segmented switch. The pale pill slides under the chosen side (transform only); the buttons keep aria-pressed */
+.hj-cur[data-pair] { position: relative; isolation: isolate; display: inline-grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; padding: 4px; border-radius: 999px;
+  background: var(--night-3); box-shadow: inset 0 0 0 1px rgba(243, 239, 230, .06); }
+.hj-cur[data-pair]::before { content: ""; position: absolute; z-index: -1; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 999px; background: var(--paper);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .35); transform: translateX(calc(var(--on, 0) * 100%)); transition: transform .34s cubic-bezier(.32, .72, 0, 1); }
+.hj-cur[data-pair]:not(.is-ready)::before { transition: none; }
+.hj-cur[data-pair] button, .hj-cur[data-pair] button[aria-pressed="true"] { min-width: 68px; min-height: 44px; padding: 0 18px; background: none; color: var(--muted);
+  transition: color .2s var(--ease-out), transform var(--dur-ui) var(--ease-out); }
+.hj-cur[data-pair] button[aria-pressed="true"] { color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .hj-cur[data-pair]::before { transition: none; } }
+@media (max-width: 899px) {
+  /* the menu screen grows out of the button's corner as it fades in */
+  .menu-on .links.mnav { transform: scale(.985); transform-origin: calc(100% - 40px) 32px; transition: opacity .2s var(--ease-out), transform .26s var(--ease-out); }
+  .menu-in .links.mnav, .menu-out .links.mnav { transform: none; }
+}
+@media (min-width: 600px) and (max-width: 899px) {
+  .menu-on .links.mnav > .mnav-foot { justify-items: start; }
+  .menu-on .mnav-foot .button { width: auto; min-width: 340px; }
+  .mnav-contact { justify-content: flex-start; }
+}
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) { .menu-on .links.mnav { transform: none; } }

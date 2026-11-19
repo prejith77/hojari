@@ -45,15 +45,13 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; border: 1px solid transparent; font: 500 var(--step-body)/1 var(--sans); text-decoration: none; cursor: pointer; transition: transform .16s var(--ease-out), background-color .2s, color .2s, border-color .2s, opacity .2s; touch-action: manipulation; -webkit-user-select: none; user-select: none; }
 .button:active { transform: scale(.97); }
 .button:disabled { opacity: .35; cursor: not-allowed; transform: none; }
-.button-light { background: var(--paper); color: var(--ink); }
-.button-light.arrow::after { content: "\2192"; display: inline-block; transition: transform .25s var(--ease-out); }
-.button-ghost { background: var(--night-3); color: var(--paper); }
-.button-line { background: none; color: var(--paper); border-color: var(--line); }
+/* hover: a fill sweeps in from the cursor's side (see the end of this file); --btn-fill is its colour */
+.button-light { background: var(--paper); color: var(--ink); --btn-fill: var(--honey); }
+.button-light.arrow::after { content: "\2192"; display: inline-block; transition: transform .22s var(--ease-out); }
+.button-ghost { background: var(--night-3); color: var(--paper); --btn-fill: #40342a; }
+.button-line { background: none; color: var(--paper); border-color: var(--line); --btn-fill: rgba(243, 239, 230, .08); }
 .button-small { min-height: 40px; padding: 0 16px; font-size: var(--step-small); }
 @media (hover: hover) and (pointer: fine) {
-  .button-light:not(:disabled):hover { background: var(--honey); }
-  .button-light.arrow:not(:disabled):hover::after { transform: translateX(5px); }
-  .button-ghost:not(:disabled):hover { background: #3a2f24; }
   .button-line:not(:disabled):hover { border-color: var(--honey); }
 }
 
@@ -84,7 +82,8 @@ button, input, textarea, select { font: inherit; color: inherit; }
 .top-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; font-size: var(--step-small); color: var(--muted); text-decoration: none; transition: color .2s; }
 .top-cta { display: inline-flex; align-items: center; min-height: 40px; padding: 0 18px; border-radius: 999px; background: var(--paper); color: var(--ink); font-size: var(--step-small); font-weight: 500; text-decoration: none; transition: background-color .2s, transform .16s cubic-bezier(.23, 1, .32, 1); }
 .top-cta:active { transform: scale(.97); }
-@media (hover: hover) and (pointer: fine) { .top-nav a:hover { color: var(--paper); } .top-cta:hover { background: var(--honey); } }
+@media (hover: hover) and (pointer: fine) { .top-nav a:hover { color: var(--paper); } }
+.top-cta { --btn-fill: var(--honey); }
 @media (max-width: 899px) { .top-nav a:not(.top-keep) { display: none; } }
 .top-cta { white-space: nowrap; }
 @media (max-width: 359px) { .top-keep { display: none; } .top-cta { padding: 0 14px; } }
@@ -157,3 +156,69 @@ button, input, textarea, select { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .js .rv, .js .rv-h .rv-w { opacity: 1 !important; transform: none !important; filter: none !important; }
 }
+
+/* ===== Stage 3, 19 Nov: one button, and the menu on phones and tablets ===== */
+/* Buttons: on a laptop a soft fill sweeps through from the side the cursor comes in (ui.js says which side),
+   and the arrow nudges 3px. Every button presses to .97. Only transform moves; the colours never drop below 4.5:1. */
+:root { --btn-dur: .24s; --btn-ease: cubic-bezier(.33, 1, .68, 1); }
+.button, .top-cta { position: relative; isolation: isolate; overflow: hidden; }
+.button::before, .top-cta::before {
+  content: ""; position: absolute; top: -1px; bottom: -1px; left: calc(-30% - 1px); right: calc(-30% - 1px); z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--btn-fill, transparent) 18.75% 81.25%, transparent);
+  scale: var(--from, 1) 1; transform: translateX(-100%); transition: transform var(--btn-dur) var(--btn-ease);
+}
+.button:disabled::before { content: none; }
+.button.arrow::after { transition: transform var(--btn-dur) var(--ease-out); }
+.top-cta { transition: transform var(--dur-ui) var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .button:not(:disabled):hover::before, .top-cta:hover::before { transform: none; }
+  .button.arrow:not(:disabled):hover::after { transform: translateX(3px); }
+}
+
+/* The menu: the button turns into a close cross and the links fill the screen, large, in Boska.
+   ui.js adds .menu-on (shown), .menu-in (settled) and .menu-lock (the page holds still). The homepage has the same in styles.css. */
+.menu-btn, .m-only { display: none; }
+@media (max-width: 899px) {
+  .top-nav.mnav { display: none; }
+  .menu-btn { display: grid; place-content: center; gap: 5px; flex: none; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: rgba(243, 239, 230, .08); color: var(--paper); cursor: pointer; transition: transform var(--dur-ui) var(--ease-out); }
+  .menu-btn:active { transform: scale(.94); }
+  .menu-btn i { display: block; width: 18px; height: 2px; border-radius: 2px; background: currentColor; transition: transform var(--btn-dur) var(--ease-out); }
+  .menu-btn[aria-expanded="true"] i:first-of-type { transform: translateY(3.5px) rotate(45deg); }
+  .menu-btn[aria-expanded="true"] i:last-of-type { transform: translateY(-3.5px) rotate(-45deg); }
+  .top-cta { transition: transform var(--dur-ui) var(--ease-out), opacity .15s; }
+  .menu-on .top { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .menu-on .top-cta { opacity: 0; pointer-events: none; }
+  .menu-lock, .menu-lock body { overflow: hidden; }
+
+  .menu-on .top-nav.mnav { display: flex; flex-direction: column; align-items: stretch; gap: 0; position: fixed; inset: 0; z-index: -1; height: 100vh; height: 100dvh;
+    padding: calc(var(--bar-h, 72px) + clamp(12px, 3vh, 32px)) var(--margin) max(20px, env(safe-area-inset-bottom));
+    background: var(--night); overflow-y: auto; overscroll-behavior: contain; opacity: 0; transition: opacity .2s var(--ease-out); }
+  .menu-in .top-nav.mnav { opacity: 1; }
+  .menu-on .top-nav.mnav > a { display: flex; align-items: center; min-height: 52px; padding: 2px 0; font: 450 clamp(2.125rem, 1.5rem + 3vw, 3.25rem)/1.1 var(--serif); letter-spacing: -0.015em; color: var(--paper); }
+  .menu-on .top-nav.mnav > a[aria-current="page"] { color: var(--honey); }
+  .menu-on .top-nav.mnav > .mnav-foot { display: grid; gap: 6px; margin-top: auto; padding-top: 28px; }
+  .menu-on .top-nav .mnav-foot .button { display: inline-flex; width: 100%; min-height: var(--button-h); padding: 8px 22px; font: 500 var(--step-body)/1.15 var(--sans); color: var(--ink); }
+  .mnav-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 22px; }
+  .menu-on .mnav-contact a { display: inline-flex; align-items: center; min-height: 44px; padding: 0; font-size: var(--step-small); color: var(--muted); }
+  .menu-on .mnav-contact a:active { color: var(--paper); }
+
+  /* the lines rise into place one after another, 35ms apart; on the way out the whole screen just fades */
+  .menu-on .top-nav.mnav > * { opacity: 0; transform: translateY(14px); }
+  .menu-in .top-nav.mnav > * { opacity: 1; transform: none; transition: opacity .26s var(--ease-out), transform .3s var(--ease-out); transition-delay: calc(var(--i, 0) * 35ms); }
+  .menu-out .top-nav.mnav > * { opacity: 1; transform: none; }
+}
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) {
+  .menu-on .top-nav.mnav > *, .menu-in .top-nav.mnav > * { transform: none; transition: none; }
+}
+@media (max-width: 359px) { .top-mark { width: 92px; } .top-cta { padding: 0 12px; } }
+@media (max-width: 899px) {
+  /* the screen grows out of the button's corner as it fades in */
+  .menu-on .top-nav.mnav { transform: scale(.985); transform-origin: calc(100% - 40px) 36px; transition: opacity .2s var(--ease-out), transform .26s var(--ease-out); }
+  .menu-in .top-nav.mnav, .menu-out .top-nav.mnav { transform: none; }
+}
+@media (min-width: 600px) and (max-width: 899px) {
+  .menu-on .top-nav.mnav > .mnav-foot { justify-items: start; }
+  .menu-on .top-nav .mnav-foot .button { width: auto; min-width: 340px; }
+  .mnav-contact { justify-content: flex-start; }
+}
+@media (max-width: 899px) and (prefers-reduced-motion: reduce) { .menu-on .top-nav.mnav { transform: none; } }

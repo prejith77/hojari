@@ -24,7 +24,10 @@
 
 /* Numbered steps */
 .pg-steps { display: grid; gap: 0; margin-top: 48px; counter-reset: st; border-top: 1px solid var(--line); }
-.pg-steps li { counter-increment: st; display: grid; grid-template-columns: 48px 1fr; gap: 6px 14px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+.pg-steps li { counter-increment: st; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 8px 12px; align-content: start; padding: 26px 0; border-bottom: 1px solid var(--line); }
+/* steps read in order: one column at every width, so no step stretches to match a neighbour */
+.pg-list.pg-steps { grid-template-columns: minmax(0, 1fr); border-top: 1px solid var(--line); }
+.pg-list.pg-steps li:nth-child(-n+2) { border-top: 0; }
 .pg-steps li::before { content: counter(st, decimal-leading-zero); grid-row: span 2; font-size: var(--step-small); font-weight: 600; color: var(--honey); padding-top: 8px; }
 .pg-steps b { font: 550 clamp(1.5rem, 1.3rem + .7vw, 1.875rem)/1.15 var(--serif); }
 .pg-steps p { color: var(--muted); line-height: 1.6; max-width: 60ch; }
@@ -60,7 +63,7 @@
 .pg-end h2 { color: var(--ink); }
 .pg-end h2 em { color: var(--amber); }
 .pg-end p { color: var(--ink-muted); max-width: 54ch; }
-.pg-end .pg-actions .button-light { background: var(--ink); color: var(--paper); }
+.pg-end .pg-actions .button-light { background: var(--ink); color: var(--paper); --btn-fill: var(--khareef); }
 .pg-end .pg-link { color: var(--ink); text-decoration-color: rgba(23, 18, 12, .35); }
 .pg-end .pg-link::after { color: var(--amber); }
 .pg-end :focus-visible { outline-color: var(--ink); }

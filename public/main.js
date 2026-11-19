@@ -55,22 +55,7 @@
     }));
   }
 
-  /* The menu on phones and tablets */
-  const menuBtn = $('.menu-btn'), menu = $('#menu');
-  if (menuBtn && menu) {
-    const setMenu = (open) => {
-      menuBtn.setAttribute('aria-expanded', open);
-      $('#nav').classList.toggle('is-open', open);
-      document.documentElement.classList.toggle('menu-open', open);
-      if (open) {
-        if (motion) gsap.fromTo($$('a', menu), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out', stagger: 0.04 });
-        $('a', menu).focus({ preventScroll: true });
-      }
-    };
-    menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
-    $$('a', menu).forEach((a) => a.addEventListener('click', () => setMenu(false)));
-    addEventListener('keydown', (e) => { if (e.key === 'Escape' && menuBtn.getAttribute('aria-expanded') === 'true') { setMenu(false); menuBtn.focus(); } });
-  }
+  /* The menu on phones and tablets lives in ui.js, shared with every page */
 
   /* The small note under the hero fades before it reaches the header */
   const hNote = $('.hero-note');
@@ -414,13 +399,15 @@
     $$('.step', steps).forEach((st) => ScrollTrigger.create({ trigger: st, start: 'top 62%', toggleClass: 'is-on' }));
   } else if (steps) $$('.step', steps).forEach((st) => st.classList.add('is-on'));
 
-  /* Magnetic buttons */
+  /* Magnetic buttons: a slight lean towards the cursor, a few pixels at most, so the fill inside stays the thing you notice.
+     The press is the same .97, in the same time, as every other button. */
   if (motion && desktop) $$('.magnetic').forEach((b) => {
     const x = gsap.quickTo(b, 'x', { duration: 0.4, ease: 'power3.out' }), y = gsap.quickTo(b, 'y', { duration: 0.4, ease: 'power3.out' });
-    b.addEventListener('pointermove', (e) => { const r = b.getBoundingClientRect(); x((e.clientX - r.left - r.width / 2) * 0.3); y((e.clientY - r.top - r.height / 2) * 0.3); });
-    b.addEventListener('pointerleave', () => { x(0); y(0); gsap.to(b, { scale: 1, duration: 0.16, ease: 'power2.out', overwrite: 'auto' }); });
-    b.addEventListener('pointerdown', () => gsap.to(b, { scale: 0.97, duration: 0.1, ease: 'power2.out', overwrite: 'auto' }));
-    b.addEventListener('pointerup', () => gsap.to(b, { scale: 1, duration: 0.16, ease: 'power2.out', overwrite: 'auto' }));
+    const lean = (d, max) => Math.max(-max, Math.min(max, d * 0.12));
+    b.addEventListener('pointermove', (e) => { const r = b.getBoundingClientRect(); x(lean(e.clientX - r.left - r.width / 2, 8)); y(lean(e.clientY - r.top - r.height / 2, 4)); });
+    b.addEventListener('pointerleave', () => { x(0); y(0); gsap.to(b, { scale: 1, duration: 0.2, ease: 'power2.out', overwrite: 'auto' }); });
+    b.addEventListener('pointerdown', () => gsap.to(b, { scale: 0.97, duration: 0.2, ease: 'power2.out', overwrite: 'auto' }));
+    b.addEventListener('pointerup', () => gsap.to(b, { scale: 1, duration: 0.2, ease: 'power2.out', overwrite: 'auto' }));
   });
 
   /* THE MOCK-UP REQUEST: every call to action leads here and carries what the visitor was doing */

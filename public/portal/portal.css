@@ -1,8 +1,7 @@
 .pt-demo { padding: 10px var(--margin); background: rgba(227,173,92,.1); border-bottom: 1px solid rgba(227,173,92,.25); color: var(--resin); font-size: 13.5px; text-align: center; }
 .pt { flex: 1; width: 100%; max-width: 1200px; margin: 0 auto; padding: clamp(28px, 5vh, 64px) var(--margin) 56px; }
-.button-dark-ink { background: var(--ink); color: var(--paper); }
-@media (hover: hover) and (pointer: fine) { .button-dark-ink:hover { background: var(--khareef); } }
-.button-dark-ink.arrow::after { content: "\2192"; display: inline-block; transition: transform .25s var(--ease-out); }
+.button-dark-ink { background: var(--ink); color: var(--paper); --btn-fill: var(--khareef); }
+.button-dark-ink.arrow::after { content: "\2192"; display: inline-block; transition: transform .22s var(--ease-out); }
 
 /* Sign in */
 .pt-signin { display: grid; gap: 32px; align-items: center; }
@@ -69,9 +68,9 @@
 .pt-needs h3 { font-size: 1.625rem; margin-bottom: 6px; }
 .pt-needs p:last-child { color: var(--ink-muted); font-size: 15px; line-height: 1.55; }
 .pt-needs-act { display: grid; gap: 8px; }
-.pt-needs .button-light { background: var(--ink); color: var(--paper); }
-.pt-needs .button-line { color: var(--ink); border-color: var(--ink-line); }
-@media (hover: hover) and (pointer: fine) { .pt-needs .button-light:hover { background: #3d5a4c; } .pt-needs .button-line:hover { border-color: var(--ink); } }
+.pt-needs .button-light { background: var(--ink); color: var(--paper); --btn-fill: #3d5a4c; }
+.pt-needs .button-line { color: var(--ink); border-color: var(--ink-line); --btn-fill: rgba(23, 18, 12, .06); }
+@media (hover: hover) and (pointer: fine) { .pt-needs .button-line:hover { border-color: var(--ink); } }
 .pt-needs.is-done { border-color: #c9d8c8; box-shadow: inset 4px 0 0 #3d5a4c; }
 .pt-two { display: grid; gap: 14px; }
 @media (min-width: 900px) { .pt-two { grid-template-columns: 1.2fr 1fr; } }
@@ -110,7 +109,7 @@
 .pt-compose { display: flex; gap: 8px; padding: 8px; border-radius: 99px; background: #fff; border: 1px solid var(--ink-line); }
 .pt-compose input { flex: 1; min-width: 0; min-height: 44px; padding: 0 12px; border: 0; background: none; color: var(--ink); font-size: 16px; }
 .pt-compose input:focus { outline: none; }
-.pt-compose .button-light, .pt-compose .button-light:not(:disabled):hover { background: var(--ink); color: var(--paper); }
+.pt-compose .button-light { background: var(--ink); color: var(--paper); --btn-fill: var(--khareef); }
 
 .pt-cta { display: grid; gap: 16px; justify-items: start; margin-top: 28px; padding: 26px; border-radius: 24px; background: var(--night-2); border: 1px solid var(--line); }
 @media (min-width: 900px) { .pt-cta { grid-template-columns: minmax(0, 1fr) auto; align-items: center; } }
