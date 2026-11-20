@@ -36,3 +36,7 @@
 .sl-end { gap: var(--space-title); padding: clamp(var(--card-pad), 4vw, 52px); }
 .sl-end-actions { align-items: center; gap: var(--space-pair); margin-top: calc(var(--space-actions) - var(--space-title)); }
 @media (max-width: 599px) { .sl-end-actions { display: grid; grid-template-columns: minmax(0, 1fr); } .sl-end-actions .button { width: 100%; } }
+
+/* links to the trade pages, under the filter */
+.sl-trades { margin-top: 14px; color: var(--muted, #b9aa98); font-size: .95rem; }
+.sl-trades a { color: inherit; text-underline-offset: 4px; }

@@ -294,7 +294,7 @@
       cardHit.hidden = true;
       /* the notifications are one button: a tap (or Enter) on them shows the morning */
       const notesHit = hit('Show the morning: the Night Shift card'); notesHit.classList.add('hx-notes-hit');
-      noteList.append(notesHit);
+      const hitLi = document.createElement('li'); hitLi.className = 'hx-hit-li'; hitLi.append(notesHit); noteList.append(hitLi);
       push(window.hjWord ? window.hjWord() : 0, true);
       const follow = (e) => push(e.detail.i);
       document.addEventListener('hj:word', follow);
