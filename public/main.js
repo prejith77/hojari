@@ -142,6 +142,35 @@
     const names = items.map((g) => (typeof SplitText !== 'undefined' ? SplitText.create($('.grade-name', g), { type: 'chars', mask: 'chars', charsClass: 'ch' }).chars : [$('.grade-name', g)]));
     gsap.set(items, { autoAlpha: 0 }); gsap.set(items[0], { autoAlpha: 1 }); items[0].classList.add('is-active'); rail[0].classList.add('is-on');
     gradesEl.classList.add('is-ready');
+    /* the resin: it leans toward the cursor, drag it to spin it, tap it and it glows. Transforms only, no extra downloads */
+    const anchorEl = $('.grade-anchor', gradesEl);
+    let rx = 0, ry = 0, tx = 0, ty = 0, spin = 0, vel = 0, glow = 0, dragX = null, rafP = 0;
+    const posters = () => $$('.grade-poster', gradesEl);
+    const placeAnchor = () => { if (!anchorEl || innerWidth >= 900) return; const r = anchorEl.getBoundingClientRect(); gradesEl.style.setProperty('--anchor-top', Math.max(0, r.top) + 'px'); gradesEl.style.setProperty('--anchor-h', Math.max(120, r.height) + 'px'); };
+    const tick = () => {
+      rx += (tx - rx) * 0.12; ry += (ty - ry) * 0.12; spin += vel; vel *= 0.94;
+      if (dragX === null && Math.abs(vel) < 0.05) spin += (Math.round(spin / 360) * 360 - spin) * 0.08;
+      glow *= 0.93;
+      gradesEl.style.setProperty('--rx', rx.toFixed(2) + 'deg'); gradesEl.style.setProperty('--ry', (ry + spin).toFixed(2) + 'deg');
+      gradesEl.style.setProperty('--pb', (1 + glow * 0.45).toFixed(3)); gradesEl.style.setProperty('--ps', (1 + glow * 0.05).toFixed(3));
+      const settled = Math.abs(tx - rx) + Math.abs(ty - ry) + Math.abs(vel) + glow < 0.02 && Math.abs(spin - Math.round(spin / 360) * 360) < 0.05;
+      rafP = settled ? 0 : requestAnimationFrame(tick);
+    };
+    const kick = () => { if (!rafP) rafP = requestAnimationFrame(tick); };
+    addEventListener('pointermove', (e) => {
+      if (dragX !== null) { vel += (e.clientX - dragX) * 0.35; vel = Math.max(-40, Math.min(40, vel)); dragX = e.clientX; kick(); return; }
+      if (e.pointerType !== 'mouse') return;
+      const r = gradesEl.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+      ty = (e.clientX / innerWidth - 0.75) * 24; tx = (0.5 - e.clientY / innerHeight) * 14; kick();
+    }, { passive: true });
+    const onPoster = (x, y) => posters().some((p) => { if (+getComputedStyle(p).opacity < 0.5) return false; const r = p.getBoundingClientRect(); return x > r.left && x < r.right && y > r.top && y < r.bottom; });
+    addEventListener('pointerdown', (e) => {
+      if (e.target.closest('a, button, input, label, select, textarea')) return;
+      if (!onPoster(e.clientX, e.clientY) && e.target !== anchorEl) return;
+      dragX = e.clientX; glow = 1; kick();
+    }, { passive: true });
+    ['pointerup', 'pointercancel'].forEach((n) => addEventListener(n, () => { if (dragX !== null && Math.abs(vel) < 2) vel += 18; dragX = null; kick(); }, { passive: true }));
+    placeAnchor(); addEventListener('resize', placeAnchor, { passive: true }); addEventListener('scroll', placeAnchor, { passive: true });
     let beat = 0;
     const show = (n, dir) => {
       const out = items[beat], inn = items[n];

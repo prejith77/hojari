@@ -3241,3 +3241,12 @@ html:not(.js) .hx-invite { display: none; }
 /* The contact heading and the Night Shift line: the honey half always starts its own line, so it never dangles */
 .contact-title em, .hx-plans .hj-plan.is-pick h3 em { display: block; }
 .hx-plans .hj-plan.is-pick h3 { text-wrap: wrap; }
+
+/* grade page: the resin keeps to the right of the words at every width, and you can play with it */
+.grades.is-live .grade { width: min(46vw, 700px); }
+.grades.is-live .grade-poster { right: 5vw; width: min(58vh, 36vw); pointer-events: none; transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--ps, 1)); filter: brightness(var(--pb, 1)); transition: opacity .5s; will-change: transform; }
+.grades.is-live .grade-anchor { cursor: grab; touch-action: pan-y; }
+@media (max-width: 899px) {
+  .grades.is-live .grade-poster { display: block; position: fixed; right: auto; left: 50%; top: calc(var(--anchor-top, 150px) + var(--anchor-h, 26vh) / 2); translate: -50% -50%; width: min(var(--anchor-h, 26vh), 58vw); }
+}
+@media (prefers-reduced-motion: reduce) { .grades .grade-poster { transform: none !important; filter: none !important; } }
